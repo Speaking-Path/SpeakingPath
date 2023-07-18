@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 import './Navbar.module.css'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -7,7 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 function NavBar() {
   return (
     <>
-      <Navbar bg="dark" data-bs-theme="dark">
+      <Navbar bg="light" data-bs-theme="light">
         <Container>
           <Navbar.Brand href="">
             <img src={process.env.PUBLIC_URL + "/assets/logo.png"} alt="" />
