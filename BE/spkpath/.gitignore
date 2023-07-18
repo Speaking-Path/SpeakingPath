@@ -4,7 +4,16 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+
+## 보안문제
 application.properties
+
+## Gradle 관련 문제
+build.gradle
+gradle/
+gradlew
+gradlew.bat
+*.gradle
 
 ### STS ###
 .apt_generated
