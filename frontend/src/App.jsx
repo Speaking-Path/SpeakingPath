@@ -1,7 +1,8 @@
 import './App.css';
-import NavBar from './components/Navbar'
+import NavBar from './components/NavBar/Navbar'
 import { Routes, Route } from 'react-router-dom'
-import Signup from './pages/Signup'
+import UserSignup from './pages/UserSignup'
+import ConsultantSignup from './pages/ConsultantSignup'
 
 
 
@@ -13,7 +14,8 @@ function App() {
 
       {/* 루트 추가 여기에 */}
       <Routes>
-        <Route path="/account/signup" element={<Signup/>}/>
+        <Route path="/account/signup" element={<UserSignup/>}/>
+        <Route path="/account/consultantsignup" element={<ConsultantSignup/>}/>
       </Routes>
     </div>
   );

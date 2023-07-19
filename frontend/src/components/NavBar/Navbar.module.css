@@ -8,6 +8,6 @@ Nav a {
   color: black;
 }
 
-.active {
+&.active {
   font-weight: bold;
 }
