@@ -1,7 +1,9 @@
+import UserLogin from "../components/Signup/UserLogin"
+
 function Login() {
   return (
     <div>
-      로그인페이지여요
+      <UserLogin/>
     </div>
   )
 }
