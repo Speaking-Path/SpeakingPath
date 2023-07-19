@@ -29,6 +29,7 @@ function NavBar() {
               style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
               to="account/signup">
               회원가입</NavLink>
+             <Nav.Link href="profile">프로필</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
