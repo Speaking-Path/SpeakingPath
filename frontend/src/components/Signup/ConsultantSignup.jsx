@@ -1,11 +1,12 @@
 // 컨설턴트 회원가입일 경우
 
 import { useState } from "react"
-import { onChangEmail, onChangeId, onChangePassword, onChangePasswordConfirm, clickConsultantSignup } from "./SignupFunc"
+import { onChangeEmail, onChangeId, onChangePassword, onChangePasswordConfirm, clickConsultantSignup, onChangePhoneNumber } from "./SignupFunc"
 
 
 function ConsultantSignup() {
   const [email, setEmail] = useState("")
+  const [phoneNumber, setphoneNumber] = useState("")
   const [id, setId] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirm, setPasswordConfirm] = useState("")
@@ -16,6 +17,7 @@ function ConsultantSignup() {
 
 
   const [emailMessage, setEmailMessage] = useState("")
+  const [phoneNumberMessage, setPhoneNumberMessage] = useState("")
   const [idMessage, setIdMessage] = useState("")
   const [passwordMessage, setPasswordMessage] = useState("")
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
@@ -34,8 +36,14 @@ function ConsultantSignup() {
       <div>
           <label htmlFor="email">이메일 </label>
           <input type="text" id="email" value={email}
-          onChange={(e) => onChangEmail(e, setEmail, setEmailMessage)} />
+          onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} />
           <p className="message"> {emailMessage} </p>
+        </div>
+        <div>
+          <label htmlFor="phoneNumber">핸드폰번호 </label>
+          <input type="text" id="phoneNumber" value={phoneNumber}
+          onChange={(e) => onChangePhoneNumber(e, setphoneNumber, setPhoneNumberMessage)} />
+          <p className="message"> {phoneNumberMessage} </p>
         </div>
         <div>
           <label htmlFor="id">아이디 </label>
