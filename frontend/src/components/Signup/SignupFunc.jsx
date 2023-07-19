@@ -1,6 +1,6 @@
 import { signUp, consultSignUp } from "./AuthAPI";
 
-export const onChangEmail = function(e, setEmail, setEmailMessage) {
+export const onChangeEmail = function(e, setEmail, setEmailMessage) {
   const currentEmail = e.target.value
   setEmail(currentEmail)
   const emailRegExp =
@@ -12,6 +12,20 @@ export const onChangEmail = function(e, setEmail, setEmailMessage) {
   } else {
     setEmailMessage("사용 가능한 이메일 입니다.");
     setEmail(currentEmail);
+  }
+}
+
+export const onChangePhoneNumber = function(e, setphoneNumber, setPhoneNumberMessage) {
+  const currentPhoneNumber = e.target.value
+  setphoneNumber(currentPhoneNumber)
+  const phoneRegExp = /^[0-9\b -]{0,13}$/
+
+  if (!phoneRegExp.test(currentPhoneNumber)) {
+    setPhoneNumberMessage("숫자만 입력해 주세요.")
+  } else if (currentPhoneNumber.length > 11){
+    setPhoneNumberMessage("핸드폰 번호를 입력해 주세요.")
+  } else {
+    setPhoneNumberMessage("")
   }
 }
 
