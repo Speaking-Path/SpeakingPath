@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { onChangeEmail, onChangeId, onChangePassword, onChangePasswordConfirm, clickSignup, onChangePhoneNumber } from "./SignupFunc"
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom'
 
 
 function UserSignup() {
@@ -21,6 +21,8 @@ function UserSignup() {
   const data = {
     email, phoneNumber, id, password
   }
+
+  const navigate = useNavigate()
 
   return (
     <div>
@@ -56,7 +58,10 @@ function UserSignup() {
           onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage)} />
           <p className="message"> {passwordConfirmMessage} </p>
         </div>
-        <button onClick={(e)=> clickSignup(e, data)}>가입하기</button>
+        <button onClick={(e)=> {
+          clickSignup(e, data)
+          navigate('/login')
+        }}>가입하기</button>
       </form>
       <p>상담사로 가입하시나요?</p><NavLink to="/account/consultantsignup"><span>회원가입</span></NavLink>
     </div>
