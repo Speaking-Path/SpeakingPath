@@ -1,4 +1,4 @@
-import { signUp, consultSignUp } from "./AuthAPI";
+import { signUp, consultSignUp, login } from "./AuthAPI"
 
 export const onChangeEmail = function(e, setEmail, setEmailMessage) {
   const currentEmail = e.target.value
@@ -76,9 +76,9 @@ export const clickSignup = async (e, data) => {
   e.preventDefault()
   signUp(data)
   .then((response) => {
-      window.location.href = `/login`;
+    console.log(response)
   }).catch((error) => {
-      console.log(error);
+      console.log(error)
   });
 }
 
@@ -87,10 +87,21 @@ async (e, data) => {
   e.preventDefault()
   consultSignUp(data)
   .then((response) => {
-      window.location.href = `/login`;
+    console.log(response)
   }).catch((error) => {
-      console.log(error);
+      console.log(error)
   });
 }
 
-export const clickLogin = function() {}
+export const clickLogin = async (e, data) => {
+  e.preventDefault()
+  login(data)
+  .then((response) => {
+      localStorage.clear()
+      localStorage.setItem('tokenType', response.tokenType)
+      localStorage.setItem('accessToken', response.accessToken)
+      localStorage.setItem('refreshToken', response.refreshToken)
+  }).catch((error) => {
+      console.log(error)
+  })
+}

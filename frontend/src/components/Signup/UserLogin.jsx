@@ -1,6 +1,8 @@
+// 로그인 페이지
+
 import { useState } from "react"
-import { login } from "./AuthAPI"
 import { clickLogin } from "./SignupFunc"
+import { useNavigate } from "react-router-dom"
 
 function UserLogin() {
   const [id, setId] = useState("")
@@ -8,23 +10,12 @@ function UserLogin() {
 
   const data = {id, password}
 
-  const handleSubmit = async (e) => {
-    login(data)
-    .then((response) => {
-        localStorage.clear()
-        localStorage.setItem('tokenType', response.tokenType)
-        localStorage.setItem('accessToken', response.accessToken)
-        localStorage.setItem('refreshToken', response.refreshToken)
-        window.location.href = `/home`
-    }).catch((error) => {
-        console.log(error)
-    });
-}
+  const navigate = useNavigate()
 
   return (
     <div>
       <h3>로그인</h3>
-      <form onSubmit={handleSubmit}>
+      <form>
         <div>
           <label htmlFor="id">아이디 </label>
           <input type="text" id="id" value={id}
@@ -35,7 +26,10 @@ function UserLogin() {
           <input type="password" id="password" value={password}
           onChange={(e)=>{setPassword(e.target.value)}} />
         </div>
-        <button onClick={(e)=> clickLogin(e, data)}>로그인</button>
+        <button onClick={(e)=> {
+          clickLogin(e, data)
+          navigate("/")
+          }}>로그인</button>
       </form>
     </div>
   )
