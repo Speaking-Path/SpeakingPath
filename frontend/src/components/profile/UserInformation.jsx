@@ -1,80 +1,82 @@
+// import './UserInformation.module.css'
+
 function UserInformation() {
     return (
-        <section style={{ backgroundColor: '#eee' }}>
+        <section style={{ backgroundColor: '#eee', height: '100vh'}}>
             <div className="container py-5">
 
                 <div className="row">
-                    <div className="col-lg-4">
-                        <div className="card mb-4">
+                    <div className="col-md-4 mt-5">
+                        <div className="card">
                             <div className="card-body text-center">
                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                                     className="rounded-circle img-fluid" style={{ width: "150px" }} />
                                 <h5 className="my-3">Jihyon Seo</h5>
-                                <p className="text-muted mb-1">Full Stack Developer</p>
-                                <p className="text-muted mb-4">Bay Area, San Francisco, CA</p>
+                                <p className="text-muted mb-3">Front-end Developer</p>
+                                {/* <p className="text-muted mb-4">안녕하세요</p> */}
                                 <div className="d-flex justify-content-center mb-2">
-                                    <button type="button" className="btn btn-primary">Follow</button>
-                                    <button type="button" className="btn btn-outline-primary ms-1">Message</button>
+                                    <button type="button" className="btn btn-primary">회원정보수정</button>
+                                    {/* <button type="button" className="btn btn-outline-primary ms-1">Message</button> */}
                                 </div>
                             </div>
                         </div>
                     </div>
 
 
-                    <div className="col-lg-8">
+                    <div className="col-md-8">
                         <div className="card mb-4">
                             <div className="card-body">
                                 <div className="row">
                                     <div className="col-sm-3">
-                                        <p className="mb-0">Full Name</p>
+                                        <p className="m-2 fw-bold">아이디</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">Jihyon Seo</p>
+                                        <p className="text-muted m-2">ssafy</p>
                                     </div>
                                 </div>
                                 <hr />
                                 <div className="row">
                                     <div className="col-sm-3">
-                                        <p className="mb-0">Email</p>
+                                        <p className="m-2 fw-bold">비밀번호</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">example@example.com</p>
+                                        <p className="text-muted m-2">＊＊＊＊＊＊＊＊</p>
                                     </div>
                                 </div>
                                 <hr />
                                 <div className="row">
                                     <div className="col-sm-3">
-                                        <p className="mb-0">Phone</p>
+                                        <p className="m-2 fw-bold">이메일</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">(097) 234-5678</p>
+                                        <p className="text-muted m-2">example@example.com</p>
                                     </div>
                                 </div>
                                 <hr />
                                 <div className="row">
                                     <div className="col-sm-3">
-                                        <p className="mb-0">Mobile</p>
+                                        <p className="m-2 fw-bold">연락처</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">(098) 765-4321</p>
+                                        <p className="text-muted m-2">010-1234-5678</p>
                                     </div>
                                 </div>
                                 <hr />
                                 <div className="row">
                                     <div className="col-sm-3">
-                                        <p className="mb-0">Address</p>
+                                        <p className="m-2 fw-bold">생년월일</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                        <p className="text-muted m-2">1999.11.11</p>
                                     </div>
                                 </div>
                                 <hr />
                                 <div className="row">
                                     <div className="col-sm-3">
-                                        <p className="mb-0">Address</p>
+                                        <p className="m-2 fw-bold">성별</p>
                                     </div>
                                     <div className="col-sm-9">
-                                        <p className="text-muted mb-0">Bay Area, San Francisco, CA</p>
+                                        <p className="text-muted m-2">여성</p>
                                     </div>
                                 </div>
                             </div>
