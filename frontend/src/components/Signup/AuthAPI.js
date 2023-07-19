@@ -19,6 +19,7 @@ export const signUp = async ({email, phoneNumber, id, password}) => {
     "userId" : id,
     "userPwd" : password,
   }
+  console.log(data)
   const response = await AuthApi.post(`account/signup`, data)
   return response.data
 }
