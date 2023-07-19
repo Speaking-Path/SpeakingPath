@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { onChangeEmail, onChangeId, onChangePassword, onChangePasswordConfirm, clickConsultantSignup, onChangePhoneNumber } from "./SignupFunc"
-
+import { useNavigate } from "react-router-dom"
 
 function ConsultantSignup() {
   const [email, setEmail] = useState("")
@@ -21,6 +21,8 @@ function ConsultantSignup() {
   const [idMessage, setIdMessage] = useState("")
   const [passwordMessage, setPasswordMessage] = useState("")
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
+
+  const navigate = useNavigate()
 
   const data = {
     email, id, phoneNumber, password, team, exp, tag, boundry
@@ -83,7 +85,10 @@ function ConsultantSignup() {
           <input type="text" id="boundry" value={boundry}
             onChange={(e) => setBoundry(e.target.value)} />
         </div>
-        <button onClick={(e)=> clickConsultantSignup(e, data)}>가입하기</button>
+        <button onClick={(e)=>{
+          clickConsultantSignup(e, data)
+          navigate('/login')
+          }}>가입하기</button>
       </form>
     </div>
   )

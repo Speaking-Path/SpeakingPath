@@ -1,3 +1,6 @@
+// 로그인, 회원가입 요청
+
+
 import axios from "axios";
 
 const TOKEN_TYPE = localStorage.getItem("tokenType")
@@ -39,8 +42,12 @@ export const consultSignUp = async ({
   return response.data
 }
 
+
 export const login = async ({ id, password }) => {
-  const data = { id, password };
+  const data = {
+    "userId" : id,
+    "userPwd" : password,
+  }
   const response = await AuthApi.post(`accounts/login`, data)
-  return response.data;
+  return response.data
 }
