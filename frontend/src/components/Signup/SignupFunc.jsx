@@ -75,11 +75,11 @@ export const onChangePasswordConfirm = function(e, password, setPasswordConfirm,
 export const clickSignup = async (e, data) => {
   e.preventDefault()
   signUp(data)
-  // .then((response) => {
-  //     window.location.href = `/login`;
-  // }).catch((error) => {
-  //     console.log(error);
-  // });
+  .then((response) => {
+      window.location.href = `/login`;
+  }).catch((error) => {
+      console.log(error);
+  });
 }
 
 export const clickConsultantSignup = 
@@ -92,3 +92,5 @@ async (e, data) => {
       console.log(error);
   });
 }
+
+export const clickLogin = function() {}

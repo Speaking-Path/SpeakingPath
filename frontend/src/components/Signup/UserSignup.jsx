@@ -19,10 +19,7 @@ function UserSignup() {
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
 
   const data = {
-    "email" : email,
-    "id" : id,
-    "password" : password,
-    "passwordConfirm" : passwordConfirm
+    email, phoneNumber, id, password
   }
 
   return (
