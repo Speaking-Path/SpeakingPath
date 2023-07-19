@@ -15,6 +15,18 @@ gradlew
 gradlew.bat
 *.gradle
 
+# Gradle
+.idea/**/gradle.xml
+.idea/**/libraries
+auto-import.
+.idea/artifacts
+.idea/compiler.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/modules
+**/build/
+!src/**/build/
+
 ### STS ###
 .apt_generated
 .classpath
@@ -45,3 +57,6 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
