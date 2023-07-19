@@ -23,7 +23,7 @@ function ConsultantSignup() {
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
 
   const data = {
-    email, id, password, passwordConfirm, team, exp, tag, boundry
+    email, id, phoneNumber, password, team, exp, tag, boundry
   }
 
 
