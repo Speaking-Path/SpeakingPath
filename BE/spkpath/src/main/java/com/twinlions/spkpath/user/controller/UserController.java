@@ -39,7 +39,7 @@ public class UserController {
         String result = userService.join(userDto);
         // TODO : 회원가입 실패시 예외처리 어떻게 할지 정해야해!
         if(result != null){
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }else{
             return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
         }
@@ -55,9 +55,9 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserDto userDto){
         int result = userService.login(userDto);
         if( result == -1){
-            return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.OK);
         }else if(result == 0){
-            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.OK);
         }else{
             return new ResponseEntity<>("로그인 성공하였습니다.", HttpStatus.OK);
         }
@@ -70,7 +70,7 @@ public class UserController {
         if( result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }
     }
 
@@ -81,7 +81,7 @@ public class UserController {
         if( result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }
     }
 
