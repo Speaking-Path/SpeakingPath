@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 
 function UserSignup() {
+  const [userName, setUserName] = useState("")
   const [email, setEmail] = useState("")
   const [phoneNumber, setphoneNumber] = useState("")
   const [id, setId] = useState("")
@@ -19,7 +20,7 @@ function UserSignup() {
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
 
   const data = {
-    email, phoneNumber, id, password
+    userName, email, phoneNumber, id, password
   }
 
   const navigate = useNavigate()
@@ -28,6 +29,11 @@ function UserSignup() {
     <div>
       <h3>회원가입</h3>
       <form>
+      <div>
+          <label htmlFor="userName">이름 </label>
+          <input type="text" id="userName" value={userName}
+            onChange={(e) => setUserName(e.target.value)} />
+        </div>
         <div>
           <label htmlFor="email">이메일 </label>
           <input type="text" id="email" value={email}
