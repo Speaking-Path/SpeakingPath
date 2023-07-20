@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService{
      */
     @Override
     public int login(UserDto userDto) {
-        User user = null;
+        User user;
         //  만약 아이디 존재하면
         if(userRepository.findById(userDto.getUserId()).isPresent()){
             user = userRepository.findById(userDto.getUserId()).get();
