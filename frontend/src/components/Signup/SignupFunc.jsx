@@ -1,4 +1,4 @@
-import { signUp, consultSignUp, login } from "./AuthAPI"
+import { signUp, consultSignUp, login, checkEmailApi, checkIdApi } from "./AuthAPI"
 
 export const onChangeEmail = function(e, setEmail, setEmailMessage) {
   const currentEmail = e.target.value
@@ -8,8 +8,6 @@ export const onChangeEmail = function(e, setEmail, setEmailMessage) {
 
   if (!emailRegExp.test(currentEmail)) {
     setEmailMessage("이메일의 형식이 올바르지 않습니다!");
-  } else {
-    setEmailMessage("사용 가능한 이메일 입니다.");
   }
 }
 
@@ -77,6 +75,19 @@ export const onChangeExp = function(e, setExp, setExpMessage) {
     setExpMessage("")
   }
 }
+
+
+
+export const checkEmail = async (e, email) => {
+  e.preventDefault()
+  checkEmailApi(email)
+}
+
+export const checkId = async (e, id) => {
+  e.preventDefault()
+  checkIdApi(id)
+}
+
 
 
 export const clickSignup = async (e, data) => {
