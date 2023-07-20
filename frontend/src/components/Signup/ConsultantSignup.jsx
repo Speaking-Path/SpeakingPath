@@ -41,6 +41,7 @@ function ConsultantSignup() {
     } else {
       setBoundry(boundry.filter((el) => el !== item));
     }
+    console.log(boundry)
   }
 
 
