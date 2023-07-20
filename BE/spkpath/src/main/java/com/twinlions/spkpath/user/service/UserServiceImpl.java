@@ -53,6 +53,23 @@ public class UserServiceImpl implements UserService{
         }else{ // 아이디 존재하지 않으면
             return -1; // -1 return
         }
+    }
 
+    @Override
+    public int checkId(String userId){
+        if(!userRepository.findById(userId).isPresent()){ // 아이디가 존재하지 않으면
+            return 1;
+        }else{ // 아이디가 존재하지 않으면
+            return -1;
+        }
+    }
+
+    @Override
+    public int checkEmail(String userEmail) {
+        if(!userRepository.findByUserEmail(userEmail).isPresent()){ // 아이디가 존재하지 않으면
+            return 1;
+        }else{ // 아이디가 존재하지 않으면
+            return -1;
+        }
     }
 }

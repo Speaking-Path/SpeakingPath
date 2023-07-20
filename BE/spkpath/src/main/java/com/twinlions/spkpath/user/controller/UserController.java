@@ -63,4 +63,26 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/checkid")
+    @Operation(summary = "아이디 중복 체크", description = "아이디가 존재하는 아이디인지 확인한다. \n 확인하고자 하는 아이디를 입력한다.")
+    public ResponseEntity<String> checkId(@RequestParam String userId){
+        int result = userService.checkId(userId);
+        if( result == 1){
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/checkemail")
+    @Operation(summary = "이메일 중복 체크", description = "이메일이 존재하는 이메일인지 확인한다. \n 확인하고자 하는 이메일를 입력한다.")
+    public ResponseEntity<String> checkEmail(@RequestParam String userEmail){
+        int result = userService.checkEmail(userEmail);
+        if( result == 1){
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
+        }
+    }
+
 }

@@ -5,4 +5,6 @@ import com.twinlions.spkpath.user.UserDto;
 public interface UserService {
     String join(UserDto userDto);
     int login(UserDto userDto);
+    int checkId(String userId);
+    int checkEmail(String userEmail);
 }
