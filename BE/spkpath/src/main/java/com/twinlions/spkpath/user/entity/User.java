@@ -36,7 +36,7 @@ public class User {
     private String userInfo;
 
     @Column(name = "user_age")
-    private Integer userAge;
+    private int userAge;
 
     @Column(name = "user_sex")
     private String userSex;
@@ -48,5 +48,5 @@ public class User {
     private String userGrade;
 
     @Column(name = "user_reward")
-    private Integer userReward;
+    private int userReward;
 }
