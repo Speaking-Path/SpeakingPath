@@ -23,6 +23,10 @@ function NavBar() {
               style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
               to="consulting">
               치료 상담</NavLink>
+            <NavLink
+              style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
+              to="/practice/consulting/meeting">
+              화상 상담</NavLink>
           </Nav>
           <Nav className="me-auto">
             <NavLink
