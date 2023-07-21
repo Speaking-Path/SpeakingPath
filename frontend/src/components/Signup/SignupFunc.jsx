@@ -7,8 +7,10 @@ export const onChangeEmail = function(e, setEmail, setEmailMessage) {
     /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/
 
   if (!emailRegExp.test(currentEmail)) {
-    setEmailMessage("이메일의 형식이 올바르지 않습니다!");
-  }
+    setEmailMessage("이메일의 형식이 올바르지 않습니다!")
+  } else (
+    setEmailMessage("")
+  )
 }
 
 export const onChangePhoneNumber = function(e, setphoneNumber, setPhoneNumberMessage) {
