@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from './store.jsx'
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { SocketProvider } from "./context/socketProvider";
 
 const queryClient = new QueryClient()
 
@@ -17,7 +18,9 @@ root.render(
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <BrowserRouter>
-          <App />
+          <SocketProvider>
+            <App />
+          </SocketProvider>
         </BrowserRouter>
       </Provider>
     </QueryClientProvider>

@@ -15,6 +15,7 @@ export const AuthApi = axios.create({
     },
 })
 
+
 export const signUp = async ({userName, email, phoneNumber, id, password}) => {
   const data = {
     "userName" : userName,
@@ -23,7 +24,6 @@ export const signUp = async ({userName, email, phoneNumber, id, password}) => {
     "userId" : id,
     "userPwd" : password,
   }
-  console.log(data)
   const response = await AuthApi.post(`account/signup`, data)
   return response.data
 }
@@ -54,4 +54,23 @@ export const login = async ({ id, password }) => {
   }
   const response = await AuthApi.post(`accounts/login`, data)
   return response.data
+}
+
+export const checkEmailApi = function(email) {
+  axios
+  .get("http://localhost:8080/account/checkemail",
+  {params : { "userEmail" : email}})
+  .then((res)=>{
+    alert(res.data)
+  })
+  .catch((err)=>{
+  })
+}
+
+export const checkIdApi = function(id) {
+  axios.get("http://localhost:8080/account/checkid",
+  {params : {"userId" : id}})
+  .then((res)=>{
+    console.log(res)
+  })
 }
