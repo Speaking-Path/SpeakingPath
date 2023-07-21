@@ -8,10 +8,8 @@ export const onChangeEmail = function(e, setEmail, setEmailMessage) {
 
   if (!emailRegExp.test(currentEmail)) {
     setEmailMessage("이메일의 형식이 올바르지 않습니다!");
-    setEmail(currentEmail);
   } else {
     setEmailMessage("사용 가능한 이메일 입니다.");
-    setEmail(currentEmail);
   }
 }
 
@@ -36,10 +34,8 @@ export const onChangeId = function(e, setId, setIdMessage) {
 
   if (!idRegExp.test(currentId)) {
     setIdMessage("4-12사이 대소문자 또는 숫자만 입력해 주세요!")
-    setId(currentId)
   } else {
     setIdMessage("사용가능한 아이디 입니다.")
-    setId(currentId)
   }
 }
 
@@ -52,10 +48,8 @@ export const onChangePassword = function(e, setPassword, setPasswordMessage) {
     setPasswordMessage(
       "숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요."
     );
-    setPassword(currentPassword)
   } else {
     setPasswordMessage("")
-    setPassword(currentPassword)
   }
 }
 
@@ -68,6 +62,19 @@ export const onChangePasswordConfirm = function(e, password, setPasswordConfirm,
   } else {
     setPasswordConfirmMessage("");
     setPasswordConfirm(currentPasswordConfirm);
+  }
+}
+
+export const onChangeExp = function(e, setExp, setExpMessage) {
+  const currentExp = e.target.value
+  setExp(currentExp)
+  const ExpReg = /^[0-9]{0,13}$/
+  if (!ExpReg.test(currentExp)) {
+    setExpMessage(
+      "숫자만 입력해주세요."
+    );
+  } else {
+    setExpMessage("")
   }
 }
 

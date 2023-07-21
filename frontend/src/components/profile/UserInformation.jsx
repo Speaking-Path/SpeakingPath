@@ -1,8 +1,32 @@
-// import './UserInformation.module.css'
+import React, { useState } from 'react';
+import Preview from './Preview';
 
 function UserInformation() {
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsPreviewOpen(true);
+  };
+
+  const handleClosePreview = () => {
+    setIsPreviewOpen(false);
+  };
+
+// function UserInformation() {
     return (
         <section style={{ backgroundColor: '#eee', height: '100vh'}}>
+            
+        {isPreviewOpen && (
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999 }}>
+            <Preview isOpen={isPreviewOpen} onClose={handleClosePreview} size="large">
+                <div>
+                <h2>화면 미리보기</h2>
+                <p>내용</p>
+                </div>
+            </Preview>
+        </div>
+        )}
+            
             <div className="container py-5">
 
                 <div className="row">
@@ -16,7 +40,7 @@ function UserInformation() {
                                 {/* <p className="text-muted mb-4">안녕하세요</p> */}
                                 <div className="d-flex justify-content-center mb-2">
                                     <button type="button" className="btn btn-primary">회원정보수정</button>
-                                    {/* <button type="button" className="btn btn-outline-primary ms-1">Message</button> */}
+                                    <button type="button" className="btn btn-outline-primary ms-1" onClick={handleButtonClick}>내화면보기</button>
                                 </div>
                             </div>
                         </div>
