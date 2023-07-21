@@ -15,8 +15,9 @@ export const AuthApi = axios.create({
     },
 })
 
-export const signUp = async ({email, phoneNumber, id, password}) => {
+export const signUp = async ({userName, email, phoneNumber, id, password}) => {
   const data = {
+    "userName" : userName,
     "userEmail" : email,
     "userPhone" : phoneNumber,
     "userId" : id,
@@ -28,8 +29,9 @@ export const signUp = async ({email, phoneNumber, id, password}) => {
 }
 
 export const consultSignUp = async ({
-  email, id, phoneNumber, password, team, exp, tag, boundry }) => {
+  userName, email, id, phoneNumber, password, team, exp, tag, boundry }) => {
   const data = {
+    "userName" : userName,
     "userEmail" : email,
     "userPhone" : phoneNumber,
     "userId" : id,
@@ -37,7 +39,9 @@ export const consultSignUp = async ({
     "cnslrTeam" : team,
     "cnslrExp" : exp, 
     "cnslrTag" : tag,
-    "cnslrBoundry" : boundry }
+    "cnslrBoundry" : boundry,
+    "userGrade" : "상담사",
+  }
   const response = await AuthApi.post(`account/signup`, data)
   return response.data
 }
