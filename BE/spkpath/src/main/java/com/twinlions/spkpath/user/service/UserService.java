@@ -1,6 +1,9 @@
 package com.twinlions.spkpath.user.service;
 
 import com.twinlions.spkpath.user.UserDto;
+import com.twinlions.spkpath.user.entity.User;
+
+import java.util.List;
 
 public interface UserService {
     String join(UserDto userDto);

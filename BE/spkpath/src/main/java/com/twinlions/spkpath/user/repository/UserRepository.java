@@ -1,13 +1,21 @@
 package com.twinlions.spkpath.user.repository;
 
+import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.Repository;
 
+
+import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends Repository<User, String> {
 
+<<<<<<< Updated upstream
     Optional<User> findByUserEmail(String userEmail);
+=======
+    Optional<Object> findById(String userId);
+    Optional<Object> findByUserEmail(String userEmail);
+
+    User save(User user);
+>>>>>>> Stashed changes
 }
