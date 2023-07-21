@@ -12,7 +12,6 @@ function UserInformation() {
     setIsPreviewOpen(false);
   };
 
-// function UserInformation() {
     return (
         <section style={{ backgroundColor: '#eee', height: '100vh'}}>
             

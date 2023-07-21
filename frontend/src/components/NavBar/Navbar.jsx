@@ -18,13 +18,13 @@ function NavBar() {
             <NavLink
               style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
               to="practice">
-              AI 언어재활</NavLink>
+              언어재활</NavLink>
             <NavLink
               style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
               to="consulting">
-              치료 상담</NavLink>
+              치료상담</NavLink>
           </Nav>
-          <Nav className="me-auto">
+          <Nav className="ms-auto">
             <NavLink
               style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
               to="account/signup">
