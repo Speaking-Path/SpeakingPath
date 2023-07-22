@@ -7,7 +7,8 @@ function Signup() {
 
   return (
     <div>
-      <UserSignup/>
+      <h3>회원가입</h3>
+      <UserSignup />
     </div>
   )
 }
