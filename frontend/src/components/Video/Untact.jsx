@@ -5,6 +5,15 @@ import React, { Component } from 'react';
 import './Untact.css';
 // import './index.css'
 import UserVideoComponent from './UserVideoComponent';
+import VideocamOffIcon from '@mui/icons-material/VideocamOff';
+import VideocamIcon from '@mui/icons-material/Videocam';
+import SwitchVideoIcon from '@mui/icons-material/SwitchVideo';
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
+import styles from './Untact.css'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 
@@ -20,6 +29,8 @@ class Untact extends Component {
       mainStreamManager: undefined,  // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
+      sound: true,
+      video: true,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -30,6 +41,40 @@ class Untact extends Component {
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
   }
+
+  mute = async () => {
+    const publisher = this.state.publisher
+    publisher.publishAudio(false)
+    this.setState({
+      sound: false
+    })
+  }
+
+  soundOn = async () => {
+    const publisher = this.state.publisher
+    publisher.publishAudio(true)
+    this.setState({
+      sound: true
+    })
+  }
+
+  videoOff = async () => {
+    const publisher = this.state.publisher
+    publisher.publishVideo(false)
+    this.setState({
+      video: false
+    })
+  }
+
+  videoOn = async () => {
+    const publisher = this.state.publisher
+    publisher.publishVideo(true)
+    this.setState({
+      video: true
+    })
+  }
+
+
 
   componentDidMount() {
     window.addEventListener('beforeunload', this.onbeforeunload);
@@ -254,7 +299,7 @@ class Untact extends Component {
     const myUserName = this.state.myUserName;
 
     return (
-      <div className="container">
+      <div id="box">
         {/* 세션 없을 때 */}
         {this.state.session === undefined ? (
           <div id="join">
@@ -295,8 +340,9 @@ class Untact extends Component {
         {this.state.session !== undefined ? (
           <div id="session">
             <div id="session-header">
-              {/* <h1 id="session-title">{mySessionId}</h1> */}
-              <input
+              <HighlightOffIcon id="closeIcon" color="white" sx={{ fontSize: 40 }}/>
+
+              {/* <input
                 className="btn btn-large btn-danger"
                 type="button"
                 id="buttonLeaveSession"
@@ -309,30 +355,73 @@ class Untact extends Component {
                 id="buttonSwitchCamera"
                 onClick={this.switchCamera}
                 value="Switch Camera"
-              />
+           /> */}
             </div>
-
             <div>
               {/* {this.state.mainStreamManager !== undefined ? (
               <div id="main-video" className="col-md-6">
                 <UserVideoComponent streamManager={this.state.mainStreamManager} />
               </div>
             ) : null} */}
-              <div className='row'>
-                {this.state.publisher !== undefined ? (
-                  <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                    <UserVideoComponent
-                      streamManager={this.state.publisher} />
-                  </div>
-                ) : null}
-                {this.state.subscribers.map((sub, i) => (
-                  <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                    <span>{sub.id}</span>
-                    <UserVideoComponent streamManager={sub} />
-                  </div>
-                ))}
+              <div className='container'>
+                <div className='row d-flex justify-content-center'>
+                  {this.state.publisher !== undefined ? (
+                    <div className="stream-container col-md-5 col-xs-5" id="stream-container" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                      <UserVideoComponent
+                        streamManager={this.state.publisher} />
+                    </div>
+                  ) : null}
+                  {this.state.subscribers.map((sub, i) => (
+                    <div key={sub.id} className="stream-container col-md-5 col-xs-5" id="stream-container" onClick={() => this.handleMainVideoStream(sub)}>
+                      <span>{sub.id}</span>
+                      <UserVideoComponent streamManager={sub} />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
+            <footer>
+              <div className='container'>
+              <div className='row'>
+                <div className='col'>
+                  {this.state.sound ?
+                    <div onClick={this.mute}>
+                      <VolumeOffIcon color="white" sx={{ fontSize: 40 }} />
+                      <p id="iconMean">음소거</p>
+                    </div> :
+                    <div onClick={this.soundOn}>
+                      <VolumeUpIcon color="white" sx={{ fontSize: 40 }} />
+                      <p id="iconMean">소리 켜기</p>
+                    </div>
+                  }
+                </div>
+                <div className='col'>
+                  {this.state.video ?
+                    <div onClick={this.videoOff}>
+                      <VideocamOffIcon color="white" sx={{ fontSize: 40 }} />
+                      <p id="iconMean">비디오 끄기</p>
+                    </div> :
+                    <div onClick={this.videoOn}>
+                      <VideocamIcon color="white" sx={{ fontSize: 40 }} />
+                      <p id="iconMean">비디오 켜기</p>
+                    </div>
+                  }
+                </div>
+                <div className='col'>
+                  <div className='row'>
+                  <div className='col' onClick={this.switchCamera}>
+                  <SwitchVideoIcon color="white" sx={{ fontSize: 40 }} />
+                  <p id="iconMean">카메라 변경</p>
+                  </div>
+                  <div className='col'>
+                  <VideoCameraFrontIcon color="white" sx={{ fontSize: 40 }} />
+                  <p id="iconMean">녹화하기</p>
+                  </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+            </footer>
           </div>
         ) : null}
       </div>

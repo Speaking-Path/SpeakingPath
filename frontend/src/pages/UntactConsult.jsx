@@ -1,9 +1,9 @@
 import Untact from '../components/Video/Untact'
-import './UntactConsult.module.css'
+import styles from './UntactConsult.module.css'
 
 function UntactConsult() {
   return (
-    <div>
+    <div className={styles.bg}>
       <Untact/>
     </div>
   )
