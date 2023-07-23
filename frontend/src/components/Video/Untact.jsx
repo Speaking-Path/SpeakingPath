@@ -3,6 +3,7 @@ import { OpenVidu } from 'openvidu-browser';
 import axios from 'axios';
 import React, { Component } from 'react';
 import './Untact.css';
+// import './index.css'
 import UserVideoComponent from './UserVideoComponent';
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
@@ -13,7 +14,7 @@ class Untact extends Component {
 
     // These properties are in the state's component in order to re-render the HTML whenever their values change
     this.state = {
-      mySessionId: 'SessionA',
+      mySessionId: undefined,
       myUserName: 'Participant' + Math.floor(Math.random() * 100),
       session: undefined,
       mainStreamManager: undefined,  // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
@@ -294,7 +295,7 @@ class Untact extends Component {
         {this.state.session !== undefined ? (
           <div id="session">
             <div id="session-header">
-              <h1 id="session-title">{mySessionId}</h1>
+              {/* <h1 id="session-title">{mySessionId}</h1> */}
               <input
                 className="btn btn-large btn-danger"
                 type="button"
@@ -311,25 +312,26 @@ class Untact extends Component {
               />
             </div>
 
-            {this.state.mainStreamManager !== undefined ? (
+            <div>
+              {/* {this.state.mainStreamManager !== undefined ? (
               <div id="main-video" className="col-md-6">
                 <UserVideoComponent streamManager={this.state.mainStreamManager} />
-
               </div>
-            ) : null}
-            <div id="video-container" className="col-md-6">
-              {this.state.publisher !== undefined ? (
-                <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
-                  <UserVideoComponent
-                    streamManager={this.state.publisher} />
-                </div>
-              ) : null}
-              {this.state.subscribers.map((sub, i) => (
-                <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
-                  <span>{sub.id}</span>
-                  <UserVideoComponent streamManager={sub} />
-                </div>
-              ))}
+            ) : null} */}
+              <div className='row'>
+                {this.state.publisher !== undefined ? (
+                  <div className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(this.state.publisher)}>
+                    <UserVideoComponent
+                      streamManager={this.state.publisher} />
+                  </div>
+                ) : null}
+                {this.state.subscribers.map((sub, i) => (
+                  <div key={sub.id} className="stream-container col-md-6 col-xs-6" onClick={() => this.handleMainVideoStream(sub)}>
+                    <span>{sub.id}</span>
+                    <UserVideoComponent streamManager={sub} />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ) : null}
