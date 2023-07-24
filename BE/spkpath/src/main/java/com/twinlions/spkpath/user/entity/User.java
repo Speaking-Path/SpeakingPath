@@ -3,10 +3,7 @@ package com.twinlions.spkpath.user.entity;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Data // Getter & Setter
@@ -15,6 +12,7 @@ import javax.persistence.Table;
 @AllArgsConstructor // 모든컬럼생성자 생성
 @Table(name = "user_tb") // user_tb와 매칭
 @DynamicInsert // Null 인것은 자동으로 제외하고 넣어줌
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
     @Column(name = "user_id")
