@@ -20,15 +20,15 @@ function NavBar() {
           <NavLink className={styles.title}
             style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
             to="practice">
-            AI 언어재활</NavLink>
+            언어재활</NavLink>
           <NavLink className={styles.title}
             style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
             to="consulting">
-            치료 상담</NavLink>
+            치료상담</NavLink>
           <NavLink className={styles.title}
             style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", } }}
             to="/practice/consulting/meeting">
-            화상 상담</NavLink>
+            화상상담</NavLink>
         </Nav>
         <Nav className={styles.part2}>
           <NavLink className={`${styles.lasttab} ms-auto`}
