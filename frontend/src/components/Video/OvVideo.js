@@ -4,6 +4,9 @@ export default class OpenViduVideoComponent extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            streamCreated :false
+        }
         this.videoRef = React.createRef();
     }
     // 컴포넌트 업데이트되었을때
