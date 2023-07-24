@@ -1,0 +1,23 @@
+img {
+  width: 30px;
+}
+
+Nav a {
+  text-decoration-line: none;
+  margin-right: 20px;
+  color: black;
+}
+
+.part {
+  width: 60%;
+}
+
+.part2 {
+  width: 20%;
+}
+
+.title {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+}

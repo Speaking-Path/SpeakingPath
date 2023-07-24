@@ -1,6 +1,8 @@
 package com.twinlions.spkpath.user.controller;
 
+import com.twinlions.spkpath.counselor.CounselorDto;
 import com.twinlions.spkpath.user.UserDto;
+import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -13,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor // 생성자 사용하지 않기 위해
@@ -39,9 +43,27 @@ public class UserController {
         String result = userService.join(userDto);
         // TODO : 회원가입 실패시 예외처리 어떻게 할지 정해야해!
         if(result != null){
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }else{
             return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @PostMapping(value = "/consultantsignup")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "bad request operation"),
+            @ApiResponse(responseCode = "500", description = "SQL Exception")
+    })
+    @Operation(summary = "상담사 회원가입", description = "상담사 회원가입을 위한 정보를 입력한다.")
+    public ResponseEntity<?> cnslrSignup(@RequestBody CounselorDto counselorDto){
+        // TODO : logger 안찍히는 issue -> 해결해야해
+//        logger.debug("회원가입요청: {}", userDto.toString()); // 지금 로거 출력 안되는 이슈
+        int result = userService.cnslrJoin(counselorDto);
+        if(result == 1){
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }
     }
 
@@ -55,9 +77,9 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserDto userDto){
         int result = userService.login(userDto);
         if( result == -1){
-            return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.OK);
         }else if(result == 0){
-            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.OK);
         }else{
             return new ResponseEntity<>("로그인 성공하였습니다.", HttpStatus.OK);
         }
@@ -70,7 +92,7 @@ public class UserController {
         if( result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }
     }
 
@@ -81,8 +103,7 @@ public class UserController {
         if( result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("fail", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }
     }
-
 }

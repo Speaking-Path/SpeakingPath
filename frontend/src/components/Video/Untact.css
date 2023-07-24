@@ -1,0 +1,38 @@
+#box {
+  height: 100vh;
+	background-color: black;
+	margin: 0;
+}
+
+#session-header {
+	height: 80px;
+	width: 100%;
+	background-color: #181818;
+	color: white;
+}
+
+
+
+footer{
+  height: 80px;
+	width: 100%;
+  position : fixed;
+	bottom: 0;
+	background-color: #181818;
+	color: white;
+}
+
+
+#stream-container {
+	margin-left: 2%;
+	margin-right: 2%;
+}
+
+#iconMean {
+	font-size: 12px;
+	margin: 0px;
+}
+
+#closeIcon {
+	float: right;
+}

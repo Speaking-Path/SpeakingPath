@@ -12,7 +12,6 @@ import javax.persistence.*;
 @AllArgsConstructor // 모든컬럼생성자 생성
 @Table(name = "user_tb") // user_tb와 매칭
 @DynamicInsert // Null 인것은 자동으로 제외하고 넣어줌
-@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
     @Column(name = "user_id")
@@ -34,7 +33,7 @@ public class User {
     private String userInfo;
 
     @Column(name = "user_age")
-    private Integer userAge;
+    private int userAge;
 
     @Column(name = "user_sex")
     private String userSex;
@@ -46,5 +45,5 @@ public class User {
     private String userGrade;
 
     @Column(name = "user_reward")
-    private Integer userReward;
+    private int userReward;
 }
