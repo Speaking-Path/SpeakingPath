@@ -8,6 +8,16 @@ Nav a {
   color: black;
 }
 
-&.active {
-  font-weight: bold;
+.part {
+  width: 60%;
+}
+
+.part2 {
+  width: 20%;
+}
+
+.title {
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
 }
