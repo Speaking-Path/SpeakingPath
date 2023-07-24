@@ -1,8 +1,13 @@
 // 일반 유저일 경우 회원가입 컴포넌트
 
 import { useState } from "react"
-import { onChangeEmail, onChangeId, onChangePassword, onChangePasswordConfirm, clickSignup, onChangePhoneNumber } from "./SignupFunc"
+import {
+  onChangeEmail, onChangeId, onChangePassword, onChangePasswordConfirm,
+  onChangePhoneNumber
+} from "./SignupFunc"
 import { NavLink, useNavigate } from 'react-router-dom'
+import { checkEmailApi, checkIdApi, clickSignup } from "./AuthAPI"
+import styles from './UserSignup.module.css'
 
 
 function UserSignup() {
@@ -19,57 +24,83 @@ function UserSignup() {
   const [passwordMessage, setPasswordMessage] = useState("")
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
 
+  const [isId, setIsId] = useState(false)
+  const [isEmail, setIsEmail] = useState(false)
+  const [isPassword, setIsPassword] = useState(false)
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
+
+
   const data = {
-    userName, email, phoneNumber, id, password
+    userName, email, phoneNumber, id,
+    "password": passwordConfirm
   }
 
   const navigate = useNavigate()
 
   return (
-    <div>
-      <h3>회원가입</h3>
+    <div className={`${styles.box} d-inline-flex`}>
       <form>
-      <div>
-          <label htmlFor="userName">이름 </label>
-          <input type="text" id="userName" value={userName}
+        <p className={styles.title}>회원가입</p>
+        <div>
+          <label className={styles.label} htmlFor="id">아이디 </label>
+          <input className={`${styles.checkinput}`} type="text" id="id" value={id} placeholder="아이디 입력"
+            onChange={(e) => onChangeId(e, setId, setIdMessage)} />
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkIdApi(e, id, setIdMessage, setIsId)}>중복확인</button>
+          <p className={`${styles.message} ${isId ? styles.correct : styles.message}`}> {idMessage} </p>
+        </div>
+        <div>
+          <label className={styles.label} htmlFor="email">이메일 </label>
+          <input className={`${styles.checkinput}`} type="text" id="email" value={email} placeholder="이메일 계정"
+            onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} />
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkEmailApi(e, email, setEmailMessage, setIsEmail)}>중복확인</button>
+          <p className={`${styles.message} ${isEmail ? styles.correct : styles.message }`}> {emailMessage} </p>
+        </div>
+        <div>
+          <label className={styles.label} htmlFor="phoneNumber">핸드폰번호 </label>
+          <input className={styles.input} type="text" id="phoneNumber" value={phoneNumber} placeholder="'-' 없이 입력"
+            onChange={(e) => onChangePhoneNumber(e, setphoneNumber, setPhoneNumberMessage)} />
+          <p className={styles.message}> {phoneNumberMessage} </p>
+        </div>
+        <div>
+          <label className={styles.label} htmlFor="userName">이름 </label>
+          <input className={styles.input} type="text" id="userName" value={userName} placeholder="이름 입력"
             onChange={(e) => setUserName(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="email">이메일 </label>
-          <input type="text" id="email" value={email}
-          onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} />
-          <p className="message"> {emailMessage} </p>
+          <label className={styles.label} htmlFor="password">비밀번호</label>
+          <input className={styles.input} type="password" id="password" value={password} placeholder="비밀번호 입력"
+            onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} />
+          <p className={styles.message}> {passwordMessage} </p>
         </div>
         <div>
-          <label htmlFor="phoneNumber">핸드폰번호 </label>
-          <input type="text" id="phoneNumber" value={phoneNumber}
-          onChange={(e) => onChangePhoneNumber(e, setphoneNumber, setPhoneNumberMessage)} />
-          <p className="message"> {phoneNumberMessage} </p>
+          <label className={styles.label} htmlFor="passwordConfirm"></label>
+          <input className={styles.pwdCheckInput} type="password" id="passwordConfirm" value={passwordConfirm} placeholder="비밀번호 확인"
+            onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} />
+          <p className={styles.message}> {passwordConfirmMessage} </p>
         </div>
-        <div>
-          <label htmlFor="id">아이디 </label>
-          <input type="text" id="id" value={id}
-          onChange={(e)=> onChangeId(e, setId, setIdMessage)} />
-          <p className="message"> {idMessage} </p>
-        </div>
-        <div>
-          <label htmlFor="password">비밀번호 </label>
-          <input type="password" id="password" value={password}
-          onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage)} />
-          <p className="message"> {passwordMessage} </p>
-        </div>
-        <div>
-          <label htmlFor="passwordConfirm">비밀번호 확인 </label>
-          <input type="password" id="passwordConfirm" value={passwordConfirm}
-          onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage)} />
-          <p className="message"> {passwordConfirmMessage} </p>
-        </div>
-        <button onClick={(e)=> {
-          clickSignup(e, data)
-          navigate('/login')
+        <button className={styles.signupBtn} onClick={async (e) => {
+          if (isPassword && isPasswordConfirm && isId && isEmail) {
+            const signup = await clickSignup(e, data)
+            if (signup === id) {
+              navigate('/account/login')
+            }
+          } else if (!isPassword | !isPasswordConfirm) {
+            e.preventDefault()
+            alert("비밀번호를 다시 확인해주세요.")
+          } else if (!isId) {
+            e.preventDefault()
+            alert("아이디를 확인해주세요.")
+          } else if (!isEmail) {
+            e.preventDefault()
+            alert("이메일을 확인해주세요.")
+          }
         }}>가입하기</button>
+        <div className={styles.consultSignup}>
+        <span>상담사로 가입하시나요?</span>
+        <NavLink to="/account/consultantsignup">
+          회원가입</NavLink>
+        </div>
       </form>
-      <p>상담사로 가입하시나요?</p><NavLink to="/account/consultantsignup"><span>회원가입</span></NavLink>
     </div>
   )
 }
