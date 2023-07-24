@@ -1,28 +1,27 @@
 import React, { useRef, useEffect, useState } from 'react';
 
-// selectedVideoSource가 변경될 때마다 useEffect가 실행되도록 추가해야 함 
-
-function MyCamera({ selectedVideoSource }) {
+function MyCamera({ selectedVideoSource, selectedAudioSource }) {
   const myVideoRef = useRef(null);
   const [stream, setStream] = useState(null);
 
   useEffect(() => {
     async function getMedia() {
       try {
-        // 선택한 비디오 소스가 "no-camera"인 경우 비디오 스트림을 요청하지 않음
-        if (selectedVideoSource === 'no-camera') {
-            if (myVideoRef.current) {
-                myVideoRef.current.srcObject = null; // 비디오 스트림을 제거
-            }
-            return;
-        }
-
         const constraints = {
           video: {
             deviceId: selectedVideoSource ? { exact: selectedVideoSource } : undefined,
           },
-          audio: true,
+          audio: {
+            deviceId: selectedAudioSource ? { exact: selectedAudioSource } : undefined,
+          },
         };
+        if (selectedVideoSource === 'no-camera') {
+          constraints.video=false
+        }
+        if (selectedAudioSource === 'no-audio') {
+          constraints.audio=false
+        }
+
         const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
         setStream(mediaStream);
 
@@ -48,12 +47,11 @@ function MyCamera({ selectedVideoSource }) {
     }
 
     return () => {
-      // 컴포넌트가 unmount 되면 스트림 해제
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
       }
     };
-  }, [selectedVideoSource]);
+  }, [selectedVideoSource, selectedAudioSource]);
 
   return <video ref={myVideoRef} autoPlay />; 
 }
