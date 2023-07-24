@@ -6,6 +6,8 @@ import com.twinlions.spkpath.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor // UserRepository의 생성자를 쓰지 않기 위해
 public class UserServiceImpl implements UserService{
@@ -45,7 +47,7 @@ public class UserServiceImpl implements UserService{
         User user;
         //  만약 아이디 존재하면
         if(userRepository.findById(userDto.getUserId()).isPresent()){
-            user = userRepository.findById(userDto.getUserId()).get();
+            user = (User)userRepository.findById(userDto.getUserId()).get();
             if(user.getUserPwd().equals(userDto.getUserPwd())){ // id와 pwd가 일치한다면
                 return 1; // login 성공
             }
@@ -72,4 +74,9 @@ public class UserServiceImpl implements UserService{
             return -1;
         }
     }
+<<<<<<< Updated upstream
 }
+=======
+
+}
+>>>>>>> Stashed changes
