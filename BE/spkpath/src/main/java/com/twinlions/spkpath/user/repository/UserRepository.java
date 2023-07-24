@@ -1,7 +1,9 @@
 package com.twinlions.spkpath.user.repository;
 
+import com.twinlions.spkpath.counselor.entity.Counselor;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.entity.User;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.data.repository.Repository;
 
 
@@ -10,12 +12,10 @@ import java.util.Optional;
 
 public interface UserRepository extends Repository<User, String> {
 
-<<<<<<< Updated upstream
     Optional<User> findByUserEmail(String userEmail);
-=======
     Optional<Object> findById(String userId);
-    Optional<Object> findByUserEmail(String userEmail);
 
     User save(User user);
->>>>>>> Stashed changes
+
+    Counselor save(Counselor counselor);
 }

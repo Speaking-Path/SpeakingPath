@@ -1,5 +1,7 @@
 package com.twinlions.spkpath.user.service;
 
+import com.twinlions.spkpath.counselor.CounselorDto;
+import com.twinlions.spkpath.counselor.entity.Counselor;
 import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.UserDto;
@@ -34,7 +36,45 @@ public class UserServiceImpl implements UserService{
                 .userPic(userDto.getUserPic())
                 .userReward(userDto.getUserReward())
                 .build();
-        return userRepository.save(user).getUserId();
+        try{
+            userRepository.save(user);
+            return "success";
+        }catch(Exception e) {
+            return "fail";
+        }
+    }
+
+    /**
+     * 상담사 회원가입 메서드
+     * @param counselrDto 회원가입할 상담사 정보 입력받음
+     * @return 성공 number
+     */
+    @Override
+    public int cnslrJoin(CounselorDto counselrDto) {
+        //TODO: 두번 실행하지 않고 한번만 실행하는 방법으로 수정해보기
+        User user = new User();
+        user.setUserId(counselrDto.getUserId());
+        user.setUserEmail(counselrDto.getUserEmail());
+        user.setUserAge(counselrDto.getUserAge());
+        user.setUserGrade("상담사");
+        user.setUserName(counselrDto.getUserName());
+        user.setUserPhone(counselrDto.getUserPhone());
+        user.setUserPwd(counselrDto.getUserPwd());
+        user.setUserSex(counselrDto.getUserSex());
+        userRepository.save(user);
+        try{
+            Counselor counselor =  Counselor.builder()
+                    .userId(counselrDto.getUserId())
+                    .cnslrBoundary(counselrDto.getCnslrBoundary())
+                    .cnslrExp(counselrDto.getCnslrExp())
+                    .cnslrTag(counselrDto.getCnslrTag())
+                    .cnslrTeam(counselrDto.getCnslrTeam())
+                    .build();
+            userRepository.save(counselor);
+            return 1;
+        }catch (Exception e){
+            return -1;
+        }
     }
 
     /**
@@ -74,9 +114,4 @@ public class UserServiceImpl implements UserService{
             return -1;
         }
     }
-<<<<<<< Updated upstream
 }
-=======
-
-}
->>>>>>> Stashed changes
