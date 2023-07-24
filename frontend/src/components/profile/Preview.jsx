@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import styles from './Preview.module.css';
 import MyCamera from './MyCamera';
 import MyCameraOption from './MyCameraOption';
+import MyCameraRecord from './MyCameraRecord';
 
 const Preview = ({ isOpen, onClose, children, size }) => {
   // 하위 컴포넌트 MyCameraOption, MyCamera에서 모두 사용되는 것들을 상위 컴포넌트에서 정의함
@@ -35,6 +36,7 @@ const Preview = ({ isOpen, onClose, children, size }) => {
           onSelectedAudioChange={setSelectedAudioSource} // 함수 넘겨주기
           myVideoRef={myVideoRef}
         />
+        <MyCameraRecord />
         <div>
           {/* <button onClick={onClose}>닫기</button> */}
           <button onClick={() => { onClose(); stopCamera(); }}>닫기</button>
