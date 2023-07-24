@@ -1,21 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 
-// function MyCameraOption() {
-function MyCameraOption({ selectedVideoSource, onSelectedVideoChange, selectedAudioSource, onSelectedAudioChange }) {
+function MyCameraOption({ selectedVideoSource, onSelectedVideoChange, selectedAudioSource, onSelectedAudioChange, myVideoRef }) {
   const [audioInputDevices, setAudioInputDevices] = useState([]);
   const [audioOutputDevices, setAudioOutputDevices] = useState([]);
   const [videoDevices, setVideoDevices] = useState([]);
-  const [selectedAudioInput, setSelectedAudioInput] = useState('');
   const [selectedAudioOutput, setSelectedAudioOutput] = useState('');
-  const [selectedVideo, setSelectedVideo] = useState('');
-
-  const videoRef = useRef(null);
 
   useEffect(() => {
-    // Get the list of media devices (audio and video)
+    // 오디오, 비디오 장치 정보 불러오기
+    // 처음 렌더링 될 때만 실행되게 [] 넣어줌
+    // gotDevices함수 호출
     navigator.mediaDevices.enumerateDevices().then(gotDevices).catch(handleError);
   }, []);
 
+  // gotDevices 에러났을 때 
+  function handleError(error) {
+    console.log('navigator.mediaDevices.getUserMedia error: ', error.message, error.name);
+  }
+
+  // 오디오, 비디오 장치 정보 추가
   function gotDevices(deviceInfos) {
     const audioInputs = [];
     const audioOutputs = [];
@@ -33,12 +36,14 @@ function MyCameraOption({ selectedVideoSource, onSelectedVideoChange, selectedAu
         videos.push(option);
       }
     }
-
+    // 오디오, 비디오 장치 목록 useState에 저장
     setAudioInputDevices(audioInputs);
     setAudioOutputDevices(audioOutputs);
     setVideoDevices(videos);
   }
 
+  // myVideoRef.current에 카메라와 마이크 정보가 담겨있는데,
+  // 내가 설정한 오디오 출력 장치(selectedAudioOutput)에 이 정보를 담는 것
   function attachSinkId(element, sinkId) {
     if (typeof element.sinkId !== 'undefined') {
       element.setSinkId(sinkId)
@@ -59,69 +64,22 @@ function MyCameraOption({ selectedVideoSource, onSelectedVideoChange, selectedAu
     }
   }
 
-  function changeAudioDestination() {
-    const audioDestination = selectedAudioOutput;
-    attachSinkId(videoRef.current, audioDestination);
-  }
-
-  function gotStream(stream) {
-    // You can do something with the stream here if needed.
-    // For example, you can set the stream to a video element for display.
-    videoRef.current.srcObject = stream;
-  }
-
-  function handleError(error) {
-    console.log('navigator.mediaDevices.getUserMedia error: ', error.message, error.name);
-  }
-
-  function start() {
-    if (window.stream) {
-      window.stream.getTracks().forEach(track => {
-        track.stop();
-      });
-    }
-
-    const audioSource = selectedAudioInput;
-    const videoSource = selectedVideo;
-    const constraints = {
-      audio: { deviceId: audioSource ? { exact: audioSource } : undefined },
-      video: { deviceId: videoSource ? { exact: videoSource } : undefined },
-    };
-
-    if (videoSource === 'no-camera') {
-        // If "No Camera" option is selected, don't request video stream.
-        constraints.video = false;
-    }
-
-    if (audioSource === 'no-audio') {
-        // If "No Camera" option is selected, don't request video stream.
-        constraints.audio = false;
-    }
-
-    navigator.mediaDevices
-      .getUserMedia(constraints)
-      .then(gotStream)
-      .catch(handleError);
-  }
-
-  useEffect(() => {
-    start();
-  }, [selectedAudioInput, selectedVideo]);
 
   return (
     <div>
-      <div className="select">
-        <label htmlFor="audioSource">Audio input source: </label>
+      <div className="select" style={{ marginBottom: '10px'}}>
+        <label htmlFor="audioSource">마이크: </label>
         <select
           id="audioSource"
-          value={selectedAudioInput}
+          value={selectedAudioSource}
           onChange={(e) => {
-            setSelectedAudioInput(e.target.value)
+          // onSelectedAudioChange는 부모 컴포넌트(MyCameraOption)로부터 넘겨받은 함수
+          // selectedAudioSource값 변경
             onSelectedAudioChange(e.target.value)
         }}
         >
-          <option value="">Select an audio input device</option>
-          <option value="no-audio">No Audio</option>
+          <option value="">장치를 선택하세요</option>
+          <option value="no-audio">사용안함</option>
           {audioInputDevices.map(device => (
             <option key={device.value} value={device.value}>
               {device.text}
@@ -130,18 +88,18 @@ function MyCameraOption({ selectedVideoSource, onSelectedVideoChange, selectedAu
         </select>
       </div>
 
-      <div className="select">
-        <label htmlFor="audioOutput">Audio output destination: </label>
+      <div className="select" style={{ marginBottom: '10px'}}>
+        <label htmlFor="audioOutput">스피커: </label>
         <select
           id="audioOutput"
           value={selectedAudioOutput}
           onChange={(e) => {
             setSelectedAudioOutput(e.target.value)
-            onSelectedAudioChange(e.target.value);
+            attachSinkId(myVideoRef.current, selectedAudioOutput)
         }}
         >
-          <option value="">Select an audio output device</option>
-          <option value="no-audio">No Audio</option> 
+          <option value="">장치를 선택하세요</option>
+          <option value="no-audio">사용안함</option> 
           {audioOutputDevices.map(device => (
             <option key={device.value} value={device.value}>
               {device.text}
@@ -150,19 +108,19 @@ function MyCameraOption({ selectedVideoSource, onSelectedVideoChange, selectedAu
         </select>
       </div>
 
-      <div className="select">
-        <label htmlFor="videoSource">Video source: </label>
+      <div className="select" style={{ marginBottom: '10px'}}>
+        <label htmlFor="videoSource">카메라: </label>
         <select
           id="videoSource"
-          value={selectedVideo}
-        //   onChange={(e) => setSelectedVideo(e.target.value)}
+          value={selectedVideoSource}
             onChange={(e) => {
-            setSelectedVideo(e.target.value);
-            onSelectedVideoChange(e.target.value); // 선택한 비디오 소스를 부모 컴포넌트에 전달
+          // setSelectedVideoChange는 부모 컴포넌트(MyCameraOption)로부터 넘겨받은 함수
+          // selectedVideoSource값 변경
+            onSelectedVideoChange(e.target.value); 
           }}
         >
-          <option value="">Select a video source</option>
-          <option value="no-camera">No Camera</option> 
+          <option value="">장치를 선택하세요</option>
+          <option value="no-camera">사용안함</option> 
           {videoDevices.map(device => (
             <option key={device.value} value={device.value}>
               {device.text}
@@ -175,32 +133,3 @@ function MyCameraOption({ selectedVideoSource, onSelectedVideoChange, selectedAu
 }
 
 export default MyCameraOption;
-
-
-// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-// export default MyCameraOption;
-
-// import React, { useEffect } from 'react';
-// import './MyCameraOption.module.css'
-
-// function MyCameraOption() { 
-
-//     return(
-//         <div>
-//             <div className="select">
-//             <label for="audioSource">Audio input source: </label><select id="audioSource"></select>
-//             </div>
-
-//             <div className="select">
-//                 <label for="audioOutput">Audio output destination: </label><select id="audioOutput"></select>
-//             </div>
-
-//             <div className="select">
-//                 <label for="videoSource">Video source: </label><select id="videoSource"></select>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default MyCameraOption;
