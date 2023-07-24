@@ -7,7 +7,7 @@ function Signup() {
 
   return (
     <div>
-      <UserSignup/>
+      <UserSignup />
     </div>
   )
 }

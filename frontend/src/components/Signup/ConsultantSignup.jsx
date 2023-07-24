@@ -1,9 +1,13 @@
 // 컨설턴트 회원가입일 경우
 
 import { useState } from "react"
-import { onChangeEmail, onChangeId, onChangePassword, onChangePasswordConfirm,
-  clickConsultantSignup, onChangePhoneNumber, onChangeExp } from "./SignupFunc"
+import {
+  onChangeEmail, onChangeId, onChangePassword, onChangePasswordConfirm,
+  onChangePhoneNumber, onChangeExp
+} from "./SignupFunc"
 import { useNavigate } from "react-router-dom"
+import { checkEmailApi, checkIdApi, clickConsultantSignup } from "./AuthAPI"
+import styles from './UserSignup.module.css'
 
 function ConsultantSignup() {
   const [userName, setUserName] = useState("")
@@ -26,13 +30,27 @@ function ConsultantSignup() {
   const [expMessage, setExpMessage] = useState("")
 
 
+  const [isId, setIsId] = useState(false)
+  const [isEmail, setIsEmail] = useState(false)
+  const [isPassword, setIsPassword] = useState(false)
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
+  const [isTeam, setIsTeam] = useState(false)
+  const [isExp, setIsExp] = useState(false)
+  const [isTag, setIsTag] = useState(false)
+  const [isBoundry, setIsBoundry] = useState(false)
+
+
+
+
   const navigate = useNavigate()
 
   const [tagsCheck, setTagsCheck] = useState(['엄격한', '친근한', '친절한', '정적인', '발랄한', '활동적인'])
   const [boundrysCheck, setBoundrysCheck] = useState(['언어발달장애', '말소리장애', '신경언어장애', '유창성장애', '음성장애'])
 
   const data = {
-    userName, email, id, phoneNumber, password, team, exp, tag, boundry
+    userName, email, id, phoneNumber,
+    "password": passwordConfirm,
+    team, exp, tag, boundry
   }
 
   const changeBoundry = (checked, item) => {
@@ -40,6 +58,11 @@ function ConsultantSignup() {
       setBoundry([...boundry, item]);
     } else {
       setBoundry(boundry.filter((el) => el !== item));
+    }
+    if (boundry) {
+      setIsBoundry(true)
+    } else {
+      setIsBoundry(false)
     }
   }
 
@@ -50,96 +73,139 @@ function ConsultantSignup() {
     } else {
       setTag(tag.filter((el) => el !== item));
     }
+    if (tag) {
+      setIsTag(true)
+    } else {
+      setIsTag(false)
+    }
   }
-  
+
 
   return (
-    <div>
-      <h3>회원가입</h3>
+    <div className={`${styles.box} d-inline-flex`}>
       <form>
+        <p className={styles.title}>회원가입</p>
         <div>
-          <label htmlFor="userName">이름 </label>
-          <input type="text" id="userName" value={userName}
-            onChange={(e) => setUserName(e.target.value)} />
+          <label className={styles.label} htmlFor="id">아이디 </label>
+          <input className={`${styles.checkinput}`} type="text" id="id" value={id} placeholder="아이디 입력"
+            onChange={(e) => onChangeId(e, setId, setIdMessage)} />
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkIdApi(e, id, setIdMessage, setIsId)}>중복확인</button>
+          <p className={`${styles.message} ${isId ? styles.correct : styles.message}`}> {idMessage} </p>
         </div>
         <div>
-          <label htmlFor="email">이메일 </label>
-          <input type="text" id="email" value={email}
+          <label className={styles.label} htmlFor="email">이메일 </label>
+          <input className={`${styles.checkinput}`} type="text" id="email" value={email} placeholder="이메일 계정"
             onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} />
-          <p className="message"> {emailMessage} </p>
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkEmailApi(e, email, setEmailMessage, setIsEmail)}>중복확인</button>
+          <p className={`${styles.message} ${isEmail ? styles.correct : styles.message}`}> {emailMessage} </p>
         </div>
         <div>
-          <label htmlFor="phoneNumber">핸드폰번호 </label>
-          <input type="text" id="phoneNumber" value={phoneNumber}
+          <label className={styles.label} htmlFor="phoneNumber">핸드폰번호 </label>
+          <input className={styles.input} type="text" id="phoneNumber" value={phoneNumber} placeholder="'-' 없이 입력"
             onChange={(e) => onChangePhoneNumber(e, setphoneNumber, setPhoneNumberMessage)} />
           <p className="message"> {phoneNumberMessage} </p>
         </div>
         <div>
-          <label htmlFor="id">아이디 </label>
-          <input type="text" id="id" value={id}
-            onChange={(e) => onChangeId(e, setId, setIdMessage)} />
-          <p className="message"> {idMessage} </p>
+          <label className={styles.label} htmlFor="userName">이름 </label>
+          <input className={styles.input} type="text" id="userName" value={userName} placeholder="이름 입력"
+            onChange={(e) => setUserName(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="password">비밀번호 </label>
-          <input type="password" id="password" value={password}
-            onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage)} />
+          <label className={styles.label} htmlFor="password">비밀번호 </label>
+          <input className={styles.input} type="password" id="password" value={password} placeholder="비밀번호 입력"
+            onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} />
           <p className="message"> {passwordMessage} </p>
         </div>
         <div>
-          <label htmlFor="passwordConfirm">비밀번호 확인 </label>
-          <input type="password" id="passwordConfirm" value={passwordConfirm}
-            onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage)} />
+          <label className={styles.label} htmlFor="passwordConfirm"></label>
+          <input className={styles.pwdCheckInput} type="password" id="passwordConfirm" value={passwordConfirm} placeholder="비밀번호 확인"
+            onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} />
           <p className="message"> {passwordConfirmMessage} </p>
         </div>
+        <hr />
         <div>
-          <label htmlFor="team">소속 </label>
-          <input type="text" id="team" value={team}
-            onChange={(e) => setTeam(e.target.value)} />
+          <label className={styles.label} htmlFor="team">소속 </label>
+          <input className={styles.input} type="text" id="team" value={team} placeholder="근무지 입력"
+            onChange={async (e) => {
+              const teamName = e.target.value
+              setTeam(teamName)
+              if (e.target.value) {
+                setIsTeam(true)
+              } else {
+                setIsTeam(false)
+              }
+            }
+            } />
         </div>
         <div>
-          <label htmlFor="exp">경력 </label>
-          <input type="text" id="exp" value={exp}
-            onChange={(e) => onChangeExp(e, setExp, setExpMessage)} /><span>(개월)</span>
+          <label className={styles.label} htmlFor="exp">경력 </label>
+          <input className={styles.input} type="text" id="exp" value={exp} placeholder="연 단위로 입력"
+            onChange={(e) => onChangeExp(e, setExp, setExpMessage, setIsExp)} />
           <p className="message"> {expMessage} </p>
         </div>
-        <div>
-          <h6>치료가능영역</h6>
-          {
-            boundrysCheck.map((boundrys, index) => {
-              return (
-                <div key={index}>
-                  <input type="checkbox" id={boundrys}
-                    onChange={(e) => {
-                      changeBoundry(e.currentTarget.checked, boundrys)
-                    }}
-                    checked={boundry.includes(boundrys) ? true : false}></input>
-                  <label htmlFor={boundrys}>{boundrys}</label>
-                </div>
-              )
-            })
-          }
+        <p className={styles.label}>치료가능영역</p>
+        <div className="container">
+          <div className="row">
+            {
+              boundrysCheck.map((boundrys, index) => {
+                return (
+                  <div key={index} className={`${styles.checkdiv} col-4`}>
+                    <input type="checkbox" id={boundrys}
+                      onChange={(e) => {
+                        changeBoundry(e.currentTarget.checked, boundrys)
+                      }}
+                      checked={boundry.includes(boundrys) ? true : false}></input>
+                    <label className={styles.checklabel} htmlFor={boundrys}>{boundrys}</label>
+                  </div>
+                )
+              })
+            }
+          </div>
         </div>
         <div>
-          <p>태그</p>
+          <p className={styles.label}>태그</p>
+          <div className="container">
+          <div className="row">
           {
             tagsCheck.map((tags, index) => {
               return (
-                <div key={index}>
+                <div key={index} className={`${styles.checkdiv} col-4`}>
                   <input type="checkbox" id={tags}
                     onChange={(e) => {
                       changeTag(e.currentTarget.checked, tags)
                     }}
                     checked={tag.includes(tags) ? true : false}></input>
-                  <label htmlFor={tags}>{tags}</label>
+                  <label className={styles.checklabel} htmlFor={tags}>{tags}</label>
                 </div>
               )
             })
           }
+          </div>
+          </div>
         </div>
-        <button onClick={(e) => {
-          clickConsultantSignup(e, data)
-          navigate('/login')
+        <button className={styles.signupBtn} onClick={async (e) => {
+          e.preventDefault()
+          if (isPassword && isPasswordConfirm && isId && isEmail
+            && isBoundry && isExp && isTag && isTeam) {
+            const signup = await clickConsultantSignup(e, data)
+            if (signup === id) {
+              navigate('/account/login')
+            }
+          } else if (!isPassword | !isPasswordConfirm) {
+            alert("비밀번호를 다시 확인해주세요.")
+          } else if (!isId) {
+            alert("아이디를 확인해주세요.")
+          } else if (!isEmail) {
+            alert("이메일을 확인해주세요.")
+          } else if (!isTeam) {
+            alert("소속을 입력해주세요.")
+          } else if (!isExp) {
+            alert("경력을 입력해주세요.")
+          } else if (!isBoundry) {
+            alert("치료가능영역을 선택해주세요")
+          } else if (!isTag) {
+            alert("태그를 선택해주세요")
+          }
         }}>가입하기</button>
       </form>
     </div>
