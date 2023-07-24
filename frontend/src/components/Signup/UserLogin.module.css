@@ -1,0 +1,77 @@
+.box {
+  width: 360px;
+}
+
+form {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.title {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: start;
+}
+
+.label {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 15px;
+  font-weight: 500;
+  display: block;
+  text-align: start;
+  margin-top: 15px;
+}
+
+.input {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  margin-top: 3px;
+  font-family: 'Inter', sans-serif !important;
+}
+
+.input:focus {
+  border-color: #00C4C4;
+  outline: none;
+}
+
+.forgot {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 15px;
+  text-align: end;
+  color: #807f7f;
+}
+
+.loginBtn {
+  background-color: #00C4C4;
+  width: 100%;
+  border: 0;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 3px;
+  opacity: 0.8;
+  margin-bottom: 15px;
+  margin-top: 20px;
+}
+
+.loginBtn:hover {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.join {
+  color: #807f7f;
+}
+
+.clickjoin {
+  color: #018484;
+  font-weight: 600;
+}
