@@ -74,9 +74,4 @@ public class UserServiceImpl implements UserService{
             return -1;
         }
     }
-<<<<<<< Updated upstream
 }
-=======
-
-}
->>>>>>> Stashed changes
