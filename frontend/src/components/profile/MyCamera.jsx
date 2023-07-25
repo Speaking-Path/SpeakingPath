@@ -1,31 +1,34 @@
-import React, { useRef, useEffect, useState } from 'react';
+// import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-function MyCamera({ selectedVideoSource, selectedAudioSource, myVideoRef }) {
-  const [stream, setStream] = useState(null);
+function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
+  // const [stream, setStream] = useState(null);
 
   useEffect(() => {
     async function getMedia() {
       try {
         const constraints = {
           video: {
-            deviceId: selectedVideoSource ? { exact: selectedVideoSource } : undefined,
+            deviceId: selectedVideo ? { exact: selectedVideo } : undefined,
           },
           audio: {
-            deviceId: selectedAudioSource ? { exact: selectedAudioSource } : undefined,
+            deviceId: selectedAudioInput ? { exact: selectedAudioInput } : undefined,
           },
         };
-        if (selectedVideoSource === 'no-camera') {
-          constraints.video=false
+
+        if (selectedVideo === 'no-camera') {
+          delete constraints.video;
         }
-        if (selectedAudioSource === 'no-audio') {
-          constraints.audio=false
+        if (selectedAudioInput === 'no-microphone') {
+          delete constraints.audio;
         }
 
-        // constraints : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+        // constraints정보 : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
         const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-        setStream(mediaStream);
+        // setStream(mediaStream);
 
+        // myVideoRef에 mediaStream값 넣어주기(변경되는 값)
         if (myVideoRef.current) {
           myVideoRef.current.srcObject = mediaStream;
         }
@@ -47,7 +50,7 @@ function MyCamera({ selectedVideoSource, selectedAudioSource, myVideoRef }) {
         });
     }
 
-  }, [selectedVideoSource, selectedAudioSource]);
+  }, [selectedVideo, selectedAudioInput]);
 
   // 렌더링 되면 video DOM object가 myVideoRef.current에 들어감
   // return <video ref={myVideoRef} autoPlay style={{ width: '600px', height: '350px' }}/>; 
