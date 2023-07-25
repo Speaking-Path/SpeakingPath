@@ -1,5 +1,6 @@
 package com.twinlions.spkpath.counselor.controller;
 
+import com.twinlions.spkpath.counselor.CounselorDto;
 import com.twinlions.spkpath.counselor.entity.Counselor;
 import com.twinlions.spkpath.counselor.service.CounselorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -27,6 +28,13 @@ public class CounselorController {
     @Operation(summary = "상담사 전체 조회", description = "모든 상담사 회원 정보를 조회한다.")
     public ResponseEntity<List<Counselor>> listCnslrs() {
         List<Counselor> cnslrList = counselorService.listCnslrs();
+        return new ResponseEntity<>(cnslrList, HttpStatus.OK);
+    }
+
+    @PostMapping
+    @Operation(summary = "상담사 상세 조회", description = "상세 조건에 맞는 회원 정보를 조회한다.")
+    public ResponseEntity<List<Counselor>> listCnslrsByCondtion(@RequestBody CounselorDto counselorDto) {
+        List<Counselor> cnslrList = counselorService.listCnslrsByCond(counselorDto);
         return new ResponseEntity<>(cnslrList, HttpStatus.OK);
     }
 }

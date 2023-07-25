@@ -24,4 +24,9 @@ public class CounselorServiceImpl implements CounselorService {
         }
         return null;
     }
+
+    @Override
+    public List<Counselor> listCnslrsByCond(CounselorDto counselorDto) {
+        return null;
+    }
 }
