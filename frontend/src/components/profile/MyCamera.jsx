@@ -1,9 +1,7 @@
-// import React, { useEffect, useState } from 'react';
 import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
-  // const [stream, setStream] = useState(null);
 
   useEffect(() => {
     async function getMedia() {
@@ -26,7 +24,6 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
 
         // constraints정보 : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
         const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
-        // setStream(mediaStream);
 
         // myVideoRef에 mediaStream값 넣어주기(변경되는 값)
         if (myVideoRef.current) {

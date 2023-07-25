@@ -49,17 +49,17 @@ function MyCameraOption({ selectedVideo, setSelectedVideo, selectedAudioInput, s
   function attachSinkId(element, sinkId) {
     if (typeof element.sinkId !== 'undefined') {
       if (sinkId === 'no-speaker') {
-        element.setSinkId(null) // null을 전달하여 스피커 사용안함으로 설정
-        // null로 설정된 후 then이 아닌 catch구문이 실행되는 이유는....?
-          .then(() => {
-            console.log('Success, audio output device detached.');
-          })
-          .catch(error => {
-            console.error('Error detaching audio output device:', error);
-          });
+        // element.setSinkId(null) 
+        try{
+          element.muted = true  // 음소거 설정
+          console.log('Success, audio output device detached.');
+        }catch(error){
+          console.error('Error detaching audio output device:', error);
+        }
       } else {
           element.setSinkId(sinkId)
             .then(() => {
+              element.muted = false
               console.log(`Success, audio output device attached: ${sinkId}`);
             })
             .catch(error => {
@@ -75,7 +75,6 @@ function MyCameraOption({ selectedVideo, setSelectedVideo, selectedAudioInput, s
       } else {
         console.warn('Browser does not support output device selection.');
       }
-
   }
 
     // 마이크, 카메라 모두 off가 불가능하기 때문에, 이미 다른 하나의 값이 off일 경우 값변경을 하지 않고 안내메세지 출력하도록 함
