@@ -1,5 +1,8 @@
 package com.twinlions.spkpath.user.controller;
 
+import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.consultant.entity.Consultant;
+import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.service.UserService;
@@ -48,6 +51,25 @@ public class UserController {
         }
     }
 
+    @PostMapping(value = "/consultantsignup")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "bad request operation"),
+            @ApiResponse(responseCode = "500", description = "SQL Exception")
+    })
+    @Operation(summary = "상담사 회원가입", description = "상담사 회원가입을 위한 정보를 입력한다.")
+    public ResponseEntity<?> csltSignup(@RequestBody ConsultantDto consultantDto){
+        // TODO : logger 안찍히는 issue -> 해결해야해
+//        logger.debug("회원가입요청: {}", userDto.toString()); // 지금 로거 출력 안되는 이슈
+        System.out.println(consultantDto.toString());
+        int result = userService.csltJoin(consultantDto);
+        if(result == 1){
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>("fail", HttpStatus.OK);
+        }
+    }
+
     @PostMapping(value = "/login")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
@@ -58,11 +80,11 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserDto userDto){
         int result = userService.login(userDto);
         if( result == -1){
-            return new ResponseEntity<>("아이디가 존재하지 않습니다.", HttpStatus.OK);
+            return new ResponseEntity<>("wrong", HttpStatus.OK);
         }else if(result == 0){
-            return new ResponseEntity<>("비밀번호가 일치하지 않습니다.", HttpStatus.OK);
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("로그인 성공하였습니다.", HttpStatus.OK);
+            return new ResponseEntity<>("success", HttpStatus.OK);
         }
     }
 

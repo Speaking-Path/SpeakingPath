@@ -1,5 +1,6 @@
 package com.twinlions.spkpath.consultant.service;
 
+import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,16 +12,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConsultantServiceImpl implements ConsultantService {
 
-    private final ConsultantRepository counselorRepository;
+    private final ConsultantRepository consultantRepository;
 
     /**
      * @return List<User> 전체 상담사 리스트
      */
     @Override
     public List<Consultant> listCslt() {
-        if (counselorRepository.findAll().isPresent()) {
-            return (List<Consultant>)counselorRepository.findAll().get();
+        if (consultantRepository.findAll().isPresent()) {
+            return (List<Consultant>)consultantRepository.findAll().get();
         }
         return null;
     }
+
+    @Override
+    public List<Consultant> listCsltByCond(ConsultantDto consultantDto) {
+        return null;
+    }
+
 }

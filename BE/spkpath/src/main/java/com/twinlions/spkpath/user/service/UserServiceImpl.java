@@ -1,5 +1,11 @@
 package com.twinlions.spkpath.user.service;
 
+import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.consultant.entity.Consultant;
+import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
+import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.consultant.entity.Consultant;
+import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.UserDto;
@@ -13,6 +19,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final ConsultantRepository consultantRepository;
 
     /**
      * 회원가입 메서드
@@ -34,7 +41,42 @@ public class UserServiceImpl implements UserService{
                 .userPic(userDto.getUserPic())
                 .userReward(userDto.getUserReward())
                 .build();
-        return userRepository.save(user).getUserId();
+        try{
+            userRepository.save(user);
+            return "success";
+        }catch(Exception e) {
+            return "fail";
+        }
+    }
+
+    /**
+     * 상담사 회원가입 메서드
+     * @param consultantDto 회원가입할 상담사 정보 입력받음
+     * @return 성공 number
+     */
+    @Override
+    public int csltJoin(ConsultantDto consultantDto) {
+        //TODO: 두번 실행하지 않고 한번만 실행하는 방법으로 수정해보기
+        try{
+            Consultant consultant = Consultant.builder()
+                    .userId(consultantDto.getUserId())
+                    .userEmail(consultantDto.getUserEmail())
+                    .userAge(consultantDto.getUserAge())
+                    .userGrade(consultantDto.getUserGrade())
+                    .userName(consultantDto.getUserName())
+                    .userPhone(consultantDto.getUserPhone())
+                    .userPwd(consultantDto.getUserPwd())
+                    .userSex(consultantDto.getUserSex())
+                    .csltBoundary(consultantDto.getCsltBoundary().toString())
+                    .csltExp(consultantDto.getCsltExp())
+                    .csltTag(consultantDto.getCsltTag().toString())
+                    .csltTeam(consultantDto.getCsltTeam())
+                    .build();
+            consultantRepository.save(consultant);
+            return 1;
+        }catch (Exception e){
+            return -1;
+        }
     }
 
     /**
