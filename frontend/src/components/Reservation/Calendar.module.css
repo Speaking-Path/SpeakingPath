@@ -1,3 +1,12 @@
 .time {
   
 }
+
+.highlight-monday {
+  background-color: #ffc; /* 배경색을 변경하거나 다른 스타일을 지정합니다. */
+}
+
+/* 화요일에 해당하는 표시 스타일 */
+.highlight-tuesday {
+  background-color: #ffa; /* 배경색을 변경하거나 다른 스타일을 지정합니다. */
+}

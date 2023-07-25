@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux'
 import styles from './ReservationStep.module.css'
 
 function ReservationStep(props) {

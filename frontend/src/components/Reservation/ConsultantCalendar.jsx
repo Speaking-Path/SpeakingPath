@@ -1,14 +1,16 @@
-import axios from 'axios';
-import { isSameDay } from 'date-fns';
+// import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { useState, useEffect } from 'react';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
+import styles from './Calendar.module.css'
+import axios from 'axios';
 
 
 function RevCalendar() {
   const [selected, setSelected] = useState()
   const timesList = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
+
 
   const [timeSelected, setTimeSelected] = useState({
     year: null,
@@ -16,34 +18,6 @@ function RevCalendar() {
     day: null,
     times: []
   })
-
-  const days = [
-    {
-      year: 2023,
-      month: 6,
-      day: 23,
-      times: ["09:00", "10:00"]
-    },
-    {
-      year: 2023,
-      month: 6,
-      day: 25,
-      times: ["09:00", "11:00", "13:00", "14:00"]
-    }
-  ]
-
-  const excludedDates = days.map(({ year, month, day }) =>
-    new Date(year, month, day))
-
-  const isDateExcluded = (date) => {
-    return !excludedDates.some((excludedDate) => isSameDay(date, excludedDate))
-  }
-
-  const isTimeExcluded = (time) => {
-    return selected && days.some(({ year, month, day, times }) => {
-      return isSameDay(selected, new Date(year, month, day)) && !times.includes(time)
-    })
-  }
 
   const selectTime = (checked, time) => {
     if (checked) {
@@ -57,7 +31,6 @@ function RevCalendar() {
         times: timeSelected.times.filter((el) => el !== time)
       })
     }
-    console.log(timeSelected)
   }
 
   const handleDayClick = (date) => {
@@ -77,7 +50,6 @@ function RevCalendar() {
         times: []
       })
     }
-    console.log(timeSelected)
   }
 
   const onReserv = function () {
@@ -103,6 +75,7 @@ function RevCalendar() {
     }
   }
 
+
   useEffect(() => {
     if (selected) {
       setTimeSelected({
@@ -119,7 +92,6 @@ function RevCalendar() {
     }
   }, [selected])
 
-
   return (
     <div>
       <DayPicker
@@ -127,7 +99,6 @@ function RevCalendar() {
         selected={selected}
         onSelect={setSelected}
         locale={ko}
-        disabled={isDateExcluded}
         onDayClick={handleDayClick}
       />
       <div>
@@ -137,7 +108,6 @@ function RevCalendar() {
               <div key={index}>
                 <input type="checkbox" name="times" id={index} value={index}
                   checked={timeSelected.times.includes(time)}
-                  disabled={isTimeExcluded(time)}
                   onChange={(e) => {
                     selectTime(e.currentTarget.checked, time)
                   }} />
@@ -147,7 +117,7 @@ function RevCalendar() {
           })
         }
       </div>
-      <button onClick={onReserv}>예약하기</button>
+      <button onClick={onReserv}>시간 설정하기</button>
     </div>
   )
 }

@@ -15,7 +15,7 @@ function ReservationInfo() {
     '예약 신청하기',
     '예약 확정',
     '상담 진행',
-  ];
+  ]
 
   
   const stepNum = useSelector((state)=> {return state.stepNum})
