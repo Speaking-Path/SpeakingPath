@@ -23,7 +23,6 @@ auto-import.
 .idea/jarRepositories.xml
 .idea/modules.xml
 .idea/modules
-**/build/
 !src/**/build/
 
 ### STS ###
