@@ -67,9 +67,9 @@ public class UserServiceImpl implements UserService{
                     .userPhone(consultantDto.getUserPhone())
                     .userPwd(consultantDto.getUserPwd())
                     .userSex(consultantDto.getUserSex())
-                    .csltBoundary(consultantDto.getCsltBoundary().toString())
+                    .csltBoundary(consultantDto.getCsltBoundary())
                     .csltExp(consultantDto.getCsltExp())
-                    .csltTag(consultantDto.getCsltTag().toString())
+                    .csltTag(consultantDto.getCsltTag())
                     .csltTeam(consultantDto.getCsltTeam())
                     .build();
             consultantRepository.save(consultant);
