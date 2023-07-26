@@ -49,9 +49,11 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
 
   }, [selectedVideo, selectedAudioInput]);
 
+ 
   // 렌더링 되면 video DOM object가 myVideoRef.current에 들어감
   // return <video ref={myVideoRef} autoPlay style={{ width: '600px', height: '350px' }}/>; 
   return <video ref={myVideoRef} autoPlay style={{height:'50vh', width:'60vw'}}/>;  
+
 }
 
 export default MyCamera;
