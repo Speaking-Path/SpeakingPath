@@ -9,10 +9,10 @@ let ACCESS_TOKEN = localStorage.getItem("accessToken")
 
 export const AuthApi = axios.create({
     baseURL: 'http://localhost:8080',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
-    },
+    // headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
+    // },
 })
 
 
@@ -25,7 +25,7 @@ export const clickSignup = async function (e, data) {
     "userPhone" : data.phoneNumber,
     "userId" : data.id,
     "userPwd" : data.password,
-    "userGrade" : "일반회원",
+    "userGrade" : "user",
   }
   try {
     const response = await AuthApi.post(`account/signup`, userInfo)
@@ -51,8 +51,9 @@ export const clickConsultantSignup = async function (e, data) {
     "csltTag" : data.tag,
     "csltBoundary" : data.boundry,
     "userSex" : data.sex,
-    "userGrade" : "상담사",
+    "userGrade" : "consultant",
   }
+  console.log(userInfo)
   console.log(data)
   try {
     const response = await AuthApi.post(`account/consultantsignup`, userInfo)

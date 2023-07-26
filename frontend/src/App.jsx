@@ -11,6 +11,13 @@ import UntactConsult from './components/Video/Untact'
 import Consultant from './pages/Consultant'
 import Reservation from './pages/Reservation'
 import CsltCalendar from './components/Reservation/ConsultantCalendar';
+import Practice from './pages/Practice';
+import PickName from './components/Practice/PickName';
+import PickPic from './components/Practice/PickPic';
+import Sentence from './components/Practice/Sentence';
+import Syllable from './components/Practice/Syllable';
+import Word from './components/Practice/Word';
+
 
 
 function App() {
@@ -25,9 +32,15 @@ function App() {
         <Route path="/account/mypage" element={<UserInformation />}/>
         <Route path="/account/login" element={<Login/>}/>
 
-        {/* <Route path="/practice" element={<Practice/>}/> */}
+        <Route path="/practice" element={<Practice/>}/>
+        <Route path="/practice/pron/syllable" element={<Syllable/>}/>
+        <Route path="/practice/pron/word" element={<Word/>}/>
+        <Route path="/practice/pron/sentence" element={<Sentence/>}/>
+        <Route path="/practice/recog/select" element={<PickName/>}/>
+        <Route path="/practice/recog/select-name" element={<PickPic/>}/>
+
         <Route path="/practice/consulting" element={<Consultant/>}/>
-        <Route path="/practice/consulting/reservation" element={<Reservation/>}/>
+        <Route path="/practice/consulting/reservation/:csltid" element={<Reservation/>}/>
         <Route path="/practice/consulting/rev" element={<CsltCalendar/>}/>
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}
         <Route path="/practice/consulting/meeting" element={<UntactConsult/>}/>

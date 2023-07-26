@@ -121,6 +121,7 @@
   color: red;
 }
 
+
 .correct {
   color : #00C4C4
 }
@@ -149,7 +150,7 @@
 
 
 .checkdiv {
-  padding: 0;
+  padding: 0px !important;
 }
 
 .input[type="checkbox"]:checked + label {
