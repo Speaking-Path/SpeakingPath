@@ -12,7 +12,7 @@ function NavBar() {
       <Container>
         <Nav className={`${styles.part2} me-auto`}>
           <Navbar.Brand href="">
-            <img src={process.env.PUBLIC_URL + "/assets/logo.png"} alt="" />
+            <img className={styles.img} src={process.env.PUBLIC_URL + "/assets/logo.png"} alt="" />
           </Navbar.Brand>
           <NavLink className="my-auto" to="">말하길</NavLink>
         </Nav>
