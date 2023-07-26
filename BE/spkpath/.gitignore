@@ -1,9 +1,9 @@
 HELP.md
 .gradle
-!gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
-build
+gradle/wrapper/gradle-wrapper.jar
+**/src/main/**/build/
+**/src/test/**/build/
+/build
 
 ## 보안문제
 application.properties
