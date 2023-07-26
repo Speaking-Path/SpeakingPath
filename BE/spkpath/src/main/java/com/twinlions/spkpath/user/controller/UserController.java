@@ -5,6 +5,7 @@ import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.entity.User;
+import com.twinlions.spkpath.user.service.JwtService;
 import com.twinlions.spkpath.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -30,7 +31,8 @@ public class UserController {
 
     private final UserService userService;
     // Todo: JWT 구현해야함
-    // private JwtService jwtService;
+
+     private JwtService jwtService;
 
     @PostMapping(value = "/signup")
     @ApiResponses(value = {
