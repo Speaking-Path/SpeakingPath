@@ -1,11 +1,9 @@
 package com.twinlions.spkpath.user.controller;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
-import com.twinlions.spkpath.consultant.entity.Consultant;
-import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
-import com.twinlions.spkpath.user.entity.User;
-import com.twinlions.spkpath.user.service.JwtService;
+import com.twinlions.spkpath.jwt.service.JwtService;
 import com.twinlions.spkpath.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,8 +16,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor // 생성자 사용하지 않기 위해
@@ -86,7 +82,8 @@ public class UserController {
         }else if(result == 0){
             return new ResponseEntity<>("fail", HttpStatus.OK);
         }else{
-            return new ResponseEntity<>("success", HttpStatus.OK);
+            TokenDto tokenDto = userService.login(userDto.getUserId(), userDto.getUserPwd());
+            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
         }
     }
 

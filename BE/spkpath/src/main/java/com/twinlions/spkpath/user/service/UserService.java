@@ -1,6 +1,7 @@
 package com.twinlions.spkpath.user.service;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.entity.User;
 
@@ -12,4 +13,6 @@ public interface UserService {
     int login(UserDto userDto);
     int checkId(String userId);
     int checkEmail(String userEmail);
+
+    TokenDto login(String userId, String pwd);
 }
