@@ -3,7 +3,7 @@ import ConsultantList from "../components/Consultant/ConsultantList"
 import styles from "./Consultant.module.css"
 
 
-function Reservation() {
+function Consultant() {
   return (
     <div className="container">
       <div className={styles.applystart}>
@@ -21,4 +21,4 @@ function Reservation() {
   )
 }
 
-export default Reservation
+export default Consultant

@@ -7,7 +7,7 @@ import styles from './Calendar.module.css'
 import axios from 'axios';
 
 
-function RevCalendar() {
+function CsltCalendar() {
   const [selected, setSelected] = useState()
   const timesList = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
 
@@ -122,4 +122,4 @@ function RevCalendar() {
   )
 }
 
-export default RevCalendar
+export default CsltCalendar
