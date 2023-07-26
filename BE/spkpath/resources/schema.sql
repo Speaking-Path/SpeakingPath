@@ -1,4 +1,6 @@
-use spkpath;
+CREATE DATABASE IF NOT EXISTS `spkpath`;
+
+USE spkpath;
 
 CREATE TABLE `user_tb` (
 	`user_id`	char(20)	NOT NULL,
@@ -9,36 +11,28 @@ CREATE TABLE `user_tb` (
 	`user_info`	varchar(50)	NULL,
 	`user_age`	int	NULL,
 	`user_sex`	char(5)	NULL	COMMENT 'M/F',
-	`user_pic`	varchar(100)	NULL	COMMENT '사진처리 어떻게 할건지',
-	`user_grade`	varchar(30)	NOT NULL DEFAULT '일반회원' COMMENT 'admin / 환자 / 상담사',
+	`user_pic`	varchar(120)	NULL	COMMENT '사진처리 어떻게 할건지',
+	`user_grade`	varchar(10)	NOT NULL	DEFAULT '일반회원'	COMMENT '환자 / 상담사 / 관리자',
 	`user_reward`	int	NOT NULL	DEFAULT 0	COMMENT 'default: 0'
 );
 
-CREATE TABLE `reserve_tb` (
-	`Key`	char(10)	NOT NULL,
-	`rsv_start_time`	timestamp	NOT NULL,
-	`rsv_end_time`	timestamp	NULL,
+CREATE TABLE `reservation_item_tb` (
+	`rsv_item_id`	int	NOT NULL,
 	`user_id`	char(20)	NOT NULL,
-	`cnslr_id`	char(20)	NOT NULL,
-	`rsv_status`	varchar(10)	NOT NULL	COMMENT '대기 / 완료 / 취소'
+	`cslt_id`	char(20)	NOT NULL,
+	`rsv_date`	date	NOT NULL,
+	`rsv_time`	timestamp	NOT NULL,
+	`rsv_status`	varchar(10)	NOT NULL	COMMENT '대기 / 거절 / 완료 / 취소',
+	`rsv_info`	char(20)	NULL,
+	`rsv_code`	char(20)	NOT NULL
 );
 
-CREATE TABLE `conference_tb` (
-	`conf_id`	int	NOT NULL	COMMENT 'auto_increment',
-	`conf_name`	varchar(20)	NOT NULL,
-	`conf_pwd`	varchar(20)	NULL,
-	`conf_start`	timestamp	NOT NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT 'CURRENT_TIMESTAMP',
-	`conf_end`	timestamp	NULL,
-	`cnslr_id`	char(20)	NOT NULL,
-	`user_id`	char(20)	NOT NULL
-);
-
-CREATE TABLE `counselor_info_tb` (
+CREATE TABLE `consultant_info_tb` (
 	`user_id`	char(20)	NOT NULL,
-	`cnslr_team`	varchar(30)	NULL,
-	`cnslr_exp`	varchar(50)	NULL,
-	`cnslr_tag`	varchar(50)	NULL,
-	`cnslr_boundary`	varchar(50)	NULL
+	`cslt_team`	varchar(30)	NOT NULL,
+	`cslt_exp`	int	NOT NULL,
+	`cslt_tag`	varchar(80)	NOT NULL,
+	`cslt_boundary`	varchar(80)	NOT NULL
 );
 
 CREATE TABLE `board_tb` (
@@ -130,19 +124,25 @@ CREATE TABLE `study_sentence_tb` (
 	`study_stc_cnt`	int	NOT NULL	DEFAULT 1	COMMENT 'default: 1'
 );
 
+CREATE TABLE `consultant_available_date` (
+	`상담일`	date	NOT NULL,
+	`user_id`	char(20)	NOT NULL
+);
+
+CREATE TABLE `consultant_available_time` (
+	`상담시간`	time	NOT NULL,
+	`상담일`	date	NOT NULL
+);
+
 ALTER TABLE `user_tb` ADD CONSTRAINT `PK_USER_TB` PRIMARY KEY (
 	`user_id`
 );
 
-ALTER TABLE `reserve_tb` ADD CONSTRAINT `PK_RESERVE_TB` PRIMARY KEY (
-	`Key`
+ALTER TABLE `reservation_item_tb` ADD CONSTRAINT `PK_RESERVATION_ITEM_TB` PRIMARY KEY (
+	`rsv_item_id`
 );
 
-ALTER TABLE `conference_tb` ADD CONSTRAINT `PK_CONFERENCE_TB` PRIMARY KEY (
-	`conf_id`
-);
-
-ALTER TABLE `counselor_info_tb` ADD CONSTRAINT `PK_COUNSELOR_INFO_TB` PRIMARY KEY (
+ALTER TABLE `consultant_info_tb` ADD CONSTRAINT `PK_CONSULTANT_INFO_TB` PRIMARY KEY (
 	`user_id`
 );
 
@@ -209,8 +209,37 @@ ALTER TABLE `study_sentence_tb` ADD CONSTRAINT `PK_STUDY_SENTENCE_TB` PRIMARY KE
 	`user_id`
 );
 
-ALTER TABLE `counselor_info_tb` ADD CONSTRAINT `FK_user_tb_TO_counselor_info_tb_1` FOREIGN KEY (
+ALTER TABLE `consultant_available_date` ADD CONSTRAINT `PK_CONSULTANT_AVAILABLE_DATE` PRIMARY KEY (
+	`상담일`
+);
+
+ALTER TABLE `consultant_available_time` ADD CONSTRAINT `PK_CONSULTANT_AVAILABLE_TIME` PRIMARY KEY (
+	`상담시간`
+);
+
+ALTER TABLE `reservation_item_tb` ADD CONSTRAINT `FK_user_tb_TO_reservation_item_tb_1` FOREIGN KEY (
 	`user_id`
+)
+REFERENCES `user_tb` (
+	`user_id`
+);
+
+ALTER TABLE `reservation_item_tb` ADD CONSTRAINT `FK_consultant_info_tb_TO_reservation_item_tb_1` FOREIGN KEY (
+	`cslt_id`
+)
+REFERENCES `consultant_info_tb` (
+	`user_id`
+);
+
+ALTER TABLE `consultant_info_tb` ADD CONSTRAINT `FK_user_tb_TO_consultant_info_tb_1` FOREIGN KEY (
+	`user_id`
+)
+REFERENCES `user_tb` (
+	`user_id`
+);
+
+ALTER TABLE `board_tb` ADD CONSTRAINT `FK_user_tb_TO_board_tb_1` FOREIGN KEY (
+	`user_id2`
 )
 REFERENCES `user_tb` (
 	`user_id`
@@ -221,6 +250,20 @@ ALTER TABLE `comment_tb` ADD CONSTRAINT `FK_board_tb_TO_comment_tb_1` FOREIGN KE
 )
 REFERENCES `board_tb` (
 	`board_id`
+);
+
+ALTER TABLE `comment_tb` ADD CONSTRAINT `FK_user_tb_TO_comment_tb_1` FOREIGN KEY (
+	`user_id`
+)
+REFERENCES `user_tb` (
+	`user_id`
+);
+
+ALTER TABLE `one_q_tb` ADD CONSTRAINT `FK_user_tb_TO_one_q_tb_1` FOREIGN KEY (
+	`user_id`
+)
+REFERENCES `user_tb` (
+	`user_id`
 );
 
 ALTER TABLE `one_a_tb` ADD CONSTRAINT `FK_one_q_tb_TO_one_a_tb_1` FOREIGN KEY (
@@ -298,4 +341,18 @@ ALTER TABLE `study_sentence_tb` ADD CONSTRAINT `FK_user_tb_TO_study_sentence_tb_
 )
 REFERENCES `user_tb` (
 	`user_id`
+);
+
+ALTER TABLE `consultant_available_date` ADD CONSTRAINT `FK_consultant_info_tb_TO_consultant_available_date_1` FOREIGN KEY (
+	`user_id`
+)
+REFERENCES `consultant_info_tb` (
+	`user_id`
+);
+
+ALTER TABLE `consultant_available_time` ADD CONSTRAINT `FK_consultant_available_date_TO_consultant_available_time_1` FOREIGN KEY (
+	`상담일`
+)
+REFERENCES `consultant_available_date` (
+	`상담일`
 );

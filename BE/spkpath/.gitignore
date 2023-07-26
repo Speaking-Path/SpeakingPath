@@ -1,9 +1,9 @@
 HELP.md
 .gradle
-build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+build
 
 ## 보안문제
 application.properties
@@ -24,7 +24,6 @@ auto-import.
 .idea/jarRepositories.xml
 .idea/modules.xml
 .idea/modules
-**/build/
 !src/**/build/
 
 ### STS ###

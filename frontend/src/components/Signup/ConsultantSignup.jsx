@@ -20,6 +20,8 @@ function ConsultantSignup() {
   const [exp, setExp] = useState("")
   const [tag, setTag] = useState([])
   const [boundry, setBoundry] = useState([])
+  const [sex, setSex] = useState("")
+
 
 
   const [emailMessage, setEmailMessage] = useState("")
@@ -38,6 +40,7 @@ function ConsultantSignup() {
   const [isExp, setIsExp] = useState(false)
   const [isTag, setIsTag] = useState(false)
   const [isBoundry, setIsBoundry] = useState(false)
+  const [isSex, setIsSex] = useState(false)
 
 
 
@@ -47,10 +50,11 @@ function ConsultantSignup() {
   const [tagsCheck, setTagsCheck] = useState(['엄격한', '친근한', '친절한', '정적인', '발랄한', '활동적인'])
   const [boundrysCheck, setBoundrysCheck] = useState(['언어발달장애', '말소리장애', '신경언어장애', '유창성장애', '음성장애'])
 
+
   const data = {
     userName, email, id, phoneNumber,
     "password": passwordConfirm,
-    team, exp, tag, boundry
+    sex, team, exp, tag, boundry
   }
 
   const changeBoundry = (checked, item) => {
@@ -80,10 +84,19 @@ function ConsultantSignup() {
     }
   }
 
+  const handleRadioChange = (e) => {
+    setSex(e.target.value)
+    if (sex) {
+      setIsSex(true)
+    } else {
+      setIsSex(false)
+    }
+  };
+
 
   return (
     <div className={`${styles.box} d-inline-flex`}>
-      <form>
+      <form className={styles.form}>
         <p className={styles.title}>회원가입</p>
         <div>
           <label className={styles.label} htmlFor="id">아이디 </label>
@@ -103,7 +116,7 @@ function ConsultantSignup() {
           <label className={styles.label} htmlFor="phoneNumber">핸드폰번호 </label>
           <input className={styles.input} type="text" id="phoneNumber" value={phoneNumber} placeholder="'-' 없이 입력"
             onChange={(e) => onChangePhoneNumber(e, setphoneNumber, setPhoneNumberMessage)} />
-          <p className="message"> {phoneNumberMessage} </p>
+          <p className={styles.message}> {phoneNumberMessage} </p>
         </div>
         <div>
           <label className={styles.label} htmlFor="userName">이름 </label>
@@ -114,13 +127,13 @@ function ConsultantSignup() {
           <label className={styles.label} htmlFor="password">비밀번호 </label>
           <input className={styles.input} type="password" id="password" value={password} placeholder="비밀번호 입력"
             onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} />
-          <p className="message"> {passwordMessage} </p>
+          <p className={styles.message}> {passwordMessage} </p>
         </div>
         <div>
           <label className={styles.label} htmlFor="passwordConfirm"></label>
           <input className={styles.pwdCheckInput} type="password" id="passwordConfirm" value={passwordConfirm} placeholder="비밀번호 확인"
             onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} />
-          <p className="message"> {passwordConfirmMessage} </p>
+          <p className={styles.message}> {passwordConfirmMessage} </p>
         </div>
         <hr />
         <div>
@@ -141,7 +154,24 @@ function ConsultantSignup() {
           <label className={styles.label} htmlFor="exp">경력 </label>
           <input className={styles.input} type="text" id="exp" value={exp} placeholder="연 단위로 입력"
             onChange={(e) => onChangeExp(e, setExp, setExpMessage, setIsExp)} />
-          <p className="message"> {expMessage} </p>
+          <p className={styles.message}> {expMessage} </p>
+        </div>
+        <p className={styles.label}>성별</p>
+        <div className="container">
+          <div className="row">
+            <div className="col">
+              <input className={styles.input} type="radio" id="F" value="F" name="sex"
+              onClick={handleRadioChange}/>
+              <label className={styles.checklabel} htmlFor="F">여성</label>
+            </div>
+            <div className="col">
+              <input className={styles.input} type="radio" id="M" value="M" name="sex"
+              onClick={handleRadioChange}/>
+              <label className={styles.checklabel} htmlFor="M">남성</label>
+            </div>
+          </div>
+          <div>
+          </div>
         </div>
         <p className={styles.label}>치료가능영역</p>
         <div className="container">
@@ -150,7 +180,7 @@ function ConsultantSignup() {
               boundrysCheck.map((boundrys, index) => {
                 return (
                   <div key={index} className={`${styles.checkdiv} col-4`}>
-                    <input type="checkbox" id={boundrys}
+                    <input className={styles.input} type="checkbox" id={boundrys}
                       onChange={(e) => {
                         changeBoundry(e.currentTarget.checked, boundrys)
                       }}
@@ -165,30 +195,31 @@ function ConsultantSignup() {
         <div>
           <p className={styles.label}>태그</p>
           <div className="container">
-          <div className="row">
-          {
-            tagsCheck.map((tags, index) => {
-              return (
-                <div key={index} className={`${styles.checkdiv} col-4`}>
-                  <input type="checkbox" id={tags}
-                    onChange={(e) => {
-                      changeTag(e.currentTarget.checked, tags)
-                    }}
-                    checked={tag.includes(tags) ? true : false}></input>
-                  <label className={styles.checklabel} htmlFor={tags}>{tags}</label>
-                </div>
-              )
-            })
-          }
-          </div>
+            <div className="row">
+              {
+                tagsCheck.map((tags, index) => {
+                  return (
+                    <div key={index} className={`${styles.checkdiv} col-4`}>
+                      <input className={styles.input} type="checkbox" id={tags}
+                        onChange={(e) => {
+                          changeTag(e.currentTarget.checked, tags)
+                        }}
+                        checked={tag.includes(tags) ? true : false}></input>
+                      <label className={styles.checklabel} htmlFor={tags}>{tags}</label>
+                    </div>
+                  )
+                })
+              }
+            </div>
           </div>
         </div>
+
         <button className={styles.signupBtn} onClick={async (e) => {
           e.preventDefault()
           if (isPassword && isPasswordConfirm && isId && isEmail
             && isBoundry && isExp && isTag && isTeam) {
             const signup = await clickConsultantSignup(e, data)
-            if (signup === id) {
+            if (signup === "success") {
               navigate('/account/login')
             }
           } else if (!isPassword | !isPasswordConfirm) {
@@ -201,7 +232,9 @@ function ConsultantSignup() {
             alert("소속을 입력해주세요.")
           } else if (!isExp) {
             alert("경력을 입력해주세요.")
-          } else if (!isBoundry) {
+          } else if(!isSex) {
+            alert("성별을 입력해주세요")
+          }else if (!isBoundry) {
             alert("치료가능영역을 선택해주세요")
           } else if (!isTag) {
             alert("태그를 선택해주세요")

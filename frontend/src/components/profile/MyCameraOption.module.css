@@ -1,0 +1,9 @@
+.select {
+    display: inline-block;
+    margin: 0 0 1em 0;
+}
+
+label {
+    width: 12em;
+    display: inline-block;
+}

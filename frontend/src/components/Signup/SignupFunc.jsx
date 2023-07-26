@@ -96,6 +96,7 @@ export const clickLogin = async (e, data) => {
       localStorage.setItem('tokenType', response.tokenType)
       localStorage.setItem('accessToken', response.accessToken)
       localStorage.setItem('refreshToken', response.refreshToken)
+      console.log(response)
   }).catch((error) => {
       console.log(error)
   })

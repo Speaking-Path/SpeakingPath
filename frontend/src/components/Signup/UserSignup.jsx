@@ -39,7 +39,7 @@ function UserSignup() {
 
   return (
     <div className={`${styles.box} d-inline-flex`}>
-      <form>
+      <form className={styles.form}> 
         <p className={styles.title}>회원가입</p>
         <div>
           <label className={styles.label} htmlFor="id">아이디 </label>
@@ -81,7 +81,7 @@ function UserSignup() {
         <button className={styles.signupBtn} onClick={async (e) => {
           if (isPassword && isPasswordConfirm && isId && isEmail) {
             const signup = await clickSignup(e, data)
-            if (signup === id) {
+            if (signup.data === "success") {
               navigate('/account/login')
             }
           } else if (!isPassword | !isPasswordConfirm) {
