@@ -1,9 +1,11 @@
 package com.twinlions.spkpath.consultant.service;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.consultant.Specification.ConsultantSpecification;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,7 +30,27 @@ public class ConsultantServiceImpl implements ConsultantService {
 
     @Override
     public List<Consultant> listCsltByCond(ConsultantDto consultantDto) {
-        return null;
+        Specification<Consultant> spec = ((root, query, criteriaBuilder) -> null);
+
+        if (consultantDto.getUserName() != null) {
+            spec = spec.and(ConsultantSpecification.equalsName(consultantDto.getUserName()));
+        }
+        if (consultantDto.getUserSex() != null) {
+            spec = spec.and(ConsultantSpecification.equalsSex(consultantDto.getUserSex()));
+        }
+        if (consultantDto.getCsltTag() != null) {
+            List<Specification<Consultant>> sList = ConsultantSpecification.containsTag(consultantDto.getCsltTag());
+            for (int i = 0; i < consultantDto.getCsltTag().size(); i++) {
+                spec = spec.and(sList.get(i));
+            }
+        }
+        if (consultantDto.getCsltBoundary() != null) {
+            List<Specification<Consultant>> sList = ConsultantSpecification.containsBoundary(consultantDto.getCsltBoundary());
+            for (int i = 0; i < consultantDto.getCsltBoundary().size(); i++) {
+                spec = spec.and(sList.get(i));
+            }
+        }
+        return consultantRepository.findAll(spec);
     }
 
 }
