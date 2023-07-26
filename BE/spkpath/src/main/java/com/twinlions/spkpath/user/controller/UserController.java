@@ -76,15 +76,8 @@ public class UserController {
     })
     @Operation(summary = "로그인", description = "로그인을 위한 정보를 입력한다.")
     public ResponseEntity<?> login(@RequestBody UserDto userDto){
-        int result = userService.login(userDto);
-        if( result == -1){
-            return new ResponseEntity<>("wrong", HttpStatus.OK);
-        }else if(result == 0){
-            return new ResponseEntity<>("fail", HttpStatus.OK);
-        }else{
-            TokenDto tokenDto = userService.login(userDto.getUserId(), userDto.getUserPwd());
-            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
-        }
+        TokenDto tokenDto = userService.login(userDto.getUserId(), userDto.getUserPwd());
+        return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
 
     @GetMapping(value = "/checkid")
