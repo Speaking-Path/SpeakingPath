@@ -6,11 +6,12 @@ import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
 
-function RevCalendar() {
+function RevCalendar(props) {
   const [selected, setSelected] = useState()
   const timesList = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
 
   const [timeSelected, setTimeSelected] = useState({
+    csltId : props.csltid,
     year: null,
     month: null,
     day: null,
