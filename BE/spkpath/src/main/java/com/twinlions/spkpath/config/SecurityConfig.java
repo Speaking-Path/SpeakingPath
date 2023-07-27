@@ -31,14 +31,16 @@ public class SecurityConfig {
                 .antMatchers("/**").permitAll()
                 .antMatchers("/account/login").permitAll()
 //                .antMatchers("/practice").hasRole("USER")
-                .anyRequest().authenticated()
+                .anyRequest().authenticated() // 이 밖의 모든 요청에 대해 인증을 필요로 한다는 설정
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//        return new BCryptPasswordEncoder();
     }
+
 }
