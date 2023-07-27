@@ -5,7 +5,7 @@ import UserSignup from './pages/UserSignup'
 import ConsultantSignup from './pages/ConsultantSignup'
 import UserInformation from './components/profile/UserInformation'
 import Login from './pages/Login'
-import { NavBar } from './components/NavBar/Navbar';
+import NavBar from './components/NavBar/Navbar';
 import MainPage from './pages/MainPage';
 import UntactConsult from './components/Video/Untact'
 import Consultant from './pages/Consultant'

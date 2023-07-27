@@ -3,6 +3,8 @@ import { areas, searchTags } from './store/consultSearch'
 import { stepNum } from './store/Reservation'
 import { loginToken } from './store/UserInfo'
 
+
+
 export default configureStore({
   reducer: {
     areas : areas.reducer,

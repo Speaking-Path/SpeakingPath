@@ -9,14 +9,14 @@ import { Nav, Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { changeLoginInfo } from '../../store/UserInfo';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import Subbar from './Subbar';
 
 
 function NavBar() {
   const loginToken = useSelector((state) => { return state.loginToken })
   const dispatch = useDispatch()
 
-  console.log(loginToken)
 
 
 
@@ -72,37 +72,16 @@ function NavBar() {
                   </div>
                 )
             }
-
-
-
           </Nav>
         </Container>
+        <hr />
       </Navbar>
-      <div>
-        <ul>
-          <li>발음 연습하기</li>
-          <ul>
-            <li>음절 말하기</li>
-            <li>단어 말하기</li>
-            <li>문장 말하기</li>
-          </ul>
-        </ul>
-        <ul>
-          <li>인지 연습하기</li>
-          <ul>
-            <li>사물 고르기</li>
-            <li>사물 이름 맞히기</li>
-          </ul>
-        </ul>
-        <div>
-          <p>필요한</p>
-          <p>카테고리를</p>
-          <p>선택해</p>
-          <p>학습하세요</p>
-        </div>
+      <div className={`${styles.drdn} container`}>
       </div>
     </div>
+
+    
   );
 }
 
-export { NavBar };
+export default NavBar
