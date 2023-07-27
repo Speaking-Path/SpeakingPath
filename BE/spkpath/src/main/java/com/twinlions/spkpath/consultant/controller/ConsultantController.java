@@ -31,7 +31,7 @@ public class ConsultantController {
 
     @PostMapping
     @Operation(summary = "상담사 상세 조회", description = "상세 조건에 맞는 회원 정보를 조회한다.")
-    public ResponseEntity<List<Consultant>> listCsltsByCondtion(@RequestBody ConsultantDto consultantDto) {
+    public ResponseEntity<List<Consultant>> listCsltsByCond(@RequestBody ConsultantDto consultantDto) {
         List<Consultant> csltList = consultantService.listCsltByCond(consultantDto);
         return new ResponseEntity<>(csltList, HttpStatus.OK);
     }

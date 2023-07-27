@@ -1,8 +1,11 @@
 package com.twinlions.spkpath.consultant.repository;
 
+import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +15,8 @@ public interface ConsultantRepository extends Repository<Consultant, String> {
     Optional<Object> findByUserId(String userId);
 
     List<Consultant> findAll(Specification<Consultant> spec);
+
+    List<Consultant> findByUserNameAndUserSexAndCsltExpBetweenAndCsltTagInAndCsltBoundaryIn(ConsultantDto consultantDto);
     // 이름으로 검색 / like로 일부 검색 구현
 //    Optional<Object> findByUserNameContains(String userName);
     // 성별로 검색
@@ -21,7 +26,7 @@ public interface ConsultantRepository extends Repository<Consultant, String> {
     // 태그로 검색(배열)
 //    Optional<Object> findByCnslrTag(String cnslrTag);
     // 분야로 검색
-    Optional<Object> findByCsltBoundary(String csltBoundary);
+//    Optional<Object> findByCsltBoundary(String csltBoundary);
 
     Consultant save(Consultant consultant);
 }

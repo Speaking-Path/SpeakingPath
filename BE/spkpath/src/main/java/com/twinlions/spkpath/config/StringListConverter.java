@@ -14,19 +14,21 @@ public class StringListConverter implements AttributeConverter<List<String>, Str
             .setSerializationInclusion(JsonInclude.Include.NON_NULL);
     @Override
     public String convertToDatabaseColumn(List<String> attribute) {
-        if (attribute == null) {
-            return null;
-        }
-
         try {
             return objectMapper.writeValueAsString(attribute);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException();
+            e.printStackTrace();
+            return null;
         }
     }
 
     @Override
     public List<String> convertToEntityAttribute(String dbData) {
-        return new ArrayList<>(Arrays.asList(dbData.split(",")));
+        try {
+            return objectMapper.readValue(dbData, List.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.twinlions.spkpath.consultant.Specification;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import org.springframework.data.jpa.domain.Specification;
 
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,19 +31,14 @@ public class ConsultantSpecification {
         return (root, query, CriteriaBuilder) -> CriteriaBuilder.equal(root.get("userSex"), sex);
     }
 
-    public static List<Specification<Consultant>> containsTag(List<String> tags) {
-        List<Specification<Consultant>> sList = new ArrayList<>();
-
-        for (int i = 0; i < tags.size(); i++) {
-            String tag = tags.get(i);
-//            sList.add((root, query, CriteriaBuilder) -> CriteriaBuilder.in(root.get("csltTag"), tag));
-            sList.add((root, query, CriteriaBuilder) -> {
-                System.out.println(root.get("csltTag"));
-
-                return CriteriaBuilder.isMember(tag, root.get("csltTag"));
-            });
-        }
-            return sList;
+    public static Specification<Consultant> containsTag(List<String> tags) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            for (String tag : tags) {
+                predicates.add(criteriaBuilder.isMember(tag, root.get("csltTag")));
+            }
+            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+        };
     }
 
     public static List<Specification<Consultant>> containsBoundary(List<String> boundaries) {

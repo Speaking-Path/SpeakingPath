@@ -7,6 +7,7 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,6 +25,10 @@ public class Consultant extends User {
     @Column(name = "cslt_exp", nullable = false)
     private int csltExp;
 
+    @OneToMany(mappedBy = "consultant")
+    private List<ConsultantTag> csltTags = new ArrayList<ConsultantTag>();
+
+    /*
     @Column(name = "cslt_tag", nullable = false)
     @Convert(converter = StringListConverter.class)
     private List<String> csltTag;
@@ -31,4 +36,5 @@ public class Consultant extends User {
     @Column(name = "cslt_boundary", nullable = false)
     @Convert(converter = StringListConverter.class)
     private List<String> csltBoundary;
+     */
 }

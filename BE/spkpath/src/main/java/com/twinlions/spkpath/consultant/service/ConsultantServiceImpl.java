@@ -39,17 +39,14 @@ public class ConsultantServiceImpl implements ConsultantService {
             spec = spec.and(ConsultantSpecification.equalsSex(consultantDto.getUserSex()));
         }
         if (consultantDto.getCsltTag() != null) {
-            List<Specification<Consultant>> sList = ConsultantSpecification.containsTag(consultantDto.getCsltTag());
-            for (int i = 0; i < consultantDto.getCsltTag().size(); i++) {
-                spec = spec.and(sList.get(i));
-            }
+            spec = spec.and(ConsultantSpecification.containsTag(consultantDto.getCsltTag()));
         }
-        if (consultantDto.getCsltBoundary() != null) {
-            List<Specification<Consultant>> sList = ConsultantSpecification.containsBoundary(consultantDto.getCsltBoundary());
-            for (int i = 0; i < consultantDto.getCsltBoundary().size(); i++) {
-                spec = spec.and(sList.get(i));
-            }
-        }
+//        if (consultantDto.getCsltBoundary() != null) {
+//            List<Specification<Consultant>> sList = ConsultantSpecification.containsBoundary(consultantDto.getCsltBoundary());
+//            for (int i = 0; i < consultantDto.getCsltBoundary().size(); i++) {
+//                spec = spec.and(sList.get(i));
+//            }
+//        }
         return consultantRepository.findAll(spec);
     }
 
