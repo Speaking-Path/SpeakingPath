@@ -3,8 +3,8 @@
 
 import axios from "axios";
 
-const TOKEN_TYPE = localStorage.getItem("tokenType")
-let ACCESS_TOKEN = localStorage.getItem("accessToken")
+// const TOKEN_TYPE = localStorage.getItem("tokenType")
+// let ACCESS_TOKEN = localStorage.getItem("accessToken")
 
 
 export const AuthApi = axios.create({
@@ -70,12 +70,15 @@ export const login = async (data) => {
   const userInfo = {
     "userId" : data.id,
     "userPwd" : data.password,
+  };
+  
+  try {
+    const response = await AuthApi.post(`account/login`, userInfo);
+    return response.data;
+  } catch (error) {
+    return 0;
   }
-  console.log(userInfo)
-  const response = await AuthApi.post(`account/login`, userInfo)
-  console.log(response)
-  return response.data
-}
+};
 
 
 
