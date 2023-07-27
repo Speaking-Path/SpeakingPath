@@ -7,7 +7,7 @@ const Banner = () => {
       {/* <h2>Welcome to My Main Page!</h2> */}
       <Carousel>
         <Carousel.Item>
-          <a href="http://localhost:3000/practice">
+          <a href="/practice">
             <img
               className="d-block w-100"
               src={process.env.PUBLIC_URL + "/assets/main/main_bnr_1.jpg"}
@@ -17,7 +17,7 @@ const Banner = () => {
         </Carousel.Item>
 
         <Carousel.Item>
-          <a href="http://localhost:3000/practice">
+          <a href="/practice">
             <img
               className="d-block w-100"
               src={process.env.PUBLIC_URL + "/assets/main/main_bnr_2.jpg"}
