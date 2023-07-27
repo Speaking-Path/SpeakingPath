@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails createUserDetails(User user) {
         return User.builder()
                 .userId(user.getUserId())
-                .userPwd(passwordEncoder.encode(user.getUserPwd()))
+                .userPwd(user.getUserPwd())
 //                .userGrade(user.getUserGrade().toArray(new String[0]))
                 .userGrade(user.getUserGrade())
                 .build();

@@ -3,9 +3,6 @@ package com.twinlions.spkpath.user.service;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
-import com.twinlions.spkpath.consultant.ConsultantDto;
-import com.twinlions.spkpath.consultant.entity.Consultant;
-import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.entity.User;
@@ -15,9 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor // UserRepository의 생성자를 쓰지 않기 위해
@@ -27,6 +23,7 @@ public class UserServiceImpl implements UserService{
     private final ConsultantRepository consultantRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
+    private final PasswordEncoder passwordEncoder;
     /**
      * 회원가입 메서드
      * @param userDto 회원가입할 사용자 정보 입력받음
@@ -37,7 +34,7 @@ public class UserServiceImpl implements UserService{
         User user = User.builder()
                 .userId(userDto.getUserId())
                 .userName(userDto.getUserName())
-                .userPwd(userDto.getUserPwd())
+                .userPwd(passwordEncoder.encode(userDto.getUserPwd()))
                 .userSex(userDto.getUserSex())
                 .userAge(userDto.getUserAge())
                 .userEmail(userDto.getUserEmail())
@@ -71,7 +68,7 @@ public class UserServiceImpl implements UserService{
                     .userGrade(consultantDto.getUserGrade())
                     .userName(consultantDto.getUserName())
                     .userPhone(consultantDto.getUserPhone())
-                    .userPwd(consultantDto.getUserPwd())
+                    .userPwd(passwordEncoder.encode(consultantDto.getUserPwd()))
                     .userSex(consultantDto.getUserSex())
                     .csltBoundary(consultantDto.getCsltBoundary())
                     .csltExp(consultantDto.getCsltExp())
@@ -96,7 +93,7 @@ public class UserServiceImpl implements UserService{
         //  만약 아이디 존재하면
         if(userRepository.findById(userDto.getUserId()).isPresent()){
             user = (User)userRepository.findById(userDto.getUserId()).get();
-            if(user.getUserPwd().equals(userDto.getUserPwd())){ // id와 pwd가 일치한다면
+            if(passwordEncoder.matches(user.getUserPwd(), userDto.getUserPwd())){ // id와 pwd가 일치한다면
                 return 1; // login 성공
             }
             return 0; // 비밀번호 오류
