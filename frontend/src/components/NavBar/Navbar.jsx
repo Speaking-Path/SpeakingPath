@@ -31,7 +31,7 @@ function NavBar() {
 
           <Nav>
             <Navbar.Brand href="">
-              <a href="http://localhost:3000/">
+              <a href="/">
                 <img
                   src={process.env.PUBLIC_URL + "/assets/main/main_logo.png"}
                   alt="Main Logo"
