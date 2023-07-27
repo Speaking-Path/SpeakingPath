@@ -340,7 +340,8 @@ class Untact extends Component {
         {this.state.session !== undefined ? (
           <div id="session">
             <div id="session-header">
-              <HighlightOffIcon id="closeIcon" color="white" sx={{ fontSize: 40 }}/>
+              <HighlightOffIcon id="closeIcon" color="white" sx={{ fontSize: 40 }}
+              onClick={this.leaveSession}/>
 
               {/* <input
                 className="btn btn-large btn-danger"

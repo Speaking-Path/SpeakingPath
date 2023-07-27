@@ -9,10 +9,10 @@ let ACCESS_TOKEN = localStorage.getItem("accessToken")
 
 export const AuthApi = axios.create({
     baseURL: 'http://localhost:8080',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
-    },
+    // headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
+    // },
 })
 
 
@@ -25,10 +25,11 @@ export const clickSignup = async function (e, data) {
     "userPhone" : data.phoneNumber,
     "userId" : data.id,
     "userPwd" : data.password,
+    "userGrade" : "user",
   }
   try {
     const response = await AuthApi.post(`account/signup`, userInfo)
-    return response.data
+    return response
   } catch(err) {
     alert('정보를 다시 한번 확인해주세요')
     console.log(err)
@@ -39,21 +40,23 @@ export const clickSignup = async function (e, data) {
 
 
 export const clickConsultantSignup = async function (e, data) {
-  console.log(data)
   const userInfo = {
     "userName" : data.userName,
     "userEmail" : data.email,
     "userPhone" : data.phoneNumber,
     "userId" : data.id,
     "userPwd" : data.password,
-    "cnslrTeam" : data.team,
-    "cnslrExp" : data.exp, 
-    "cnslrTag" : data.tag,
-    "cnslrBoundry" : data.boundry,
-    "userGrade" : "상담사",
+    "csltTeam" : data.team,
+    "csltExp" : data.exp, 
+    "csltTag" : data.tag,
+    "csltBoundary" : data.boundry,
+    "userSex" : data.sex,
+    "userGrade" : "consultant",
   }
+  console.log(userInfo)
+  console.log(data)
   try {
-    const response = await AuthApi.post(`account/signup`, userInfo)
+    const response = await AuthApi.post(`account/consultantsignup`, userInfo)
     return response.data
   } catch(err) {
     alert('정보를 다시 한번 확인해주세요')
@@ -63,12 +66,14 @@ export const clickConsultantSignup = async function (e, data) {
 }
 
 
-export const login = async ({ id, password }) => {
-  const data = {
-    "userId" : id,
-    "userPwd" : password,
+export const login = async (data) => {
+  const userInfo = {
+    "userId" : data.id,
+    "userPwd" : data.password,
   }
-  const response = await AuthApi.post(`accounts/login`, data)
+  console.log(userInfo)
+  const response = await AuthApi.post(`account/login`, userInfo)
+  console.log(response)
   return response.data
 }
 

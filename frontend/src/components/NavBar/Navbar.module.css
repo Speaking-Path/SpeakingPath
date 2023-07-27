@@ -1,6 +1,17 @@
-img {
-  width: 30px;
+/* @import '@/_variables.sass'; */
+
+html {font-size: 62.5%; font-family: 'inter';}
+
+body {
+  /* margin: 2rem; */
 }
+
+/* @media (max-width: 960px) {
+  img {
+    margin-left: 0px;
+    width: 75px;
+  }
+} */
 
 Nav a {
   text-decoration-line: none;
@@ -8,16 +19,58 @@ Nav a {
   color: black;
 }
 
-.part {
-  width: 60%;
+Nav {
+  border-bottom: 1px solid #C7C7C7;
+}
+
+.part1 {
+  width: 30%;
+  display: inline-flex; /* 추가: 가로로 정렬될 수 있도록 설정 */
+  font-size: 1.6rem;
 }
 
 .part2 {
   width: 20%;
+  font-size: 1.6rem;
 }
 
 .title {
   display: inline-block;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.logo_img {
+  margin-left: -8rem;
+  width: 150px;
+}
+
+@media (max-width: 960px) {
+  .logo_img {
+    margin-left: 0px;
+    width: 75px;
+  }
+}
+
+.good {
+  color: red;
+  font-size: 1.6rem;
+}
+
+.drdo_Menu_a{
+  /* color: red; */
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 1.6rem;
+  border: none;
+  /* margin: 2rem; */
+  padding-top: 5rem;
+}
+
+.drdo_Menu_b{
+  /* color: red; */
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 1.6rem;
+  border: none;
+  /* margin: 2rem; */
+  margin: 5rem;
 }

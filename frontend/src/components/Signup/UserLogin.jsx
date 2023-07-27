@@ -16,7 +16,7 @@ function UserLogin() {
 
   return (
     <div className={`${styles.box} d-inline-flex`}>
-      <form>
+      <form className={styles.form}>
       <p className={`${styles.title}`}>로그인</p>
         <div>
           <label className={styles.label} htmlFor="id">아이디</label>
