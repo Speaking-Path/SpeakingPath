@@ -25,7 +25,7 @@ public class Consultant extends User {
     @Column(name = "cslt_exp", nullable = false)
     private int csltExp;
 
-    @OneToMany(mappedBy = "consultant")
+    @OneToMany(mappedBy = "cslt")
     private List<ConsultantTag> csltTags = new ArrayList<ConsultantTag>();
 
     /*

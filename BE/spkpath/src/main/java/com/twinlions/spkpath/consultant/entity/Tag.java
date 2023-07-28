@@ -6,10 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter // Getter
@@ -26,4 +25,7 @@ public class Tag {
 
     @Column(name = "tag_name", nullable = false)
     private String tagName;
+
+    @OneToMany(mappedBy = "tag")
+    private List<ConsultantTag> csltTags = new ArrayList<ConsultantTag>();
 }
