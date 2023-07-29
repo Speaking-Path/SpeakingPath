@@ -4,6 +4,7 @@ import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.jwt.service.JwtService;
+import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,6 +27,7 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
+    private final UserRepository userRepository;
     // Todo: JWT 구현해야함
 
      private JwtService jwtService;
@@ -100,5 +102,12 @@ public class UserController {
         }else{
             return new ResponseEntity<>("fail", HttpStatus.OK);
         }
+    }
+
+    @GetMapping(value = "/mypage")
+    @Operation(summary = "내 프로필 조회", description = "내 프로필을 조회한다.")
+    public ResponseEntity<?> readProfile(@RequestParam String userId){
+        return new ResponseEntity<>(userRepository.findByUserId(userId).get(), HttpStatus.OK);
+
     }
 }
