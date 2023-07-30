@@ -39,11 +39,11 @@ function App() {
         <Route path="/practice/recog/select" element={<PickName/>}/>
         <Route path="/practice/recog/select-name" element={<PickPic/>}/>
 
-        <Route path="/practice/consulting" element={<Consultant/>}/>
-        <Route path="/practice/consulting/reservation/:csltid" element={<Reservation/>}/>
-        <Route path="/practice/consulting/rev" element={<CsltCalendar/>}/>
+        <Route path="/consulting" element={<Consultant/>}/>
+        <Route path="/consulting/reservation/:csltid" element={<Reservation/>}/>
+        <Route path="/consulting/rev" element={<CsltCalendar/>}/>
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}
-        <Route path="/practice/consulting/meeting" element={<UntactConsult/>}/>
+        <Route path="/consulting/meeting" element={<UntactConsult/>}/>
       </Routes>
     </div>
   );

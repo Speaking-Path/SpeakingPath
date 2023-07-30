@@ -15,7 +15,7 @@ import VideoCameraFrontIcon from '@mui/icons-material/VideoCameraFront';
 import styles from './Untact.css'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
+const APPLICATION_SERVER_URL = process.env.REACT_APP_OPENVIDU 
 
 class Untact extends Component {
   constructor(props) {
