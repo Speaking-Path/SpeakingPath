@@ -34,6 +34,7 @@
   border-radius: 3px;
   margin-top: 3px;
   font-family: 'Inter', sans-serif !important;
+  font-size: 15px;
 }
 
 .input:focus {
@@ -60,6 +61,7 @@
   opacity: 0.8;
   margin-bottom: 15px;
   margin-top: 20px;
+  font-size: 15px;
 }
 
 .loginBtn:hover {
@@ -69,6 +71,7 @@
 
 .join {
   color: #807f7f;
+  font-size: 15px;
 }
 
 .clickjoin {

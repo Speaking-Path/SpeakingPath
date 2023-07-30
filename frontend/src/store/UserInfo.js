@@ -9,4 +9,15 @@ export let loginToken = createSlice({
       }
 }})
 
+export let loginId = createSlice({
+  name : "loginToken",
+  initialState : "",
+  reducers : {
+    changeLoginId(state, id) {
+      return id.payload
+    }
+  }
+})
+
 export let { changeLoginInfo } = loginToken.actions
+export let { changeLoginId } = loginId.actions

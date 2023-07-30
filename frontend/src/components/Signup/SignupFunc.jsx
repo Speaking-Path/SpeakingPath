@@ -21,7 +21,7 @@ export const onChangePhoneNumber = function (e, setPhoneNumber, setPhoneNumberMe
   };
 
   setPhoneNumber(regPhone(currentPhoneNumber));
-  const phoneRegExp = /^[0-9\b -]{0,13}$/;
+  const phoneRegExp = /^[0-9]{0,13}$/;
 
   if (currentPhoneNumber.replace(/[^0-9]/g, "").length > 11) {
     setPhoneNumberMessage("핸드폰 번호를 입력해 주세요.");
