@@ -53,7 +53,7 @@ public class Controller {
     return new ResponseEntity<>(session.getSessionId(), HttpStatus.OK);
   }
 
-  /
+  /* 
    * @param sessionId The Session in which to create the Connection
    * @param params    The Connection properties
    * @return The Token associated to the Connection
