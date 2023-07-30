@@ -3,8 +3,11 @@ package com.twinlions.spkpath.user.entity;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Data // Getter & Setter
@@ -14,7 +17,7 @@ import javax.persistence.*;
 @Table(name = "user_tb") // user_tb와 매칭
 @DynamicInsert // Null 인것은 자동으로 제외하고 넣어줌
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
+public class User implements UserDetails {
     @Id
     @Column(name = "user_id")
     private String userId;
@@ -43,9 +46,49 @@ public class User {
     @Column(name = "user_pic")
     private String userPic;
 
+//    @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "user_grade")
+//    private List<String> userGrade = new ArrayList<>();
     private String userGrade;
 
     @Column(name = "user_reward")
     private int userReward;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+//        return this.userGrade.stream()
+//                .map(SimpleGrantedAuthority::new)
+//                .collect(Collectors.toList());
+    }
+
+    @Override
+    public String getPassword() {
+        return this.userPwd;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.userId;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from './store.js'
 import { QueryClient, QueryClientProvider } from 'react-query';
@@ -20,10 +20,10 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+          <HashRouter>
+            <App />
+          </HashRouter>
         </PersistGate>
       </Provider>
     </QueryClientProvider>

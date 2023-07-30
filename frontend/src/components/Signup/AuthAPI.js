@@ -9,7 +9,7 @@ import axios from "axios";
 
 
 export const AuthApi = axios.create({
-    baseURL: 'http://localhost:8080',
+    baseURL: '/',
     // headers: {
     //     'Content-Type': 'application/json',
     //     'Authorization': `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
@@ -86,7 +86,7 @@ export const login = async (data) => {
 export const checkEmailApi = function (e, email, setEmailMessage, setIsEmail) {
   e.preventDefault()
   axios
-  .get("http://localhost:8080/account/checkemail",
+  .get("/account/checkemail",
   {params : { "userEmail" : email}})
   .then((res)=>{
     if (res.data === "success") {
@@ -104,7 +104,7 @@ export const checkEmailApi = function (e, email, setEmailMessage, setIsEmail) {
 
 export const checkIdApi = function (e, id, setIdMessage, setIsId) {
   e.preventDefault()
-  axios.get("http://localhost:8080/account/checkid",
+  axios.get("/account/checkid",
   {params : {"userId" : id}})
   .then((res)=>{
     if (res.data === "success") {
