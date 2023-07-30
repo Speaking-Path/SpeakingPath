@@ -7,7 +7,11 @@ import { HashRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from './store.js'
 import { QueryClient, QueryClientProvider } from 'react-query';
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 
+
+const persistor = persistStore(store)
 const queryClient = new QueryClient()
 
 
@@ -16,9 +20,11 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
-        <HashRouter>
-          <App />
-        </HashRouter>
+        <PersistGate loading={null} persistor={persistor}>
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </PersistGate>
       </Provider>
     </QueryClientProvider>
   </React.StrictMode>

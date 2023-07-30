@@ -1,6 +1,17 @@
 .box {
   margin-top: 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: rgb(	165, 193, 247, 0.5);
+  height: 85vh;
 }
+
+
+
+.MuiStepIcon-text {
+  font-size: 17px;
+}
+
 
 .title {
   display: inline-block;

@@ -23,8 +23,8 @@ function ReservationInfo() {
 
   return (
     <div className={styles.box}>
-      <div>
-      <Box  sx={{ width: '100%' }}>
+      <div className={styles.stepperBox}>
+      <Box sx={{ width: '100%' }} >
         <Stepper activeStep={stepNum} alternativeLabel>
           {steps.map((label, index) => (
             <Step onClick={()=>{dispatch(changeNum(index))}} key={label}>

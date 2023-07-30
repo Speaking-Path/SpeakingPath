@@ -3,9 +3,30 @@
 }
 
 .detail {
-  margin-bottom: 30px;
+  margin-bottom: 16px;
+  margin-top: 10px;
 }
 
 .searchicon {
   display: inline-block;
+}
+
+.search {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.reset {
+  background-color: white;
+  border: none;
+}
+
+.detailP {
+  margin-bottom: 0px;
+  margin-left: 10px;
+  font-size: 1rem;
+  align-items: center;
+  text-align: left;
+  padding: 0px;
+  
 }
