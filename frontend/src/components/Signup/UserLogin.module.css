@@ -9,7 +9,7 @@
 
 .title {
   font-family: 'Inter', sans-serif !important;
-  font-size: 4rem;
+  font-size: 40px;
   font-weight: 700;
   margin-top: 30px;
   margin-bottom: 15px;
@@ -18,7 +18,7 @@
 
 .label {
   font-family: 'Inter', sans-serif !important;
-  font-size: 1.5rem;
+  font-size: 15px;
   font-weight: 500;
   display: block;
   text-align: start;
@@ -34,7 +34,7 @@
   border-radius: 3px;
   margin-top: 3px;
   font-family: 'Inter', sans-serif !important;
-  font-size: 1.5rem;
+  font-size: 15px;
 }
 
 .input:focus {
@@ -45,7 +45,7 @@
 .forgot {
   margin-top: 10px;
   margin-bottom: 5px;
-  font-size: 1.5rem;
+  font-size: 15px;
   text-align: end;
   color: #807f7f;
 }
@@ -61,7 +61,7 @@
   opacity: 0.8;
   margin-bottom: 15px;
   margin-top: 20px;
-  font-size: 1.5rem;
+  font-size: 15px;
 }
 
 .loginBtn:hover {
@@ -71,7 +71,7 @@
 
 .join {
   color: #807f7f;
-  font-size: 1.5rem;
+  font-size: 15px;
 }
 
 .clickjoin {

@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom"
 import { clickLogin } from "./SignupFunc"
 import { useSelector } from "react-redux/es/hooks/useSelector"
 import { useDispatch } from "react-redux"
-import { changeLoginInfo } from "../../store/UserInfo"
+import { changeLoginId, changeLoginInfo } from "../../store/UserInfo"
 
 
 function UserLogin() {
@@ -15,6 +15,7 @@ function UserLogin() {
   const [password, setPassword] = useState("")
 
   const loginToken = useSelector((state)=> {return state.loginToken})
+  const loginId = useSelector((state)=>{ return state.loginId})
   const dispatch = useDispatch()
 
   const data = {id, password}
@@ -43,6 +44,7 @@ function UserLogin() {
             navigate("/")
             const ACCESS_TOKEN = localStorage.getItem("accessToken")
             dispatch(changeLoginInfo(ACCESS_TOKEN))
+            dispatch(changeLoginId(id))
           }
           }}>로그인</button>
         <div className={styles.join}>

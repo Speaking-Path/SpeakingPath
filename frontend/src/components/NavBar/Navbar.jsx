@@ -4,20 +4,23 @@ import styles from './Navbar.module.css'
 import Container from 'react-bootstrap/Container';
 // import Nav from 'react-bootstrap/Nav';
 // import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { changeLoginInfo } from '../../store/UserInfo';
-import { useEffect, useState } from 'react';
-import Subbar from './Subbar';
+import { useEffect } from 'react';
 
 
 function NavBar() {
   const loginToken = useSelector((state) => { return state.loginToken })
   const dispatch = useDispatch()
 
+  const loginNow = localStorage.getItem("accessToken")
+  const navigate = useNavigate()
 
+  useEffect(()=>{
+  }, [loginNow])
 
 
   return (
@@ -43,7 +46,7 @@ function NavBar() {
 
           <Nav className={styles.part2}>
             {
-              loginToken ? (
+              localStorage.getItem("accessToken") ? (
                 <div>
                   <NavLink className={styles.lasttab}
                     style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
