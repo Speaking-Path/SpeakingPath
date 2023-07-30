@@ -25,8 +25,8 @@ function NavBar() {
       <Navbar bg="white" data-bs-theme="light">
         <Container>
           <Nav className={`${styles.part1}`}>
-            <NavLink className={styles.title} to="practice"> AI 언어재활</NavLink>
-            <NavLink className={styles.title} to="practice/consulting"> 치료 상담</NavLink>
+            <NavLink className={styles.title} to="practice">언어재활</NavLink>
+            <NavLink className={styles.title} to="practice/consulting">치료상담</NavLink>
           </Nav>
 
           <Nav>
