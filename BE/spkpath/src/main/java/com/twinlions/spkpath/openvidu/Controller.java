@@ -41,7 +41,7 @@ public class Controller {
     this.openvidu = new OpenVidu(OPENVIDU_URL, OPENVIDU_SECRET);
   }
 
-  /
+  /*
    * @param params The Session properties
    * @return The Session ID
    */
