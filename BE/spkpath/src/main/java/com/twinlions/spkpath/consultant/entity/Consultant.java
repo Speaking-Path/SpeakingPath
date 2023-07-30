@@ -28,6 +28,19 @@ public class Consultant extends User {
     @OneToMany(mappedBy = "cslt")
     private List<ConsultantTag> csltTags = new ArrayList<ConsultantTag>();
 
+    @OneToMany(mappedBy = "cslt")
+    private List<ConsultantBoundary> csltBoundaries = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Consultant{" +
+                "csltTeam='" + csltTeam + '\'' +
+                ", csltExp=" + csltExp +
+                ", csltTags=" + csltTags +
+                ", csltBoundaries=" + csltBoundaries +
+                '}';
+    }
+
     /*
     @Column(name = "cslt_tag", nullable = false)
     @Convert(converter = StringListConverter.class)

@@ -1,8 +1,8 @@
 package com.twinlions.spkpath.user.service;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
-import com.twinlions.spkpath.consultant.entity.Consultant;
-import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
+import com.twinlions.spkpath.consultant.entity.*;
+import com.twinlions.spkpath.consultant.repository.*;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
@@ -12,6 +12,8 @@ import com.twinlions.spkpath.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.awt.color.ICC_Profile;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +22,10 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final ConsultantRepository consultantRepository;
+    private final ConsultantTagRepository consultantTagRepository;
+    private final TagRepository tagRepository;
+    private final ConsultantBoundaryRepository consultantBoundaryRepository;
+    private final BoundaryRepository boundaryRepository;
 
     /**
      * 회원가입 메서드
@@ -57,6 +63,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public int csltJoin(ConsultantDto consultantDto) {
         //TODO: 두번 실행하지 않고 한번만 실행하는 방법으로 수정해보기
+
+        // 1. 태그, 바운더리 제외한 나머지 속성을 consultant에 추가
+        // 2. 태그, 바운더리 추가
         try{
             Consultant consultant = Consultant.builder()
                     .userId(consultantDto.getUserId())
@@ -67,14 +76,34 @@ public class UserServiceImpl implements UserService{
                     .userPhone(consultantDto.getUserPhone())
                     .userPwd(consultantDto.getUserPwd())
                     .userSex(consultantDto.getUserSex())
-//                    .csltBoundary(consultantDto.getCsltBoundary())
                     .csltExp(consultantDto.getCsltExp())
-//                    .csltTag(consultantDto.getCsltTag())
                     .csltTeam(consultantDto.getCsltTeam())
                     .build();
             consultantRepository.save(consultant);
+
+            // consultantTag에 저장
+            List<Tag> tags = new ArrayList<>();
+            for (String tagName: consultantDto.getCsltTag()) {
+                Tag tag = tagRepository.findByTagName(tagName).orElse(null);
+                ConsultantTag consultantTag = ConsultantTag.builder()
+                        .cslt(consultant)
+                        .tag(tag)
+                        .build();
+                consultantTagRepository.save(consultantTag);
+            }
+
+            // consultantBoundary에 저장
+            for (String boundaryName: consultantDto.getCsltBoundary()) {
+                Boundary boundary = boundaryRepository.findByBoundaryName(boundaryName).orElse(null);
+                ConsultantBoundary consultantBoundary = ConsultantBoundary.builder()
+                        .cslt(consultant)
+                        .boundary(boundary)
+                        .build();
+                consultantBoundaryRepository.save(consultantBoundary);
+            }
+
             return 1;
-        }catch (Exception e){
+        } catch (Exception e){
             return -1;
         }
     }

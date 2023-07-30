@@ -1,17 +1,24 @@
 package com.twinlions.spkpath.consultant.Specification;
 
 import com.twinlions.spkpath.consultant.entity.Consultant;
+import com.twinlions.spkpath.consultant.entity.ConsultantBoundary;
+import com.twinlions.spkpath.consultant.entity.ConsultantTag;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
+
 public class ConsultantSpecification {
 
     public static Specification<Consultant> equalsName(String name) {
-        System.out.println(name);
         return (root, query, CriteriaBuilder) -> CriteriaBuilder.like(root.get("userName"), "%" + name + "%");
+    }
+
+    public static Specification<Consultant> equalsSex(String sex) {
+        return (root, query, CriteriaBuilder) -> CriteriaBuilder.equal(root.get("userSex"), sex);
     }
 
     public static Specification<Consultant> betweenExp(int expVal) {
@@ -22,32 +29,22 @@ public class ConsultantSpecification {
         } else if (expVal == 10) {
             return (root, query, CriteriaBuilder) -> CriteriaBuilder.between(root.get("csltExp"), 6, 10);
         } else if (expVal == 11) {
-            return (root, query, CriteriaBuilder) -> CriteriaBuilder.between(root.get("csltExp"), 11, 9999);
+            return (root, query, CriteriaBuilder) -> CriteriaBuilder.greaterThanOrEqualTo(root.get("csltExp"), 11);
         }
         return null;
     }
 
-    public static Specification<Consultant> equalsSex(String sex) {
-        return (root, query, CriteriaBuilder) -> CriteriaBuilder.equal(root.get("userSex"), sex);
-    }
-
-    public static Specification<Consultant> containsTag(List<String> tags) {
-        return (root, query, criteriaBuilder) -> {
-            List<Predicate> predicates = new ArrayList<>();
-            for (String tag : tags) {
-                predicates.add(criteriaBuilder.isMember(tag, root.get("csltTag")));
-            }
-            return criteriaBuilder.or(predicates.toArray(new Predicate[0]));
+    public static Specification<Consultant> containsTag(String tag) {
+        return (root, query, cb) -> {
+            Join<Consultant, ConsultantTag> tagJoin = root.join("csltTags", JoinType.INNER);
+            return cb.equal(tagJoin.get("tag").get("tagName"), tag);
         };
     }
-
-    public static List<Specification<Consultant>> containsBoundary(List<String> boundaries) {
-        List<Specification<Consultant>> sList = new ArrayList<>();
-        for (int i = 0; i < boundaries.size(); i++) {
-            String boundary = boundaries.get(i);
-            sList.add((root, query, CriteriaBuilder) -> CriteriaBuilder.isMember(boundary, root.get("csltBoundary")));
-        }
-        return sList;
+    public static Specification<Consultant> containsBoundary(String boundary) {
+        return (root, query, cb) -> {
+            Join<Consultant, ConsultantBoundary> boundaryJoin = root.join("csltBoundaries", JoinType.INNER);
+            return cb.equal(boundaryJoin.get("boundary").get("boundaryName"), boundary);
+        };
     }
 
 }

@@ -4,18 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Entity
-@Getter // Getter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Table(name = "consultant_tag_tb") // consultant_info_tb와 매칭
-@DynamicInsert // Null 인 것은 자동으로 제외하고 넣어줌
-public class ConsultantTag {
+@Table(name = "consultant_boundary_tb")
+public class ConsultantBoundary {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -26,15 +24,15 @@ public class ConsultantTag {
     private Consultant cslt;
 
     @ManyToOne
-    @JoinColumn(name = "tag_id")
-    private Tag tag;
+    @JoinColumn(name = "boundary_id")
+    private Boundary boundary;
 
     @Override
     public String toString() {
-        return "ConsultantTag{" +
+        return "ConsultantBoundary{" +
                 "Id=" + Id +
                 ", cslt=" + cslt +
-                ", tag=" + tag +
+                ", boundary=" + boundary +
                 '}';
     }
 }

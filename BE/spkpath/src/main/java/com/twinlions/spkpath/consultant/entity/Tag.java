@@ -21,11 +21,19 @@ public class Tag {
 
     @Id
     @Column(name = "tag_id")
-    private String tagId;
+    private int tagId;
 
     @Column(name = "tag_name", nullable = false)
     private String tagName;
 
     @OneToMany(mappedBy = "tag")
     private List<ConsultantTag> csltTags = new ArrayList<ConsultantTag>();
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "tagId=" + tagId +
+                ", tagName='" + tagName + '\'' +
+                '}';
+    }
 }

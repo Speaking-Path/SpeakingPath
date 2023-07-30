@@ -1,8 +1,5 @@
 package com.twinlions.spkpath.consultant;
 
-import com.twinlions.spkpath.consultant.entity.Tag;
-import com.twinlions.spkpath.user.UserDto;
-import com.twinlions.spkpath.user.entity.User;
 import lombok.*;
 
 import java.util.List;
@@ -11,8 +8,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class ConsultantDto extends UserDto {
-    private String csltTeam;
+public class ConsultantSearchDto {
+    private String userName;
+    private String userSex;
     private int csltExp;
     private List<String> csltTag;
     private List<String> csltBoundary;
