@@ -30,6 +30,7 @@ function NavBar() {
           <Nav className={`${styles.part1}`}>
             <NavLink className={styles.title} to="practice">언어재활</NavLink>
             <NavLink className={styles.title} to="consulting">치료상담</NavLink>
+            <NavLink className={styles.title} to="consulting/meeting">(임시)상담입장</NavLink>
           </Nav>
 
           <Nav>
