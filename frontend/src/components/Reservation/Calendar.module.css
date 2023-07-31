@@ -134,3 +134,7 @@
 .revButton:hover {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 호버 상태에서 그림자 크게 설정 */
 }
+
+.boundarys {
+  margin-bottom: 4%;
+}

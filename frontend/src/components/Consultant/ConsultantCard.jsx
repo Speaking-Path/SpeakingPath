@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
 import styles from "./ConsultantCard.module.css"
-import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { changeCsltInfo } from "../../store/consultantInfo";
+import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
+import { changeCsltInfo } from "../../store/consultantInfo"
 
 
 function ConsultantCard({ consultant }) {
+  console.log(consultant)
   const selectedCsltInfo = useSelector((state) => { return state.selectedCsltInfo })
   const dispatch = useDispatch()
 
@@ -15,7 +16,7 @@ function ConsultantCard({ consultant }) {
 
   const goRev = () => {
     dispatch(dispatch(changeCsltInfo(consultant)))
-    navigate('/practice/consulting/reservation')
+    navigate("/consulting/reservation")
   }
 
   useEffect(()=>{

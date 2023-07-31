@@ -7,7 +7,7 @@ import {
 } from "./SignupFunc"
 import { useNavigate } from "react-router-dom"
 import { checkEmailApi, checkIdApi, clickConsultantSignup } from "./AuthAPI"
-import styles from './UserSignup.module.css'
+import styles from "./UserSignup.module.css"
 
 function ConsultantSignup() {
   const [userName, setUserName] = useState("")
@@ -47,8 +47,8 @@ function ConsultantSignup() {
 
   const navigate = useNavigate()
 
-  const [tagsCheck, setTagsCheck] = useState(['엄격한', '친근한', '친절한', '정적인', '발랄한', '활동적인'])
-  const [boundrysCheck, setBoundrysCheck] = useState(['언어발달장애', '말소리장애', '신경언어장애', '유창성장애', '음성장애'])
+  const [tagsCheck, setTagsCheck] = useState(["엄격한", "친근한", "친절한", "정적인", "발랄한", "활동적인"])
+  const [boundrysCheck, setBoundrysCheck] = useState(["언어발달장애", "말소리장애", "신경언어장애", "유창성장애", "음성장애"])
 
 
   const data = {
@@ -59,9 +59,9 @@ function ConsultantSignup() {
 
   const changeBoundry = (checked, item) => {
     if (checked) {
-      setBoundry([...boundry, item]);
+      setBoundry([...boundry, item])
     } else {
-      setBoundry(boundry.filter((el) => el !== item));
+      setBoundry(boundry.filter((el) => el !== item))
     }
     if (boundry) {
       setIsBoundry(true)
@@ -73,9 +73,9 @@ function ConsultantSignup() {
 
   const changeTag = (checked, item) => {
     if (checked) {
-      setTag([...tag, item]);
+      setTag([...tag, item])
     } else {
-      setTag(tag.filter((el) => el !== item));
+      setTag(tag.filter((el) => el !== item))
     }
     if (tag) {
       setIsTag(true)
@@ -91,7 +91,7 @@ function ConsultantSignup() {
     } else {
       setIsSex(false)
     }
-  };
+  }
 
 
   return (
@@ -220,7 +220,7 @@ function ConsultantSignup() {
             && isBoundry && isExp && isTag && isTeam) {
             const signup = await clickConsultantSignup(e, data)
             if (signup === "success") {
-              navigate('/account/login')
+              navigate("/account/login")
             }
           } else if (!isPassword | !isPasswordConfirm) {
             alert("비밀번호를 다시 확인해주세요.")
