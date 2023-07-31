@@ -7,12 +7,11 @@
 .title {
   display: inline-block;
   border-left : 3.5px solid black;
-  
 }
 
 .titleinfo {
   margin-left: 4px;
-  font-size: 20px;
+  font-size: 25px;
   font-weight: 600;
 }
 
@@ -20,6 +19,7 @@
   margin-top: 50px;
   margin-bottom: 10px;
   text-align: left;
+  margin-left: 11%;
 }
 
 .sidebarAndList {

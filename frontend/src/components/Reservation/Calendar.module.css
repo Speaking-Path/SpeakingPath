@@ -128,11 +128,11 @@
   border-radius: 5px;
   margin-bottom: 10%;
   transition: box-shadow 0.3s, color 0.3s;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* 그림자 설정 */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .revButton:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 호버 상태에서 그림자 크게 설정 */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .boundarys {
