@@ -19,6 +19,8 @@ public class ConsultantServiceImpl implements ConsultantService {
     private final ConsultantRepository consultantRepository;
 
     /**
+     * 전체 상담사 리스트를 반환한다.
+     *
      * @return List<User> 전체 상담사 리스트
      */
     @Override
@@ -33,33 +35,39 @@ public class ConsultantServiceImpl implements ConsultantService {
 //        return null;
     }
 
+    /**
+     * 상세 조건을 입력 받아 해당 조건을 만족하는 상담사 리스트를 반환한다.
+     *
+     * @param consultantSearchDto 상세 조건
+     * @return List<ConsultantDto> 상세 조건에 부합하는 상담사 리스트
+     */
     @Override
-    public List<ConsultantDto> listCsltByCond(ConsultantSearchDto consultantDto) {
+    public List<ConsultantDto> listCsltByCond(ConsultantSearchDto consultantSearchDto) {
         Specification<Consultant> spec = (root, query, criteriaBuilder) -> null;
 
-        System.out.println(consultantDto);
+        System.out.println(consultantSearchDto);
 
-        if (consultantDto.getUserName() != "") {
-            System.out.println(consultantDto.getUserName());
-            spec = spec.and(ConsultantSpecification.equalsName(consultantDto.getUserName()));
+        if (consultantSearchDto.getUserName() != "") {
+            System.out.println(consultantSearchDto.getUserName());
+            spec = spec.and(ConsultantSpecification.equalsName(consultantSearchDto.getUserName()));
         }
 
-        if (consultantDto.getUserSex() != "") {
-            spec = spec.and(ConsultantSpecification.equalsSex(consultantDto.getUserSex()));
+        if (consultantSearchDto.getUserSex() != "") {
+            spec = spec.and(ConsultantSpecification.equalsSex(consultantSearchDto.getUserSex()));
         }
 
-        if (consultantDto.getCsltExp() != 0) {
-            spec = spec.and(ConsultantSpecification.betweenExp(consultantDto.getCsltExp()));
+        if (consultantSearchDto.getCsltExp() != 0) {
+            spec = spec.and(ConsultantSpecification.betweenExp(consultantSearchDto.getCsltExp()));
         }
 
-        if (consultantDto.getCsltTag() != null) {
-            for (String tag : consultantDto.getCsltTag()) {
+        if (consultantSearchDto.getCsltTag() != null) {
+            for (String tag : consultantSearchDto.getCsltTag()) {
                 spec = spec.and(ConsultantSpecification.containsTag(tag));
             }
         }
 
-        if (consultantDto.getCsltBoundary() != null) {
-            for (String boundary : consultantDto.getCsltBoundary()) {
+        if (consultantSearchDto.getCsltBoundary() != null) {
+            for (String boundary : consultantSearchDto.getCsltBoundary()) {
                 System.out.println(boundary);
                 spec = spec.and(ConsultantSpecification.containsBoundary(boundary));
             }
@@ -72,21 +80,14 @@ public class ConsultantServiceImpl implements ConsultantService {
                 .collect(Collectors.toList());
     }
 
-//    private Consultant convertFromDto(ConsultantDto consultantDto) {
-//        return Consultant.builder()
-//                .userId(consultantDto.getUserId())
-//                .userEmail(consultantDto.getUserEmail())
-//                .userAge(consultantDto.getUserAge())
-//                .userGrade(consultantDto.getUserGrade())
-//                .userName(consultantDto.getUserName())
-//                .userPhone(consultantDto.getUserPhone())
-//                .userPwd(consultantDto.getUserPwd())
-//                .userSex(consultantDto.getUserSex())
-//                .csltExp(consultantDto.getCsltExp())
-//                .csltTeam(consultantDto.getCsltTeam())
-//                .build();
-//    }
-
+    /**
+     * 상담사 entity를 dto로 변환한다.
+     *
+     * @param consultant 상담사 entity
+     * @return consultantDto 상담사 dto
+     *
+     *
+     */
     private ConsultantDto convertToDto(Consultant consultant) {
         ConsultantDto consultantDto = new ConsultantDto();
         consultantDto.setUserId(consultant.getUserId());
