@@ -1,10 +1,12 @@
+drop database spkpath;
+
 CREATE DATABASE IF NOT EXISTS `spkpath`;
 
 USE spkpath;
 
 CREATE TABLE `user_tb` (
 	`user_id`	char(20)	NOT NULL,
-	`user_pwd`	varchar(30)	NOT NULL,
+	`user_pwd`	varchar(100)	NOT NULL,
 	`user_name`	char(10)	NOT NULL,
 	`user_email`	varchar(30)	NOT NULL	COMMENT 'UNIQUE',
 	`user_phone`	varchar(20)	NOT NULL,
@@ -13,7 +15,8 @@ CREATE TABLE `user_tb` (
 	`user_sex`	char(5)	NULL	COMMENT 'M/F',
 	`user_pic`	varchar(120)	NULL	COMMENT '사진처리 어떻게 할건지',
 	`user_grade`	varchar(10)	NOT NULL	DEFAULT '일반회원'	COMMENT '환자 / 상담사 / 관리자',
-	`user_reward`	int	NOT NULL	DEFAULT 0	COMMENT 'default: 0'
+	`user_reward`	int	NOT NULL	DEFAULT 0	COMMENT 'default: 0',
+	`activated`	boolean	NOT NULL	DEFAULT TRUE
 );
 
 CREATE TABLE `reservation_item_tb` (
@@ -29,10 +32,8 @@ CREATE TABLE `reservation_item_tb` (
 
 CREATE TABLE `consultant_info_tb` (
 	`user_id`	char(20)	NOT NULL,
-	`cslt_team`	varchar(30)	NOT NULL,
-	`cslt_exp`	int	NOT NULL,
-	`cslt_tag`	varchar(80)	NOT NULL,
-	`cslt_boundary`	varchar(80)	NOT NULL
+	`cslt_team`	varchar(50)	NOT NULL,
+	`cslt_exp`	int	NOT NULL
 );
 
 CREATE TABLE `board_tb` (
@@ -125,13 +126,44 @@ CREATE TABLE `study_sentence_tb` (
 );
 
 CREATE TABLE `consultant_available_date` (
-	`상담일`	date	NOT NULL,
+	`available_date_id`	date	NOT NULL,
 	`user_id`	char(20)	NOT NULL
 );
 
 CREATE TABLE `consultant_available_time` (
-	`상담시간`	time	NOT NULL,
-	`상담일`	date	NOT NULL
+	`available_time_id`	time	NOT NULL,
+	`available_date_id`	date	NOT NULL
+);
+
+CREATE TABLE `tag_tb` (
+	`tag_id`	int	NOT NULL,
+	`tag_name`	varchar(20)	NOT NULL
+);
+
+CREATE TABLE `boundary_tb` (
+	`boundary_id`	int	NOT NULL,
+	`boundary_name`	varchar(20)	NOT NULL
+);
+
+CREATE TABLE `consultant_tag_tb` (
+	`id`	int	NOT NULL,
+	`tag_id`	int	NOT NULL,
+	`user_id`	char(20)	NOT NULL
+);
+
+CREATE TABLE `consultant_boundary_tb` (
+	`id`	int	NOT NULL,
+	`boundary_id`	int	NOT NULL,
+	`user_id`	char(20)	NOT NULL
+);
+
+CREATE TABLE `authority` (
+	`authority_name`	char(50)	NOT NULL
+);
+
+CREATE TABLE `user_authority` (
+	`authority_name`	char(50)	NOT NULL,
+	`user_id`	char(20)	NOT NULL
 );
 
 ALTER TABLE `user_tb` ADD CONSTRAINT `PK_USER_TB` PRIMARY KEY (
@@ -210,24 +242,39 @@ ALTER TABLE `study_sentence_tb` ADD CONSTRAINT `PK_STUDY_SENTENCE_TB` PRIMARY KE
 );
 
 ALTER TABLE `consultant_available_date` ADD CONSTRAINT `PK_CONSULTANT_AVAILABLE_DATE` PRIMARY KEY (
-	`상담일`
+	`available_date_id`
 );
 
 ALTER TABLE `consultant_available_time` ADD CONSTRAINT `PK_CONSULTANT_AVAILABLE_TIME` PRIMARY KEY (
-	`상담시간`
+	`available_time_id`
 );
 
-ALTER TABLE `reservation_item_tb` ADD CONSTRAINT `FK_user_tb_TO_reservation_item_tb_1` FOREIGN KEY (
-	`user_id`
-)
-REFERENCES `user_tb` (
+ALTER TABLE `tag_tb` ADD CONSTRAINT `PK_TAG_TB` PRIMARY KEY (
+	`tag_id`
+);
+
+ALTER TABLE `boundary_tb` ADD CONSTRAINT `PK_BOUNDARY_TB` PRIMARY KEY (
+	`boundary_id`
+);
+
+ALTER TABLE `consultant_tag_tb` ADD CONSTRAINT `PK_CONSULTANT_TAG_TB` PRIMARY KEY (
+	`id`,
+	`tag_id`,
 	`user_id`
 );
 
-ALTER TABLE `reservation_item_tb` ADD CONSTRAINT `FK_consultant_info_tb_TO_reservation_item_tb_1` FOREIGN KEY (
-	`cslt_id`
-)
-REFERENCES `consultant_info_tb` (
+ALTER TABLE `consultant_boundary_tb` ADD CONSTRAINT `PK_CONSULTANT_BOUNDARY_TB` PRIMARY KEY (
+	`id`,
+	`boundary_id`,
+	`user_id`
+);
+
+ALTER TABLE `authority` ADD CONSTRAINT `PK_AUTHORITY` PRIMARY KEY (
+	`authority_name`
+);
+
+ALTER TABLE `user_authority` ADD CONSTRAINT `PK_USER_AUTHORITY` PRIMARY KEY (
+	`authority_name`,
 	`user_id`
 );
 
@@ -238,32 +285,11 @@ REFERENCES `user_tb` (
 	`user_id`
 );
 
-ALTER TABLE `board_tb` ADD CONSTRAINT `FK_user_tb_TO_board_tb_1` FOREIGN KEY (
-	`user_id2`
-)
-REFERENCES `user_tb` (
-	`user_id`
-);
-
 ALTER TABLE `comment_tb` ADD CONSTRAINT `FK_board_tb_TO_comment_tb_1` FOREIGN KEY (
 	`board_id`
 )
 REFERENCES `board_tb` (
 	`board_id`
-);
-
-ALTER TABLE `comment_tb` ADD CONSTRAINT `FK_user_tb_TO_comment_tb_1` FOREIGN KEY (
-	`user_id`
-)
-REFERENCES `user_tb` (
-	`user_id`
-);
-
-ALTER TABLE `one_q_tb` ADD CONSTRAINT `FK_user_tb_TO_one_q_tb_1` FOREIGN KEY (
-	`user_id`
-)
-REFERENCES `user_tb` (
-	`user_id`
 );
 
 ALTER TABLE `one_a_tb` ADD CONSTRAINT `FK_one_q_tb_TO_one_a_tb_1` FOREIGN KEY (
@@ -343,16 +369,76 @@ REFERENCES `user_tb` (
 	`user_id`
 );
 
-ALTER TABLE `consultant_available_date` ADD CONSTRAINT `FK_consultant_info_tb_TO_consultant_available_date_1` FOREIGN KEY (
+ALTER TABLE `consultant_tag_tb` ADD CONSTRAINT `FK_tag_tb_TO_consultant_tag_tb_1` FOREIGN KEY (
+	`tag_id`
+)
+REFERENCES `tag_tb` (
+	`tag_id`
+);
+
+ALTER TABLE `consultant_tag_tb` ADD CONSTRAINT `FK_consultant_info_tb_TO_consultant_tag_tb_1` FOREIGN KEY (
 	`user_id`
 )
 REFERENCES `consultant_info_tb` (
 	`user_id`
 );
 
-ALTER TABLE `consultant_available_time` ADD CONSTRAINT `FK_consultant_available_date_TO_consultant_available_time_1` FOREIGN KEY (
-	`상담일`
+ALTER TABLE `consultant_boundary_tb` ADD CONSTRAINT `FK_boundary_tb_TO_consultant_boundary_tb_1` FOREIGN KEY (
+	`boundary_id`
 )
-REFERENCES `consultant_available_date` (
-	`상담일`
+REFERENCES `boundary_tb` (
+	`boundary_id`
 );
+
+ALTER TABLE `consultant_boundary_tb` ADD CONSTRAINT `FK_consultant_info_tb_TO_consultant_boundary_tb_1` FOREIGN KEY (
+	`user_id`
+)
+REFERENCES `consultant_info_tb` (
+	`user_id`
+);
+
+ALTER TABLE `user_authority` ADD CONSTRAINT `FK_authority_TO_user_authority_1` FOREIGN KEY (
+	`authority_name`
+)
+REFERENCES `authority` (
+	`authority_name`
+);
+
+ALTER TABLE `user_authority` ADD CONSTRAINT `FK_user_tb_TO_user_authority_1` FOREIGN KEY (
+	`user_id`
+)
+REFERENCES `user_tb` (
+	`user_id`
+);
+
+
+
+
+
+####################
+
+insert into tag_tb
+values    (1, '엄격한'), (2, '친근한'), (3, '친절한'), (4, '정적인'), (5, '발랄한'), (6, '활동적인');
+
+insert into boundary_tb
+values (1, '언어발달장애'), (2, '말소리장애'), (3, '신경언어장애'), (4, '유창성장애'), (5, '음성장애');
+
+insert into authority(AUTHORITY_NAME)
+values ('ROLE_USER');
+
+insert into authority(AUTHORITY_NAME)
+values ('ROLE_ADMIN');
+
+insert into authority(AUTHORITY_NAME)
+values ('ROLE_CSLT');
+
+insert into user_tb(`user_id`, `user_pwd`, `user_name`, `user_phone`, `user_email`, `user_info`, `user_age`, `user_sex`, `user_grade`)
+values('ssafy', 'ssafy', '김싸피', '010-1234-5678', 'ssafy@ssafy.com', '안녕하세요', 20, 'M', 'user');
+
+insert into user_tb(`user_id`, `user_pwd`, `user_name`, `user_phone`, `user_email`, `user_info`, `user_age`, `user_sex`, `user_grade`)
+values('admin', 'admin', '김싸피', '010-1111-1111', 'admin@ssafy.com', '안녕하세요', 20, 'M', 'admin');
+
+
+INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values ('ssafy', 'ROLE_USER');
+INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values ('admin', 'ROLE_USER');
+INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values ('admin', 'ROLE_ADMIN');

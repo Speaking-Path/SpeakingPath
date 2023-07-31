@@ -5,9 +5,13 @@ import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data // Getter & Setter
@@ -54,12 +58,26 @@ public class User implements UserDetails {
     @Column(name = "user_reward")
     private int userReward;
 
+    @Column(name = "activated")
+    private boolean activated;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+    private Set<Authority> authorities;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-//        return this.userGrade.stream()
+//        return null;
+//        return this.authorities.stream()
 //                .map(SimpleGrantedAuthority::new)
 //                .collect(Collectors.toList());
+        Collection<GrantedAuthority> collectors = new ArrayList<>();
+        collectors.add(()->{return "ROLE_"+userGrade;}); //add에 들어올 파라미터는 GrantedAuthority밖에 없으니
+
+        return collectors;
     }
 
     @Override
@@ -89,6 +107,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.activated;
     }
 }

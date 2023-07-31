@@ -5,6 +5,7 @@ import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
+import com.twinlions.spkpath.user.entity.Authority;
 import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.UserDto;
@@ -15,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -32,7 +35,12 @@ public class UserServiceImpl implements UserService{
      * @return userId
      */
     @Override
+//    @Transactional
     public String join(UserDto userDto) {
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
+                .build();
+
         User user = User.builder()
                 .userId(userDto.getUserId())
                 .userName(userDto.getUserName())
@@ -40,11 +48,13 @@ public class UserServiceImpl implements UserService{
                 .userSex(userDto.getUserSex())
                 .userAge(userDto.getUserAge())
                 .userEmail(userDto.getUserEmail())
-                .userGrade(userDto.getUserGrade())
+                .userGrade("user")
                 .userInfo(userDto.getUserInfo())
                 .userPhone(userDto.getUserPhone())
                 .userPic(userDto.getUserPic())
-                .userReward(userDto.getUserReward())
+                .userReward(userDto.getUserReward()) 
+                .activated(true) // 활성화 : 탈퇴 시 비활성화
+                .authorities(Collections.singleton(authority)) // 싱글톤으로 authority 추가
                 .build();
         try{
             userRepository.save(user);

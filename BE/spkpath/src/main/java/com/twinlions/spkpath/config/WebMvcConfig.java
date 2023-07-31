@@ -13,7 +13,7 @@ import java.util.List;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
-    private final List<String> patterns = Arrays.asList("/account/mypage");
+    private final List<String> patterns = Arrays.asList("/account/mypage", "/account/change");
     private final List<String> excludePatterns = Arrays.asList();
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
