@@ -1,11 +1,11 @@
 // 컨설턴트가 본인 상담시간 결정하는 컴포넌트
 
 
-import { ko } from 'date-fns/locale';
-import { useState, useEffect } from 'react';
-import { DayPicker } from 'react-day-picker';
-import './Calendar.css'
-import axios from 'axios';
+import { ko } from "date-fns/locale"
+import { useState, useEffect } from "react"
+import { DayPicker } from "react-day-picker"
+import "./Calendar.css"
+import axios from "axios"
 
 
 function CsltCalendar() {
@@ -64,8 +64,8 @@ function CsltCalendar() {
           month: timeSelected.month,
           day: timeSelected.day,
           time: time,
-        };
-      });
+        }
+      })
       axios.post("", data)
       .then((res)=> {
         alert("상담 시간 선택이 완료되었습니다.")

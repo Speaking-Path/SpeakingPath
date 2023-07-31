@@ -2,15 +2,15 @@
 
 
 
-import axios from 'axios';
-import { isSameDay } from 'date-fns';
-import { ko } from 'date-fns/locale';
-import { useState, useEffect } from 'react';
-import { DayPicker } from 'react-day-picker';
-import './Calendar.css'
-import { useSelector } from 'react-redux';
-import styles from './Calendar.module.css'
-import { format } from 'date-fns';
+import axios from "axios"
+import { isSameDay } from "date-fns"
+import { ko } from "date-fns/locale"
+import { useState, useEffect } from "react"
+import { DayPicker } from "react-day-picker"
+import "./Calendar.css"
+import { useSelector } from "react-redux"
+import styles from "./Calendar.module.css"
+import { format } from "date-fns"
 
 
 function RevCalendar() {
@@ -31,7 +31,7 @@ function RevCalendar() {
   })
 
   const [dayOfWeek, setDayOfWeek] = useState()
-  const dayList = ['일', '월', '화', '수', '목', '금', '토']
+  const dayList = ["일", "월", "화", "수", "목", "금", "토"]
 
   const days = [
     {
@@ -80,20 +80,20 @@ function RevCalendar() {
   }
 
   const isTimeExcluded = (time) => {
-    const selectedDate = new Date(selected);
-    const selectedYear = selectedDate.getFullYear();
+    const selectedDate = new Date(selected)
+    const selectedYear = selectedDate.getFullYear()
     const selectedMonth = selectedDate.getMonth()
-    const selectedDay = selectedDate.getDate();
+    const selectedDay = selectedDate.getDate()
 
     const filteredDays = days.filter(({ year, month, day }) =>
       year === selectedYear && month === selectedMonth && day === selectedDay
-    );
+    )
 
-    const timesArray = filteredDays.map(({ times }) => times);
-    const availableTimes = [].concat.apply([], timesArray);
+    const timesArray = filteredDays.map(({ times }) => times)
+    const availableTimes = [].concat.apply([], timesArray)
 
-    return !availableTimes.includes(time);
-  };
+    return !availableTimes.includes(time)
+  }
 
   const selectTime = (checked, time) => {
     if (checked) {
@@ -186,11 +186,18 @@ function RevCalendar() {
           <p className={styles.desc}>소속</p>
           <p>{selectedCsltInfo.csltTeam}</p>
           <p className={styles.desc}>전문 분야</p>
-          <p>{selectedCsltInfo.csltBoundary}</p>
+          <div className={styles.boundarys}>
+            {
+              selectedCsltInfo.csltBoundary.map((boundary, index) => (
+                <span key={index}>{boundary} </span>
+              ))
+            }
+          </div>
           <p className={styles.desc}>소개말</p>
           <p>{selectedCsltInfo.userInfo}</p>
           <p className={styles.desc}>연락처</p>
           <p>{selectedCsltInfo.userEmail}</p>
+          <p>{selectedCsltInfo.userPhone}</p>
         </div>
         <div className={`${styles.calendarMain} col-6`}>
           <p className={styles.selectDayMsg}>상담 날짜 선택</p>
@@ -207,36 +214,36 @@ function RevCalendar() {
         <div className={`${styles.selectTime} col-3`}>
           <p className={styles.selectTimeMsg}>시간 선택</p>
           <div>
-          {
-            timeSelected.year ? (
-          <div>
-            <p className={styles.dateNow}>{timeSelected.year}년 {timeSelected.month + 1}월 {timeSelected.day}일 ({dayList[dayOfWeek]})</p>
-            <div className={styles.dateBox}>
-              {
-                timesList.map((time, index) => {
-                  return (
-                    <div className={styles.labelAndInput} key={index}>
-                      <input className={styles.input} type="checkbox" name="times" id={time} value={index}
-                        checked={timeSelected.time === time}
-                        disabled={isTimeExcluded(time)}
-                        onChange={(e) => {
-                          selectTime(e.currentTarget.checked, time)
-                        }} />
-                      <label className={styles.label} htmlFor={time}>{time}</label>
-                    </div>
-                  )
-                })
-              }
-            </div>
-          </div>
+            {
+              timeSelected.year ? (
+                <div>
+                  <p className={styles.dateNow}>{timeSelected.year}년 {timeSelected.month + 1}월 {timeSelected.day}일 ({dayList[dayOfWeek]})</p>
+                  <div className={styles.dateBox}>
+                    {
+                      timesList.map((time, index) => {
+                        return (
+                          <div className={styles.labelAndInput} key={index}>
+                            <input className={styles.input} type="checkbox" name="times" id={time} value={index}
+                              checked={timeSelected.time === time}
+                              disabled={isTimeExcluded(time)}
+                              onChange={(e) => {
+                                selectTime(e.currentTarget.checked, time)
+                              }} />
+                            <label className={styles.label} htmlFor={time}>{time}</label>
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+                </div>
 
-            ) : (
-              <div className={styles.selDateWarning}>
-                <p>날짜를 선택해주세요</p>
-              </div>
-            )
-          }
-        </div>
+              ) : (
+                <div className={styles.selDateWarning}>
+                  <p>날짜를 선택해주세요</p>
+                </div>
+              )
+            }
+          </div>
         </div>
       </div>
       <button onClick={onReserv} className={`${styles.revButton} ${styles.btnFloat}`}>예약하기</button>

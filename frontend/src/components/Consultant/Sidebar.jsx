@@ -1,12 +1,12 @@
-import styles from './Sidebar.module.css'
-import { useState } from 'react';
-import axios from 'axios';
+import styles from "./Sidebar.module.css"
+import { useState } from "react"
+import axios from "axios"
 
 
 function Sidebar() {
 
-  const [tagsCheck, setTagsCheck] = useState(['엄격한', '친근한', '친절한', '정적인', '발랄한', '활동적인'])
-  const [boundarysCheck, setBoundarysCheck] = useState(['언어발달장애', '말소리장애', '신경언어장애', '유창성장애', '음성장애'])
+  const [tagsCheck, setTagsCheck] = useState(["엄격한", "친근한", "친절한", "정적인", "발랄한", "활동적인"])
+  const [boundarysCheck, setBoundarysCheck] = useState(["언어발달장애", "말소리장애", "신경언어장애", "유창성장애", "음성장애"])
 
   const [name, setName] = useState("")
   const [exp, setExp] = useState("")
@@ -24,12 +24,12 @@ function Sidebar() {
   }
 
   const changeExperience = (value) => {
-    setExp(value);
-  };
+    setExp(value)
+  }
 
   const changeSex = (value) => {
-    setSex(value);
-  };
+    setSex(value)
+  }
 
   const searchConsultant = () => {
     console.log(data)
@@ -46,33 +46,33 @@ function Sidebar() {
 
   const changeBoundary = (checked, item) => {
     if (checked) {
-      setBoundary([...boundary, item]);
+      setBoundary([...boundary, item])
     } else {
-      setBoundary(boundary.filter((el) => el !== item));
+      setBoundary(boundary.filter((el) => el !== item))
     }
   }
 
 
   const changeTag = (checked, item) => {
     if (checked) {
-      setTag([...tag, item]);
+      setTag([...tag, item])
     } else {
-      setTag(tag.filter((el) => el !== item));
+      setTag(tag.filter((el) => el !== item))
     }
   }
 
   const resetAll = () => {
     setExp("")
-    setSex("");
-    setBoundary([]);
-    setTag([]);
-  };
+    setSex("")
+    setBoundary([])
+    setTag([])
+  }
 
 
   return (
     <div className={styles.search}>
       <div className={`${styles.detail} container`}>
-        <div className='row'>
+        <div className="row">
           <p className={`${styles.detailP} col`}>상세검색</p>
           <button className={`${styles.reset} col`} onClick={resetAll}>초기화</button>
         </div>

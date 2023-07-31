@@ -1,15 +1,15 @@
 // 네비게이션 바
 
 import styles from './Navbar.module.css'
-import Container from 'react-bootstrap/Container';
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Nav, Navbar } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { changeLoginInfo } from '../../store/UserInfo';
-import { useEffect } from 'react';
+import Container from 'react-bootstrap/Container'
+// import Nav from 'react-bootstrap/Nav'
+// import Navbar from 'react-bootstrap/Navbar'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Nav, Navbar } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { changeLoginInfo } from '../../store/UserInfo'
+import { useEffect } from 'react'
 
 
 function NavBar() {
@@ -85,7 +85,7 @@ function NavBar() {
     </div>
 
     
-  );
+  )
 }
 
 export default NavBar
