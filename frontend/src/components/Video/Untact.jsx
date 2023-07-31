@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 // import { getToken, createSession, createToken } from './getToken';
 
 
-const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
+const APPLICATION_SERVER_URL = process.env.REACT_APP_OPENVIDU 
 
 const Untact = () => {
   const [mySessionId, setMySessionId] = useState(undefined);
