@@ -1,8 +1,5 @@
 package com.twinlions.spkpath.consultant.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.twinlions.spkpath.user.entity.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;

@@ -67,20 +67,20 @@ public class ConsultantServiceImpl implements ConsultantService {
                 .collect(Collectors.toList());
     }
 
-    private Consultant convertFromDto(ConsultantDto consultantDto) {
-        return Consultant.builder()
-                .userId(consultantDto.getUserId())
-                .userEmail(consultantDto.getUserEmail())
-                .userAge(consultantDto.getUserAge())
-                .userGrade(consultantDto.getUserGrade())
-                .userName(consultantDto.getUserName())
-                .userPhone(consultantDto.getUserPhone())
-                .userPwd(consultantDto.getUserPwd())
-                .userSex(consultantDto.getUserSex())
-                .csltExp(consultantDto.getCsltExp())
-                .csltTeam(consultantDto.getCsltTeam())
-                .build();
-    }
+//    private Consultant convertFromDto(ConsultantDto consultantDto) {
+//        return Consultant.builder()
+//                .userId(consultantDto.getUserId())
+//                .userEmail(consultantDto.getUserEmail())
+//                .userAge(consultantDto.getUserAge())
+//                .userGrade(consultantDto.getUserGrade())
+//                .userName(consultantDto.getUserName())
+//                .userPhone(consultantDto.getUserPhone())
+//                .userPwd(consultantDto.getUserPwd())
+//                .userSex(consultantDto.getUserSex())
+//                .csltExp(consultantDto.getCsltExp())
+//                .csltTeam(consultantDto.getCsltTeam())
+//                .build();
+//    }
 
     private ConsultantDto convertToDto(Consultant consultant) {
         ConsultantDto consultantDto = new ConsultantDto();

@@ -1,11 +1,8 @@
 package com.twinlions.spkpath.consultant;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.twinlions.spkpath.consultant.entity.ConsultantBoundary;
 import com.twinlions.spkpath.consultant.entity.ConsultantTag;
-import com.twinlions.spkpath.consultant.entity.Tag;
 import com.twinlions.spkpath.user.UserDto;
-import com.twinlions.spkpath.user.entity.User;
 import lombok.*;
 
 import java.util.List;

@@ -7,6 +7,5 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ConsultantTagRepository extends Repository<ConsultantTag, String>  {
-    Optional<List<ConsultantTag>> findByTagTagId(String tagId);
     ConsultantTag save(ConsultantTag consultantTag);
 }

@@ -2,7 +2,6 @@ package com.twinlions.spkpath.consultant.controller;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.ConsultantSearchDto;
-import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.service.ConsultantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
