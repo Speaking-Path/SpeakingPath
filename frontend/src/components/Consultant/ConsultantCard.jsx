@@ -7,7 +7,6 @@ import { changeCsltInfo } from "../../store/consultantInfo"
 
 
 function ConsultantCard({ consultant }) {
-  console.log(consultant)
   const selectedCsltInfo = useSelector((state) => { return state.selectedCsltInfo })
   const dispatch = useDispatch()
 
@@ -32,7 +31,7 @@ function ConsultantCard({ consultant }) {
           <img className={styles.profile} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
         </div>
         <div className="col">
-          <span>{consultant.username}</span>
+          <span>{consultant.userName}</span>
           {consultant.csltExp <= 3 && <span>수련 치료사</span>}
           {consultant.csltExp > 3 && consultant.csltExp <= 5 && <span>전문 치료사</span>}
           {consultant.csltExp > 5 && consultant.csltExp <= 10 && <span>프로 치료사</span>}

@@ -182,7 +182,7 @@ function RevCalendar() {
             <img className={styles.profile} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
 
           )}
-          <p className={styles.name}>{selectedCsltInfo.username}</p>
+          <p className={styles.name}>{selectedCsltInfo.userName}</p>
           <p className={styles.desc}>소속</p>
           <p>{selectedCsltInfo.csltTeam}</p>
           <p className={styles.desc}>전문 분야</p>
