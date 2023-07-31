@@ -1,6 +1,8 @@
 package com.twinlions.spkpath.consultant.entity;
 
-import com.twinlions.spkpath.config.StringListConverter;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.twinlions.spkpath.user.entity.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -26,7 +28,7 @@ public class Consultant extends User {
     private int csltExp;
 
     @OneToMany(mappedBy = "cslt")
-    private List<ConsultantTag> csltTags = new ArrayList<ConsultantTag>();
+    private List<ConsultantTag> csltTags = new ArrayList<>();
 
     @OneToMany(mappedBy = "cslt")
     private List<ConsultantBoundary> csltBoundaries = new ArrayList<>();
@@ -40,14 +42,4 @@ public class Consultant extends User {
                 ", csltBoundaries=" + csltBoundaries +
                 '}';
     }
-
-    /*
-    @Column(name = "cslt_tag", nullable = false)
-    @Convert(converter = StringListConverter.class)
-    private List<String> csltTag;
-
-    @Column(name = "cslt_boundary", nullable = false)
-    @Convert(converter = StringListConverter.class)
-    private List<String> csltBoundary;
-     */
 }

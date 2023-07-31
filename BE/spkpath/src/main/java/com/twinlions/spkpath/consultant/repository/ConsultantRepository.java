@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ConsultantRepository extends Repository<Consultant, String> {
-    Optional<Object> findAll();
+    List<Consultant> findAll();
     Optional<Object> findByUserId(String userId);
 
     List<Consultant> findAll(Specification<Consultant> example);

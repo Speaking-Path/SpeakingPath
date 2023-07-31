@@ -1,6 +1,5 @@
 package com.twinlions.spkpath.consultant.repository;
 
-import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.entity.ConsultantTag;
 import org.springframework.data.repository.Repository;
 

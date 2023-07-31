@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 public interface ConsultantService {
-    List<Consultant> listCslt();
-    List<Consultant> listCsltByCond(@RequestBody ConsultantSearchDto consultantDto);
+    List<ConsultantDto> listCslt();
+    List<ConsultantDto> listCsltByCond(@RequestBody ConsultantSearchDto consultantDto);
 }
