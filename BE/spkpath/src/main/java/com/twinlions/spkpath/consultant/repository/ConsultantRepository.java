@@ -11,7 +11,7 @@ public interface ConsultantRepository extends Repository<Consultant, String> {
     List<Consultant> findAll();
     Optional<Object> findByUserId(String userId);
 
-    List<Consultant> findAll(Specification<Consultant> example);
+    List<Consultant> findAll(Specification<Consultant> spec);
 
     Consultant save(Consultant consultant);
 }

@@ -54,6 +54,10 @@ public class User implements UserDetails {
     @Column(name = "user_reward")
     private int userReward;
 
+    public String getUserName() {
+        return userName;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -69,7 +73,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.userId;
+        return this.userName;
     }
 
     @Override

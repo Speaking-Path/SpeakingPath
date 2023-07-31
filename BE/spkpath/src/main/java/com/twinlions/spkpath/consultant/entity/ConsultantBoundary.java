@@ -17,7 +17,7 @@ public class ConsultantBoundary {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long Id;
+    private int Id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -27,12 +27,4 @@ public class ConsultantBoundary {
     @JoinColumn(name = "boundary_id")
     private Boundary boundary;
 
-    @Override
-    public String toString() {
-        return "ConsultantBoundary{" +
-                "Id=" + Id +
-                ", cslt=" + cslt +
-                ", boundary=" + boundary +
-                '}';
-    }
 }

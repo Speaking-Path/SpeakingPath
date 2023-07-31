@@ -127,8 +127,8 @@ public class UserServiceImpl implements UserService{
     public int login(UserDto userDto) {
         User user;
         //  만약 아이디 존재하면
-        if(userRepository.findById(userDto.getUserId()).isPresent()){
-            user = (User)userRepository.findById(userDto.getUserId()).get();
+        if(userRepository.findByUserId(userDto.getUserId()).isPresent()){
+            user = (User)userRepository.findByUserId(userDto.getUserId()).get();
             if(passwordEncoder.matches(user.getUserPwd(), userDto.getUserPwd())){ // id와 pwd가 일치한다면
                 return 1; // login 성공
             }
@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public int checkId(String userId){
-        if(!userRepository.findById(userId).isPresent()){ // 아이디가 존재하지 않으면
+        if(!userRepository.findByUserId(userId).isPresent()){ // 아이디가 존재하지 않으면
             return 1;
         }else{ // 아이디가 존재하지 않으면
             return -1;

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends Repository<User, String> {
-    Optional<Object> findById(String userId);
+//    Optional<Object> findById(String userId);
     Optional<User> findByUserId(String userId);
     Optional<Object> findByUserEmail(String userEmail);
     User save(User user);

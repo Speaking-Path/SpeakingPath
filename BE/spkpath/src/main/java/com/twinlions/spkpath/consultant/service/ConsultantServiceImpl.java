@@ -35,13 +35,16 @@ public class ConsultantServiceImpl implements ConsultantService {
 
     @Override
     public List<ConsultantDto> listCsltByCond(ConsultantSearchDto consultantDto) {
-        Specification<Consultant> spec = ((root, query, criteriaBuilder) -> null);
+        Specification<Consultant> spec = (root, query, criteriaBuilder) -> null;
 
-        if (consultantDto.getUserName() != null) {
+        System.out.println(consultantDto);
+
+        if (consultantDto.getUserName() != "") {
+            System.out.println(consultantDto.getUserName());
             spec = spec.and(ConsultantSpecification.equalsName(consultantDto.getUserName()));
         }
 
-        if (consultantDto.getUserSex() != null) {
+        if (consultantDto.getUserSex() != "") {
             spec = spec.and(ConsultantSpecification.equalsSex(consultantDto.getUserSex()));
         }
 
@@ -57,11 +60,13 @@ public class ConsultantServiceImpl implements ConsultantService {
 
         if (consultantDto.getCsltBoundary() != null) {
             for (String boundary : consultantDto.getCsltBoundary()) {
+                System.out.println(boundary);
                 spec = spec.and(ConsultantSpecification.containsBoundary(boundary));
             }
         }
 
         List<Consultant> consultants = consultantRepository.findAll(spec);
+        System.out.println(consultants);
         return consultants.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
@@ -88,6 +93,7 @@ public class ConsultantServiceImpl implements ConsultantService {
         consultantDto.setUserEmail(consultant.getUserEmail());
         consultantDto.setUserAge(consultant.getUserAge());
         consultantDto.setUserGrade(consultant.getUserGrade());
+        consultantDto.setUserName(consultant.getUserName());
         consultantDto.setUserPhone(consultant.getUserPhone());
         consultantDto.setUserPwd(consultant.getUserPwd());
         consultantDto.setUserSex(consultant.getUserSex());

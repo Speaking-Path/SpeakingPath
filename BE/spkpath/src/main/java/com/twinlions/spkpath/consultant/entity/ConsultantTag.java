@@ -19,7 +19,7 @@ public class ConsultantTag {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long Id;
+    private int Id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -28,14 +28,5 @@ public class ConsultantTag {
     @ManyToOne
     @JoinColumn(name = "tag_id")
     private Tag tag;
-
-    @Override
-    public String toString() {
-        return "ConsultantTag{" +
-                "Id=" + Id +
-                ", cslt=" + cslt +
-                ", tag=" + tag +
-                '}';
-    }
 
 }

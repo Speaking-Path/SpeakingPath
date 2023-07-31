@@ -14,7 +14,10 @@ import static com.fasterxml.jackson.databind.type.LogicalType.Collection;
 public class ConsultantSpecification {
 
     public static Specification<Consultant> equalsName(String name) {
-        return (root, query, CriteriaBuilder) -> CriteriaBuilder.like(root.get("userName"), "%" + name + "%");
+        return (root, query, CriteriaBuilder) -> {
+            System.out.println(root.get("userName"));
+            return CriteriaBuilder.like(root.get("userName"), "%" + name + "%");
+        };
     }
 
     public static Specification<Consultant> equalsSex(String sex) {
