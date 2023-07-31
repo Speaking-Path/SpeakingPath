@@ -1,13 +1,14 @@
-.apply {
-  margin-top: 80px;
-  margin-left: 5%;
-  margin-right: 5%;
+.infoAndCalendar {
+  font-size: 15px;
 }
 
 .title {
   display: inline-block;
   border-left : 3.5px solid black;
-  
+}
+
+.write {
+  margin-left: 5%;
 }
 
 .titleinfo {
@@ -25,10 +26,4 @@
 .sidebarAndList {
   font-size: 15px;
   margin-top: 45px;
-}
-
-.sidebar {
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border: 1px solid #D9D9D9;
 }

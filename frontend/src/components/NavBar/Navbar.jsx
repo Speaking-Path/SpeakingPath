@@ -4,7 +4,7 @@ import styles from './Navbar.module.css'
 import Container from 'react-bootstrap/Container';
 // import Nav from 'react-bootstrap/Nav';
 // import Navbar from 'react-bootstrap/Navbar';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -16,8 +16,11 @@ function NavBar() {
   const loginToken = useSelector((state) => { return state.loginToken })
   const dispatch = useDispatch()
 
-  console.log(loginToken)
+  const loginNow = localStorage.getItem("accessToken")
+  const navigate = useNavigate()
 
+  useEffect(()=>{
+  }, [loginNow])
 
 
   return (
@@ -44,47 +47,45 @@ function NavBar() {
 
           <Nav className={styles.part2}>
             {
-              loginToken ? (
+              localStorage.getItem("accessToken") ? (
                 <div>
-                <NavLink className={styles.lasttab}
-                  style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
-                  to="account/mypage">
-                  프로필</NavLink>
+                  <NavLink className={styles.lasttab}
+                    style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
+                    to="account/mypage">
+                    프로필</NavLink>
 
-                <NavLink className={styles.lasttab} onClick={()=>{
-                  dispatch(changeLoginInfo(""))
-                  console.log(loginToken)}}>
-                  로그아웃</NavLink>
-              </div>
-  
-               ) :
-              ( 
-                <div>
-                <NavLink className={`${styles.lasttab} ms-auto`}
-                  style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
-                  to="account/signup">
-                  회원가입</NavLink>
+                  <NavLink className={styles.lasttab} onClick={() => {
+                    dispatch(changeLoginInfo(""))
+                    localStorage.clear()
+                  }}>
+                    로그아웃</NavLink>
+                </div>
 
-                <NavLink className={styles.lasttab}
-                  style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
-                  to="account/login">
-                  로그인</NavLink>
-              </div>
-               )
-            } 
+              ) :
+                (
+                  <div>
+                    <NavLink className={`${styles.lasttab} ms-auto`}
+                      style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
+                      to="account/signup">
+                      회원가입</NavLink>
 
-
-
+                    <NavLink className={styles.lasttab}
+                      style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
+                      to="account/login">
+                      로그인</NavLink>
+                  </div>
+                )
+            }
           </Nav>
         </Container>
+        <hr />
       </Navbar>
-      <div >
-
+      <div className={`${styles.drdn} container`}>
       </div>
-      <p></p>
-      <p></p>
     </div>
+
+    
   );
 }
 
-export { NavBar };
+export default NavBar

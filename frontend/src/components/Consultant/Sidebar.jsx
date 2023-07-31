@@ -14,8 +14,6 @@ function Sidebar() {
   const [boundary, setBoundary] = useState([])
   const [tag, setTag] = useState([])
 
-  const [tmpExp, setTmpExp] = useState("")
-
 
   const data = {
     "userName": name,
@@ -25,8 +23,16 @@ function Sidebar() {
     "csltTag": tag
   }
 
+  const changeExperience = (value) => {
+    setExp(value);
+  };
+
+  const changeSex = (value) => {
+    setSex(value);
+  };
 
   const searchConsultant = () => {
+    console.log(data)
       axios.post("http://localhost:8080/cslt", data)
         .then((res) => {
           console.log(res)
@@ -64,7 +70,14 @@ function Sidebar() {
 
 
   return (
-    <div>
+    <div className={styles.search}>
+      <div className={`${styles.detail} container`}>
+        <div className='row'>
+          <p className={`${styles.detailP} col`}>상세검색</p>
+          <button className={`${styles.reset} col`} onClick={resetAll}>초기화</button>
+        </div>
+      </div>
+        <hr />
       <div className={`${styles.searchinput}`}>
         <label htmlFor=""></label>
         <input type="text" placeholder="상담사 이름"
@@ -73,38 +86,27 @@ function Sidebar() {
           }} />
       </div>
       <hr />
-      <div className={`${styles.detail} container`}>
-        <div className='row'>
-          <p className='col'>상세조건</p>
-          <button className={`${styles.reset} col`} onClick={resetAll}>초기화</button>
-        </div>
-      </div>
-      <hr />
       <div>
         <p>치료사 경력</p>
         <div>
           <div>
-            <input type="radio" id="training" name="exp" value="3"
-            onChange={(e)=>{
-              setExp(e.target.value)
-              setTmpExp(e.target.value)
-            }}
-            checked={false}/>
+            <input type="checkbox" id="training" value="3"
+            onChange={(e)=>changeExperience(3)} checked={exp===3}/>
             <label htmlFor="training">수련 치료사(~3년)</label>
           </div>
           <div>
-            <input type="radio" id="speciality" name="exp" value="5"
-            onClick={(e)=>{setExp(e.target.value)}}/>
+            <input type="checkbox" id="speciality" value="5"
+            onChange={(e)=>changeExperience(5)} checked={exp===5}/>
             <label htmlFor="speciality">전문 치료사(~5년)</label>
           </div>
           <div>
-            <input type="radio" id="master" name="exp" value="10"
-            onClick={(e)=>{setExp(e.target.value)}}/>
+            <input type="checkbox" id="master" value="10"
+            onChange={(e)=>changeExperience(10)} checked={exp===10}/>
             <label htmlFor="master">마스터 치료사(~10년)</label>
           </div>
           <div>
-            <input type="radio" id="pro" name="exp" value="11"
-            onClick={(e)=>{setBoundary(e.target.value)}}/>
+            <input type="checkbox" id="pro" value="11"
+            onChange={(e)=>changeExperience(11)} checked={exp===11}/>
             <label htmlFor="pro">프로 치료사(10년~)</label>
           </div>
         </div>
@@ -112,14 +114,13 @@ function Sidebar() {
       <div>
         <p>상담사 성별</p>
         <div>
-          <input type="radio" name="sex" id="여성" value="F"
-          onClick={(e) =>{
-            setSex(e.target.value)}}/>
+          <input type="checkbox" id="여성" value="F"
+          onChange={(e) =>{changeSex(e.target.value)}} checked={sex==="F"}/>
           <label htmlFor="여성">여성</label>
         </div>
         <div>
-          <input type="radio" name="sex" id="남성" value="M"
-          onClick={(e) =>{setSex(e.target.value)}}/>
+          <input type="checkbox" id="남성" value="M"
+          onChange={(e) =>{changeSex(e.target.value)}} checked={sex==="M"}/>
           <label htmlFor="남성">남성</label>
         </div>
       </div>

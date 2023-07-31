@@ -5,7 +5,7 @@ import UserSignup from './pages/UserSignup'
 import ConsultantSignup from './pages/ConsultantSignup'
 import UserInformation from './components/profile/UserInformation'
 import Login from './pages/Login'
-import { NavBar } from './components/NavBar/Navbar';
+import NavBar from './components/NavBar/Navbar';
 import MainPage from './pages/MainPage';
 import UntactConsult from './components/Video/Untact'
 import Consultant from './pages/Consultant'
@@ -17,10 +17,12 @@ import PickPic from './components/Practice/PickPic';
 import Sentence from './components/Practice/Sentence';
 import Syllable from './components/Practice/Syllable';
 import Word from './components/Practice/Word';
+import { useEffect } from 'react';
 
 
 
 function App() {
+
   return (
     <div className="App">
       <NavBar/> 
@@ -40,8 +42,9 @@ function App() {
         <Route path="/practice/recog/select-name" element={<PickPic/>}/>
 
         <Route path="/consulting" element={<Consultant/>}/>
-        <Route path="/consulting/reservation/:csltid" element={<Reservation/>}/>
+        <Route path="/consulting/reservation" element={<Reservation/>}/>
         <Route path="/consulting/rev" element={<CsltCalendar/>}/>
+
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}
         <Route path="/consulting/meeting" element={<UntactConsult/>}/>
       </Routes>
