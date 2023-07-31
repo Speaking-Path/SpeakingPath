@@ -35,7 +35,7 @@ function UserInformation() {
                                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
                                     className="rounded-circle img-fluid" style={{ width: "150px" }} />
                                 <h5 className="my-3">Jihyon Seo</h5>
-                                <p className="text-muted mb-3">jenkins test</p>
+                                <p className="text-muted mb-3">jenkins Test2</p>
                                 {/* <p className="text-muted mb-4">안녕하세요</p> */}
                                 <div className="d-flex justify-content-center mb-2">
                                     <button type="button" className="btn btn-primary">회원정보수정</button>
