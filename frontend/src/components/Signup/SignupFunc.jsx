@@ -1,6 +1,6 @@
 import { login } from "./AuthAPI"
 
-export const onChangeEmail = function(e, setEmail, setEmailMessage) {
+export const onChangeEmail = function (e, setEmail, setEmailMessage) {
   const currentEmail = e.target.value
   setEmail(currentEmail)
   const emailRegExp =
@@ -13,27 +13,28 @@ export const onChangeEmail = function(e, setEmail, setEmailMessage) {
   )
 }
 
-export const onChangePhoneNumber = function(e, setPhoneNumber, setPhoneNumberMessage) {
-  const currentPhoneNumber = e.target.value;
-  
-  const regPhone = (phoneNumber) => {
-    return phoneNumber.replace(/[^0-9]/g, "").replace(/(\d{3})(\d{4})(\d)/, "$1-$2-$3");
-  };
-  
-  setPhoneNumber(regPhone(currentPhoneNumber));
-  const phoneRegExp = /^[0-9\b -]{0,13}$/;
+export const onChangePhoneNumber = function (e, setPhoneNumber, setPhoneNumberMessage) {
+  const currentPhoneNumber = e.target.value.replace(/[^0-9]/g, ''); // 하이픈을 제거하고 숫자만 남깁니다.
 
-  if (currentPhoneNumber.replace(/[^0-9]/g, "").length > 11) {
+  const regPhone = (phoneNumber) => {
+    return phoneNumber.replace(/(\d{3})(\d{4})(\d)/, "$1-$2-$3");
+  };
+
+  const formattedPhoneNumber = regPhone(currentPhoneNumber);
+  setPhoneNumber(formattedPhoneNumber);
+
+  const phoneRegExp = /^[0-9]{0,13}$/;
+
+  if (currentPhoneNumber.length > 11) {
     setPhoneNumberMessage("핸드폰 번호를 입력해 주세요.");
-  } 
-  else if (!phoneRegExp.test(currentPhoneNumber)) {
+  } else if (!phoneRegExp.test(currentPhoneNumber)) {
     setPhoneNumberMessage("숫자만 입력해 주세요.");
   } else {
     setPhoneNumberMessage("");
   }
 };
 
-export const onChangeId = function(e, setId, setIdMessage) {
+export const onChangeId = function (e, setId, setIdMessage) {
   const currentId = e.target.value
   setId(currentId)
   const idRegExp = /^[a-zA-z0-9]{4,12}$/
@@ -45,15 +46,15 @@ export const onChangeId = function(e, setId, setIdMessage) {
   }
 }
 
-export const onChangePassword = function(e, setPassword, setPasswordMessage, setIsPassword) {
-  const currentPassword = e.target.value;
-  setPassword(currentPassword);
+export const onChangePassword = function (e, setPassword, setPasswordMessage, setIsPassword) {
+  const currentPassword = e.target.value
+  setPassword(currentPassword)
   const passwordRegExp =
     /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
   if (!passwordRegExp.test(currentPassword)) {
     setPasswordMessage(
       "숫자, 영문, 특수문자 조합으로 8자리 이상 입력해주세요."
-    );
+    )
     setIsPassword(false)
   } else {
     setPasswordMessage("")
@@ -61,20 +62,20 @@ export const onChangePassword = function(e, setPassword, setPasswordMessage, set
   }
 }
 
-export const onChangePasswordConfirm = function(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm) {
-  const currentPasswordConfirm = e.target.value;
+export const onChangePasswordConfirm = function (e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm) {
+  const currentPasswordConfirm = e.target.value
   setPasswordConfirm(currentPasswordConfirm)
   if (password !== currentPasswordConfirm) {
-    setPasswordConfirmMessage("같은 비밀번호를 입력해주세요.");
+    setPasswordConfirmMessage("같은 비밀번호를 입력해주세요.")
     setIsPasswordConfirm(false)
   } else {
-    setPasswordConfirmMessage("");
-    setPasswordConfirm(currentPasswordConfirm);
+    setPasswordConfirmMessage("")
+    setPasswordConfirm(currentPasswordConfirm)
     setIsPasswordConfirm(true)
   }
 }
 
-export const onChangeExp = function(e, setExp, setExpMessage, setIsExp) {
+export const onChangeExp = function (e, setExp, setExpMessage, setIsExp) {
   const currentExp = e.target.value
   setExp(currentExp)
   const ExpReg = /^[0-9]{0,13}$/
@@ -90,14 +91,15 @@ export const onChangeExp = function(e, setExp, setExpMessage, setIsExp) {
 
 export const clickLogin = async (e, data) => {
   e.preventDefault()
-  await login(data)
-  .then((response) => {
-      localStorage.clear()
-      localStorage.setItem('tokenType', response.tokenType)
-      localStorage.setItem('accessToken', response.accessToken)
-      localStorage.setItem('refreshToken', response.refreshToken)
-      console.log(response)
-  }).catch((error) => {
-      console.log(error)
-  })
+  const response = await login(data)
+  if (response===0) {
+    alert("아이디와 비밀번호를 확인해주세요")
+    return 0
+  } else {
+    localStorage.clear()
+    localStorage.setItem('tokenType', response.grantType)
+    localStorage.setItem('accessToken', response.accessToken)
+    localStorage.setItem('refreshToken', response.refreshToken)
+    return 1
+  }
 }

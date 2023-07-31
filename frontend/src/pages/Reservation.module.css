@@ -1,0 +1,29 @@
+.infoAndCalendar {
+  font-size: 15px;
+}
+
+.title {
+  display: inline-block;
+  border-left : 3.5px solid black;
+}
+
+.write {
+  margin-left: 5%;
+}
+
+.titleinfo {
+  margin-left: 4px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.applystart {
+  margin-top: 50px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.sidebarAndList {
+  font-size: 15px;
+  margin-top: 45px;
+}

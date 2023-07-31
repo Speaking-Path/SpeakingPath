@@ -1,17 +1,17 @@
-import styles from './Sidebar.module.css'
-import { useState } from 'react';
-import axios from 'axios';
+import styles from "./Sidebar.module.css"
+import { useState } from "react"
+import axios from "axios"
 
 
 function Sidebar() {
 
-  const [tagsCheck, setTagsCheck] = useState(['엄격한', '친근한', '친절한', '정적인', '발랄한', '활동적인'])
-  const [boundrysCheck, setBoundrysCheck] = useState(['언어발달장애', '말소리장애', '신경언어장애', '유창성장애', '음성장애'])
+  const [tagsCheck, setTagsCheck] = useState(["엄격한", "친근한", "친절한", "정적인", "발랄한", "활동적인"])
+  const [boundarysCheck, setBoundarysCheck] = useState(["언어발달장애", "말소리장애", "신경언어장애", "유창성장애", "음성장애"])
 
   const [name, setName] = useState("")
   const [exp, setExp] = useState("")
   const [sex, setSex] = useState("")
-  const [boundry, setBoundry] = useState([])
+  const [boundary, setBoundary] = useState([])
   const [tag, setTag] = useState([])
 
 
@@ -19,45 +19,65 @@ function Sidebar() {
     "userName": name,
     "csltExp": exp,
     "userSex": sex,
-    "csltBoundary": boundry,
+    "csltBoundary": boundary,
     "csltTag": tag
   }
 
+  const changeExperience = (value) => {
+    setExp(value)
+  }
 
-  const searchConsultant = e => {
+  const changeSex = (value) => {
+    setSex(value)
+  }
+
+  const searchConsultant = () => {
     console.log(data)
-    // if (e.key === "Enter") {
-    //   axios.get("http://localhost:8080/cslt", data)
-    //     .then((res) => {
-
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //     })
-    // }
+      axios.post("http://localhost:8080/cslt", data)
+        .then((res) => {
+          console.log(res)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
   }
 
 
-  const changeBoundry = (checked, item) => {
+
+  const changeBoundary = (checked, item) => {
     if (checked) {
-      setBoundry([...boundry, item]);
+      setBoundary([...boundary, item])
     } else {
-      setBoundry(boundry.filter((el) => el !== item));
+      setBoundary(boundary.filter((el) => el !== item))
     }
   }
 
 
   const changeTag = (checked, item) => {
     if (checked) {
-      setTag([...tag, item]);
+      setTag([...tag, item])
     } else {
-      setTag(tag.filter((el) => el !== item));
+      setTag(tag.filter((el) => el !== item))
     }
+  }
+
+  const resetAll = () => {
+    setExp("")
+    setSex("")
+    setBoundary([])
+    setTag([])
   }
 
 
   return (
-    <div>
+    <div className={styles.search}>
+      <div className={`${styles.detail} container`}>
+        <div className="row">
+          <p className={`${styles.detailP} col`}>상세검색</p>
+          <button className={`${styles.reset} col`} onClick={resetAll}>초기화</button>
+        </div>
+      </div>
+        <hr />
       <div className={`${styles.searchinput}`}>
         <label htmlFor=""></label>
         <input type="text" placeholder="상담사 이름"
@@ -66,34 +86,27 @@ function Sidebar() {
           }} />
       </div>
       <hr />
-      <div className={`${styles.detail} container`}>
-        <div className='row'>
-          <p className='col'>상세조건</p>
-          <button className={`${styles.reset} col`}>초기화</button>
-        </div>
-      </div>
-      <hr />
       <div>
         <p>치료사 경력</p>
         <div>
           <div>
-            <input type="radio" id="training" name="exp" value="수련 치료사"
-            onClick={(e)=>{setExp(e.target.value)}}/>
+            <input type="checkbox" id="training" value="3"
+            onChange={(e)=>changeExperience(3)} checked={exp===3}/>
             <label htmlFor="training">수련 치료사(~3년)</label>
           </div>
           <div>
-            <input type="radio" id="speciality" name="exp" value="전문 치료사"
-            onClick={(e)=>{setExp(e.target.value)}}/>
+            <input type="checkbox" id="speciality" value="5"
+            onChange={(e)=>changeExperience(5)} checked={exp===5}/>
             <label htmlFor="speciality">전문 치료사(~5년)</label>
           </div>
           <div>
-            <input type="radio" id="master" name="exp" value="마스터 치료사"
-            onClick={(e)=>{setExp(e.target.value)}}/>
+            <input type="checkbox" id="master" value="10"
+            onChange={(e)=>changeExperience(10)} checked={exp===10}/>
             <label htmlFor="master">마스터 치료사(~10년)</label>
           </div>
           <div>
-            <input type="radio" id="pro" name="exp" value="프로 치료사"
-            onClick={(e)=>{setBoundry(e.target.value)}}/>
+            <input type="checkbox" id="pro" value="11"
+            onChange={(e)=>changeExperience(11)} checked={exp===11}/>
             <label htmlFor="pro">프로 치료사(10년~)</label>
           </div>
         </div>
@@ -101,13 +114,13 @@ function Sidebar() {
       <div>
         <p>상담사 성별</p>
         <div>
-          <input type="radio" name="sex" id="여성" value="F"
-          onClick={(e) =>{setSex(e.target.value)}}/>
+          <input type="checkbox" id="여성" value="F"
+          onChange={(e) =>{changeSex(e.target.value)}} checked={sex==="F"}/>
           <label htmlFor="여성">여성</label>
         </div>
         <div>
-          <input type="radio" name="sex" id="남성" value="M"
-          onClick={(e) =>{setSex(e.target.value)}}/>
+          <input type="checkbox" id="남성" value="M"
+          onChange={(e) =>{changeSex(e.target.value)}} checked={sex==="M"}/>
           <label htmlFor="남성">남성</label>
         </div>
       </div>
@@ -115,15 +128,15 @@ function Sidebar() {
         <p>치료 가능 영역</p>
         <div>
           {
-            boundrysCheck.map((boundrys, index) => {
+            boundarysCheck.map((boundarys, index) => {
               return (
                 <div key={index}>
-                  <input type="checkbox" id={boundrys}
+                  <input type="checkbox" id={boundarys}
                     onChange={(e) => {
-                      changeBoundry(e.currentTarget.checked, boundrys)
+                      changeBoundary(e.currentTarget.checked, boundarys)
                     }}
-                    checked={boundry.includes(boundrys) ? true : false}></input>
-                  <label htmlFor={boundrys}>{boundrys}</label>
+                    checked={boundary.includes(boundarys) ? true : false}></input>
+                  <label htmlFor={boundarys}>{boundarys}</label>
                 </div>
               )
             })

@@ -1,18 +1,19 @@
 // 로그인, 회원가입 요청
 
 
+
 import axios from "axios";
 
-const TOKEN_TYPE = localStorage.getItem("tokenType")
-let ACCESS_TOKEN = localStorage.getItem("accessToken")
+// const TOKEN_TYPE = localStorage.getItem("tokenType")
+// let ACCESS_TOKEN = localStorage.getItem("accessToken")
 
 
 export const AuthApi = axios.create({
-    baseURL: 'http://localhost:8080',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
-    },
+    baseURL: '/',
+    // headers: {
+    //     'Content-Type': 'application/json',
+    //     'Authorization': `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
+    // },
 })
 
 
@@ -25,7 +26,7 @@ export const clickSignup = async function (e, data) {
     "userPhone" : data.phoneNumber,
     "userId" : data.id,
     "userPwd" : data.password,
-    "userGrade" : "일반회원",
+    "userGrade" : "user",
   }
   try {
     const response = await AuthApi.post(`account/signup`, userInfo)
@@ -51,8 +52,9 @@ export const clickConsultantSignup = async function (e, data) {
     "csltTag" : data.tag,
     "csltBoundary" : data.boundry,
     "userSex" : data.sex,
-    "userGrade" : "상담사",
+    "userGrade" : "consultant",
   }
+  console.log(userInfo)
   console.log(data)
   try {
     const response = await AuthApi.post(`account/consultantsignup`, userInfo)
@@ -69,19 +71,22 @@ export const login = async (data) => {
   const userInfo = {
     "userId" : data.id,
     "userPwd" : data.password,
+  };
+  
+  try {
+    const response = await AuthApi.post(`account/login`, userInfo);
+    return response.data;
+  } catch (error) {
+    return 0;
   }
-  console.log(userInfo)
-  const response = await AuthApi.post(`account/login`, userInfo)
-  console.log(response)
-  return response.data
-}
+};
 
 
 
 export const checkEmailApi = function (e, email, setEmailMessage, setIsEmail) {
   e.preventDefault()
   axios
-  .get("http://localhost:8080/account/checkemail",
+  .get("/account/checkemail",
   {params : { "userEmail" : email}})
   .then((res)=>{
     if (res.data === "success") {
@@ -99,7 +104,7 @@ export const checkEmailApi = function (e, email, setEmailMessage, setIsEmail) {
 
 export const checkIdApi = function (e, id, setIdMessage, setIsId) {
   e.preventDefault()
-  axios.get("http://localhost:8080/account/checkid",
+  axios.get("/account/checkid",
   {params : {"userId" : id}})
   .then((res)=>{
     if (res.data === "success") {

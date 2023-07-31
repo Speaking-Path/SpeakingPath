@@ -1,14 +1,22 @@
 // 로그인 페이지
 
 import { useState } from "react"
-import { clickLogin } from "./SignupFunc"
 import { useNavigate } from "react-router-dom"
-import styles from './UserLogin.module.css'
+import styles from "./UserLogin.module.css"
 import { NavLink } from "react-router-dom"
+import { clickLogin } from "./SignupFunc"
+import { useSelector } from "react-redux/es/hooks/useSelector"
+import { useDispatch } from "react-redux"
+import { changeLoginId, changeLoginInfo } from "../../store/UserInfo"
+
 
 function UserLogin() {
   const [id, setId] = useState("")
   const [password, setPassword] = useState("")
+
+  const loginToken = useSelector((state)=> {return state.loginToken})
+  const loginId = useSelector((state)=>{ return state.loginId})
+  const dispatch = useDispatch()
 
   const data = {id, password}
 
@@ -30,9 +38,14 @@ function UserLogin() {
         </div>
         <p className={styles.forgot}>로그인 정보를 잊으셨나요?</p>
         <button className={styles.loginBtn} variant="contained" 
-        onClick={(e)=> {
-          clickLogin(e, data)
-          navigate("/")
+        onClick={async (e)=> {
+          const loginRes = await clickLogin(e, data)
+          if (loginRes===1) {
+            navigate("/")
+            const ACCESS_TOKEN = localStorage.getItem("accessToken")
+            dispatch(changeLoginInfo(ACCESS_TOKEN))
+            dispatch(changeLoginId(id))
+          }
           }}>로그인</button>
         <div className={styles.join}>
         <span>아직 계정이 없으신가요? </span>

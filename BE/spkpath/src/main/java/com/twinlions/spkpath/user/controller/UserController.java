@@ -1,10 +1,9 @@
 package com.twinlions.spkpath.user.controller;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
-import com.twinlions.spkpath.consultant.entity.Consultant;
-import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
-import com.twinlions.spkpath.user.entity.User;
+import com.twinlions.spkpath.jwt.service.JwtService;
 import com.twinlions.spkpath.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,8 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor // 생성자 사용하지 않기 위해
 @RequestMapping("/account")
@@ -30,7 +27,8 @@ public class UserController {
 
     private final UserService userService;
     // Todo: JWT 구현해야함
-    // private JwtService jwtService;
+
+     private JwtService jwtService;
 
     @PostMapping(value = "/signup")
     @ApiResponses(value = {
@@ -77,14 +75,8 @@ public class UserController {
     })
     @Operation(summary = "로그인", description = "로그인을 위한 정보를 입력한다.")
     public ResponseEntity<?> login(@RequestBody UserDto userDto){
-        int result = userService.login(userDto);
-        if( result == -1){
-            return new ResponseEntity<>("wrong", HttpStatus.OK);
-        }else if(result == 0){
-            return new ResponseEntity<>("fail", HttpStatus.OK);
-        }else{
-            return new ResponseEntity<>("success", HttpStatus.OK);
-        }
+        TokenDto tokenDto = userService.login(userDto.getUserId(), userDto.getUserPwd());
+        return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
 
     @GetMapping(value = "/checkid")

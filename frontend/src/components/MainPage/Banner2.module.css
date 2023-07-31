@@ -1,0 +1,45 @@
+.banner{
+    margin: 0 18.75rem;
+}
+
+.banner_text_all{
+    /* padding: 30rem; */
+}
+
+.banner_text1{
+
+    /* background-color: blue; */
+    font-size: 30px;
+    font-weight: bold;
+
+    color: rgb(0, 0, 0);
+
+    border: none;
+    padding-top: 12.5rem;
+    text-align: left;
+}
+
+.banner_text2{
+
+    font-size: 25px;
+    font-weight: bold;
+
+    color: #BBBBBB;
+
+    border: none;
+    padding-bottom: 1.875rem;
+    text-align: left;
+}
+
+.banner_text1_blue{
+    color: blue;
+}
+
+.banner_img1{
+    width: 62.5rem !important; 
+    height: auto;
+    justify-content: center !important;
+    text-align: center !important;
+    display: inline-block;
+    padding-bottom: 12.5rem;
+}
