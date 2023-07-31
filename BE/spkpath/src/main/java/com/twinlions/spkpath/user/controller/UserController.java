@@ -4,6 +4,7 @@ import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.jwt.service.JwtService;
+import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,6 +30,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final CustomUserDetailsService customUserDetailsService;
     // Todo: JWT 구현해야함
 
      private JwtService jwtService;
@@ -104,10 +107,15 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/mypage")
+    @PostMapping(value = "/mypage")
     @Operation(summary = "내 프로필 조회", description = "내 프로필을 조회한다.")
-    public ResponseEntity<?> readProfile(@RequestParam String userId){
+    public ResponseEntity<?> readProfile(@RequestBody String userId){
         return new ResponseEntity<>(userRepository.findByUserId(userId).get(), HttpStatus.OK);
+    }
 
+    @PutMapping(value = "/change")
+    @Operation(summary = "내 프로필 정보 수정", description = "내 프로필의 정보를 수정할 수 있습니다.")
+    public ResponseEntity<?> updateProfile(@RequestBody UserDto userDto){
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 }
