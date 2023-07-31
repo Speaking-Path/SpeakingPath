@@ -1,15 +1,15 @@
 // 네비게이션 바
 
 import styles from './Navbar.module.css'
-import Container from 'react-bootstrap/Container';
-// import Nav from 'react-bootstrap/Nav';
-// import Navbar from 'react-bootstrap/Navbar';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Nav, Navbar } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { changeLoginInfo } from '../../store/UserInfo';
-import { useEffect } from 'react';
+import Container from 'react-bootstrap/Container'
+// import Nav from 'react-bootstrap/Nav'
+// import Navbar from 'react-bootstrap/Navbar'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Nav, Navbar } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { changeLoginInfo } from '../../store/UserInfo'
+import { useEffect } from 'react'
 
 
 function NavBar() {
@@ -29,7 +29,7 @@ function NavBar() {
         <Container>
           <Nav className={`${styles.part1}`}>
             <NavLink className={styles.title} to="practice">언어재활</NavLink>
-            <NavLink className={styles.title} to="practice/consulting">치료상담</NavLink>
+            <NavLink className={styles.title} to="consulting">치료상담</NavLink>
           </Nav>
 
           <Nav>
@@ -84,7 +84,7 @@ function NavBar() {
     </div>
 
     
-  );
+  )
 }
 
 export default NavBar
