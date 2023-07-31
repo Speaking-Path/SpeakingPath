@@ -113,9 +113,15 @@ public class UserController {
         return new ResponseEntity<>(userRepository.findByUserId(userId).get(), HttpStatus.OK);
     }
 
+    /**
+     * 수정할 정보를 userDto 에 담아 보내주면 수정한다.
+     * 현재는 pwd, info, phone 정보만 수정 가능하다.
+     * @param userDto
+     * @return
+     */
     @PutMapping(value = "/change")
     @Operation(summary = "내 프로필 정보 수정", description = "내 프로필의 정보를 수정할 수 있습니다.")
     public ResponseEntity<?> updateProfile(@RequestBody UserDto userDto){
-        return new ResponseEntity<>(userDto, HttpStatus.OK);
+        return new ResponseEntity<>(userService.update(userDto), HttpStatus.OK);
     }
 }

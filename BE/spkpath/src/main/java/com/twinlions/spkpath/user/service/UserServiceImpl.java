@@ -15,6 +15,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor // UserRepository의 생성자를 쓰지 않기 위해
 public class UserServiceImpl implements UserService{
@@ -118,6 +120,23 @@ public class UserServiceImpl implements UserService{
         }else{ // 아이디가 존재하지 않으면
             return -1;
         }
+    }
+
+    /**
+     * 수정할 userDto를 받아 pwd, info, phone 정보를 변경한다.
+     * @param userDto // 수정할 정보를 담은  userDto를 받는다
+     * @return
+     */
+    @Override
+    public User update(UserDto userDto) {
+        Optional<User> updateUser = userRepository.findByUserId(userDto.getUserId());
+        updateUser.ifPresent(selectUser ->{
+            selectUser.setUserPwd(userDto.getUserPwd());
+            selectUser.setUserInfo(userDto.getUserInfo());
+            selectUser.setUserPhone(userDto.getUserPhone());
+            userRepository.save(selectUser);
+        });
+        return updateUser.get();
     }
 
     @Override
