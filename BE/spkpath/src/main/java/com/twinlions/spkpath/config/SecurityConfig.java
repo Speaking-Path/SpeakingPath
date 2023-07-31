@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .antMatchers("/account/login").permitAll()
+                .antMatchers("/account/**").permitAll()
 //                .antMatchers("/practice").hasRole("USER")
                 .anyRequest().authenticated() // 이 밖의 모든 요청에 대해 인증을 필요로 한다는 설정
                 .and()

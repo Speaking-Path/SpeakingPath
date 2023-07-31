@@ -31,8 +31,6 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final CustomUserDetailsService customUserDetailsService;
-    // Todo: JWT 구현해야함
-
      private JwtService jwtService;
 
     @PostMapping(value = "/signup")
