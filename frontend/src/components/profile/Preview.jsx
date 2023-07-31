@@ -104,11 +104,13 @@ const Preview = ({ isOpen, onClose, children, size }) => {
     myVideoRef.current.src = window.URL.createObjectURL(superBuffer);
     console.log("recorded video start")
     myVideoRef.current.play();
+    myVideoRef.current.muted = false; // 녹화파일 재생시엔 소리 ON
     myVideoRef.current.onended = (event) =>{
       console.log("recorded video end")
       if(myVideoRef.current){
         myVideoRef.current.src = null;
         myVideoRef.current.srcObject=mystream;
+        myVideoRef.current.muted = true; // 에코 방지
       }
     }
   }

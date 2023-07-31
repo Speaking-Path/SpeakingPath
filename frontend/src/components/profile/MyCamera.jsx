@@ -28,6 +28,8 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
         // myVideoRef에 mediaStream값 넣어주기(변경되는 값)
         if (myVideoRef.current) {
           myVideoRef.current.srcObject = mediaStream;
+          // 에코 방지
+          myVideoRef.current.muted = true;
         }
       } catch (e) {
         window.alert(e);
