@@ -59,11 +59,10 @@ public class UserController {
     public ResponseEntity<?> csltSignup(@RequestBody ConsultantDto consultantDto){
         // TODO : logger 안찍히는 issue -> 해결해야해
 //        logger.debug("회원가입요청: {}", userDto.toString()); // 지금 로거 출력 안되는 이슈
-        System.out.println(consultantDto.toString());
         int result = userService.csltJoin(consultantDto);
         if(result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
-        }else{
+        } else{
             return new ResponseEntity<>("fail", HttpStatus.OK);
         }
     }
