@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import MyCameraRecord from './MyCameraRecord';
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
@@ -48,7 +47,7 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
         });
     }
 
-  }, [selectedVideo, selectedAudioInput]);
+  }, [selectedVideo, selectedAudioInput, myVideoRef]);
 
  
   // 렌더링 되면 video DOM object가 myVideoRef.current에 들어감
@@ -56,7 +55,6 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
   return (
     <div>
       <video ref={myVideoRef} autoPlay style={{height:'50vh', width:'60vw'}}/>;  
-      <MyCameraRecord />
     </div>
   );
 }
