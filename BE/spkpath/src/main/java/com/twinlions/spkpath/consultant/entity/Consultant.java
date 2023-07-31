@@ -1,12 +1,12 @@
 package com.twinlions.spkpath.consultant.entity;
 
-import com.twinlions.spkpath.config.StringListConverter;
 import com.twinlions.spkpath.user.entity.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,11 +24,19 @@ public class Consultant extends User {
     @Column(name = "cslt_exp", nullable = false)
     private int csltExp;
 
-    @Column(name = "cslt_tag", nullable = false)
-    @Convert(converter = StringListConverter.class)
-    private List<String> csltTag;
+    @OneToMany(mappedBy = "cslt")
+    private List<ConsultantTag> csltTags = new ArrayList<>();
 
-    @Column(name = "cslt_boundary", nullable = false)
-    @Convert(converter = StringListConverter.class)
-    private List<String> csltBoundary;
+    @OneToMany(mappedBy = "cslt")
+    private List<ConsultantBoundary> csltBoundaries = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Consultant{" +
+                "csltTeam='" + csltTeam + '\'' +
+                ", csltExp=" + csltExp +
+                ", csltTags=" + csltTags +
+                ", csltBoundaries=" + csltBoundaries +
+                '}';
+    }
 }
