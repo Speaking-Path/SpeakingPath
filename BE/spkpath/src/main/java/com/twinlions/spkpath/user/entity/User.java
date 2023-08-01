@@ -57,6 +57,10 @@ public class User implements UserDetails {
     @Column(name = "user_reward")
     private int userReward;
 
+    public String getUserName() {
+        return userName;
+    }
+
     @ColumnDefault("false")
     @Column(columnDefinition = "TINYINT(1)")
     private boolean activated;
