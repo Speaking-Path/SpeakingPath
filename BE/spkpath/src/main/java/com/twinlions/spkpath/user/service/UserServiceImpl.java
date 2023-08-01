@@ -6,10 +6,9 @@ import com.twinlions.spkpath.consultant.repository.*;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
-import com.twinlions.spkpath.consultant.entity.Consultant;
-import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
+import com.twinlions.spkpath.user.entity.Authority;
 import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.UserDto;
@@ -20,8 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor // UserRepository의 생성자를 쓰지 않기 위해
@@ -43,7 +41,12 @@ public class UserServiceImpl implements UserService{
      * @return userId
      */
     @Override
+//    @Transactional
     public String join(UserDto userDto) {
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
+                .build();
+
         User user = User.builder()
                 .userId(userDto.getUserId())
                 .userName(userDto.getUserName())
@@ -51,11 +54,13 @@ public class UserServiceImpl implements UserService{
                 .userSex(userDto.getUserSex())
                 .userAge(userDto.getUserAge())
                 .userEmail(userDto.getUserEmail())
-                .userGrade(userDto.getUserGrade())
+                .userGrade("USER")
                 .userInfo(userDto.getUserInfo())
                 .userPhone(userDto.getUserPhone())
                 .userPic(userDto.getUserPic())
                 .userReward(userDto.getUserReward())
+                .activated(true) // 활성화 : 탈퇴 시 비활성화
+                .authorities(Collections.singleton(authority)) // 싱글톤으로 authority 추가
                 .build();
         try{
             userRepository.save(user);
@@ -156,6 +161,23 @@ public class UserServiceImpl implements UserService{
         }
     }
 
+    /**
+     * 수정할 userDto를 받아 pwd, info, phone 정보를 변경한다.
+     * @param userDto // 수정할 정보를 담은  userDto를 받는다
+     * @return
+     */
+    @Override
+    public User update(UserDto userDto) {
+        Optional<User> updateUser = userRepository.findByUserId(userDto.getUserId());
+        updateUser.ifPresent(selectUser ->{
+            selectUser.setUserPwd(userDto.getUserPwd());
+            selectUser.setUserInfo(userDto.getUserInfo());
+            selectUser.setUserPhone(userDto.getUserPhone());
+            userRepository.save(selectUser);
+        });
+        return updateUser.get();
+    }
+
     @Override
     public TokenDto login(String userId, String pwd){
         // 1. Login ID/PW 를 기반으로 Authentication 객체 생성
@@ -167,7 +189,7 @@ public class UserServiceImpl implements UserService{
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
+        TokenDto tokenDto = jwtTokenProvider.generateToken(authentication, userId);
 
         return tokenDto;
     }
