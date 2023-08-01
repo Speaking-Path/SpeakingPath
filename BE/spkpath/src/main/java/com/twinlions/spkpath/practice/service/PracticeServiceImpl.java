@@ -11,6 +11,7 @@ import com.twinlions.spkpath.practice.repository.PracticeWordRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,21 +24,29 @@ public class PracticeServiceImpl implements PracticeService{
 
     @Override
     public List<WordEntity> listAllWord() {
-        return practiceWordRepository.findAll();
+        List<WordEntity> list = practiceWordRepository.findAll();
+        Collections.shuffle(list);
+        return list;
     }
 
     @Override
     public List<ObjectEntity> listAllObject() {
-        return practiceObjectRepository.findAll();
+        List<ObjectEntity> list = practiceObjectRepository.findAll();
+        Collections.shuffle(list);
+        return list;
     }
 
     @Override
     public List<SentenceEntity> listAllSentence() {
-        return practiceSentenceRepository.findAll();
+        List<SentenceEntity> list = practiceSentenceRepository.findAll();
+        Collections.shuffle(list);
+        return list;
     }
 
     @Override
     public List<SyllableEntity> listAllSyllable() {
-        return practiceSyllableRepository.findAll();
+        List<SyllableEntity> list = practiceSyllableRepository.findAll();
+        Collections.shuffle(list);
+        return list;
     }
 }
