@@ -1,7 +1,8 @@
 package com.twinlions.spkpath.consulting.controller;
 
-import com.twinlions.spkpath.consultant.service.ConsultantService;
-import com.twinlions.spkpath.consulting.AvailableInfoDto;
+import com.twinlions.spkpath.consulting.ScheduleRequestDto;
+import com.twinlions.spkpath.consulting.ScheduleResponseDto;
+import com.twinlions.spkpath.consulting.entity.Schedule;
 import com.twinlions.spkpath.consulting.service.ConsultingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +23,7 @@ public class ConsultingController {
 
     private final ConsultingService consultingService;
 
-    /*
+
     @GetMapping(value = "/sche")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
@@ -31,13 +32,14 @@ public class ConsultingController {
     })
     @Operation(summary = "상담가능시간 조회", description = "사용자가 특정 상담사의 상담 가능 일정을 조회한다.")
     public ResponseEntity<?> getSchedule(@RequestParam String userId) {
-        if (result != null) {
-            return new ResponseEntity<>(result, HttpStatus.OK);
+        ScheduleResponseDto scheduleList = consultingService.getSchedule(userId);
+        if (scheduleList != null) {
+            return new ResponseEntity<>(scheduleList, HttpStatus.OK);
         } else {
             return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
-    */
+
 
     @PostMapping(value = "/addsche")
     @ApiResponses(value = {
@@ -46,8 +48,8 @@ public class ConsultingController {
             @ApiResponse(responseCode = "500", description = "SQL Exception")
     })
     @Operation(summary = "상담가능시간 추가", description = "상담사가 상담 가능 일정을 추가한다.")
-    public ResponseEntity<?> addSchedule(@RequestBody AvailableInfoDto availableInfoDto) {
-        String result = consultingService.addSchedule(availableInfoDto);
+    public ResponseEntity<?> addSchedule(@RequestBody ScheduleRequestDto scheduleRequestDto) {
+        String result = consultingService.addSchedule(scheduleRequestDto);
         if (result != null) {
             return new ResponseEntity<>(result, HttpStatus.OK);
         } else {

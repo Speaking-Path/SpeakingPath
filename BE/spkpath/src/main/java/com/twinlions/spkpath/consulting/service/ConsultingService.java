@@ -1,7 +1,13 @@
 package com.twinlions.spkpath.consulting.service;
 
-import com.twinlions.spkpath.consulting.AvailableInfoDto;
+import com.twinlions.spkpath.consulting.ScheduleRequestDto;
+import com.twinlions.spkpath.consulting.ScheduleResponseDto;
+import com.twinlions.spkpath.consulting.entity.Schedule;
+
+import java.util.List;
 
 public interface ConsultingService {
-    String addSchedule(AvailableInfoDto availableInfoDtoList);
+
+    ScheduleResponseDto getSchedule(String userId);
+    String addSchedule(ScheduleRequestDto scheduleRequestDtoList);
 }
