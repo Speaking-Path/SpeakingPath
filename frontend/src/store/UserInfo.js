@@ -10,7 +10,7 @@ export let loginToken = createSlice({
 }})
 
 export let loginId = createSlice({
-  name : "loginToken",
+  name : "loginId",
   initialState : "",
   reducers : {
     changeLoginId(state, id) {

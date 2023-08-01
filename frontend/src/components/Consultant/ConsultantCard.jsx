@@ -4,83 +4,84 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { changeCsltInfo } from "../../store/consultantInfo"
+import axios from "axios"
+import { changeCsltTimes } from "../../store/consultantTimes"
 
 
 function ConsultantCard({ consultant }) {
-  const selectedCsltInfo = useSelector((state) => { return state.selectedCsltInfo })
   const dispatch = useDispatch()
 
-  const [imgsrc, setImgsrc] = useState("")
+  const [imgsrc, setImgsrc] = useState("/assets/user.png")
   const navigate = useNavigate()
 
-  const goRev = () => {
-    dispatch(dispatch(changeCsltInfo(consultant)))
+  const goRev = async () => {
+    await dispatch(changeCsltInfo(consultant))
+    await axios.get("/sche", consultant.userId)
+    .then((res) => {
+      dispatch(changeCsltTimes(res.data))
+      console.log(res.data)
+    })
+    .catch((err) => {
+    })
     navigate("/consulting/reservation")
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (consultant.userPic) {
       setImgsrc(consultant.userPic)
     }
   }, [])
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-3">
-          <img className={styles.profile} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
+    <div className={styles.csltCard}>
+      <div className={styles.cardBox}>
+        <div className={styles.profileBox}>
+          <img className={styles.profile} src={process.env.PUBLIC_URL + imgsrc} alt="" />
         </div>
-        <div className="col">
-          <span>{consultant.userName}</span>
-          {consultant.csltExp <= 3 && <span>수련 치료사</span>}
-          {consultant.csltExp > 3 && consultant.csltExp <= 5 && <span>전문 치료사</span>}
-          {consultant.csltExp > 5 && consultant.csltExp <= 10 && <span>프로 치료사</span>}
-          {consultant.csltExp > 10 && <span>마스터 치료사</span>}
-          <div>
+        <div>
+          <div className={styles.nameAndExp}>
+            <span className={styles.name}>{consultant.userName}</span>
+            {consultant.csltExp <= 3 && <span className={styles.exp}>수련 치료사</span>}
+            {consultant.csltExp > 3 && consultant.csltExp <= 5 && <span className={styles.exp}>전문 치료사</span>}
+            {consultant.csltExp > 5 && consultant.csltExp <= 10 && <span className={styles.exp}>프로 치료사</span>}
+            {consultant.csltExp > 10 && <span className={styles.exp}>마스터 치료사</span>}
+          </div>
+          <div className={styles.team}>
             <p>{consultant.csltTeam}</p>
           </div>
-          <div className="row">
-            <div className="col">
-              <p>치료 가능 영역</p>
+          <div className={styles.boundary}>
+            <div className={styles.boundaryTitle}>
+              <span>치료 가능 영역&nbsp;&nbsp;&nbsp;&nbsp;</span>
             </div>
-            <div className="col">
-              <div className="row">
-                {
-                  consultant.csltBoundary.map((boundary, index) => {
-                    return (
-                      <div className="col" key={index}>
-                        <p >{boundary}</p>
-                      </div>
-                    )
-                  })
-                }
-              </div>
+            <div>
+              {
+                consultant.csltBoundary.map((boundary, index) => {
+                  return (
+                    <span key={index}>#{boundary} </span>
+                  )
+                })
+              }
             </div>
           </div>
-          <div className="row">
-            <div className="col">
+          <div className={styles.tag}>
+            <div>
               <p>성향</p>
             </div>
-            <div className="col">
-              <div className="row">
+            <div>
                 {
                   consultant.csltTag.map((tag, index) => {
                     return (
-                      <div className="col" key={index}>
-                        <p >{tag}</p>
-                      </div>
+                        <span key={index}>{tag}</span>
                     )
                   })
                 }
-              </div>
-        </div>
             </div>
           </div>
+        </div>
       </div>
       <div>
         <button onClick={goRev}>상담 신청</button>
       </div>
-      <hr />
     </div>
   )
 }

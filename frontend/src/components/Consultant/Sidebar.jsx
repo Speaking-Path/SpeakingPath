@@ -6,6 +6,8 @@ import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import ExtensionIcon from '@mui/icons-material/Extension';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import { useDispatch, useSelector } from "react-redux"
+import { changeCsltList } from "../../store/consultantList"
 
 
 function Sidebar() {
@@ -18,6 +20,8 @@ function Sidebar() {
   const [sex, setSex] = useState("")
   const [boundary, setBoundary] = useState([])
   const [tag, setTag] = useState([])
+
+  const dispatch = useDispatch()
 
 
   const data = {
@@ -39,7 +43,8 @@ function Sidebar() {
   const searchConsultant = () => {
     axios.post("/cslt", data)
       .then((res) => {
-        console.log(res.data)
+        const newList = res.data
+        dispatch(changeCsltList(newList))
       })
       .catch((err) => {
         console.log(err)
@@ -77,7 +82,7 @@ function Sidebar() {
     <div className={styles.search}>
       <div className={styles.iconcontainer}>
         <div className={styles.searchicon}>
-          <SearchIcon/>
+          <SearchIcon  onClick={searchConsultant}/>
         </div>
         <div>
           <label htmlFor="csltName"></label>

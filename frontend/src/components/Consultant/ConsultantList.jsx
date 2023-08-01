@@ -1,19 +1,21 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import axios from "axios"
 import ConsultantCard from "./ConsultantCard"
 import styles from "./ConsultantList.module.css"
-import ListIcon from '@mui/icons-material/List';
+import { useDispatch, useSelector } from "react-redux"
+import { changeCsltList } from "../../store/consultantList"
 
 
 function ConsultantList() {
-  const [consultants, setConsultants] = useState([])
+  const consultants = useSelector((state) => { return state.csltList })
+  const dispatch = useDispatch()
 
   useEffect(() => {
     axios.get("/cslt")
       .then((res) => {
         if (res.data.length >= 1) {
           const newList = res.data
-          setConsultants(newList)
+          dispatch(changeCsltList(newList))
         }
       })
       .catch((err) => {

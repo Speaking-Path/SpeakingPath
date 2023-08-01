@@ -36,37 +36,37 @@ function RevCalendar() {
   const days = [
     {
       year: 2023,
-      month: 6,
+      month: 7,
       day: 23,
       times: "09:00"
     },
     {
       year: 2023,
-      month: 6,
+      month: 7,
       day: 23,
       times: "10:00"
     },
     {
       year: 2023,
-      month: 6,
+      month: 7,
       day: 25,
       times: "09:00"
     },
     {
       year: 2023,
-      month: 6,
+      month: 7,
       day: 25,
       times: "10:00"
     },
     {
       year: 2023,
-      month: 6,
+      month: 7,
       day: 25,
       times: "13:00"
     },
     {
       year: 2023,
-      month: 6,
+      month: 7,
       day: 25,
       times: "14:00"
     },

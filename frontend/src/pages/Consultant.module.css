@@ -9,6 +9,10 @@
   border-left : 3.5px solid black;
 }
 
+.csltBanner {
+  width: 100vw;
+}
+
 .titleinfo {
   margin-left: 4px;
   font-size: 25px;
@@ -19,7 +23,7 @@
   margin-top: 50px;
   margin-bottom: 10px;
   text-align: left;
-  margin-left: 11%;
+  margin-left: 5%;
 }
 
 .sidebarAndList {

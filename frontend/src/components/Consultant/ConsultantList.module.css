@@ -8,6 +8,7 @@
   text-align: left;
   border-bottom: 3px solid black;
   width: 30%;
-  padding-bottom: 2%;
+  /* padding-bottom: 2%; */
+  margin-bottom: 4%;
   font-weight: 600;
 }

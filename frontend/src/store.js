@@ -7,6 +7,8 @@ import { combineReducers } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import thunk from 'redux-thunk'
 import { selectedCsltInfo } from './store/consultantInfo'
+import { csltList } from './store/consultantList'
+import { csltTimes } from './store/consultantTimes'
 
 
 
@@ -16,8 +18,11 @@ const reducers = combineReducers({
   stepNum : stepNum.reducer,
   loginToken : loginToken.reducer,
   loginId : loginId.reducer,
-  selectedCsltInfo : selectedCsltInfo.reducer
+  selectedCsltInfo : selectedCsltInfo.reducer,
+  csltList : csltList.reducer,
+  csltTimes : csltTimes.reducer,
 })
+
 
 const persistConfig = {
   key : "root",
