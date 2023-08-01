@@ -8,6 +8,7 @@ import "./Calendar.css"
 import axios from "axios"
 import { addDays } from "date-fns"
 import { useSelector } from "react-redux"
+import styles from "./ConsultantCalendar.module.css"
 
 
 function CsltCalendar() {
@@ -16,7 +17,7 @@ function CsltCalendar() {
   const [revTime, setRevTime] = useState([])
 
   const [timeSelected, setTimeSelected] = useState([])
-  const csltId = useSelector((state)=>{return state.loginId})
+  const csltId = useSelector((state) => { return state.loginId })
 
 
   const today = new Date()
@@ -168,7 +169,7 @@ function CsltCalendar() {
           setTimeSelected(data)
         }
       }
-    } else { 
+    } else {
       setTimeSelected([])
     }
   }, [range])
@@ -187,12 +188,11 @@ function CsltCalendar() {
     if (timeSelected && revTime.length) {
       const data = {
         timeSelected,
-        times : revTime,
-        csltId
+        times: revTime,
+        userId: csltId
       }
       setRange()
       setRevTime([])
-      console.log(data)
       axios.post("/cslting/addsche", data)
         .then((res) => {
           alert("상담 시간 선택이 완료되었습니다.")
@@ -210,31 +210,49 @@ function CsltCalendar() {
 
   return (
     <div>
-      <DayPicker
-        mode="range"
-        locale={ko}
-        // onDayClick={handleDayClick}
-        disabled={{ before: new Date() }}
-        defaultMonth={new Date()}
-        selected={range}
-        showOutsideDays
-        onSelect={setRange}
+      <img
+        src={process.env.PUBLIC_URL + "/assets/consultantrev.png"}
+        alt="" className={styles.banner}
       />
-      <div>
-        {
-          timesList.map((time, index) => {
-            return (
-              <div key={index}>
-                <input type="checkbox" name="times" id={index} value={index}
-                  checked={revTime.includes(time)}
-                  onChange={(e) => {
-                    selectTime(e.currentTarget.checked, time)
-                  }} />
-                <label htmlFor={index}>{time}</label>
-              </div>
-            )
-          })
-        }
+      <div className="container">
+        <div className="row">
+          <div className={`${styles.useInfo} col-3`}>
+            <p>이용안내</p>
+            <p>1. 상담 가능한 날짜와 시간을 선택합니다.</p>
+            <p>(시간은 1시간 단위입니다.)</p>
+            <p>2. 환자가 상담 신청을 하면 승인이 필요합니다.</p>
+            <p>3. 예약 시간 10분 전 비대면 상담 방이 생성됩니다.</p>
+            <p>4. 말하길이 제공하는 상담 방에서 상담을 진행하세요.</p>
+          </div>
+          <div className="col-6">
+            <DayPicker
+              mode="range"
+              locale={ko}
+              // onDayClick={handleDayClick}
+              disabled={{ before: new Date() }}
+              defaultMonth={new Date()}
+              selected={range}
+              showOutsideDays
+              onSelect={setRange}
+            />
+          </div>
+          <div className="col-3">
+            {
+              timesList.map((time, index) => {
+                return (
+                  <div key={index}>
+                    <input type="checkbox" name="times" id={index} value={index}
+                      checked={revTime.includes(time)}
+                      onChange={(e) => {
+                        selectTime(e.currentTarget.checked, time)
+                      }} />
+                    <label htmlFor={index}>{time}</label>
+                  </div>
+                )
+              })
+            }
+          </div>
+        </div>
       </div>
       <button onClick={onReserv}>시간 설정하기</button>
     </div>

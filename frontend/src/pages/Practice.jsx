@@ -6,13 +6,16 @@ function Practice() {
 
   return (
     <div className={styles.practice}>
-      <div className={`${styles.applystart} container`}>
+      <img className={styles.practiceBanner}
+      src={process.env.PUBLIC_URL + "/assets/practicebanner.png"} alt="" />
+
+      {/* <div className={`${styles.applystart} container`}>
         <p className={styles.title}><span className={styles.titleinfo}>원하는 훈련을 선택하세요</span></p>
-      </div>
+      </div> */}
       <div className="container">
         <div className="row">
           <div className="col-7">
-            <div className={styles.line}>발음 훈련</div>
+            <div className={styles.line}><span>발음 훈련</span></div>
             <div className="row">
               <div className={`${styles.pracList} col`} onClick={(e) => { navigate("/practice/pron/syllable") }}>
                 <p className={`${styles.pracTitle}`}>음절 말하기</p>
@@ -41,7 +44,7 @@ function Practice() {
             </div>
           </div>
           <div className="col-5">
-            <div className={styles.line2}>인지 훈련</div>
+            <div className={styles.line2}><span>인지 훈련</span></div>
             <div className="row">
               <div className={`${styles.pracList2} offset-1 col-4`} onClick={(e) => { navigate("/practice/recog/select") }}>
                 <p className={`${styles.pracTitle}`}>사물 고르기</p>

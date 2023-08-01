@@ -9,6 +9,7 @@ import thunk from 'redux-thunk'
 import { selectedCsltInfo } from './store/consultantInfo'
 import { csltList } from './store/consultantList'
 import { csltTimes } from './store/consultantTimes'
+import { pronWrong, pronCorrect } from './store/pron'
 
 
 
@@ -21,6 +22,8 @@ const reducers = combineReducers({
   selectedCsltInfo : selectedCsltInfo.reducer,
   csltList : csltList.reducer,
   csltTimes : csltTimes.reducer,
+  pronWrong : pronWrong.reducer,
+  pronCorrect : pronCorrect.reducer,
 })
 
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
 import styles from "./ConsultantCard.module.css"
 import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { changeCsltInfo } from "../../store/consultantInfo"
 import axios from "axios"
@@ -16,7 +15,10 @@ function ConsultantCard({ consultant }) {
 
   const goRev = async () => {
     await dispatch(changeCsltInfo(consultant))
-    await axios.get("/sche", consultant.userId)
+    const data = {
+      userId : consultant.userId
+    }
+    await axios.get("/sche", data)
     .then((res) => {
       dispatch(changeCsltTimes(res.data))
       console.log(res.data)

@@ -1,3 +1,8 @@
+.practiceBanner {
+  width: 100vw;
+  margin-bottom: 5%;
+}
+
 .img {
   width: 100%;
 }
@@ -38,6 +43,10 @@
   margin-bottom: 5%;
 }
 
+.line span {
+  font-size: 18px;
+}
+
 .line::before {
   content: "";
   flex-grow: 1;
@@ -67,6 +76,10 @@
   /* color: #2E64FE; */
   font-size: 15px;
   margin-bottom: 7%;
+}
+
+.line2 span {
+  font-size: 18px;
 }
 
 .line2::before {
