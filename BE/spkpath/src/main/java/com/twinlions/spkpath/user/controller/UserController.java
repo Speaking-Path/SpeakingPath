@@ -60,6 +60,7 @@ public class UserController {
         // TODO : logger 안찍히는 issue -> 해결해야해
 //        logger.debug("회원가입요청: {}", userDto.toString()); // 지금 로거 출력 안되는 이슈
         int result = userService.csltJoin(consultantDto);
+        System.out.println(result);
         if(result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
         } else{
@@ -82,9 +83,7 @@ public class UserController {
     @GetMapping(value = "/checkid")
     @Operation(summary = "아이디 중복 체크", description = "아이디가 존재하는 아이디인지 확인한다. \n 확인하고자 하는 아이디를 입력한다.")
     public ResponseEntity<String> checkId(@RequestParam String userId){
-        System.out.println("test");
         int result = userService.checkId(userId);
-        System.out.println("test done");
         if( result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
         }else{

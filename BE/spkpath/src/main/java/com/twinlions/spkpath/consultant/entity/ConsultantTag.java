@@ -19,7 +19,7 @@ public class ConsultantTag {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int Id;
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -29,10 +29,6 @@ public class ConsultantServiceImpl implements ConsultantService {
         return consultants.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
-//        if (consultantRepository.findAll() != null) {
-//            return consultantRepository.findAll();
-//        }
-//        return null;
     }
 
     /**
