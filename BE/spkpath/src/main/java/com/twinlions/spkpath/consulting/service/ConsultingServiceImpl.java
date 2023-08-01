@@ -56,8 +56,6 @@ public class ConsultingServiceImpl implements ConsultingService {
             scheduleList.addAll(scheduleRepository.findAllBySchedulePKUserIdAndSchedulePKAvailableDate(userId, ld));
         }
 
-        System.out.println(scheduleList);
-
         List<DateResponseDto> dateResponseDtoList = scheduleList.stream()
                 .map(this::convertToDateResponseDto)
                 .collect(Collectors.toList());
