@@ -13,6 +13,7 @@ public interface UserService {
     int login(UserDto userDto);
     int checkId(String userId);
     int checkEmail(String userEmail);
+    User update(UserDto userDto);
 
     TokenDto login(String userId, String pwd);
 }
