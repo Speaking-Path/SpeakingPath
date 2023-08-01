@@ -17,8 +17,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,10 +56,12 @@ public class ConsultingServiceImpl implements ConsultingService {
             scheduleList.addAll(scheduleRepository.findAllBySchedulePKUserIdAndSchedulePKAvailableDate(userId, ld));
         }
 
-        System.out.println(scheduleList);
+        Map<LocalDate, List<Schedule>> groupedSchedule = scheduleList.stream()
+                .collect(Collectors.groupingBy(sc -> sc.getSchedulePK().getAvailableDate()));
 
-        List<DateResponseDto> dateResponseDtoList = scheduleList.stream()
-                .map(this::convertToDateResponseDto)
+
+        List<DateResponseDto> dateResponseDtoList = groupedSchedule.entrySet().stream()
+                .map(entry -> convertToDto(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
 
         return new ScheduleResponseDto(userId, dateResponseDtoList);
@@ -103,14 +105,11 @@ public class ConsultingServiceImpl implements ConsultingService {
         }
     }
 
-    private DateResponseDto convertToDateResponseDto(Schedule schedule) {
-        SchedulePK schedulePK = schedule.getSchedulePK();
+    private DateResponseDto convertToDto(LocalDate date, List<Schedule> schedules) {
+        List<Integer> times = schedules.stream()
+                .map(sc -> sc.getSchedulePK().getAvailableTime().getHour())
+                .collect(Collectors.toList());
 
-        return new DateResponseDto(
-                schedulePK.getAvailableDate().getYear(),
-                schedulePK.getAvailableDate().getMonthValue(),
-                schedulePK.getAvailableDate().getDayOfMonth(),
-                Collections.singletonList(schedulePK.getAvailableTime().getHour())
-        );
+        return new DateResponseDto(date.getYear(), date.getMonthValue(), date.getDayOfMonth(), times);
     }
 }
