@@ -1,12 +1,140 @@
-.time {
-  
+.calendar {
+  margin-top: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
-.highlight-monday {
-  background-color: #ffc; /* 배경색을 변경하거나 다른 스타일을 지정합니다. */
+.calendarTop {
+  margin-bottom: 5%;
 }
 
-/* 화요일에 해당하는 표시 스타일 */
-.highlight-tuesday {
-  background-color: #ffa; /* 배경색을 변경하거나 다른 스타일을 지정합니다. */
+.calendarCsltInfo {
+  border-right: 1px solid #D9D9D9;
+  text-align: left;
+  padding-top: 2%;
+}
+
+.selectTime {
+  padding-top: 2%;
+}
+
+.profile {
+  width: 70px;
+  padding-bottom: 6%;
+  margin-top: 4%;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.desc {
+  opacity: 0.7;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.profileTitle {
+  color: #2E64FE;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8%;
+  margin-top: 5%;
+}
+
+
+.calendarMain {
+  border-right: 1px solid #D9D9D9;
+  padding-top: 2%;
+}
+
+.selectDayMsg {
+  font-size: 18px;
+  text-align: left;
+  color: #2E64FE;
+  font-weight: 700;
+  margin-top: 2%;
+  margin-left: 10%;
+}
+
+.calendarPick {
+  display: flex;
+  justify-content: center;
+}
+
+.selectTimeMsg {
+  font-size: 19px;
+  text-align: left;
+  color: #2E64FE;
+  font-weight: 700;
+  margin-top: 4%;
+  margin-left: 10%;
+}
+
+.dateNow {
+  text-align: left;
+  margin-left: 10%;
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 3%;
+}
+
+.input {
+  display: none;
+}
+
+
+
+.label {
+  padding-top: 5%;
+  padding-bottom: 5%;
+  padding-left: 30%;
+  padding-right: 30%;
+  margin-bottom: 2%;
+  border: 1px solid #A5C1F7;
+  font-weight: 600;
+}
+
+.label:hover {
+  background-color: #A5C1F7;
+}
+
+.input:checked + .label {
+  background-color: #A5C1F7;
+}
+
+.input:disabled + label{
+  color: #D9D9D9;
+}
+
+.selDateWarning {
+  font-weight: 700;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.revButton {
+  position: relative;
+  border: none;
+  width: 15rem;
+  height: 3rem;
+  background-color: #4285F4;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  margin-bottom: 10%;
+  transition: box-shadow 0.3s, color 0.3s;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* 그림자 설정 */
+}
+
+.revButton:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 호버 상태에서 그림자 크게 설정 */
+}
+
+.boundarys {
+  margin-bottom: 4%;
 }

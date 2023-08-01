@@ -8,11 +8,11 @@ let ACCESS_TOKEN = localStorage.getItem("accessToken")
 let REFRESH_TOKEN = localStorage.getItem("refreshToken")
 
 export const UserApi = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: "http://localhost:8080",
   headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
-      'REFRESH_TOKEN': REFRESH_TOKEN,
+      "Content-Type": "application/json",
+      "Authorization": `${TOKEN_TYPE} ${ACCESS_TOKEN}`,
+      "REFRESH_TOKEN": REFRESH_TOKEN,
   },
 })
 
@@ -20,8 +20,8 @@ export const UserApi = axios.create({
 const refreshAccessToken = async () => {
   const response = await UserApi.get(`/api/v1/auth/refresh`)
   ACCESS_TOKEN = response.data
-  localStorage.setItem('accessToken', ACCESS_TOKEN)
-  UserApi.defaults.headers.common['Authorization'] = `${TOKEN_TYPE} ${ACCESS_TOKEN}`
+  localStorage.setItem("accessToken", ACCESS_TOKEN)
+  UserApi.defaults.headers.common["Authorization"] = `${TOKEN_TYPE} ${ACCESS_TOKEN}`
 }
 
 // 토큰 유효성 검사

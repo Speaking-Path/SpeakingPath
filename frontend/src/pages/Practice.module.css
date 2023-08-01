@@ -5,3 +5,59 @@
 .img2 {
   width: 93%;
 }
+
+.practice {
+  font-size: 15px;
+}
+
+
+.title {
+  display: inline-block;
+  border-left : 3.5px solid black;
+}
+
+.titleinfo {
+  margin-left: 4px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.applystart {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: left;
+}
+
+.line {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  /* color: #2E64FE; */
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.line::before {
+  content: "";
+  flex-grow: 1;
+  margin: 0px 16px;
+  background: #D9D9D9;
+  height: 1px;
+  font-size: 0px;
+  line-height: 0px;
+}
+
+.line::after {
+  content: "";
+  flex-grow: 1;
+  margin: 0px 16px;
+  background: #D9D9D9;
+  height: 1px;
+  font-size: 0px;
+  line-height: 0px;
+}
+
+.pracBox {
+  border: 1px solid #D9D9D9;
+  width: 200px;
+}

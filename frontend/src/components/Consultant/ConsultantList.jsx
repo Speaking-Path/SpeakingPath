@@ -12,7 +12,6 @@ function ConsultantList() {
       if (res.data.length >= 1) {
         const newList = res.data
         setConsultants(newList)
-        console.log(res.data)
       }
     })
     .catch((err)=>{
