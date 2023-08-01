@@ -1,7 +1,5 @@
 package com.twinlions.spkpath.config;
 
-import com.twinlions.spkpath.interceptor.LoginInterceptor;
-import com.twinlions.spkpath.jwt.JwtInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -14,7 +12,7 @@ import java.util.List;
 public class WebMvcConfig implements WebMvcConfigurer {
     public static final String ALLOWED_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
     private final List<String> patterns = Arrays.asList("/account/mypage", "/account/change");
-    private final List<String> excludePatterns = Arrays.asList();
+    private final List<String> excludePatterns = Arrays.asList("/account/login");
     @Override
     public void addCorsMappings(final CorsRegistry registry) {
         registry.addMapping("/**")
@@ -23,8 +21,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new JwtInterceptor())
-                .excludePathPatterns(excludePatterns)
-                .addPathPatterns(patterns);
+//        registry.addInterceptor(new JwtInterceptor())
+//                .excludePathPatterns(excludePatterns)
+//                .addPathPatterns(patterns);
     }
 }

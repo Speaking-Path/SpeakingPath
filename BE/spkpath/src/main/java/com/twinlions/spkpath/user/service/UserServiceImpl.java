@@ -6,8 +6,6 @@ import com.twinlions.spkpath.consultant.repository.*;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
-import com.twinlions.spkpath.consultant.entity.Consultant;
-import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.entity.Authority;
@@ -21,12 +19,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.Optional;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor // UserRepository의 생성자를 쓰지 않기 위해
@@ -61,7 +54,7 @@ public class UserServiceImpl implements UserService{
                 .userSex(userDto.getUserSex())
                 .userAge(userDto.getUserAge())
                 .userEmail(userDto.getUserEmail())
-                .userGrade("user")
+                .userGrade("USER")
                 .userInfo(userDto.getUserInfo())
                 .userPhone(userDto.getUserPhone())
                 .userPic(userDto.getUserPic())
@@ -196,7 +189,7 @@ public class UserServiceImpl implements UserService{
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
 
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = jwtTokenProvider.generateToken(authentication);
+        TokenDto tokenDto = jwtTokenProvider.generateToken(authentication, userId);
 
         return tokenDto;
     }

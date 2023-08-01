@@ -21,7 +21,7 @@ public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()
                 .csrf().disable()
@@ -37,7 +37,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated() // 이 밖의 모든 요청에 대해 인증을 필요로 한다는 설정
 
                 .and() // filter 설정하여
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
