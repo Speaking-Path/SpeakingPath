@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Getter // Getter
@@ -32,10 +34,10 @@ public class Reservation {
     private Consultant cslt;
 
     @Column(name = "rsv_date")
-    private String rsvDate;
+    private LocalDate rsvDate;
 
     @Column(name = "rsv_time")
-    private String rsvTime;
+    private LocalTime rsvTime;
 
     @Column(name = "rsv_status")
     private String rsvStatus;

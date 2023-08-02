@@ -2,13 +2,13 @@ package com.twinlions.spkpath.consulting.service;
 
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
-import com.twinlions.spkpath.consulting.DateResponseDto;
-import com.twinlions.spkpath.consulting.ScheduleRequestDto;
-import com.twinlions.spkpath.consulting.DateRequestDto;
-import com.twinlions.spkpath.consulting.ScheduleResponseDto;
+import com.twinlions.spkpath.consulting.*;
+import com.twinlions.spkpath.consulting.entity.Reservation;
 import com.twinlions.spkpath.consulting.entity.Schedule;
 import com.twinlions.spkpath.consulting.key.SchedulePK;
+import com.twinlions.spkpath.consulting.repository.ReservationRepository;
 import com.twinlions.spkpath.consulting.repository.ScheduleRepository;
+import com.twinlions.spkpath.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +25,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ConsultingServiceImpl implements ConsultingService {
 
-    private final ConsultantRepository consultantRepository;
     private final ScheduleRepository scheduleRepository;
+    private final ReservationRepository reservationRepository;
+    private final ConsultantRepository consultantRepository;
+    private final UserRepository userRepository;
 
 
     /**
@@ -96,6 +98,30 @@ public class ConsultingServiceImpl implements ConsultingService {
             }
             return "success";
         } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 새로운 상담 예약을 추가하는 메서드
+     *
+     * @param reservationDto 예약 정보
+     * @return 예약 추가 성공 시 success, 실패 시 null
+     */
+    public String addReservation(ReservationDto reservationDto) {
+        try {
+            Reservation reservation = Reservation.builder()
+                    .user(userRepository.findByUserId(reservationDto.getUserId()).get())
+                    .cslt(consultantRepository.findByUserId(reservationDto.getCsltId()))
+                    .rsvDate(LocalDate.of(reservationDto.getYear(), reservationDto.getMonth(), reservationDto.getDay()))
+                    .rsvTime(LocalTime.of(reservationDto.getTime(), 0))
+                    .rsvStatus("예약대기")
+                    .rsvInfo(reservationDto.getRsvInfo())
+                    .build();
+            reservationRepository.save(reservation);
+            return "success";
+        } catch(Exception e) {
             e.printStackTrace();
             return null;
         }
