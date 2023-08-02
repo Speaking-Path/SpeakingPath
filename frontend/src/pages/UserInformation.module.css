@@ -51,7 +51,11 @@
 
 .mypageMain {
   position: relative;
-  bottom: 150px;
+  bottom: 220px;
   background-color: white;
   border-radius: 30px;
+}
+
+.outletBox {
+  margin-top: 5%;
 }

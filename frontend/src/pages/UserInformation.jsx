@@ -83,6 +83,7 @@ function UserInformation() {
   return (
     <div>
       <img className={styles.mypageBanner} src={process.env.PUBLIC_URL + "/assets/mypage.png"} alt="" />
+      <p>공지<span></span></p>
       <div className={`${styles.mypageMain} container`}>
         <div className='row'>
           <div className={`${styles.infoBox} col-3`}>
@@ -99,10 +100,10 @@ function UserInformation() {
               <p className={isProfileClicked ? styles.profileClicked : styles.profileNonClicked} onClick={handleProfileClick}><span>내 프로필</span></p>
               <p className={isReservationsClicked ? styles.profileClicked : styles.profileNonClicked} onClick={handleReservationsClick}>예정된 상담</p>
               <p className={isPastrsvClicked ? styles.profileClicked : styles.profileNonClicked} onClick={handlePastRsvClick}>지난 상담</p>
-              <p className={isPreviewOpen ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내화면보기</p>
+              <p className={isPreviewOpen ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
             </div>
           </div>
-          <div className='col-9'>
+          <div className={`${styles.outletBox} col-9`}>
             <Outlet />
           </div>
         </div>
