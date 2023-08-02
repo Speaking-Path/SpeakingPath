@@ -20,11 +20,11 @@ CREATE TABLE `user_tb` (
 );
 
 CREATE TABLE `reservation_item_tb` (
-	`rsv_item_id`	int	NOT NULL,
+	`rsv_item_id`	int primary key	NOT NULL auto_increment,
 	`user_id`	char(20)	NOT NULL,
 	`cslt_id`	char(20)	NOT NULL,
 	`rsv_date`	date	NOT NULL,
-	`rsv_time`	timestamp	NOT NULL,
+	`rsv_time`	time	NOT NULL,
 	`rsv_status`	varchar(10)	NOT NULL	COMMENT '대기 / 거절 / 완료 / 취소',
 	`rsv_info`	varchar(80)	NULL,
 	`rsv_code`	char(20)	NOT NULL
@@ -96,7 +96,8 @@ CREATE TABLE `study_word_tb` (
 
 CREATE TABLE `word_tb` (
 	`word_id`	int	NOT NULL auto_increment primary key ,
-	`word_content`	varchar(30)	NOT NULL
+	`word_content`	varchar(30)	NOT NULL,
+  `word_pron` varchar(50) NULL
 );
 
 CREATE TABLE `sentence_tb` (
@@ -150,9 +151,9 @@ ALTER TABLE `user_tb` ADD CONSTRAINT `PK_USER_TB` PRIMARY KEY (
 	`user_id`
 );
 
-ALTER TABLE `reservation_item_tb` ADD CONSTRAINT `PK_RESERVATION_ITEM_TB` PRIMARY KEY (
-	`rsv_item_id`
-);
+-- ALTER TABLE `reservation_item_tb` ADD CONSTRAINT `PK_RESERVATION_ITEM_TB` PRIMARY KEY (
+-- 	`rsv_item_id`
+-- );
 
 ALTER TABLE `consultant_info_tb` ADD CONSTRAINT `PK_CONSULTANT_INFO_TB` PRIMARY KEY (
 	`user_id`
