@@ -22,7 +22,7 @@ public class ReservationSpecification {
             Join<Reservation, Consultant> csltJoin = root.join("cslt");
                 return CriteriaBuilder.equal(csltJoin.get("userId"), csltId);
         };
-    };
+    }
 
     public static Specification<Reservation> lessRsvDate(LocalDate date) {
         return (root, query, CriteriaBuilder) -> {
