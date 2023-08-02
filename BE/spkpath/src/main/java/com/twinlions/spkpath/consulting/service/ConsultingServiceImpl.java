@@ -115,7 +115,7 @@ public class ConsultingServiceImpl implements ConsultingService {
                     .user(userRepository.findByUserId(reservationDto.getUserId()).get())
                     .cslt(consultantRepository.findByUserId(reservationDto.getCsltId()))
                     .rsvDate(LocalDate.of(reservationDto.getYear(), reservationDto.getMonth()+1, reservationDto.getDay()))
-                    .rsvTime(LocalTime.of(reservationDto.getTime(), 0))
+                    .rsvTime(LocalTime.parse(reservationDto.getTime()))
                     .rsvStatus("예약대기")
                     .rsvInfo(reservationDto.getRsvInfo())
                     .build();
