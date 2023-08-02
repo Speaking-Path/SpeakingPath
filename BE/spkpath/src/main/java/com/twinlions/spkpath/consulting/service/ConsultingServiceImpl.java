@@ -110,7 +110,7 @@ public class ConsultingServiceImpl implements ConsultingService {
     /**
      * 사용자의 지난 예약을 조회하는 메서드
      *
-     * @Param String 사용자 ID
+     * @param String 사용자 ID
      * @return List<ReservationDto> 지난 예약 리스트
      */
     public List<ReservationDto> getPastReservations(@RequestParam String userId) {
