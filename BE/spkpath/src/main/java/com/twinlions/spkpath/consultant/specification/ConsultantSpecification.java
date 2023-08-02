@@ -1,4 +1,4 @@
-package com.twinlions.spkpath.consultant.Specification;
+package com.twinlions.spkpath.consultant.specification;
 
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.entity.ConsultantBoundary;

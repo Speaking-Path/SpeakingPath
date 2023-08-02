@@ -2,7 +2,7 @@ package com.twinlions.spkpath.consultant.service;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.ConsultantSearchDto;
-import com.twinlions.spkpath.consultant.Specification.ConsultantSpecification;
+import com.twinlions.spkpath.consultant.specification.ConsultantSpecification;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class ConsultantServiceImpl implements ConsultantService {
      * @return List<User> 전체 상담사 리스트
      */
     @Override
-    public List<ConsultantDto> listCslt() {
+    public List<ConsultantDto> getCslts() {
         List<Consultant> consultants = consultantRepository.findAll();
         return consultants.stream()
                 .map(this::convertToDto)
@@ -38,7 +38,7 @@ public class ConsultantServiceImpl implements ConsultantService {
      * @return List<ConsultantDto> 상세 조건에 부합하는 상담사 리스트
      */
     @Override
-    public List<ConsultantDto> listCsltByCond(ConsultantSearchDto consultantSearchDto) {
+    public List<ConsultantDto> getCsltsByCond(ConsultantSearchDto consultantSearchDto) {
         Specification<Consultant> spec = (root, query, criteriaBuilder) -> null;
 
         System.out.println(consultantSearchDto);
