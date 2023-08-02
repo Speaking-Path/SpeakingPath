@@ -29,10 +29,6 @@ public class ConsultantServiceImpl implements ConsultantService {
         return consultants.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
-//        if (consultantRepository.findAll() != null) {
-//            return consultantRepository.findAll();
-//        }
-//        return null;
     }
 
     /**
@@ -47,12 +43,12 @@ public class ConsultantServiceImpl implements ConsultantService {
 
         System.out.println(consultantSearchDto);
 
-        if (consultantSearchDto.getUserName() != "") {
+        if (!consultantSearchDto.getUserName().equals("")) {
             System.out.println(consultantSearchDto.getUserName());
             spec = spec.and(ConsultantSpecification.equalsName(consultantSearchDto.getUserName()));
         }
 
-        if (consultantSearchDto.getUserSex() != "") {
+        if (!consultantSearchDto.getUserSex().equals("")) {
             spec = spec.and(ConsultantSpecification.equalsSex(consultantSearchDto.getUserSex()));
         }
 
