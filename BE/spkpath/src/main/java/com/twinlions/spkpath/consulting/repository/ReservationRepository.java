@@ -4,8 +4,6 @@ import com.twinlions.spkpath.consulting.entity.Reservation;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.Repository;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public interface ReservationRepository extends Repository<Reservation, String> {
