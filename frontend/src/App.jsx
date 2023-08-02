@@ -19,6 +19,7 @@ import Syllable from './components/Practice/Syllable';
 import Word from './components/Practice/Word';
 import Profile from './components/MyPage/Profile';
 import CheckRsv from './components/MyPage/CheckRsv';
+import PastRsv from './components/MyPage/PastRsv';
 
 
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/account/mypage" element={<UserInformation />}>
           <Route path="" element={<Profile />} />
           <Route path="checkrsv" element={<CheckRsv />} />
+          <Route path="pastrsv" element={<PastRsv/>}/>
         </Route>
 
 
