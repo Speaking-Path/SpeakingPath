@@ -17,4 +17,7 @@ public class WordEntity {
 
     @Column(name = "word_content", nullable = false)
     private String wordContent;
+
+    @Column(name = "word_pron")
+    private String wordPron;
 }
