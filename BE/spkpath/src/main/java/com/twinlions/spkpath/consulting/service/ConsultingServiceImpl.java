@@ -108,7 +108,7 @@ public class ConsultingServiceImpl implements ConsultingService {
     }
 
     /**
-     * 사용자의 지난 예약을 조회하는 메서드
+     * 일반회원의 지난 예약을 조회하는 메서드
      *
      * @param userId 사용자 ID
      * @return List<ReservationDto> 지난 예약 리스트
@@ -117,10 +117,12 @@ public class ConsultingServiceImpl implements ConsultingService {
         Specification<Reservation> specBefore = ReservationSpecification.lessRsvDate(LocalDate.now());
         Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
 
+        specBefore = specBefore.and(ReservationSpecification.greaterRsvDate(LocalDate.now().minusMonths(3)));
         specToday = specToday.and(ReservationSpecification.equalsRsvDate(LocalDate.now()));
         specToday = specToday.and(ReservationSpecification.lessRsvTime(LocalTime.now()));
 
         specBefore = specBefore.or(specToday);
+        specBefore = specBefore.and(ReservationSpecification.equalsUserId(userId));
         List<Reservation> pastReservation = reservationRepository.findAll(specBefore);
 
         return pastReservation.stream()
@@ -128,20 +130,75 @@ public class ConsultingServiceImpl implements ConsultingService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 일반회원의 예정된 예약을 조회하는 메서드
+     *
+     * @param userId 사용자 ID
+     * @return List<ReservationDto> 예정된 예약 리스트
+     */
     public List<ReservationDto> getUpcomingReservations(@RequestParam String userId) {
         Specification<Reservation> specAfter = ReservationSpecification.greaterRsvDate(LocalDate.now());
         Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
+
 
         specToday = specToday.and(ReservationSpecification.equalsRsvDate(LocalDate.now()));
         specToday = specToday.and(ReservationSpecification.greaterRsvTime(LocalTime.now()));
 
         specAfter = specAfter.or(specToday);
+        specAfter = specAfter.and(ReservationSpecification.equalsUserId(userId));
         List<Reservation> upcomingReservation = reservationRepository.findAll(specAfter);
 
         return upcomingReservation.stream()
                 .map(this::convertToReservationDto)
                 .collect(Collectors.toList());
     }
+
+    /**
+     * 상담사의 지난 예약을 조회하는 메서드
+     *
+     * @param csltId 상담사 ID
+     * @return List<ReservationDto> 지난 예약 리스트
+     */
+    public List<ReservationDto> getPastReservationsCslt(@RequestParam String csltId) {
+        Specification<Reservation> specBefore = ReservationSpecification.lessRsvDate(LocalDate.now());
+        Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
+
+        specBefore = specBefore.and(ReservationSpecification.greaterRsvDate(LocalDate.now().minusMonths(3)));
+        specToday = specToday.and(ReservationSpecification.equalsRsvDate(LocalDate.now()));
+        specToday = specToday.and(ReservationSpecification.lessRsvTime(LocalTime.now()));
+
+        specBefore = specBefore.or(specToday);
+        specBefore = specBefore.and(ReservationSpecification.equalsCsltId(csltId));
+        List<Reservation> pastReservation = reservationRepository.findAll(specBefore);
+
+        return pastReservation.stream()
+                .map(this::convertToReservationDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 상담사의 예정된 예약을 조회하는 메서드
+     *
+     * @param csltId 상담사 ID
+     * @return List<ReservationDto> 예정된 예약 리스트
+     */
+    public List<ReservationDto> getUpcomingReservationsCslt(@RequestParam String csltId) {
+        Specification<Reservation> specAfter = ReservationSpecification.greaterRsvDate(LocalDate.now());
+        Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
+
+
+        specToday = specToday.and(ReservationSpecification.equalsRsvDate(LocalDate.now()));
+        specToday = specToday.and(ReservationSpecification.greaterRsvTime(LocalTime.now()));
+
+        specAfter = specAfter.or(specToday);
+        specAfter = specAfter.and(ReservationSpecification.equalsCsltId(csltId));
+        List<Reservation> upcomingReservation = reservationRepository.findAll(specAfter);
+
+        return upcomingReservation.stream()
+                .map(this::convertToReservationDto)
+                .collect(Collectors.toList());
+    }
+
 
     /**
      * 새로운 상담 예약을 추가하는 메서드

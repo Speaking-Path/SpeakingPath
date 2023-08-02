@@ -13,4 +13,6 @@ public interface ConsultingService {
     String addReservation(ReservationDto reservationDto);
     List<ReservationDto> getPastReservations(String userId);
     List<ReservationDto> getUpcomingReservations(String userId);
+    List<ReservationDto> getPastReservationsCslt(String csltId);
+    List<ReservationDto> getUpcomingReservationsCslt(String csltId);
 }
