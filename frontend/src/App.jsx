@@ -10,7 +10,7 @@ import MainPage from './pages/MainPage';
 import UntactConsult from './components/Video/Untact'
 import Consultant from './pages/Consultant'
 import Reservation from './pages/Reservation'
-import CsltCalendar from './components/Reservation/ConsultantCalendar';
+import CsltCalendar from './components/MyPage/ConsultantCalendar';
 import Practice from './pages/Practice';
 import PickName from './components/Practice/PickName';
 import PickPic from './components/Practice/PickPic';
@@ -39,6 +39,7 @@ function App() {
           <Route path="" element={<Profile />} />
           <Route path="checkrsv" element={<CheckRsv />} />
           <Route path="pastrsv" element={<PastRsv/>}/>
+          <Route path="consultrsv" element={<CsltCalendar />} />
         </Route>
 
 
@@ -51,7 +52,6 @@ function App() {
 
         <Route path="/consulting" element={<Consultant />} />
         <Route path="/consulting/reservation" element={<Reservation />} />
-        <Route path="/consulting/rev" element={<CsltCalendar />} />
 
 
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}

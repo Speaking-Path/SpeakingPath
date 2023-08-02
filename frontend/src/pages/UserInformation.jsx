@@ -18,12 +18,14 @@ function UserInformation() {
   const [isProfileClicked, setProfileClicked] = useState(false);
   const [isReservationsClicked, setReservationsClicked] = useState(false);
   const [isPastrsvClicked, setIsPastrsvClicked] = useState(false);
+  const [isCsltRsv, setIsCsltRsv] = useState(false)
 
 
   const handleProfileClick = () => {
     setProfileClicked(true);
     setReservationsClicked(false);
     setIsPastrsvClicked(false)
+    setIsCsltRsv(false)
     navigate("/account/mypage");
   };
 
@@ -31,6 +33,7 @@ function UserInformation() {
     setProfileClicked(false);
     setReservationsClicked(true);
     setIsPastrsvClicked(false)
+    setIsCsltRsv(false)
     navigate("/account/mypage/checkrsv");
   };
 
@@ -38,17 +41,17 @@ function UserInformation() {
     setProfileClicked(false);
     setReservationsClicked(false);
     setIsPastrsvClicked(true)
+    setIsCsltRsv(false)
     navigate("/account/mypage/pastrsv");
   };
 
-  // const handleMyScreen = () => {
-  //   setProfileClicked(false);
-  //   setReservationsClicked(false);
-  //   setIsPastrsvClicked(false)
-  // };
-
-
-
+  const handleCsltRsv = () => {
+    setProfileClicked(false);
+    setReservationsClicked(false);
+    setIsPastrsvClicked(false)
+    setIsCsltRsv(true)
+    navigate("/account/mypage/consultrsv");
+  };
 
 
   const navigate = useNavigate()
@@ -83,7 +86,8 @@ function UserInformation() {
   return (
     <div>
       <img className={styles.mypageBanner} src={process.env.PUBLIC_URL + "/assets/mypage.png"} alt="" />
-      <p>공지<span></span></p>
+      <p className={styles.notice}><span className={styles.noticeTitle}>공지</span>
+      <span className={styles.noticeInfo}> 안녕하세요. 말하길입니다.</span></p>
       <div className={`${styles.mypageMain} container`}>
         <div className='row'>
           <div className={`${styles.infoBox} col-3`}>
@@ -101,6 +105,13 @@ function UserInformation() {
               <p className={isReservationsClicked ? styles.profileClicked : styles.profileNonClicked} onClick={handleReservationsClick}>예정된 상담</p>
               <p className={isPastrsvClicked ? styles.profileClicked : styles.profileNonClicked} onClick={handlePastRsvClick}>지난 상담</p>
               <p className={isPreviewOpen ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
+              {
+                userInfo && userInfo.userGrade === "CONSULTANT" ? (
+                  <p className={isCsltRsv ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
+                ) : (
+                  null
+                )
+              }
             </div>
           </div>
           <div className={`${styles.outletBox} col-9`}>

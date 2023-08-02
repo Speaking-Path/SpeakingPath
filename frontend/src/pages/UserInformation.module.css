@@ -45,8 +45,19 @@
 }
 
 
+.notice {
+  position: relative;
+  bottom: 210px;
+  text-align: left;
+  padding-left: 8%;
+}
+
+.noticeTitle {
+  font-weight: 700;
+}
+
 .mypageBanner {
-  width: 100vw;
+  width: 99.5vw;
 }
 
 .mypageMain {
