@@ -4,6 +4,9 @@ import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
 import com.twinlions.spkpath.practice.entity.single.WordEntity;
 import com.twinlions.spkpath.practice.service.PracticeService;
+import com.twinlions.spkpath.practice.vo.StudySentenceVO;
+import com.twinlions.spkpath.practice.vo.StudySyllableVO;
+import com.twinlions.spkpath.practice.vo.StudyWordVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +43,26 @@ public class PracticeController {
     public ResponseEntity<List<SentenceEntity>> listSentence(){
         List<SentenceEntity> sentenceList = practiceService.listAllSentence();
         return new ResponseEntity<>(sentenceList, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/pron/syllable/save")
+    @Operation(summary = "음절 저장", description = "추가로 학습할 음절을 저장한다.")
+    public ResponseEntity<?> saveSyllable(@RequestBody StudySyllableVO studySyllableVO){
+        practiceService.saveSyllable(studySyllableVO.getUserId(), studySyllableVO.getSlbId());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/word/save")
+    @Operation(summary = "단어 저장", description = "추가로 학습할 단어를 저장한다.")
+    public ResponseEntity<?> saveWord(@RequestBody StudyWordVO studyWordVO){
+        practiceService.saveWord(studyWordVO.getUserId(), studyWordVO.getWordId());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/Sentence/save")
+    @Operation(summary = "문장 저장", description = "추가로 학습할 문장을 저장한다.")
+    public ResponseEntity<?> saveSentence(@RequestBody StudySentenceVO studySentenceVO){
+        practiceService.saveSentence(studySentenceVO.getUserId(), studySentenceVO.getStcId());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

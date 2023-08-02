@@ -4,6 +4,7 @@ import com.twinlions.spkpath.practice.entity.id.StudyObjectId;
 import com.twinlions.spkpath.practice.entity.single.ObjectEntity;
 import com.twinlions.spkpath.user.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "study_object_tb")

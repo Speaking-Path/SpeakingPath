@@ -12,4 +12,9 @@ public interface PracticeService {
     List<ObjectEntity> listAllObject();
     List<SentenceEntity> listAllSentence();
     List<SyllableEntity> listAllSyllable();
+
+    void saveSyllable(String userId, int slbId);
+    void saveWord(String userId, int wordId);
+    void saveSentence(String userId, int stcId);
+    void saveObject(String uesrId, int objId);
 }
