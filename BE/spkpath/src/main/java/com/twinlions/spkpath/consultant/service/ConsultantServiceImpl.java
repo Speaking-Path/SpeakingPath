@@ -90,7 +90,7 @@ public class ConsultantServiceImpl implements ConsultantService {
         consultantDto.setUserEmail(consultant.getUserEmail());
         consultantDto.setUserAge(consultant.getUserAge());
         consultantDto.setUserGrade(consultant.getUserGrade());
-        consultantDto.setUserName(consultant.getUserName());
+        consultantDto.setUserName(consultant.getUsername());
         consultantDto.setUserPhone(consultant.getUserPhone());
         consultantDto.setUserPwd(consultant.getUserPwd());
         consultantDto.setUserSex(consultant.getUserSex());

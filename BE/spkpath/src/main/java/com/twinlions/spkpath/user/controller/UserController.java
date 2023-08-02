@@ -4,6 +4,8 @@ import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.jwt.service.JwtService;
+import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
+import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -15,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,8 +29,8 @@ public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
-    // Todo: JWT 구현해야함
-
+    private final UserRepository userRepository;
+    private final CustomUserDetailsService customUserDetailsService;
      private JwtService jwtService;
 
     @PostMapping(value = "/signup")
@@ -99,5 +102,23 @@ public class UserController {
         }else{
             return new ResponseEntity<>("fail", HttpStatus.OK);
         }
+    }
+
+    @PostMapping(value = "/mypage")
+    @Operation(summary = "내 프로필 조회", description = "내 프로필을 조회한다.")
+    public ResponseEntity<?> readProfile(@RequestBody String userId){
+        return new ResponseEntity<>(userRepository.findByUserId(userId).get(), HttpStatus.OK);
+    }
+
+    /**
+     * 수정할 정보를 userDto 에 담아 보내주면 수정한다.
+     * 현재는 pwd, info, phone 정보만 수정 가능하다.
+     * @param userDto
+     * @return
+     */
+    @PutMapping(value = "/change")
+    @Operation(summary = "내 프로필 정보 수정", description = "내 프로필의 정보를 수정할 수 있습니다.")
+    public ResponseEntity<?> updateProfile(@RequestBody UserDto userDto){
+        return new ResponseEntity<>(userService.update(userDto), HttpStatus.OK);
     }
 }
