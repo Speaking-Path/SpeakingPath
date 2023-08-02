@@ -12,7 +12,6 @@ import styles from "./ConsultantCalendar.module.css"
 
 
 function CsltCalendar() {
-  // const [selected, setSelected] = useState()
   const timesList = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
   const [revTime, setRevTime] = useState([])
 
@@ -191,6 +190,7 @@ function CsltCalendar() {
         times: revTime,
         userId: csltId
       }
+      console.log(data)
       setRange()
       setRevTime([])
       axios.post("/cslting/addsche", data)
@@ -214,17 +214,20 @@ function CsltCalendar() {
         src={process.env.PUBLIC_URL + "/assets/consultantrev.png"}
         alt="" className={styles.banner}
       />
-      <div className="container">
+      <div className={`${styles.calendarInfoBox} container`}>
         <div className="row">
           <div className={`${styles.useInfo} col-3`}>
-            <p>이용안내</p>
-            <p>1. 상담 가능한 날짜와 시간을 선택합니다.</p>
-            <p>(시간은 1시간 단위입니다.)</p>
+            <p className={styles.infoTitle}>이용안내</p>
+            <div className={styles.infoDesc}>
+            <p>1. <span>상담 가능한 날짜와 시간을 선택합니다. (다중 선택 가능, 시간은 1시간 단위입니다.)</span></p>
             <p>2. 환자가 상담 신청을 하면 승인이 필요합니다.</p>
             <p>3. 예약 시간 10분 전 비대면 상담 방이 생성됩니다.</p>
             <p>4. 말하길이 제공하는 상담 방에서 상담을 진행하세요.</p>
+            </div>
           </div>
-          <div className="col-6">
+          <div className={`${styles.csltCal} col-6`}>
+            <p>날짜 선택</p>
+            <div className={styles.cal}>
             <DayPicker
               mode="range"
               locale={ko}
@@ -235,18 +238,20 @@ function CsltCalendar() {
               showOutsideDays
               onSelect={setRange}
             />
+            </div>
           </div>
-          <div className="col-3">
+          <div className={`${styles.posTime} col-3`}>
+            <p>상담 가능 시간 선택</p>
             {
               timesList.map((time, index) => {
                 return (
-                  <div key={index}>
-                    <input type="checkbox" name="times" id={index} value={index}
+                  <div className={styles.labelAndInput} key={index}>
+                    <input className={styles.input} type="checkbox" name="times" id={index} value={index}
                       checked={revTime.includes(time)}
                       onChange={(e) => {
                         selectTime(e.currentTarget.checked, time)
                       }} />
-                    <label htmlFor={index}>{time}</label>
+                    <label className={styles.label} htmlFor={index}>{time}</label>
                   </div>
                 )
               })
@@ -254,7 +259,7 @@ function CsltCalendar() {
           </div>
         </div>
       </div>
-      <button onClick={onReserv}>시간 설정하기</button>
+      <button onClick={onReserv} className={`${styles.revButton}`}>시간 설정하기</button>
     </div>
   )
 }

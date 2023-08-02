@@ -12,6 +12,7 @@
   border-right: 1px solid #D9D9D9;
   text-align: left;
   padding-top: 2%;
+  padding-bottom: 8%;
 }
 
 .selectTime {
@@ -89,8 +90,7 @@
 .label {
   padding-top: 5%;
   padding-bottom: 5%;
-  padding-left: 30%;
-  padding-right: 30%;
+  width: 70%;
   margin-bottom: 2%;
   border: 1px solid #A5C1F7;
   font-weight: 600;
@@ -137,4 +137,63 @@
 
 .boundarys {
   margin-bottom: 4%;
+}
+
+.rsvModal {
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(0, 0, 0, 0.6)
+}
+
+.rsvModalMain {
+  width: 300px;
+  height: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 20px;
+}
+
+.img {
+  width: 200px;
+  padding: 20px;
+  margin-bottom: 8%;
+}
+
+.revReason {
+  margin-bottom: 30px;
+}
+
+.btn {
+  height: 60px;
+  border-top: 1px solid #D9D9D9;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.submit {
+  font-size: 18px;
+  font-weight: 700;
+  color: #2E64FE;
+}
+
+.cancel {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.revReason p {
+  line-height: 0.3;
+}
+
+.reasonInfo {
+  margin-bottom: 10%;
 }
