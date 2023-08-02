@@ -3,7 +3,7 @@ import './App.css';
 import { Routes, Route } from 'react-router-dom'
 import UserSignup from './pages/UserSignup'
 import ConsultantSignup from './pages/ConsultantSignup'
-import UserInformation from './components/profile/UserInformation'
+import UserInformation from './pages/UserInformation'
 import Login from './pages/Login'
 import NavBar from './components/NavBar/Navbar';
 import MainPage from './pages/MainPage';
@@ -17,7 +17,8 @@ import PickPic from './components/Practice/PickPic';
 import Sentence from './components/Practice/Sentence';
 import Syllable from './components/Practice/Syllable';
 import Word from './components/Practice/Word';
-import { useEffect } from 'react';
+import Profile from './components/MyPage/Profile';
+import CheckRsv from './components/MyPage/CheckRsv';
 
 
 
@@ -25,28 +26,34 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar/> 
+      <NavBar />
       {/* 루트 추가 여기에 */}
       <Routes>
-      <Route exact path="/" element={<MainPage/>} />
-        <Route path="/account/signup" element={<UserSignup/>}/>
-        <Route path="/account/consultantsignup" element={<ConsultantSignup/>}/>
-        <Route path="/account/mypage" element={<UserInformation />}/>
-        <Route path="/account/login" element={<Login/>}/>
+        <Route exact path="/" element={<MainPage />} />
+        <Route path="/account/signup" element={<UserSignup />} />
+        <Route path="/account/consultantsignup" element={<ConsultantSignup />} />
+        <Route path="/account/login" element={<Login />} />
 
-        <Route path="/practice" element={<Practice/>}/>
-        <Route path="/practice/pron/syllable" element={<Syllable/>}/>
-        <Route path="/practice/pron/word" element={<Word/>}/>
-        <Route path="/practice/pron/sentence" element={<Sentence/>}/>
-        <Route path="/practice/recog/select" element={<PickName/>}/>
-        <Route path="/practice/recog/select-name" element={<PickPic/>}/>
+        <Route path="/account/mypage" element={<UserInformation />}>
+          <Route path="" element={<Profile />} />
+          <Route path="checkrsv" element={<CheckRsv />} />
+        </Route>
 
-        <Route path="/consulting" element={<Consultant/>}/>
-        <Route path="/consulting/reservation" element={<Reservation/>}/>
-        <Route path="/consulting/rev" element={<CsltCalendar/>}/>
+
+        <Route path="/practice" element={<Practice />} />
+        <Route path="/practice/pron/syllable" element={<Syllable />} />
+        <Route path="/practice/pron/word" element={<Word />} />
+        <Route path="/practice/pron/sentence" element={<Sentence />} />
+        <Route path="/practice/recog/select" element={<PickName />} />
+        <Route path="/practice/recog/select-name" element={<PickPic />} />
+
+        <Route path="/consulting" element={<Consultant />} />
+        <Route path="/consulting/reservation" element={<Reservation />} />
+        <Route path="/consulting/rev" element={<CsltCalendar />} />
+
 
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}
-        <Route path="/consulting/meeting" element={<UntactConsult/>}/>
+        <Route path="/consulting/meeting" element={<UntactConsult />} />
       </Routes>
     </div>
   );

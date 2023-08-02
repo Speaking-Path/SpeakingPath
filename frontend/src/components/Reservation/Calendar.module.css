@@ -164,7 +164,7 @@
 .img {
   width: 200px;
   padding: 20px;
-  margin-bottom: 8%;
+  margin-bottom: 6%;
 }
 
 .revReason {
@@ -177,16 +177,18 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  cursor: pointer;
 }
 
 .submit {
-  font-size: 18px;
+  font-size: 17.5px;
   font-weight: 700;
   color: #2E64FE;
+  cursor: pointer;
 }
 
 .cancel {
-  font-size: 18px;
+  font-size: 17.5px;
   font-weight: 700;
 }
 
@@ -197,3 +199,51 @@
 .reasonInfo {
   margin-bottom: 10%;
 }
+
+.reasonInput {
+  font-size: 15px;
+  color: #222222;
+  width: 300px;
+  border: none;
+  border-bottom: solid #aaaaaa 1px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  position: relative;
+  background: none;
+  width: 80%;
+}
+
+.reasonInput::placeholder { color: #aaaaaa; }
+.reasonInput:focus { outline: none; }
+
+/* .reasonSpan {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0%; 
+  background-color: #666;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  transition: 0.5s;
+} */
+
+/* .reasonLabel {
+  position: absolute;
+  color: #aaa;
+  left: 10px;
+  font-size: 20px;
+  bottom: 8px;
+  transition: all .2s;
+}
+
+.reasonInput:focus ~ label, .reasonInput:valid ~ label {
+  font-size: 16px;
+  bottom: 40px;
+  color: #666;
+  font-weight: bold;
+}
+
+.reasonInput:focus ~ span, .reasonInput:valid ~ span {
+  width: 100%;
+} */
