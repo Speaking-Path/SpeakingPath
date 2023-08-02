@@ -81,7 +81,7 @@ public class ConsultingServiceImpl implements ConsultingService {
             for (DateRequestDto dto: scheduleRequestDto.getTimeSelected()) {
                 for (int day: dto.getDays()) {
                     // 연-월-일 -> LocalDate로 변환
-                    LocalDate ld = LocalDate.of(dto.getYear(), dto.getMonth(), day);
+                    LocalDate ld = LocalDate.of(dto.getYear(), dto.getMonth()+1, day);
                     for (String time: scheduleRequestDto.getTimes()) {
                         // times -> LocalTime으로 변환
                         LocalTime lt = LocalTime.parse(time);
@@ -114,7 +114,7 @@ public class ConsultingServiceImpl implements ConsultingService {
             Reservation reservation = Reservation.builder()
                     .user(userRepository.findByUserId(reservationDto.getUserId()).get())
                     .cslt(consultantRepository.findByUserId(reservationDto.getCsltId()))
-                    .rsvDate(LocalDate.of(reservationDto.getYear(), reservationDto.getMonth(), reservationDto.getDay()))
+                    .rsvDate(LocalDate.of(reservationDto.getYear(), reservationDto.getMonth()+1, reservationDto.getDay()))
                     .rsvTime(LocalTime.of(reservationDto.getTime(), 0))
                     .rsvStatus("예약대기")
                     .rsvInfo(reservationDto.getRsvInfo())
@@ -132,7 +132,7 @@ public class ConsultingServiceImpl implements ConsultingService {
 
         return new DateResponseDto(
                 schedulePK.getAvailableDate().getYear(),
-                schedulePK.getAvailableDate().getMonthValue(),
+                schedulePK.getAvailableDate().getMonthValue()-1,
                 schedulePK.getAvailableDate().getDayOfMonth(),
                 Collections.singletonList(schedulePK.getAvailableTime().toString())
         );
