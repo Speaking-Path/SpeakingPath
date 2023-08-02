@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -134,7 +133,7 @@ public class ConsultingServiceImpl implements ConsultingService {
                 schedulePK.getAvailableDate().getYear(),
                 schedulePK.getAvailableDate().getMonthValue()-1,
                 schedulePK.getAvailableDate().getDayOfMonth(),
-                Collections.singletonList(schedulePK.getAvailableTime().toString())
+                schedulePK.getAvailableTime().toString()
         );
     }
 }

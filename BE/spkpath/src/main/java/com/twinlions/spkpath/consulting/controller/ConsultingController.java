@@ -41,7 +41,6 @@ public class ConsultingController {
         }
     }
 
-
     @PostMapping(value = "/addsche")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation"),
