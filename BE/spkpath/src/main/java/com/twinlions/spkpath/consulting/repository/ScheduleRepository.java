@@ -10,5 +10,6 @@ import java.util.List;
 public interface ScheduleRepository extends Repository<Schedule, SchedulePK> {
 
     List<Schedule> findAllBySchedulePKUserIdAndSchedulePKAvailableDate(String userId, LocalDate AvailableDate);
+    void deleteBySchedulePK(SchedulePK schedulePK);
     Schedule save(Schedule schedule);
 }
