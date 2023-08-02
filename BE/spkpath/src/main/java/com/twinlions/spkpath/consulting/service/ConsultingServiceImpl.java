@@ -82,9 +82,9 @@ public class ConsultingServiceImpl implements ConsultingService {
                 for (int day: dto.getDays()) {
                     // 연-월-일 -> LocalDate로 변환
                     LocalDate ld = LocalDate.of(dto.getYear(), dto.getMonth(), day);
-                    for (int time: scheduleRequestDto.getTimes()) {
+                    for (String time: scheduleRequestDto.getTimes()) {
                         // times -> LocalTime으로 변환
-                        LocalTime lt = LocalTime.of(time, 0);
+                        LocalTime lt = LocalTime.parse(time);
 
                         // AvailableInfo entity 생성
                         Schedule schedule = Schedule.builder()
@@ -134,7 +134,7 @@ public class ConsultingServiceImpl implements ConsultingService {
                 schedulePK.getAvailableDate().getYear(),
                 schedulePK.getAvailableDate().getMonthValue(),
                 schedulePK.getAvailableDate().getDayOfMonth(),
-                Collections.singletonList(schedulePK.getAvailableTime().getHour())
+                Collections.singletonList(schedulePK.getAvailableTime().toString())
         );
     }
 }

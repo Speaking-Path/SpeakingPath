@@ -13,5 +13,5 @@ public class DateResponseDto {
     private int year;
     private int month;
     private int day;
-    private List<Integer> times;
+    private List<String> times;
 }

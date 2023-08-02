@@ -12,5 +12,5 @@ import java.util.List;
 public class ScheduleRequestDto {
     private String userId;
     private List<DateRequestDto> timeSelected;
-    private List<Integer> times;
+    private List<String> times;
 }
