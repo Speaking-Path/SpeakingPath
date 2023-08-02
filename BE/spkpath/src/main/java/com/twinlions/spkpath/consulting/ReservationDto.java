@@ -17,7 +17,7 @@ public class ReservationDto {
     private int year;
     private int month;
     private int day;
-    private int time;
+    private String time;
 
     // 상담 정보
     private String rsvInfo;
