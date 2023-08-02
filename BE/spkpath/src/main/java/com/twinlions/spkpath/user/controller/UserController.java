@@ -7,6 +7,7 @@ import com.twinlions.spkpath.jwt.service.JwtService;
 import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
+import com.twinlions.spkpath.user.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -106,8 +107,8 @@ public class UserController {
 
     @PostMapping(value = "/mypage")
     @Operation(summary = "내 프로필 조회", description = "내 프로필을 조회한다.")
-    public ResponseEntity<?> readProfile(@RequestBody String userId){
-        return new ResponseEntity<>(userRepository.findByUserId(userId).get(), HttpStatus.OK);
+    public ResponseEntity<?> readProfile(@RequestBody UserVO userId){
+        return new ResponseEntity<>(userRepository.findByUserId(userId.getUserId()).get(), HttpStatus.OK);
     }
 
     /**
