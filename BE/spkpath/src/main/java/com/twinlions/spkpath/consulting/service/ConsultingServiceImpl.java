@@ -12,6 +12,7 @@ import com.twinlions.spkpath.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.apache.commons.lang3.RandomStringUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -117,6 +118,7 @@ public class ConsultingServiceImpl implements ConsultingService {
                     .rsvTime(LocalTime.parse(reservationDto.getTime()))
                     .rsvStatus("예약대기")
                     .rsvInfo(reservationDto.getRsvInfo())
+                    .rsvCode(RandomStringUtils.randomAlphanumeric(20))
                     .build();
             reservationRepository.save(reservation);
             return "success";
