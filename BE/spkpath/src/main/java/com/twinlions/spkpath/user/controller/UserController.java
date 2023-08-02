@@ -85,9 +85,7 @@ public class UserController {
     @GetMapping(value = "/checkid")
     @Operation(summary = "아이디 중복 체크", description = "아이디가 존재하는 아이디인지 확인한다. \n 확인하고자 하는 아이디를 입력한다.")
     public ResponseEntity<String> checkId(@RequestParam String userId){
-        System.out.println("test");
         int result = userService.checkId(userId);
-        System.out.println("test done");
         if( result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
         }else{

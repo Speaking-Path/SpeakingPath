@@ -26,7 +26,7 @@ CREATE TABLE `reservation_item_tb` (
 	`rsv_date`	date	NOT NULL,
 	`rsv_time`	timestamp	NOT NULL,
 	`rsv_status`	varchar(10)	NOT NULL	COMMENT '대기 / 거절 / 완료 / 취소',
-	`rsv_info`	char(20)	NULL,
+	`rsv_info`	varchar(80)	NULL,
 	`rsv_code`	char(20)	NOT NULL
 );
 
@@ -69,70 +69,50 @@ CREATE TABLE `one_a_tb` (
 );
 
 CREATE TABLE `object_tb` (
-	`obj_id`	int	NOT NULL	COMMENT 'auto_increment',
+	`obj_id`	int	NOT NULL auto_increment primary key ,
 	`obj_name`	char(10)	NOT NULL,
 	`obj_pic`	varchar(100)	NOT NULL
 );
 
-CREATE TABLE `proverb_tb` (
-	`prv_id`	int	NOT NULL	COMMENT 'auto_increment',
-	`prv_content`	char(50)	NOT NULL,
-	`prv_ans`	char(25)	NOT NULL
-);
-
 CREATE TABLE `syllable_tb` (
-	`slb_id`	int	NOT NULL	COMMENT 'auto_increment',
+	`slb_id`	int	NOT NULL auto_increment primary key ,
 	`slb_content`	char(4)	NOT NULL
 );
 
 CREATE TABLE `study_syllable_tb` (
-	`slb_id`	int	NOT NULL	COMMENT 'auto_increment',
-	`user_id`	char(20)	NOT NULL,
-	`study_slb_cnt`	int	NOT NULL	DEFAULT 1	COMMENT 'default: 1'
+	`slb_id`	int	NOT NULL,
+	`user_id`	char(20)	NOT NULL
 );
 
 CREATE TABLE `study_object_tb` (
-	`obj_id`	int	NOT NULL	COMMENT 'auto_increment',
-	`user_id`	char(20)	NOT NULL,
-	`study_obj_cnt`	int	NOT NULL	DEFAULT 1	COMMENT 'default: 1'
-);
-
-CREATE TABLE `study_proverb_tb` (
-	`prv_id`	int	NOT NULL	COMMENT 'auto_increment',
-	`user_id`	char(20)	NOT NULL,
-	`study_prv_cnt`	int	NOT NULL	DEFAULT 1	COMMENT 'default: 1'
+	`obj_id`	int	NOT NULL,
+	`user_id`	char(20)	NOT NULL
 );
 
 CREATE TABLE `study_word_tb` (
-	`word_id`	int	NOT NULL	COMMENT 'auto_increment',
-	`user_id`	char(20)	NOT NULL,
-	`study_word_cnt`	int	NOT NULL	DEFAULT 1	COMMENT 'default: 1'
+	`word_id`	int	NOT NULL,
+	`user_id`	char(20)	NOT NULL
 );
 
 CREATE TABLE `word_tb` (
-	`word_id`	int	NOT NULL	COMMENT 'auto_increment',
+	`word_id`	int	NOT NULL auto_increment primary key ,
 	`word_content`	varchar(30)	NOT NULL
 );
 
 CREATE TABLE `sentence_tb` (
-	`stc_id`	int	NOT NULL	COMMENT 'auto_increment',
+	`stc_id`	int	NOT NULL auto_increment primary key ,
 	`stc_content`	varchar(100)	NOT NULL
 );
 
 CREATE TABLE `study_sentence_tb` (
-	`stc_id`	int	NOT NULL	COMMENT 'auto_increment',
-	`user_id`	char(20)	NOT NULL,
-	`study_stc_cnt`	int	NOT NULL	DEFAULT 1	COMMENT 'default: 1'
-);
-
-CREATE TABLE `consultant_available_date` (
-	`available_date_id`	date	NOT NULL,
+	`stc_id`	int	NOT NULL,
 	`user_id`	char(20)	NOT NULL
 );
 
-CREATE TABLE `consultant_available_time` (
-	`available_time_id`	time	NOT NULL,
-	`available_date_id`	date	NOT NULL
+CREATE TABLE `consultant_available_info` (
+	`available_date`	date	NOT NULL,
+  `available_time`	time	NOT NULL,
+	`user_id`	char(20)	NOT NULL
 );
 
 CREATE TABLE `tag_tb` (
@@ -146,13 +126,13 @@ CREATE TABLE `boundary_tb` (
 );
 
 CREATE TABLE `consultant_tag_tb` (
-	`id`	int	NOT NULL,
+	`id`	int	primary key NOT NULL auto_increment,
 	`tag_id`	int	NOT NULL,
 	`user_id`	char(20)	NOT NULL
 );
 
 CREATE TABLE `consultant_boundary_tb` (
-	`id`	int	NOT NULL,
+	`id`	int primary key	NOT NULL auto_increment,
 	`boundary_id`	int	NOT NULL,
 	`user_id`	char(20)	NOT NULL
 );
@@ -196,18 +176,6 @@ ALTER TABLE `one_a_tb` ADD CONSTRAINT `PK_ONE_A_TB` PRIMARY KEY (
 	`one_id`
 );
 
-ALTER TABLE `object_tb` ADD CONSTRAINT `PK_OBJECT_TB` PRIMARY KEY (
-	`obj_id`
-);
-
-ALTER TABLE `proverb_tb` ADD CONSTRAINT `PK_PROVERB_TB` PRIMARY KEY (
-	`prv_id`
-);
-
-ALTER TABLE `syllable_tb` ADD CONSTRAINT `PK_SYLLABLE_TB` PRIMARY KEY (
-	`slb_id`
-);
-
 ALTER TABLE `study_syllable_tb` ADD CONSTRAINT `PK_STUDY_SYLLABLE_TB` PRIMARY KEY (
 	`slb_id`,
 	`user_id`
@@ -218,22 +186,9 @@ ALTER TABLE `study_object_tb` ADD CONSTRAINT `PK_STUDY_OBJECT_TB` PRIMARY KEY (
 	`user_id`
 );
 
-ALTER TABLE `study_proverb_tb` ADD CONSTRAINT `PK_STUDY_PROVERB_TB` PRIMARY KEY (
-	`prv_id`,
-	`user_id`
-);
-
 ALTER TABLE `study_word_tb` ADD CONSTRAINT `PK_STUDY_WORD_TB` PRIMARY KEY (
 	`word_id`,
 	`user_id`
-);
-
-ALTER TABLE `word_tb` ADD CONSTRAINT `PK_WORD_TB` PRIMARY KEY (
-	`word_id`
-);
-
-ALTER TABLE `sentence_tb` ADD CONSTRAINT `PK_SENTENCE_TB` PRIMARY KEY (
-	`stc_id`
 );
 
 ALTER TABLE `study_sentence_tb` ADD CONSTRAINT `PK_STUDY_SENTENCE_TB` PRIMARY KEY (
@@ -241,12 +196,10 @@ ALTER TABLE `study_sentence_tb` ADD CONSTRAINT `PK_STUDY_SENTENCE_TB` PRIMARY KE
 	`user_id`
 );
 
-ALTER TABLE `consultant_available_date` ADD CONSTRAINT `PK_CONSULTANT_AVAILABLE_DATE` PRIMARY KEY (
-	`available_date_id`
-);
-
-ALTER TABLE `consultant_available_time` ADD CONSTRAINT `PK_CONSULTANT_AVAILABLE_TIME` PRIMARY KEY (
-	`available_time_id`
+ALTER TABLE `consultant_available_info` ADD CONSTRAINT `PK_CONSULTANT_AVAILABLE_DATE` PRIMARY KEY (
+  `user_id`,
+	`available_time`,
+	`available_date`
 );
 
 ALTER TABLE `tag_tb` ADD CONSTRAINT `PK_TAG_TB` PRIMARY KEY (
@@ -255,18 +208,6 @@ ALTER TABLE `tag_tb` ADD CONSTRAINT `PK_TAG_TB` PRIMARY KEY (
 
 ALTER TABLE `boundary_tb` ADD CONSTRAINT `PK_BOUNDARY_TB` PRIMARY KEY (
 	`boundary_id`
-);
-
-ALTER TABLE `consultant_tag_tb` ADD CONSTRAINT `PK_CONSULTANT_TAG_TB` PRIMARY KEY (
-	`id`,
-	`tag_id`,
-	`user_id`
-);
-
-ALTER TABLE `consultant_boundary_tb` ADD CONSTRAINT `PK_CONSULTANT_BOUNDARY_TB` PRIMARY KEY (
-	`id`,
-	`boundary_id`,
-	`user_id`
 );
 
 ALTER TABLE `authority` ADD CONSTRAINT `PK_AUTHORITY` PRIMARY KEY (
@@ -321,20 +262,6 @@ REFERENCES `object_tb` (
 );
 
 ALTER TABLE `study_object_tb` ADD CONSTRAINT `FK_user_tb_TO_study_object_tb_1` FOREIGN KEY (
-	`user_id`
-)
-REFERENCES `user_tb` (
-	`user_id`
-);
-
-ALTER TABLE `study_proverb_tb` ADD CONSTRAINT `FK_proverb_tb_TO_study_proverb_tb_1` FOREIGN KEY (
-	`prv_id`
-)
-REFERENCES `proverb_tb` (
-	`prv_id`
-);
-
-ALTER TABLE `study_proverb_tb` ADD CONSTRAINT `FK_user_tb_TO_study_proverb_tb_1` FOREIGN KEY (
 	`user_id`
 )
 REFERENCES `user_tb` (
@@ -418,7 +345,7 @@ REFERENCES `user_tb` (
 ####################
 
 insert into tag_tb
-values    (1, '엄격한'), (2, '친근한'), (3, '친절한'), (4, '정적인'), (5, '발랄한'), (6, '활동적인');
+values (1, '엄격한'), (2, '친근한'), (3, '친절한'), (4, '정적인'), (5, '발랄한'), (6, '활동적인');
 
 insert into boundary_tb
 values (1, '언어발달장애'), (2, '말소리장애'), (3, '신경언어장애'), (4, '유창성장애'), (5, '음성장애');
