@@ -14,9 +14,9 @@ import CsltCalendar from './components/Reservation/ConsultantCalendar';
 import Practice from './pages/Practice';
 import PickName from './components/Practice/PickName';
 import PickPic from './components/Practice/PickPic';
-import Sentence from './components/Practice/Sentence';
-import Syllable from './components/Practice/Syllable';
-import Word from './components/Practice/Word';
+import Sentence from './components/Practice/Pronunciation/Sentence';
+import Syllable from './components/Practice/Pronunciation/Syllable';
+import Word from './components/Practice/Pronunciation/Word';
 import { useEffect } from 'react';
 
 

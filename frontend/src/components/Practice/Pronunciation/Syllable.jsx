@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Confetti from "./Confetti"
-import CelebratePron from "./CelebratePron"
+import Confetti from "../Confetti"
+import CelebratePron from "../CelebratePron"
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { changeCorrect } from "../../store/pron";
-import { changeWrong } from "../../store/pron";
-import RetryPron from './RetryPron';
-import WrongConfetti from './WrongConfetti';
+import { changeCorrect } from "../../../store/pron";
+import { changeWrong } from "../../../store/pron";
+import RetryPron from '../RetryPron';
+import WrongConfetti from '../WrongConfetti';
 
 
 function Syllable() {
@@ -16,7 +16,7 @@ function Syllable() {
 
   return(
     <div>
-      <p>음절발음하기</p>
+      <h3>음절 발음</h3>
       <button onClick={() => dispatch(changeCorrect(true))}>맞음</button>
       <button onClick={() => dispatch(changeWrong(true))}>틀림</button>
       {pronCorrect && <Confetti />}
