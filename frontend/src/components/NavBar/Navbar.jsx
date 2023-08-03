@@ -20,6 +20,9 @@ function NavBar() {
   const navigate = useNavigate()
 
   useEffect(()=>{
+    if (!loginNow) {
+      navigate("/");
+    }
   }, [loginNow])
 
 
@@ -57,6 +60,7 @@ function NavBar() {
                   <NavLink className={styles.lasttab} onClick={() => {
                     dispatch(changeLoginInfo(""))
                     localStorage.clear()
+                    navigate("/")
                   }}>
                     로그아웃</NavLink>
                 </div>

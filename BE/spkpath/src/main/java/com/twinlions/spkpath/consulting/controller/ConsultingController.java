@@ -65,7 +65,7 @@ public class ConsultingController {
             @ApiResponse(responseCode = "400", description = "bad request operation"),
             @ApiResponse(responseCode = "500", description = "SQL Exception")
     })
-    @Operation(summary = "과거 예약내역 조회", description = "사용자가 과거 예약내역을 조회한다.")
+    @Operation(summary = "일반회원 지난 예약내역 조회", description = "일반회원이 지난 예약내역을 조회한다.")
     public ResponseEntity<?> getPastReservations(@RequestParam String userId) {
         List<ReservationDto> reservationDtoList = consultingService.getPastReservations(userId);
         return new ResponseEntity<>(reservationDtoList, HttpStatus.OK);
@@ -77,9 +77,33 @@ public class ConsultingController {
             @ApiResponse(responseCode = "400", description = "bad request operation"),
             @ApiResponse(responseCode = "500", description = "SQL Exception")
     })
-    @Operation(summary = "예정된 예약내역 조회", description = "사용자가 예정된 예약내역을 조회한다.")
+    @Operation(summary = "일반회원 예정된 예약내역 조회", description = "일반회원이 예정된 예약내역을 조회한다.")
     public ResponseEntity<?> getUpcomingReservations(@RequestParam String userId) {
         List<ReservationDto> reservationDtoList = consultingService.getUpcomingReservations(userId);
+        return new ResponseEntity<>(reservationDtoList, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "pastrsvcslt")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "bad request operation"),
+            @ApiResponse(responseCode = "500", description = "SQL Exception")
+    })
+    @Operation(summary = "상담사 지난 예약내역 조회", description = "상담사가 지난 예약내역을 조회한다.")
+    public ResponseEntity<?> getPastReservationsCslt(@RequestParam String csltId) {
+        List<ReservationDto> reservationDtoList = consultingService.getPastReservationsCslt(csltId);
+        return new ResponseEntity<>(reservationDtoList, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "upcomingrsvcslt")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "bad request operation"),
+            @ApiResponse(responseCode = "500", description = "SQL Exception")
+    })
+    @Operation(summary = "상담사 예정된 예약내역 조회", description = "상담사가 예정된 예약 내역을 조회한다.")
+    public ResponseEntity<?> getUpcomingReservationsCslt(@RequestParam String csltId) {
+        List<ReservationDto> reservationDtoList = consultingService.getUpcomingReservationsCslt(csltId);
         return new ResponseEntity<>(reservationDtoList, HttpStatus.OK);
     }
 

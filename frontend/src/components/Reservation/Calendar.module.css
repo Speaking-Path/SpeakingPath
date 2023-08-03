@@ -12,6 +12,7 @@
   border-right: 1px solid #D9D9D9;
   text-align: left;
   padding-top: 2%;
+  padding-bottom: 8%;
 }
 
 .selectTime {
@@ -89,8 +90,7 @@
 .label {
   padding-top: 5%;
   padding-bottom: 5%;
-  padding-left: 30%;
-  padding-right: 30%;
+  width: 70%;
   margin-bottom: 2%;
   border: 1px solid #A5C1F7;
   font-weight: 600;
@@ -128,13 +128,122 @@
   border-radius: 5px;
   margin-bottom: 10%;
   transition: box-shadow 0.3s, color 0.3s;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3); /* 그림자 설정 */
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .revButton:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 호버 상태에서 그림자 크게 설정 */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .boundarys {
   margin-bottom: 4%;
 }
+
+.rsvModal {
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(0, 0, 0, 0.6)
+}
+
+.rsvModalMain {
+  width: 300px;
+  height: 300px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border-radius: 20px;
+}
+
+.img {
+  width: 200px;
+  padding: 20px;
+  margin-bottom: 6%;
+}
+
+.revReason {
+  margin-bottom: 30px;
+}
+
+.btn {
+  height: 60px;
+  border-top: 1px solid #D9D9D9;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  cursor: pointer;
+}
+
+.submit {
+  font-size: 17.5px;
+  font-weight: 700;
+  color: #2E64FE;
+  cursor: pointer;
+}
+
+.cancel {
+  font-size: 17.5px;
+  font-weight: 700;
+}
+
+.revReason p {
+  line-height: 0.3;
+}
+
+.reasonInfo {
+  margin-bottom: 10%;
+}
+
+.reasonInput {
+  font-size: 15px;
+  color: #222222;
+  width: 300px;
+  border: none;
+  border-bottom: solid #aaaaaa 1px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  position: relative;
+  background: none;
+  width: 80%;
+}
+
+.reasonInput::placeholder { color: #aaaaaa; }
+.reasonInput:focus { outline: none; }
+
+/* .reasonSpan {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0%; 
+  background-color: #666;
+  width: 0;
+  height: 2px;
+  border-radius: 2px;
+  transition: 0.5s;
+} */
+
+/* .reasonLabel {
+  position: absolute;
+  color: #aaa;
+  left: 10px;
+  font-size: 20px;
+  bottom: 8px;
+  transition: all .2s;
+}
+
+.reasonInput:focus ~ label, .reasonInput:valid ~ label {
+  font-size: 16px;
+  bottom: 40px;
+  color: #666;
+  font-weight: bold;
+}
+
+.reasonInput:focus ~ span, .reasonInput:valid ~ span {
+  width: 100%;
+} */

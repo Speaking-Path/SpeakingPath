@@ -1,5 +1,73 @@
-.profile {
-  display: inline;
-  width: 50px;
-  height: 50px;
+.profileImage {
+  width: 40%;
+}
+
+.profileBox {
+  position: relative;
+  z-index: 1;
+}
+
+.cardInfo {
+  border: 1px solid black;
+  position: relative;
+  bottom: 50px;
+  padding-top: 80px;
+  z-index: 0;
+  width: 100%;
+  height: 330px;
+}
+
+.userName {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 0;
+}
+
+.exp {
+  color: #2E64FE;
+  font-weight: 600;
+  line-height: 0;
+  padding-top: 5px;
+}
+
+.team {
+  line-height: 0;
+  padding-top: 5px;
+  color: #868E96;
+  padding-bottom: 5px;
+}
+
+.boundaryTitle {
+  font-size: 16px;
+  margin-bottom: 0px;
+}
+
+.boundary {
+  margin-bottom: 10px;
+}
+
+.tagTitle {
+  font-size: 16px;
+  margin: 0;
+}
+
+.tag {
+  margin-bottom: 20px;
+}
+
+.btn1 {
+	height: 2rem;
+	padding: 0 1rem;
+	border: 0.1rem solid #000;
+	border-radius: 3rem;
+	box-shadow: 0 0.2rem 0 0 #000;
+	background-color: #fff;
+	color: #000;
+	font-size: 1rem;
+	cursor: pointer;
+	transition: all 0.3s;
+	&:hover {
+		transform: translateY(0.2rem);
+		box-shadow: 0 0.1rem 0 0 #000;
+	}
 }

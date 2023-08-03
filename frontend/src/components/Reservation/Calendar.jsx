@@ -11,18 +11,21 @@ import "./Calendar.css"
 import { useSelector } from "react-redux"
 import styles from "./Calendar.module.css"
 import { format } from "date-fns"
+import { useRef } from "react"
 
 
 function RevCalendar() {
   const selectedCsltInfo = useSelector((state) => { return state.selectedCsltInfo })
   const userId = useSelector((state) => { return state.loginId })
+  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [rsvInfo, setRsvInfo] = useState("")
 
+  const outside = useRef()
 
   const [selected, setSelected] = useState()
   const timesList = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
 
   const [timeSelected, setTimeSelected] = useState({
-    csltId: selectedCsltInfo.userId,
     userId: userId,
     year: null,
     month: null,
@@ -33,44 +36,7 @@ function RevCalendar() {
   const [dayOfWeek, setDayOfWeek] = useState()
   const dayList = ["일", "월", "화", "수", "목", "금", "토"]
 
-  const days = [
-    {
-      year: 2023,
-      month: 6,
-      day: 23,
-      times: "09:00"
-    },
-    {
-      year: 2023,
-      month: 6,
-      day: 23,
-      times: "10:00"
-    },
-    {
-      year: 2023,
-      month: 6,
-      day: 25,
-      times: "09:00"
-    },
-    {
-      year: 2023,
-      month: 6,
-      day: 25,
-      times: "10:00"
-    },
-    {
-      year: 2023,
-      month: 6,
-      day: 25,
-      times: "13:00"
-    },
-    {
-      year: 2023,
-      month: 6,
-      day: 25,
-      times: "14:00"
-    },
-  ]
+  const [days, setDays] = useState([])
 
   const excludedDates = days.map(({ year, month, day }) =>
     new Date(year, month, day))
@@ -89,7 +55,7 @@ function RevCalendar() {
       year === selectedYear && month === selectedMonth && day === selectedDay
     )
 
-    const timesArray = filteredDays.map(({ times }) => times)
+    const timesArray = filteredDays.map(({ time }) => time)
     const availableTimes = [].concat.apply([], timesArray)
 
     return !availableTimes.includes(time)
@@ -108,6 +74,17 @@ function RevCalendar() {
       })
     }
   }
+
+  useEffect(() => {
+    axios.get("/cslting/sche", {params : {"userId" : selectedCsltInfo.userId}})
+      .then((res) => {
+        console.log(res.data)
+        setDays(res.data.dtos)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   const handleDayClick = (date) => {
     if (selected?.toDateString() === date.toDateString()) {
@@ -129,7 +106,6 @@ function RevCalendar() {
   }
 
   const onReserv = function () {
-    console.log(timeSelected)
     if (timeSelected.year && timeSelected.month &&
       timeSelected.day && timeSelected.time) {
       const reservationData = {
@@ -137,12 +113,17 @@ function RevCalendar() {
         month: timeSelected.month,
         day: timeSelected.day,
         time: timeSelected.time,
-        userId: userId
+        userId: userId,
+        rsvInfo: rsvInfo,
+        csltId: selectedCsltInfo.userId,
       }
+      console.log(reservationData)
       // 주소입력
-      axios.post("", reservationData)
+      axios.post("/cslting/addrsv", reservationData)
         .then((res) => {
           alert("예약이 완료되었습니다.")
+          window.location.reload()
+          setIsModalVisible(!isModalVisible)
         })
         .catch((err) => {
           console.log(err)
@@ -169,6 +150,9 @@ function RevCalendar() {
     }
   }, [selected])
 
+  const changeRsvInfo = (value) => {
+    setRsvInfo(value)
+  }
 
 
   return (
@@ -182,7 +166,7 @@ function RevCalendar() {
             <img className={styles.profile} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
 
           )}
-          <p className={styles.name}>{selectedCsltInfo.username}</p>
+          <p className={styles.name}>{selectedCsltInfo.userName}</p>
           <p className={styles.desc}>소속</p>
           <p>{selectedCsltInfo.csltTeam}</p>
           <p className={styles.desc}>전문 분야</p>
@@ -236,7 +220,6 @@ function RevCalendar() {
                     }
                   </div>
                 </div>
-
               ) : (
                 <div className={styles.selDateWarning}>
                   <p>날짜를 선택해주세요</p>
@@ -246,7 +229,38 @@ function RevCalendar() {
           </div>
         </div>
       </div>
-      <button onClick={onReserv} className={`${styles.revButton} ${styles.btnFloat}`}>예약하기</button>
+      <button onClick={(e) => { setIsModalVisible(!isModalVisible) }} className={`${styles.revButton} ${styles.btnFloat}`}>예약하기</button>
+      <div>
+        {
+          isModalVisible ? (
+            <div ref={outside} className={styles.rsvModal}
+              onClick={(e) => { if (e.target == outside.current) setIsModalVisible(!isModalVisible) }}>
+              <div className={styles.rsvModalMain}>
+                <div className={styles.revReason}>
+                  <img src={process.env.PUBLIC_URL + "/assets/modallogo.png"}
+                    className={styles.img} alt="" />
+                    <div className={styles.reasonInfo}>
+                  <p>상담 신청 사유를 입력해주세요.</p>
+                  <p>(10자 이내)</p>
+                  </div>
+                  <input className={styles.reasonInput} type="text" id="rsvInfo" placeholder="신청 사유"
+                  onChange={(e) => { changeRsvInfo(e.target.value) }} />
+                  <label className={styles.reasonLabel} htmlFor="rsvInfo"></label>
+                  <span className={styles.reasonSpan}></span>
+                </div>
+                <div className={styles.btn}>
+                  <div onClick={onReserv} className={styles.submit}>
+                    신청하기</div>
+                  <div onClick={(e) => { setIsModalVisible(!isModalVisible) }} className={styles.cancel}>
+                    취소하기</div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            null
+          )
+        }
+      </div>
     </div>
   )
 }

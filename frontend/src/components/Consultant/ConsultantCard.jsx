@@ -1,87 +1,89 @@
 import { useEffect, useState } from "react"
 import styles from "./ConsultantCard.module.css"
 import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { changeCsltInfo } from "../../store/consultantInfo"
+import axios from "axios"
+import { changeCsltTimes } from "../../store/consultantTimes"
 
 
 function ConsultantCard({ consultant }) {
-  console.log(consultant)
-  const selectedCsltInfo = useSelector((state) => { return state.selectedCsltInfo })
   const dispatch = useDispatch()
 
-  const [imgsrc, setImgsrc] = useState("")
+  const [imgsrc, setImgsrc] = useState("/assets/user.png")
   const navigate = useNavigate()
 
-  const goRev = () => {
-    dispatch(dispatch(changeCsltInfo(consultant)))
+  const goRev = async () => {
+    await dispatch(changeCsltInfo(consultant))
+    const data = {
+      userId: consultant.userId
+    }
+    await axios.get("/sche", data)
+      .then((res) => {
+        dispatch(changeCsltTimes(res.data))
+        console.log(res.data)
+      })
+      .catch((err) => {
+      })
     navigate("/consulting/reservation")
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     if (consultant.userPic) {
       setImgsrc(consultant.userPic)
     }
   }, [])
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-3">
-          <img className={styles.profile} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
+    <div className={styles.csltCard}>
+      <div className={styles.cardBox}>
+        <div className={styles.profileBox}>
+          <img className={styles.profileImage} src={process.env.PUBLIC_URL + imgsrc} alt="" />
         </div>
-        <div className="col">
-          <span>{consultant.username}</span>
-          {consultant.csltExp <= 3 && <span>수련 치료사</span>}
-          {consultant.csltExp > 3 && consultant.csltExp <= 5 && <span>전문 치료사</span>}
-          {consultant.csltExp > 5 && consultant.csltExp <= 10 && <span>프로 치료사</span>}
-          {consultant.csltExp > 10 && <span>마스터 치료사</span>}
-          <div>
+        <div className={styles.cardInfo}>
+          <div className={styles.nameAndExp}>
+            <p className={styles.userName}>{consultant.userName}</p>
+            {consultant.csltExp <= 3 && <p className={styles.exp}>수련 치료사</p>}
+            {consultant.csltExp > 3 && consultant.csltExp <= 5 && <p className={styles.exp}>전문 치료사</p>}
+            {consultant.csltExp > 5 && consultant.csltExp <= 10 && <p className={styles.exp}>프로 치료사</p>}
+            {consultant.csltExp > 10 && <p className={styles.exp}>마스터 치료사</p>}
+          </div>
+          <div className={styles.team}>
             <p>{consultant.csltTeam}</p>
           </div>
-          <div className="row">
-            <div className="col">
-              <p>치료 가능 영역</p>
+          <div className={styles.boundary}>
+            <div >
+              <p className={styles.boundaryTitle}>치료 가능 영역</p>
             </div>
-            <div className="col">
-              <div className="row">
-                {
-                  consultant.csltBoundary.map((boundary, index) => {
-                    return (
-                      <div className="col" key={index}>
-                        <p >{boundary}</p>
-                      </div>
-                    )
-                  })
-                }
-              </div>
+            <div>
+              {
+                consultant.csltBoundary.map((boundary, index) => {
+                  return (
+                    <span key={index}># {boundary} </span>
+                  )
+                })
+              }
             </div>
           </div>
-          <div className="row">
-            <div className="col">
-              <p>성향</p>
+          <div className={styles.tag}>
+            <div>
+              <p className={styles.tagTitle}>성향</p>
             </div>
-            <div className="col">
-              <div className="row">
-                {
-                  consultant.csltTag.map((tag, index) => {
-                    return (
-                      <div className="col" key={index}>
-                        <p >{tag}</p>
-                      </div>
-                    )
-                  })
-                }
-              </div>
+            <div>
+              {
+                consultant.csltTag.map((tag, index) => {
+                  return (
+                    <span key={index}># {tag} </span>
+                  )
+                })
+              }
+            </div>
+          </div>
+          <div>
+            <button onClick={goRev} className={styles.btn1}>상담 신청</button>
+          </div>
         </div>
-            </div>
-          </div>
       </div>
-      <div>
-        <button onClick={goRev}>상담 신청</button>
-      </div>
-      <hr />
     </div>
   )
 }
