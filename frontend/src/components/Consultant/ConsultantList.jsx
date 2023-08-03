@@ -27,15 +27,19 @@ function ConsultantList() {
   return (
     <div className={styles.resultBox}>
         <p className={styles.result}>검색 결과 {consultants.length}건</p>
+        <div className="container">
+          <div className="row">
       {
         consultants.map((consultant, index) => {
           return (
-            <div key={index}>
+            <div key={index} className="col-4">
               <ConsultantCard consultant={consultant} />
             </div>
           )
         })
       }
+      </div>
+      </div>
     </div>
   )
 }

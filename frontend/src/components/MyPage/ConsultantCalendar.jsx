@@ -18,6 +18,7 @@ function CsltCalendar() {
   const [timeSelected, setTimeSelected] = useState([])
   const csltId = useSelector((state) => { return state.loginId })
 
+  const [days, setDays] = useState([])
 
   const today = new Date()
 
@@ -61,7 +62,7 @@ function CsltCalendar() {
           setTimeSelected([{
             year: fromYear,
             month: fromMonth,
-            day: days
+            days: days
           }])
         } else if (fromYear === toYear && fromMonth !== toMonth) {
           let currentYear = fromYear;
@@ -205,6 +206,17 @@ function CsltCalendar() {
     }
   }
 
+  useEffect(() => {
+    axios.get("/cslting/sche", {params : {"userId" : csltId}})
+      .then((res) => {
+        setDays(res.data.dtos)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
+
+
 
 
 
@@ -250,7 +262,7 @@ function CsltCalendar() {
                       checked={revTime.includes(time)}
                       onChange={(e) => {
                         selectTime(e.currentTarget.checked, time)
-                      }} />
+                      }}/>
                     <label className={styles.label} htmlFor={index}>{time}</label>
                   </div>
                 )
