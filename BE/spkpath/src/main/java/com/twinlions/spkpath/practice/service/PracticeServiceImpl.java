@@ -1,5 +1,6 @@
 package com.twinlions.spkpath.practice.service;
 
+import com.twinlions.spkpath.practice.config.StudyConverter;
 import com.twinlions.spkpath.practice.entity.composite.StudyObject;
 import com.twinlions.spkpath.practice.entity.composite.StudySentence;
 import com.twinlions.spkpath.practice.entity.composite.StudySyllable;
@@ -9,6 +10,10 @@ import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
 import com.twinlions.spkpath.practice.entity.single.WordEntity;
 import com.twinlions.spkpath.practice.repository.*;
+import com.twinlions.spkpath.practice.vo.StudyObjectVO;
+import com.twinlions.spkpath.practice.vo.StudySentenceVO;
+import com.twinlions.spkpath.practice.vo.StudySyllableVO;
+import com.twinlions.spkpath.practice.vo.StudyWordVO;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,6 +21,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +35,7 @@ public class PracticeServiceImpl implements PracticeService{
     private final StudyObjectRepository studyObjectRepository;
     private final StudySentenceRepository studySentenceRepository;
     private final UserRepository userRepository;
+    private final StudyConverter studyConverter = new StudyConverter();
 
     /**
      * DB에 저장된 모든 단어를 랜덤하게 보여주는 메서드
@@ -121,5 +128,37 @@ public class PracticeServiceImpl implements PracticeService{
                     .build();
             studyObjectRepository.save(studyObject);
         }
+    }
+
+    @Override
+    public List<StudySyllableVO> showMySyllable(String userId) {
+        List<StudySyllable> list = studySyllableRepository
+                .findByUserId(userRepository.findByUserId(userId).get()).get();
+        return list.stream()
+                .map(studyConverter::syllableToSyllableVO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudyWordVO> showMyWord(String userId) {
+        List<StudyWord> list = studyWordRepository
+                .findByUserId(userRepository.findByUserId(userId).get()).get();
+        return list.stream()
+                .map(studyConverter::wordToWordVO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudySentenceVO> showMySentence(String userId) {
+        List<StudySentence> list = studySentenceRepository
+                .findByUserId(userRepository.findByUserId(userId).get()).get();
+        return list.stream()
+                .map(studyConverter::sentenceToSentenceVO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StudyObjectVO> showMyObject(String userId) {
+        return null;
     }
 }

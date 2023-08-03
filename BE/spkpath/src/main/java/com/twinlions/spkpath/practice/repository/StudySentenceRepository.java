@@ -6,12 +6,13 @@ import com.twinlions.spkpath.user.entity.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface StudySentenceRepository extends Repository<StudySentence, String> {
     StudySentence save(StudySentence studySentence);
     Optional<StudySentence> findByUserIdAndStcId(User userId, SentenceEntity stcId);
-
+    Optional<List<StudySentence>> findByUserId(User userId);
     @Modifying
     void deleteByUserIdAndStcId(User userId, SentenceEntity stcId);
 }

@@ -3,7 +3,7 @@ package com.twinlions.spkpath.practice.vo;
 import lombok.Data;
 
 @Data
-public class StudyObjVO {
+public class StudyObjectVO {
     String userId;
     int objId;
 }
