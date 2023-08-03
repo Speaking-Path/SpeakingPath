@@ -7,7 +7,6 @@ import com.twinlions.spkpath.consulting.ScheduleResponseDto;
 import java.util.List;
 
 public interface ConsultingService {
-
     ScheduleResponseDto getSchedules(String userId);
     String addSchedule(ScheduleRequestDto scheduleRequestDtoList);
     String addReservation(ReservationDto reservationDto);
@@ -15,4 +14,7 @@ public interface ConsultingService {
     List<ReservationDto> getUpcomingReservations(String userId);
     List<ReservationDto> getPastReservationsCslt(String csltId);
     List<ReservationDto> getUpcomingReservationsCslt(String csltId);
+    String approveReservation(int id);
+    String declineReservation(int id);
+    String cancelReservation(int id);
 }
