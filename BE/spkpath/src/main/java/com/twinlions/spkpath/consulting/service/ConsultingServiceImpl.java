@@ -4,6 +4,7 @@ import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import com.twinlions.spkpath.consulting.*;
 import com.twinlions.spkpath.consulting.entity.Reservation;
+import com.twinlions.spkpath.consulting.entity.ReservationStatus;
 import com.twinlions.spkpath.consulting.entity.Schedule;
 import com.twinlions.spkpath.consulting.key.SchedulePK;
 import com.twinlions.spkpath.consulting.repository.ReservationRepository;
@@ -40,6 +41,7 @@ public class ConsultingServiceImpl implements ConsultingService {
      * @param userId 사용자 ID
      * @return List<ScheduleResponseDto>
      */
+    @Override
     public ScheduleResponseDto getSchedules(@RequestParam String userId) {
         // 오늘 날짜와 3개월 뒤 날짜 구함
         LocalDate ldStart = LocalDate.now();
@@ -75,6 +77,7 @@ public class ConsultingServiceImpl implements ConsultingService {
      * @return 저장 성공시 "success", 실패 시 null
      */
     @Transactional
+    @Override
     public String addSchedule(ScheduleRequestDto scheduleRequestDto) {
         // 연-월-일 -> LocalDate로 변환
         // times -> LocalTime으로 변환
@@ -113,6 +116,7 @@ public class ConsultingServiceImpl implements ConsultingService {
      * @param userId 사용자 ID
      * @return List<ReservationDto> 지난 예약 리스트
      */
+    @Override
     public List<ReservationDto> getPastReservations(@RequestParam String userId) {
         Specification<Reservation> specBefore = ReservationSpecification.lessRsvDate(LocalDate.now());
         Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
@@ -136,6 +140,7 @@ public class ConsultingServiceImpl implements ConsultingService {
      * @param userId 사용자 ID
      * @return List<ReservationDto> 예정된 예약 리스트
      */
+    @Override
     public List<ReservationDto> getUpcomingReservations(@RequestParam String userId) {
         Specification<Reservation> specAfter = ReservationSpecification.greaterRsvDate(LocalDate.now());
         Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
@@ -159,6 +164,7 @@ public class ConsultingServiceImpl implements ConsultingService {
      * @param csltId 상담사 ID
      * @return List<ReservationDto> 지난 예약 리스트
      */
+    @Override
     public List<ReservationDto> getPastReservationsCslt(@RequestParam String csltId) {
         Specification<Reservation> specBefore = ReservationSpecification.lessRsvDate(LocalDate.now());
         Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
@@ -182,6 +188,7 @@ public class ConsultingServiceImpl implements ConsultingService {
      * @param csltId 상담사 ID
      * @return List<ReservationDto> 예정된 예약 리스트
      */
+    @Override
     public List<ReservationDto> getUpcomingReservationsCslt(@RequestParam String csltId) {
         Specification<Reservation> specAfter = ReservationSpecification.greaterRsvDate(LocalDate.now());
         Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
@@ -207,16 +214,17 @@ public class ConsultingServiceImpl implements ConsultingService {
      * @return 예약 추가 성공 시 success, 실패 시 null
      */
     @Transactional
+    @Override
     public String addReservation(ReservationDto reservationDto) {
 
         String csltId = reservationDto.getCsltId();
         try {
             Reservation reservation = Reservation.builder()
-                    .user(userRepository.findByUserId(reservationDto.getUserId()).get())
+                    .user(userRepository.findByUserId(reservationDto.getUserId()).orElse(null))
                     .cslt(consultantRepository.findByUserId(csltId))
                     .rsvDate(LocalDate.of(reservationDto.getYear(), reservationDto.getMonth()+1, reservationDto.getDay()))
                     .rsvTime(LocalTime.parse(reservationDto.getTime()))
-                    .rsvStatus("예약대기")
+                    .rsvStatus(ReservationStatus.예약대기)
                     .rsvInfo(reservationDto.getRsvInfo())
                     .rsvCode(RandomStringUtils.randomAlphanumeric(20))
                     .build();
@@ -225,6 +233,42 @@ public class ConsultingServiceImpl implements ConsultingService {
 
             return "success";
         } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String approveReservation(int id) {
+        try {
+            Reservation reservation = reservationRepository.findById(id);
+            reservation.updateReservationStatus(ReservationStatus.예약확정);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String declineReservation(int id) {
+        try {
+            Reservation reservation = reservationRepository.findById(id);
+            reservation.updateReservationStatus(ReservationStatus.예약거절);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public String cancelReservation(int id) {
+        try {
+            Reservation reservation = reservationRepository.findById(id);
+            reservation.updateReservationStatus(ReservationStatus.예약취소);
+            return "success";
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -251,6 +295,7 @@ public class ConsultingServiceImpl implements ConsultingService {
                 reservation.getRsvDate().getMonthValue()-1,
                 reservation.getRsvDate().getDayOfMonth(),
                 reservation.getRsvTime().toString(),
+                reservation.getRsvStatus().name(),
                 reservation.getRsvInfo()
         );
     }

@@ -70,7 +70,6 @@ public class ConsultantServiceImpl implements ConsultantService {
         }
 
         List<Consultant> consultants = consultantRepository.findAll(spec);
-        System.out.println(consultants);
         return consultants.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
