@@ -204,4 +204,11 @@ public class UserServiceImpl implements UserService{
         ConsultantDto consultantDto = consultantService.convertToDto(consultant);
         return Optional.of(consultantDto);
     }
+
+    @Override
+    public String uploadProfile(String userId, String saveFileName) {
+        Optional<User> updateUser = userRepository.findByUserId(userId);
+        updateUser.get().setUserPic(saveFileName);
+        return saveFileName;
+    }
 }
