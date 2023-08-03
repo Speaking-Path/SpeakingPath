@@ -238,6 +238,7 @@ public class ConsultingServiceImpl implements ConsultingService {
         }
     }
 
+    @Transactional
     @Override
     public String approveReservation(int id) {
         try {
@@ -250,6 +251,7 @@ public class ConsultingServiceImpl implements ConsultingService {
         }
     }
 
+    @Transactional
     @Override
     public String declineReservation(int id) {
         try {
@@ -262,6 +264,7 @@ public class ConsultingServiceImpl implements ConsultingService {
         }
     }
 
+    @Transactional
     @Override
     public String cancelReservation(int id) {
         try {
