@@ -18,4 +18,6 @@ public interface UserService {
     TokenDto login(String userId, String pwd);
 
     Optional<?> mypage(String userId);
+
+    String uploadProfile(String userId, String saveFileName);
 }
