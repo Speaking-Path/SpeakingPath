@@ -7,6 +7,7 @@ import com.twinlions.spkpath.practice.service.PracticeService;
 import com.twinlions.spkpath.practice.vo.StudySentenceVO;
 import com.twinlions.spkpath.practice.vo.StudySyllableVO;
 import com.twinlions.spkpath.practice.vo.StudyWordVO;
+import com.twinlions.spkpath.user.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -59,10 +60,28 @@ public class PracticeController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "/pron/Sentence/save")
+    @PostMapping(value = "/pron/sentence/save")
     @Operation(summary = "문장 저장", description = "추가로 학습할 문장을 저장한다.")
     public ResponseEntity<?> saveSentence(@RequestBody StudySentenceVO studySentenceVO){
         practiceService.saveSentence(studySentenceVO.getUserId(), studySentenceVO.getStcId());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/syllable/show")
+    @Operation(summary = "저장한 음절 보여주기")
+    public ResponseEntity<?> showMySyllable(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMySyllable(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/word/show")
+    @Operation(summary = "저장한 단어 보여주기")
+    public ResponseEntity<?> showMyWord(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMyWord(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/sentence/show")
+    @Operation(summary = "저장한 문장 보여주기")
+    public ResponseEntity<?> showMySentence(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMySentence(userVO.getUserId()), HttpStatus.ACCEPTED);
     }
 }
