@@ -20,7 +20,7 @@ function UserInformation() {
   const tokenType = localStorage.getItem('tokenType')
   const accessToken = localStorage.getItem('accessToken')
 
-  const [isProfileClicked, setProfileClicked] = useState(true);
+  const [isProfileClicked, setProfileClicked] = useState(false);
   const [isReservationsClicked, setReservationsClicked] = useState(false);
   const [isPastrsvClicked, setIsPastrsvClicked] = useState(false);
   const [isCsltRsv, setIsCsltRsv] = useState(false)
@@ -71,8 +71,7 @@ function UserInformation() {
   }
 
   useMemo(() => {
-    axios.post("/account/mypage",
-      { userId: userId },
+    axios.post("/account/mypage", {userId: userId},
       {
         headers: {
           Authorization: `${tokenType} ${accessToken}`
@@ -81,6 +80,7 @@ function UserInformation() {
     )
       .then((res) => {
         dispatch(changeProfileInfo(res.data))
+        console.log(res.data)
       })
       .catch((err) => {
         console.log(err);
@@ -100,7 +100,7 @@ function UserInformation() {
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
             }
             <div>
-              <p className={styles.userInfo}><b>{userInfo && userInfo.username}</b><span>님</span></p>
+              <p className={styles.userInfo}><b>{userInfo && userInfo.userName}</b><span>님</span></p>
               <p className={styles.userEandP}>{userInfo && userInfo.userEmail}</p>
               <p className={styles.userEandP}>{userInfo && userInfo.userPhone}</p>
             </div>
@@ -111,7 +111,7 @@ function UserInformation() {
               <p className={isPreviewOpen ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
               {
                 userInfo && userInfo.userGrade === "CONSULTANT" ? (
-                  <p className={isCsltRsv ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
+                  <p className={isCsltRsv ? styles.profileClicked : styles.profileNonClicked} onClick={handleCsltRsv}>예약 시간 지정</p>
                 ) : (
                   null
                 )

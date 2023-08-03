@@ -2,9 +2,7 @@ import { useSelector } from 'react-redux';
 
 
 function Profile() {
-  const userInfo = useSelector((state)=>{return state.profileInfo})
-
-  console.log(userInfo)
+  // const userInfo = useSelector((state)=>{return state.profileInfo})
 
   return(
     <div>
