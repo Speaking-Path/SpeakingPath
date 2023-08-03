@@ -5,6 +5,8 @@ import './Untact.css';
 import UserVideoComponent from './UserVideoComponent';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux"
 // import { getToken, createSession, createToken } from './getToken';
 
 
@@ -18,12 +20,18 @@ const Untact = () => {
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
+  const userId = useSelector((state) => { return state.loginId })
 
-
+  const location = useLocation();
 
   useEffect(() => {
     window.addEventListener('beforeunload', onbeforeunload);
 
+    setMyUserName(userId);
+    if(location.state.sessionId!==undefined){
+      setMySessionId(location.state.sessionId);
+      console.log("sessionId: %s",location.state.sessionId)
+    }
     return () => {
       window.removeEventListener('beforeunload', onbeforeunload);
     };
@@ -179,7 +187,8 @@ const Untact = () => {
     <div id="box">
       {session === undefined ? (
         <div id="join">
-          <div id="join-dialog" className="jumbotron vertical-center">
+          <button onClick={joinSession}> Join </button>
+          {/* <div id="join-dialog" className="jumbotron vertical-center">
             <h1> Join a video session </h1>
             <form className="form-group" onSubmit={joinSession}>
               <p>
@@ -208,7 +217,7 @@ const Untact = () => {
                 <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
               </p>
             </form>
-          </div>
+          </div> */}
         </div>
       ) : null}
 
