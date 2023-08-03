@@ -8,23 +8,23 @@ import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
 import com.twinlions.spkpath.user.vo.UserVO;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
+import lombok.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor // 생성자 사용하지 않기 위해
 @RequestMapping("/account")
-@Tag(name = "회원", description = "회원 관련 API 입니다.")
+@Api(value = "회원", description = "회원 관련 API 입니다.")
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class UserController {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
