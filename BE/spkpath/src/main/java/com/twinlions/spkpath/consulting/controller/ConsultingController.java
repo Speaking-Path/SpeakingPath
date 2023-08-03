@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -122,4 +123,56 @@ public class ConsultingController {
             return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
+    @Transactional
+    @GetMapping(value = "/approversv")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "bad request operation"),
+            @ApiResponse(responseCode = "500", description = "SQL Exception")
+    })
+    @Operation(summary = "상담예약 승인", description = "상담사가 상담 예약을 승인한다.")
+    public ResponseEntity<?> approveReservation(@RequestParam int id) {
+        String result = consultingService.approveReservation(id);
+        if (result != null) {
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @Transactional
+    @GetMapping(value = "/declinersv")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "bad request operation"),
+            @ApiResponse(responseCode = "500", description = "SQL Exception")
+    })
+    @Operation(summary = "상담예약 거절", description = "상담사가 상담예약을 거절한다.")
+    public ResponseEntity<?> declineReservation(@RequestParam int id) {
+        String result = consultingService.declineReservation(id);
+        if (result != null) {
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @Transactional
+    @GetMapping(value = "cancelrsv")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "bad request operation"),
+            @ApiResponse(responseCode = "500", description = "SQL Exception")
+    })
+    @Operation(summary = "상담예약 취소", description = "상담사가 상담예약을 취소한다.")
+    public ResponseEntity<?> cancelReservation(@RequestParam int id) {
+        String result = consultingService.cancelReservation(id);
+        if (result != null) {
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Void>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
 }

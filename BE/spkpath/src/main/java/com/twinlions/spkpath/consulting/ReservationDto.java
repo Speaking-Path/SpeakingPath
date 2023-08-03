@@ -10,8 +10,12 @@ import lombok.NoArgsConstructor;
 public class ReservationDto {
     // 회원 아이디
     private String userId;
+    // 회원 이름
+    private String userName;
     // 상담사 아이디
     private String csltId;
+    // 상담사 이름
+    private String cslTName;
 
     // 날짜
     private int year;
@@ -19,7 +23,9 @@ public class ReservationDto {
     private int day;
     private String time;
 
+    // 예약 상태
+    private String rsvStatus;
+
     // 상담 정보
     private String rsvInfo;
-
 }

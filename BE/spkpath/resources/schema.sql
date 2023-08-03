@@ -30,6 +30,11 @@ CREATE TABLE `reservation_item_tb` (
 	`rsv_code`	char(20)	NOT NULL
 );
 
+CREATE TABLE `reservation_status_tb` (
+    `rsv_status`	int NOT NULL,
+    `rsv_info`	varchar(30)	NULL COMMENT '대기 / 거절 / 완료 / 취소'
+);
+
 CREATE TABLE `consultant_info_tb` (
 	`user_id`	char(20)	NOT NULL,
 	`cslt_team`	varchar(50)	NOT NULL,
@@ -97,7 +102,7 @@ CREATE TABLE `study_word_tb` (
 CREATE TABLE `word_tb` (
 	`word_id`	int	NOT NULL auto_increment primary key ,
 	`word_content`	varchar(30)	NOT NULL,
-  `word_pron` varchar(50) NULL
+    `word_pron` varchar(50) NULL
 );
 
 CREATE TABLE `sentence_tb` (
@@ -112,7 +117,7 @@ CREATE TABLE `study_sentence_tb` (
 
 CREATE TABLE `consultant_available_info` (
 	`available_date`	date	NOT NULL,
-  `available_time`	time	NOT NULL,
+    `available_time`	time	NOT NULL,
 	`user_id`	char(20)	NOT NULL
 );
 
@@ -150,10 +155,6 @@ CREATE TABLE `user_authority` (
 ALTER TABLE `user_tb` ADD CONSTRAINT `PK_USER_TB` PRIMARY KEY (
 	`user_id`
 );
-
--- ALTER TABLE `reservation_item_tb` ADD CONSTRAINT `PK_RESERVATION_ITEM_TB` PRIMARY KEY (
--- 	`rsv_item_id`
--- );
 
 ALTER TABLE `consultant_info_tb` ADD CONSTRAINT `PK_CONSULTANT_INFO_TB` PRIMARY KEY (
 	`user_id`
@@ -218,6 +219,13 @@ ALTER TABLE `authority` ADD CONSTRAINT `PK_AUTHORITY` PRIMARY KEY (
 ALTER TABLE `user_authority` ADD CONSTRAINT `PK_USER_AUTHORITY` PRIMARY KEY (
 	`authority_name`,
 	`user_id`
+);
+
+ALTER TABLE `reservation_status_tb` ADD CONSTRAINT `FK_reservation_item_tb_TO_reservation_status_tb_1` FOREIGN KEY (
+    `rsv_status`
+)
+REFERENCES `reservation_item_tb` (
+    `rsv_status`
 );
 
 ALTER TABLE `consultant_info_tb` ADD CONSTRAINT `FK_user_tb_TO_consultant_info_tb_1` FOREIGN KEY (
@@ -350,6 +358,9 @@ values (1, '엄격한'), (2, '친근한'), (3, '친절한'), (4, '정적인'), (
 
 insert into boundary_tb
 values (1, '언어발달장애'), (2, '말소리장애'), (3, '신경언어장애'), (4, '유창성장애'), (5, '음성장애');
+
+insert into reservation_status_tb
+values (1, '예약대기'), (2, '예약완료'), (3, '예약거절'), (4, '예약취소');
 
 insert into authority(AUTHORITY_NAME)
 values ('ROLE_USER');

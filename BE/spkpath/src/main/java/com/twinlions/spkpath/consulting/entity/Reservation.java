@@ -39,12 +39,17 @@ public class Reservation {
     @Column(name = "rsv_time")
     private LocalTime rsvTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "rsv_status")
-    private String rsvStatus;
+    private ReservationStatus rsvStatus;
 
     @Column(name = "rsv_info")
     private String rsvInfo;
 
     @Column(name = "rsv_code")
     private String rsvCode;
+
+    public void updateReservationStatus(ReservationStatus rsvStatus) {
+        this.rsvStatus = rsvStatus;
+    }
 }
