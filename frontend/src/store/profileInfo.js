@@ -10,4 +10,15 @@ export let profileInfo = createSlice({
   }
 })
 
+export let profileClick = createSlice({
+  name : "profileClick",
+  initialState : 0,
+  reducers : {
+    changeProfileClick(state, click) {
+      return click.payload
+    }
+  }
+})
+
 export let { changeProfileInfo } = profileInfo.actions
+export let { changeProfileClick } = profileClick.actions

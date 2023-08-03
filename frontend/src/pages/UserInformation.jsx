@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import styles from './UserInformation.module.css'
 import { useMemo } from 'react';
 import { changeProfileInfo } from '../store/profileInfo'
+import { changeProfileClick } from '../store/profileInfo';
+import { useEffect } from 'react';
 
 
 
@@ -15,46 +17,35 @@ function UserInformation() {
   // const [userInfo, setUserInfo] = useState(null)
   const userInfo = useSelector((state)=>{return state.profileInfo})
   const dispatch = useDispatch()
+  const profileClicked = useSelector((state)=>{return state.profileClick})
 
 
   const tokenType = localStorage.getItem('tokenType')
   const accessToken = localStorage.getItem('accessToken')
 
-  const [isProfileClicked, setProfileClicked] = useState(true);
+  const [isProfileClicked, setProfileClicked] = useState(false);
   const [isReservationsClicked, setReservationsClicked] = useState(false);
   const [isPastrsvClicked, setIsPastrsvClicked] = useState(false);
   const [isCsltRsv, setIsCsltRsv] = useState(false)
 
 
   const handleProfileClick = () => {
-    setProfileClicked(true);
-    setReservationsClicked(false);
-    setIsPastrsvClicked(false)
-    setIsCsltRsv(false)
+    dispatch(changeProfileClick(0))
     navigate("/account/mypage");
   };
 
   const handleReservationsClick = () => {
-    setProfileClicked(false);
-    setReservationsClicked(true);
-    setIsPastrsvClicked(false)
-    setIsCsltRsv(false)
+    dispatch(changeProfileClick(1))
     navigate("/account/mypage/checkrsv");
   };
 
   const handlePastRsvClick = () => {
-    setProfileClicked(false);
-    setReservationsClicked(false);
-    setIsPastrsvClicked(true)
-    setIsCsltRsv(false)
+    dispatch(changeProfileClick(2))
     navigate("/account/mypage/pastrsv");
   };
 
   const handleCsltRsv = () => {
-    setProfileClicked(false);
-    setReservationsClicked(false);
-    setIsPastrsvClicked(false)
-    setIsCsltRsv(true)
+    dispatch(changeProfileClick(3))
     navigate("/account/mypage/consultrsv");
   };
 
@@ -71,8 +62,7 @@ function UserInformation() {
   }
 
   useMemo(() => {
-    axios.post("/account/mypage",
-      { userId: userId },
+    axios.post("/account/mypage", {userId: userId},
       {
         headers: {
           Authorization: `${tokenType} ${accessToken}`
@@ -83,9 +73,11 @@ function UserInformation() {
         dispatch(changeProfileInfo(res.data))
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err); 
       });
   }, []);
+
+  
 
   return (
     <div>
@@ -100,18 +92,18 @@ function UserInformation() {
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
             }
             <div>
-              <p className={styles.userInfo}><b>{userInfo && userInfo.username}</b><span>님</span></p>
+              <p className={styles.userInfo}><b>{userInfo && userInfo.userName}</b><span>님</span></p>
               <p className={styles.userEandP}>{userInfo && userInfo.userEmail}</p>
               <p className={styles.userEandP}>{userInfo && userInfo.userPhone}</p>
             </div>
             <div>
-              <p className={isProfileClicked ? styles.profileClicked : styles.profileNonClicked} onClick={handleProfileClick}><span>내 프로필</span></p>
-              <p className={isReservationsClicked ? styles.profileClicked : styles.profileNonClicked} onClick={handleReservationsClick}>예정된 상담</p>
-              <p className={isPastrsvClicked ? styles.profileClicked : styles.profileNonClicked} onClick={handlePastRsvClick}>지난 상담</p>
+              <p className={profileClicked === 0 ? styles.profileClicked : styles.profileNonClicked} onClick={handleProfileClick}><span>내 정보</span></p>
+              <p className={profileClicked === 1 ? styles.profileClicked : styles.profileNonClicked} onClick={handleReservationsClick}>예정된 상담</p>
+              <p className={profileClicked === 2 ? styles.profileClicked : styles.profileNonClicked} onClick={handlePastRsvClick}>지난 상담</p>
               <p className={isPreviewOpen ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
               {
                 userInfo && userInfo.userGrade === "CONSULTANT" ? (
-                  <p className={isCsltRsv ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
+                  <p className={profileClicked === 3 ? styles.profileClicked : styles.profileNonClicked} onClick={handleCsltRsv}>예약 시간 지정</p>
                 ) : (
                   null
                 )

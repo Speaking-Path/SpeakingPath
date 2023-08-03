@@ -1,0 +1,131 @@
+.titleBox {
+  text-align: left;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 5%;
+}
+
+.dayListBox {
+  border-left: 3px solid #d9d9d9;
+  text-align: left;
+  margin-left: 1%;
+  padding-top: 2%;
+}
+
+.yearBox > p {
+  font-size: 1.4rem;
+}
+
+.rsvListBox p {
+  text-align: left;
+}
+
+.dayBox {
+  width: 83%;
+  border: 1px solid #d9d9d9;
+  margin-left: 5%;
+  padding: 3% 3% 3% 8%;
+  margin-bottom: 5%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: left;
+  position: relative;
+}
+
+.dayBox::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6.5%;
+  width: 6.5%;
+  height: 1px;
+  background-color: #d9d9d9; 
+  transform: translateY(-50%);
+}
+
+.dayBox::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6.8%;
+  width: 8px;
+  height: 8px;
+  background-color: #c7c7c7; 
+  transform: translateY(-50%);
+  border-radius: 50%;
+}
+
+
+
+.dayBoxMain {
+  width: 70%;
+  border-right: 1px solid #f0f0f0;
+}
+
+.result {
+  border: 2px solid #2E64FE;
+  color: #2E64FE;
+  display: inline-block;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
+
+.btnBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10%;
+}
+
+.btnBox button {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.dayDesc {
+  margin-bottom: 0;
+  font-size: 17px;
+}
+
+.dayDay {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.csltName {
+  line-height: 0;
+}
+
+.btnBox button {
+  --c: #2E64FE; /* the color */
+  --s: .15em;
+  
+  line-height:1.1em;
+  padding-bottom: calc(2.1*var(--s));
+  background: 
+    conic-gradient(from 135deg at top,var(--c) 90deg,#0000 0) 
+      left 0 bottom var(--s)/calc(2*var(--s)) var(--s) repeat-x,
+    conic-gradient(from -45deg at bottom,var(--c) 90deg,#0000 0) 
+      left var(--s) bottom 0/calc(2*var(--s)) var(--s) repeat-x;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0) 0/var(--_p,0%) padding-box no-repeat;
+  transition: .5s;
+}
+.btnBox button:hover {
+  --_p: 100%;
+  color: var(--c);
+}
+
+.reason {
+  margin-bottom: 0;
+  font-weight: 700;
+  color: #848484;
+  border-bottom: 1px solid #848484;
+  width: 15%;
+}
+
+.reasonInfo {
+  margin-bottom: 0;
+}

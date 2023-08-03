@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { changeLoginInfo } from '../../store/UserInfo'
 import { useEffect } from 'react'
+import { changeProfileClick } from '../../store/profileInfo'
 
 
 function NavBar() {
@@ -18,6 +19,8 @@ function NavBar() {
 
   const loginNow = localStorage.getItem("accessToken")
   const navigate = useNavigate()
+
+  const profileClick = useSelector((state)=>{return state.profileClick})
 
   useEffect(()=>{
     if (!loginNow) {
@@ -54,7 +57,10 @@ function NavBar() {
                 <div>
                   <NavLink className={styles.lasttab}
                     style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
-                    to="account/mypage">
+                    to="account/mypage"
+                    onClick={()=>{
+                      dispatch(changeProfileClick(0))
+                    }}>
                     프로필</NavLink>
 
                   <NavLink className={styles.lasttab} onClick={() => {

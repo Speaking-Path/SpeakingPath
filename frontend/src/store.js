@@ -10,7 +10,7 @@ import { selectedCsltInfo } from './store/consultantInfo'
 import { csltList } from './store/consultantList'
 import { csltTimes } from './store/consultantTimes'
 import { pronWrong, pronCorrect } from './store/pron'
-import { profileInfo } from './store/profileInfo'
+import { profileInfo, profileClick } from './store/profileInfo'
 
 
 
@@ -27,13 +27,14 @@ const reducers = combineReducers({
   pronWrong : pronWrong.reducer,
   pronCorrect : pronCorrect.reducer,
   profileInfo : profileInfo.reducer,
+  profileClick : profileClick.reducer,
 })
 
 
 const persistConfig = {
   key : "root",
   storage,
-  whitelist : ['loginToken', 'loginId', 'selectedCsltInfo', 'profileInfo']
+  whitelist : ['loginToken', 'loginId', 'selectedCsltInfo', 'profileInfo', 'profileClick']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
