@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 // import { getToken, createSession, createToken } from './getToken';
 
 
-const APPLICATION_SERVER_URL = process.env.REACT_APP_OPENVIDU 
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 
 const Untact = () => {
   const [mySessionId, setMySessionId] = useState(undefined);
@@ -77,12 +77,43 @@ const Untact = () => {
       console.warn(exception);
     });
     
+    // getToken(mySessionId, APPLICATION_SERVER_URL)
+    //   .then((token) => {
+    //     mySession.connect(token, { clientData: myUserName })
+    //       .then(async () => {
 
+    //         let publisher = await OV.initPublisherAsync(undefined, {
+    //           audioSource: undefined,
+    //           videoSource: undefined,
+    //           publishAudio: true,
+    //           publishVideo: true,
+    //           resolution: '640x480',
+    //           frameRate: 30,
+    //           insertMode: 'APPEND',
+    //           mirror: false,
+    //         });
+    //         console.log("내 퍼블리셔", publisher)
+    //         setPublisher(publisher);
+
+
+    //         const devices = await OV.getDevices();
+    //         const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    //         const currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+    //         const currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+
+    //         setCurrentVideoDevice(currentVideoDevice)
+    //         setMainStreamManager(publisher)
+    //         setPublisher(publisher)
+    //       })
+    //       .catch((error) => {
+    //         console.log('There was an error connecting to the session:', error.code, error.message);
+    //       });
+    //   });
+    // }
     try {
       const token = await getToken(mySessionId); 
       await mySession.connect(token, { clientData: myUserName });
-      
-
+  
       let publisher = await OV.initPublisherAsync(undefined, {
         audioSource: undefined,
         videoSource: undefined,
@@ -94,7 +125,7 @@ const Untact = () => {
         mirror: false,
       });
       setPublisher(publisher);
-      mySession.publish(publisher);
+      mySession.publish(publisher)
   
       const devices = await OV.getDevices();
       const videoDevices = devices.filter(device => device.kind === 'videoinput');
@@ -133,9 +164,10 @@ const Untact = () => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', data, {
       headers: { 'Content-Type': 'application/json', },
     });
+    console.log("세션이에요", response.data)
     return response.data;
   }
-  
+
   const createToken = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
       headers: { 'Content-Type': 'application/json', },
@@ -204,7 +236,6 @@ const Untact = () => {
               </div>
             </div>
           </div>
-          <button onClick={leaveSession}>나가기</button>
         </div>
       ) : null}
     </div>

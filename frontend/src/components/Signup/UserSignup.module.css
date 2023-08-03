@@ -8,7 +8,7 @@
 }
 
 .title {
-  font-family: 'Inter', sans-serif !important;
+  /* font-family: 'Inter', sans-serif !important; */
   font-size: 40px;
   font-weight: 700;
   margin-top: 30px;
@@ -17,7 +17,7 @@
 }
 
 .label {
-  font-family: 'Inter', sans-serif !important;
+  /* font-family: 'Inter', sans-serif !important; */
   font-size: 15px;
   font-weight: 500;
   display: block;
@@ -33,7 +33,7 @@
   border: 1px solid #D9D9D9;
   border-radius: 3px;
   margin-top: 3px;
-  font-family: 'Inter', sans-serif !important;
+  /* font-family: 'Inter', sans-serif !important; */
   width: 72%;
   margin-right: 2%;
   font-size: 15px;
@@ -47,7 +47,7 @@
 
 
 .checkbtn {
-  background-color: #00C4C4;
+  background-color: #4285F4;
   border: 0;
   color: white;
   padding-top: 10.8px;
@@ -72,13 +72,13 @@
   border: 1px solid #D9D9D9;
   border-radius: 3px;
   margin-top: 3px;
-  font-family: 'Inter', sans-serif !important;
+  /* font-family: 'Inter', sans-serif !important; */
   font-size: 15px;
 }
 
 
 .input:focus {
-  border-color: #00C4C4;
+  border-color: #4285F4;
   outline: none;
 }
 
@@ -89,17 +89,17 @@
   padding-left: 10px;
   border: 1px solid #D9D9D9;
   border-radius: 3px;
-  font-family: 'Inter', sans-serif !important;
+  /* font-family: 'Inter', sans-serif !important; */
   font-size: 15px;
 }
 
 .pwdCheckInput:focus {
-  border-color: #00C4C4;
+  border-color: #4285F4;
   outline: none;
 }
 
 .signupBtn {
-  background-color: #00C4C4;
+  background-color: #4285F4;
   width: 100%;
   border: 0;
   color: white;
@@ -127,7 +127,7 @@
 
 
 .correct {
-  color : #00C4C4
+  color : #4285F4
 }
 
 .consultSignup {
@@ -138,13 +138,13 @@
 
 .consultSignup a {
   margin-left: 5px;
-  color: #018484;
+  color: #4285F4;
   font-weight: 600;
 }
 
 .checklabel {
-  border: 1px solid #00C4C4;
-  color: #006a6a;
+  border: 1px solid #4285F4;
+  color: #2e64fe;
   display: block;
   padding: 5px;
   border-radius: 20px;
@@ -160,7 +160,7 @@
 }
 
 .input[type="checkbox"]:checked + label {
-  background-color: #00C4C4;
+  background-color: #4285F4;
   color: white;
 }
 
@@ -175,11 +175,11 @@ input.input[type="radio"] {
 
 
 .input[type="radio"]:checked + label {
-  background-color: #00C4C4;
+  background-color: #4285F4;
   color: white;
 }
 
 .input[type="radio"]:not(:checked) + label {
   background-color: transparent;
-  color: #006a6a;
+  color: #2e64fe;
 }
