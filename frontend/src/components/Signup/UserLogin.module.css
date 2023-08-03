@@ -8,7 +8,7 @@
 }
 
 .title {
-  font-family: 'Inter', sans-serif !important;
+  /* font-family: 'Inter', sans-serif !important; */
   font-size: 40px;
   font-weight: 700;
   margin-top: 30px;
@@ -17,7 +17,7 @@
 }
 
 .label {
-  font-family: 'Inter', sans-serif !important;
+  /* font-family: 'Inter', sans-serif !important; */
   font-size: 15px;
   font-weight: 500;
   display: block;
@@ -33,12 +33,12 @@
   border: 1px solid #D9D9D9;
   border-radius: 3px;
   margin-top: 3px;
-  font-family: 'Inter', sans-serif !important;
+  /* font-family: 'Inter', sans-serif !important; */
   font-size: 15px;
 }
 
 .input:focus {
-  border-color: #00C4C4;
+  border-color: #4285F4;
   outline: none;
 }
 
@@ -51,7 +51,7 @@
 }
 
 .loginBtn {
-  background-color: #00C4C4;
+  background-color: #4285F4;
   width: 100%;
   border: 0;
   color: white;
@@ -75,6 +75,6 @@
 }
 
 .clickjoin {
-  color: #018484;
+  color: #2e64fe;
   font-weight: 600;
 }

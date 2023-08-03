@@ -100,6 +100,13 @@ export const clickLogin = async (e, data) => {
     localStorage.setItem('tokenType', response.grantType)
     localStorage.setItem('accessToken', response.accessToken)
     localStorage.setItem('refreshToken', response.refreshToken)
+
+    function clearLocalStorageAfterTime() {
+      localStorage.clear();
+      console.log("localStorage cleared!");
+    }
+
+    setTimeout(clearLocalStorageAfterTime, 86400000)
     return 1
   }
 }

@@ -1,0 +1,72 @@
+.userImg {
+  width: 60%;
+  padding-top: 20%;
+  margin-bottom: 5%;
+}
+
+.infoBox div {
+  margin-bottom: 20%;
+}
+
+.userInfo {
+  line-height: 1;
+}
+
+
+.userInfo b {
+  font-size: 18px;
+}
+
+.userEandP {
+  line-height: 0.5;
+  font-size: 15px;
+}
+
+.profileClicked {
+  position: relative;
+  left: 20%;
+  width: 80%;
+  background-color: rgb(46, 100, 254, 0.7);
+  padding: 5%;
+  color: white;
+  background: linear-gradient(-45deg, transparent 38px, rgb(46, 100, 254, 0.8) 0);
+  font-weight: 900;
+  text-align: left;
+  padding-left: 10%;
+}
+
+.profileNonClicked {
+  width: 80%;
+  padding: 5%;
+  font-weight: 900;
+  background: linear-gradient(-45deg, transparent 38px, #efefef 0);
+  text-align: left;
+  padding-left: 10%;
+}
+
+
+.notice {
+  position: relative;
+  bottom: 210px;
+  text-align: left;
+  padding-left: 8%;
+}
+
+.noticeTitle {
+  font-weight: 700;
+}
+
+.mypageBanner {
+  width: 99.5vw;
+}
+
+.mypageMain {
+  position: relative;
+  bottom: 220px;
+  background-color: white;
+  border-radius: 30px;
+}
+
+.outletBox {
+  margin-top: 5%;
+}

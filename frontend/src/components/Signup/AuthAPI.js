@@ -52,7 +52,7 @@ export const clickConsultantSignup = async function (e, data) {
     "csltTag" : data.tag,
     "csltBoundary" : data.boundry,
     "userSex" : data.sex,
-    "userGrade" : "consultant",
+    "userGrade" : "CONSULTANT",
   }
   console.log(userInfo)
   console.log(data)
