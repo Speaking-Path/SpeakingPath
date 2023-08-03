@@ -97,7 +97,7 @@ function UserInformation() {
               <p className={styles.userEandP}>{userInfo && userInfo.userPhone}</p>
             </div>
             <div>
-              <p className={profileClicked === 0 ? styles.profileClicked : styles.profileNonClicked} onClick={handleProfileClick}><span>내 프로필</span></p>
+              <p className={profileClicked === 0 ? styles.profileClicked : styles.profileNonClicked} onClick={handleProfileClick}><span>내 정보</span></p>
               <p className={profileClicked === 1 ? styles.profileClicked : styles.profileNonClicked} onClick={handleReservationsClick}>예정된 상담</p>
               <p className={profileClicked === 2 ? styles.profileClicked : styles.profileNonClicked} onClick={handlePastRsvClick}>지난 상담</p>
               <p className={isPreviewOpen ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
