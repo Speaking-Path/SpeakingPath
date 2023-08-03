@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReservationDto {
+
+    // 예약 번호
+    int id;
     // 회원 아이디
     private String userId;
     // 회원 이름
