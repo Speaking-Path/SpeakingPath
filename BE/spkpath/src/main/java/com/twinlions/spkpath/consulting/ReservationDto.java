@@ -23,7 +23,9 @@ public class ReservationDto {
     private int day;
     private String time;
 
+    // 예약 상태
+    private String rsvStatus;
+
     // 상담 정보
     private String rsvInfo;
-
 }

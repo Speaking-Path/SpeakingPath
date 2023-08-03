@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface ReservationRepository extends Repository<Reservation, String> {
 
-     List<Reservation> findAll(Specification<Reservation> spec);
+    List<Reservation> findAll(Specification<Reservation> spec);
 
-    // csltId의 상담 예약을 조회하는 메서드
-    // List<Reservation> findAllByCsltId(String csltId);
+    // 예약 id로 상담 예약을 조회하는 메서드
+    Reservation findById(int id);
 
     Reservation save(Reservation reservation);
 }
