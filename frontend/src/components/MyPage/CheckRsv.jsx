@@ -19,7 +19,7 @@ function CheckRsv() {
 
 
 
-  useEffect( () => {
+  useEffect(() => {
 
     if (userInfo && userInfo.userGrade === "USER") {
       axios.post("/cslting/upcomingrsv", null, { params: { userId: userInfo.userId } }
@@ -32,7 +32,7 @@ function CheckRsv() {
           console.log(err);
         });
     } else {
-      axios.post("/cslting/upcomingrsv", null, { params: { userId: userInfo.userId } }
+      axios.post("/cslting/upcomingrsvcslt", null, { params: { csltId: userInfo.userId } }
       )
         .then((res) => {
           setUpcomingRsv(res.data)
@@ -73,6 +73,44 @@ function CheckRsv() {
   const results = Object.values(groupedByYear);
 
 
+  const rsvCancel = function(id) {
+    if (userInfo) {
+      axios.get("/cslting/cancelrsv", {params: {id: id}}
+      )
+        .then((res) => {
+          window.location.reload()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+  
+  const rsvComplete = function(id) {
+    if (userInfo) {
+      axios.get("/cslting/approversv", {params: {id: id}}
+      )
+        .then((res) => {
+          window.location.reload()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
+
+  const rsvReject = function(id) {
+    if (userInfo) {
+      axios.get("/cslting/declinersv", {params: {id: id}}
+      )
+        .then((res) => {
+          window.location.reload()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }
 
   return (
     <div>
@@ -84,21 +122,63 @@ function CheckRsv() {
           <div key={year} className={styles.yearBox}>
             <p>{year}년</p>
             <div className={styles.dayListBox}>
-              {data.map(item => (
-                <div className={styles.dayBox} key={`${item.year}-${item.month}-${item.day}`}>
+              {data.map((item, index) => (
+                <div className={styles.dayBox} key={index}>
                   <div className={styles.dayBoxMain}>
                     <div>
-                      <p className={styles.result}>예약확정들어갈곳</p>
+                      {item.rsvStatus ==="예약대기" ? <p className={styles.waiting}>예약대기</p> : null}
+                      {item.rsvStatus ==="예약확정" ? <p className={styles.complete}>예약확정</p> : null}
+                      {item.rsvStatus ==="예약거절" ? <p className={styles.reject}>예약거절</p> : null}
+                      {item.rsvStatus ==="예약취소" ? <p className={styles.cancel}>예약취소</p> : null}
                     </div>
                     <div className={styles.resDay}>
                       <p className={styles.dayDesc}>상담 예약 날짜</p>
-                      <p className={styles.dayDay}>{item.month+1}월 {item.day}일 {item.time}</p>
+                      <p className={styles.dayDay}>{item.month + 1}월 {item.day}일 {item.time}</p>
                     </div>
-                      <p className={styles.csltName}>상담사 <span>{item.cslTName}</span></p>
+                    {
+                      userInfo.userGrade === "USER" ?
+                        <div>
+                          <p className={styles.csltName}>상담사 <span>{item.cslTName}</span></p>
+                        </div> :
+                        <div>
+                          <p className={styles.csltName}>내담자 <span>{item.userName}</span></p>
+                          <p className={styles.reason}>신청 사유</p>
+                          <p className={styles.reasonInfo}>{item.rsvInfo}</p>
+                        </div>
+                    }
                   </div>
                   <div className={styles.btnBox}>
-                    <button>입장하기</button>
-                    <button>예약취소</button>
+                    {
+                      userInfo.userGrade === "USER" && item.rsvStatus ==="예약대기" ?
+                      <button onClick={()=>{rsvCancel(item.id)}}>예약취소</button> :
+                      null
+                    }
+                    {
+                      userInfo.userGrade === "CONSULTANT" && item.rsvStatus ==="예약대기" ?
+                      <div>
+                      <button onClick={()=>{rsvComplete(item.id)}}>예약승인</button>
+                      <button onClick={()=>{rsvReject(item.id)}}>예약거절</button>
+                      </div> :
+                      null
+                    }
+                    {
+                      item.rsvStatus ==="예약확정" ?
+                      <div className={styles.btnBox}>
+                      <button>입장하기</button>
+                      <button onClick={()=>{rsvCancel(item.id)}}>예약취소</button>
+                      </div> :
+                      null
+                    }
+                    {
+                      item.rsvStatus ==="예약취소" ?
+                      <p className={styles.cancelMsg}>취소된 예약입니다.</p> :
+                      null
+                    }
+                    {
+                      item.rsvStatus ==="예약거절" ?
+                      <p className={styles.rejectMsg}>진행되지 못한 예약입니다.</p> :
+                      null
+                    }
                   </div>
                 </div>
               ))}

@@ -47,7 +47,7 @@
   content: "";
   position: absolute;
   top: 50%;
-  left: -6.5%;
+  left: -6.8%;
   width: 8px;
   height: 8px;
   background-color: #c7c7c7; 
@@ -62,24 +62,25 @@
   border-right: 1px solid #f0f0f0;
 }
 
-
+.result {
+  border: 2px solid #2E64FE;
+  color: #2E64FE;
+  display: inline-block;
+  border-radius: 5px;
+  margin-bottom: 3px;
+}
 
 .btnBox {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 6%;
+  margin-left: 10%;
 }
 
 .btnBox button {
   margin-top: 10px;
   margin-bottom: 10px;
-  width: 80px;
-}
-
-.cancelMsg{
-  text-align: center;
 }
 
 .dayDesc {
@@ -95,7 +96,6 @@
 .csltName {
   line-height: 0;
 }
-
 
 .btnBox button {
   --c: #2E64FE; /* the color */
@@ -123,45 +123,9 @@
   font-weight: 700;
   color: #848484;
   border-bottom: 1px solid #848484;
-  width: 19%;
+  width: 15%;
 }
 
 .reasonInfo {
   margin-bottom: 0;
-}
-
-.waiting {
-  border: 2px solid #46f5a0;
-  color: #46f5a0;
-  display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  padding: 0 2px;
-}
-
-.complete {
-  border: 2px solid #2E64FE;
-  color: #2E64FE;
-  display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  padding: 0 2px;
-}
-
-.cancel {
-  border: 2px solid #a9a9a9;
-  color: #a9a9a9;
-  display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  padding: 0 2px;
-}
-
-.reject {
-  border: 2px solid #fe2e2e;
-  color: #fe2e2e;
-  display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  padding: 0 2px;
 }
