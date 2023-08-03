@@ -187,7 +187,9 @@ public class ConsultingServiceImpl implements ConsultingService {
     private ReservationDto convertToReservationDto(Reservation reservation) {
         return new ReservationDto(
                 reservation.getUser().getUserId(),
+                reservation.getUser().getUserName(),
                 reservation.getCslt().getUserId(),
+                reservation.getCslt().getUserName(),
                 reservation.getRsvDate().getYear(),
                 reservation.getRsvDate().getMonthValue()-1,
                 reservation.getRsvDate().getDayOfMonth(),
