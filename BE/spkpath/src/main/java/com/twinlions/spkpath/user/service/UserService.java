@@ -5,7 +5,7 @@ import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.entity.User;
 
-import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     String join(UserDto userDto);
@@ -16,4 +16,6 @@ public interface UserService {
     User update(UserDto userDto);
 
     TokenDto login(String userId, String pwd);
+
+    Optional<?> mypage(String userId);
 }

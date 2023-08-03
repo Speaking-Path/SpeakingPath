@@ -193,4 +193,13 @@ public class UserServiceImpl implements UserService{
 
         return tokenDto;
     }
+
+    @Override
+    public Optional<?> mypage(String userId) {
+        Consultant consultant = consultantRepository.findByUserId(userId);
+        if (consultant == null) {
+            return userRepository.findByUserId(userId);
+        }
+        return Optional.of(consultant);
+    }
 }
