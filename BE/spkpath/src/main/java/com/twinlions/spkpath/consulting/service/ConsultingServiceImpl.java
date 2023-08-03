@@ -8,8 +8,10 @@ import com.twinlions.spkpath.consulting.entity.Schedule;
 import com.twinlions.spkpath.consulting.key.SchedulePK;
 import com.twinlions.spkpath.consulting.repository.ReservationRepository;
 import com.twinlions.spkpath.consulting.repository.ScheduleRepository;
+import com.twinlions.spkpath.consulting.specification.ReservationSpecification;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +40,7 @@ public class ConsultingServiceImpl implements ConsultingService {
      * @param userId 사용자 ID
      * @return List<ScheduleResponseDto>
      */
-    public ScheduleResponseDto getSchedule(@RequestParam String userId) {
+    public ScheduleResponseDto getSchedules(@RequestParam String userId) {
         // 오늘 날짜와 3개월 뒤 날짜 구함
         LocalDate ldStart = LocalDate.now();
         LocalDate ldEnd = ldStart.plusMonths(3);
@@ -106,6 +108,99 @@ public class ConsultingServiceImpl implements ConsultingService {
     }
 
     /**
+     * 일반회원의 지난 예약을 조회하는 메서드
+     *
+     * @param userId 사용자 ID
+     * @return List<ReservationDto> 지난 예약 리스트
+     */
+    public List<ReservationDto> getPastReservations(@RequestParam String userId) {
+        Specification<Reservation> specBefore = ReservationSpecification.lessRsvDate(LocalDate.now());
+        Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
+
+        specBefore = specBefore.and(ReservationSpecification.greaterRsvDate(LocalDate.now().minusMonths(3)));
+        specToday = specToday.and(ReservationSpecification.equalsRsvDate(LocalDate.now()));
+        specToday = specToday.and(ReservationSpecification.lessRsvTime(LocalTime.now()));
+
+        specBefore = specBefore.or(specToday);
+        specBefore = specBefore.and(ReservationSpecification.equalsUserId(userId));
+        List<Reservation> pastReservation = reservationRepository.findAll(specBefore);
+
+        return pastReservation.stream()
+                .map(this::convertToReservationDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 일반회원의 예정된 예약을 조회하는 메서드
+     *
+     * @param userId 사용자 ID
+     * @return List<ReservationDto> 예정된 예약 리스트
+     */
+    public List<ReservationDto> getUpcomingReservations(@RequestParam String userId) {
+        Specification<Reservation> specAfter = ReservationSpecification.greaterRsvDate(LocalDate.now());
+        Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
+
+
+        specToday = specToday.and(ReservationSpecification.equalsRsvDate(LocalDate.now()));
+        specToday = specToday.and(ReservationSpecification.greaterRsvTime(LocalTime.now()));
+
+        specAfter = specAfter.or(specToday);
+        specAfter = specAfter.and(ReservationSpecification.equalsUserId(userId));
+        List<Reservation> upcomingReservation = reservationRepository.findAll(specAfter);
+
+        return upcomingReservation.stream()
+                .map(this::convertToReservationDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 상담사의 지난 예약을 조회하는 메서드
+     *
+     * @param csltId 상담사 ID
+     * @return List<ReservationDto> 지난 예약 리스트
+     */
+    public List<ReservationDto> getPastReservationsCslt(@RequestParam String csltId) {
+        Specification<Reservation> specBefore = ReservationSpecification.lessRsvDate(LocalDate.now());
+        Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
+
+        specBefore = specBefore.and(ReservationSpecification.greaterRsvDate(LocalDate.now().minusMonths(3)));
+        specToday = specToday.and(ReservationSpecification.equalsRsvDate(LocalDate.now()));
+        specToday = specToday.and(ReservationSpecification.lessRsvTime(LocalTime.now()));
+
+        specBefore = specBefore.or(specToday);
+        specBefore = specBefore.and(ReservationSpecification.equalsCsltId(csltId));
+        List<Reservation> pastReservation = reservationRepository.findAll(specBefore);
+
+        return pastReservation.stream()
+                .map(this::convertToReservationDto)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 상담사의 예정된 예약을 조회하는 메서드
+     *
+     * @param csltId 상담사 ID
+     * @return List<ReservationDto> 예정된 예약 리스트
+     */
+    public List<ReservationDto> getUpcomingReservationsCslt(@RequestParam String csltId) {
+        Specification<Reservation> specAfter = ReservationSpecification.greaterRsvDate(LocalDate.now());
+        Specification<Reservation> specToday = (root, query, criteriaBuilder) -> null;
+
+
+        specToday = specToday.and(ReservationSpecification.equalsRsvDate(LocalDate.now()));
+        specToday = specToday.and(ReservationSpecification.greaterRsvTime(LocalTime.now()));
+
+        specAfter = specAfter.or(specToday);
+        specAfter = specAfter.and(ReservationSpecification.equalsCsltId(csltId));
+        List<Reservation> upcomingReservation = reservationRepository.findAll(specAfter);
+
+        return upcomingReservation.stream()
+                .map(this::convertToReservationDto)
+                .collect(Collectors.toList());
+    }
+
+
+    /**
      * 새로운 상담 예약을 추가하는 메서드
      *
      * @param reservationDto 예약 정보
@@ -143,6 +238,18 @@ public class ConsultingServiceImpl implements ConsultingService {
                 schedulePK.getAvailableDate().getMonthValue()-1,
                 schedulePK.getAvailableDate().getDayOfMonth(),
                 schedulePK.getAvailableTime().toString()
+        );
+    }
+
+    private ReservationDto convertToReservationDto(Reservation reservation) {
+        return new ReservationDto(
+                reservation.getUser().getUserId(),
+                reservation.getCslt().getUserId(),
+                reservation.getRsvDate().getYear(),
+                reservation.getRsvDate().getMonthValue()-1,
+                reservation.getRsvDate().getDayOfMonth(),
+                reservation.getRsvTime().toString(),
+                reservation.getRsvInfo()
         );
     }
 }
