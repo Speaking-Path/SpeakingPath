@@ -1,7 +1,14 @@
+import { useSelector } from 'react-redux';
+
+
 function Profile() {
+  const userInfo = useSelector((state)=>{return state.profileInfo})
+
+  console.log(userInfo)
+
   return(
     <div>
-      내프로필
+      <p>내 프로필</p>
     </div>
   )
 }

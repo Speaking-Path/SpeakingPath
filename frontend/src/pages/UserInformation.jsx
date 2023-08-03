@@ -1,21 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Preview from '../components/profile/Preview';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './UserInformation.module.css'
 import { useMemo } from 'react';
+import { changeProfileInfo } from '../store/profileInfo'
 
 
 
 function UserInformation() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const userId = useSelector((state) => { return state.loginId })
-  const [userInfo, setUserInfo] = useState(null)
+  // const [userInfo, setUserInfo] = useState(null)
+  const userInfo = useSelector((state)=>{return state.profileInfo})
+  const dispatch = useDispatch()
+
+
   const tokenType = localStorage.getItem('tokenType')
   const accessToken = localStorage.getItem('accessToken')
 
-  const [isProfileClicked, setProfileClicked] = useState(false);
+  const [isProfileClicked, setProfileClicked] = useState(true);
   const [isReservationsClicked, setReservationsClicked] = useState(false);
   const [isPastrsvClicked, setIsPastrsvClicked] = useState(false);
   const [isCsltRsv, setIsCsltRsv] = useState(false)
@@ -75,14 +80,13 @@ function UserInformation() {
       },
     )
       .then((res) => {
-        setUserInfo(res.data)
+        dispatch(changeProfileInfo(res.data))
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  console.log(userInfo)
   return (
     <div>
       <img className={styles.mypageBanner} src={process.env.PUBLIC_URL + "/assets/mypage.png"} alt="" />
