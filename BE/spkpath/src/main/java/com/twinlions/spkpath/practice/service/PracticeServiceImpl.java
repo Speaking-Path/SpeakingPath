@@ -1,5 +1,6 @@
 package com.twinlions.spkpath.practice.service;
 
+import com.twinlions.spkpath.practice.QuestionDto;
 import com.twinlions.spkpath.practice.config.StudyConverter;
 import com.twinlions.spkpath.practice.entity.composite.StudyObject;
 import com.twinlions.spkpath.practice.entity.composite.StudySentence;
@@ -19,8 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -160,5 +160,55 @@ public class PracticeServiceImpl implements PracticeService{
     @Override
     public List<StudyObjectVO> showMyObject(String userId) {
         return null;
+    }
+
+    @Override
+    public QuestionDto makeQuestions(int questionSize, int vocaSize) {
+        // 잘못된 선택지의 수
+        int wrongChoice = 3 * questionSize;
+
+        // 전체 답안
+        List<Integer> answerList = new ArrayList<>();
+
+        // 랜덤 난수 생성 리스트
+        List<Integer> nList = new ArrayList<>();
+        Queue<Integer> nQueue = new ArrayDeque<>();
+
+        for (int i = 1; i <= vocaSize; i++) {
+            nList.add(i);
+        }
+
+        // 랜덤 순서로 수 배열
+        // 답안 리스트 완성 -- size = questionSize
+        Collections.shuffle(nList);
+        int idx = 0, num = 0;
+        for (int i = 0; i < questionSize; i++) {
+            answerList.add(nList.get(idx++));
+            if (idx == vocaSize) {
+                Collections.shuffle(nList);
+                idx = 0;
+            }
+        }
+
+        // 문제 리스트 생성
+        List<List<Integer>> questionList = new ArrayList<>();
+        for (int i = 0; i < questionSize; i++) {
+            questionList.add(new ArrayList<>(answerList.get(i)));
+        }
+
+        idx = 0;
+        while (wrongChoice > 0) {
+            while ((num = nQueue.poll()) == answerList.get(idx)) {
+                if (nQueue.size() > 0) {
+                    Collections.shuffle(nList);
+                    nQueue.addAll(nList);
+                }
+            }
+            questionList.get(idx).add(num);
+            wrongChoice--;
+            if (wrongChoice % 3 == 0) idx++;
+        }
+
+        return new QuestionDto(questionList, answerList);
     }
 }
