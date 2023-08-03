@@ -2,9 +2,9 @@ package com.twinlions.spkpath.consultant.service;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.ConsultantSearchDto;
-import com.twinlions.spkpath.consultant.specification.ConsultantSpecification;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
+import com.twinlions.spkpath.consultant.specification.ConsultantSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -84,7 +84,7 @@ public class ConsultantServiceImpl implements ConsultantService {
      *
      *
      */
-    private ConsultantDto convertToDto(Consultant consultant) {
+    public ConsultantDto convertToDto(Consultant consultant) {
         ConsultantDto consultantDto = new ConsultantDto();
         consultantDto.setUserId(consultant.getUserId());
         consultantDto.setUserEmail(consultant.getUserEmail());

@@ -3,9 +3,9 @@ package com.twinlions.spkpath.user.service;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.*;
 import com.twinlions.spkpath.consultant.repository.*;
-import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.Consultant;
 import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
+import com.twinlions.spkpath.consultant.service.ConsultantService;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.entity.Authority;
@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService{
     private final TagRepository tagRepository;
     private final ConsultantBoundaryRepository consultantBoundaryRepository;
     private final BoundaryRepository boundaryRepository;
+    private final ConsultantService consultantService;
 
     /**
      * 회원가입 메서드
@@ -192,5 +193,15 @@ public class UserServiceImpl implements UserService{
         TokenDto tokenDto = jwtTokenProvider.generateToken(authentication, userId);
 
         return tokenDto;
+    }
+
+    @Override
+    public Optional<?> mypage(String userId) {
+        Consultant consultant = consultantRepository.findByUserId(userId);
+        if (consultant == null) {
+            return userRepository.findByUserId(userId);
+        }
+        ConsultantDto consultantDto = consultantService.convertToDto(consultant);
+        return Optional.of(consultantDto);
     }
 }

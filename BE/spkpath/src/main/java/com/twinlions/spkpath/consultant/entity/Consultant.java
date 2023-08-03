@@ -1,5 +1,7 @@
 package com.twinlions.spkpath.consultant.entity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twinlions.spkpath.user.entity.User;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -32,11 +34,13 @@ public class Consultant extends User {
 
     @Override
     public String toString() {
-        return "Consultant{" +
-                "csltTeam='" + csltTeam + '\'' +
-                ", csltExp=" + csltExp +
-                ", csltTags=" + csltTags +
-                ", csltBoundaries=" + csltBoundaries +
-                '}';
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            // JSON 변환에 실패한 경우, 예외 처리 필요
+            e.printStackTrace();
+            return "JSON conversion failed for Consultant";
+        }
     }
 }
