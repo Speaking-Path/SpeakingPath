@@ -3,7 +3,6 @@ package com.twinlions.spkpath.user.controller;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
-import com.twinlions.spkpath.jwt.service.JwtService;
 import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
@@ -14,26 +13,30 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Optional;
+import java.util.UUID;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor // 생성자 사용하지 않기 위해
 @RequestMapping("/account")
 @Api(value = "회원", description = "회원 관련 API 입니다.")
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
 public class UserController {
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     private final UserService userService;
     private final UserRepository userRepository;
     private final CustomUserDetailsService customUserDetailsService;
-     private JwtService jwtService;
+     @Value("${file.path.profilePath}")
+     private String profilePath;
 
     @PostMapping(value = "/signup")
     @ApiResponses(value = {
@@ -121,7 +124,39 @@ public class UserController {
      */
     @PutMapping(value = "/change")
     @Operation(summary = "내 프로필 정보 수정", description = "내 프로필의 정보를 수정할 수 있습니다.")
-    public ResponseEntity<?> updateProfile(@RequestBody UserDto userDto){
+    public ResponseEntity<?> changeProfile(@RequestBody UserDto userDto){
         return new ResponseEntity<>(userService.update(userDto), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/profile")
+    @Operation(summary = "프로필 사진 업로드", description = "내 프로필 사진을 업로드한다.")
+    public ResponseEntity<?> uploadProfile(
+            @RequestParam("userId") String userId, @RequestParam("image")MultipartFile file){
+        log.debug("UserController:: upload profile {}", userId);
+        if(!file.isEmpty()) {
+            String saveFolder = profilePath;
+            log.debug("저장 폴더 : {}", saveFolder);
+            File folder = new File(saveFolder);
+            if (!folder.exists())
+                folder.mkdirs();
+
+            String originalFileName = file.getOriginalFilename();
+
+            if (!originalFileName.isEmpty()) {
+                String saveFileName = UUID.randomUUID().toString()
+                        + originalFileName.substring(originalFileName.lastIndexOf('.'));
+                log.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", file.getOriginalFilename(), saveFileName);
+
+                try {
+                    file.transferTo(new File(folder, saveFileName));
+                    String result = userService.uploadProfile(userId, saveFileName);
+                    return new ResponseEntity<String>(result, HttpStatus.CREATED);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+                }
+            }
+        }
+        return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
 }
