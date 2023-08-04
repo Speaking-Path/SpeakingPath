@@ -133,11 +133,9 @@ public class UserController {
     @Operation(summary = "프로필 사진 업로드", description = "내 프로필 사진을 업로드한다.")
     public ResponseEntity<?> uploadProfile(
             @RequestParam("userId") String userId, @RequestParam("file")MultipartFile file){
-        System.out.println("UserController:: upload profile {}" + userId);
         if(!file.isEmpty()) {
             LocalDate now = LocalDate.now();
             String saveFolder = profilePath + "/" + userId + "/" + now;
-            log.debug("저장 폴더 : {}", saveFolder);
             File folder = new File(saveFolder);
             if (!folder.exists())
                 folder.mkdirs();
@@ -147,11 +145,10 @@ public class UserController {
             if (!originalFileName.isEmpty()) {
                 String saveFileName = UUID.randomUUID().toString()
                         + originalFileName.substring(originalFileName.lastIndexOf('.'));
-                System.out.printf("원본 파일 이름 : {%s}, 실제 저장 파일 이름 : {%s}", file.getOriginalFilename(), saveFileName);
-
                 try {
                     file.transferTo(new File(folder, saveFileName));
                     userService.uploadProfile(userId, userId + "/" + now + "/" + saveFileName);
+                    log.info("UserController:: upload profile {} at {}", userId, saveFolder);
                     return new ResponseEntity<String>(userId + "/" + now + "/"+ saveFileName, HttpStatus.CREATED);
                 } catch (Exception e) {
                     e.printStackTrace();
