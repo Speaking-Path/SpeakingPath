@@ -58,16 +58,7 @@ function Entry(props) {
                     시작하기
                   </a>
 
-                  <a
-                      className="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder m-2"
-                      href="내화면미리보기링크넣기"
-                      style={{ color: 'blue', borderColor: 'blue' }}
-                    >
-                    화면보기
-                  </a>
-
-                  <button type="button" className="btn btn-outline-primary ms-1" onClick={handleButtonClick}>내화면보기</button>
-                  <button type="button" className="btn btn-outline-light btn-lg px-5 py-3 fs-6 fw-bolder m-2" style={{ color: 'blue', borderColor: 'blue' }} onClick={handleButtonClick}>내화면보기</button>
+                  <button type="button" className="btn btn-outline-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" onClick={handleButtonClick}>내화면보기</button>
 
                 </div>
                 </div>
