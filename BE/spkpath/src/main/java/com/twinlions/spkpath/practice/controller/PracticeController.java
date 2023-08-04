@@ -84,4 +84,10 @@ public class PracticeController {
     public ResponseEntity<?> showMySentence(@RequestBody UserVO userVO){
         return new ResponseEntity<>(practiceService.showMySentence(userVO.getUserId()), HttpStatus.ACCEPTED);
     }
+
+    @GetMapping(value = "/recog/qlist")
+    @Operation(summary = "문제 생성하기")
+    public ResponseEntity<?> makeQuestions() {
+        return new ResponseEntity<>(practiceService.makeQuestions(20, 20), HttpStatus.ACCEPTED);
+    }
 }

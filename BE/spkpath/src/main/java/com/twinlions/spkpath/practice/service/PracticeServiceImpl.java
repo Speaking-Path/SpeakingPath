@@ -193,20 +193,25 @@ public class PracticeServiceImpl implements PracticeService{
         // 문제 리스트 생성
         List<List<Integer>> questionList = new ArrayList<>();
         for (int i = 0; i < questionSize; i++) {
-            questionList.add(new ArrayList<>(answerList.get(i)));
+            questionList.add(new ArrayList<>());
+            questionList.get(i).add(answerList.get(i));
         }
 
         idx = 0;
+        Collections.shuffle(nList);
+        nQueue.addAll(nList);
         while (wrongChoice > 0) {
-            while ((num = nQueue.poll()) == answerList.get(idx)) {
-                if (nQueue.size() > 0) {
+            while ((num = nQueue.poll()) == answerList.get(idx) || nQueue.size() == 0) {
+                if (nQueue.size() == 0) {
                     Collections.shuffle(nList);
                     nQueue.addAll(nList);
                 }
             }
             questionList.get(idx).add(num);
             wrongChoice--;
-            if (wrongChoice % 3 == 0) idx++;
+            if (wrongChoice % 3 == 0) {
+                Collections.shuffle(questionList.get(idx++));
+            }
         }
 
         return new QuestionDto(questionList, answerList);
