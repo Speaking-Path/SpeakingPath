@@ -206,9 +206,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String uploadProfile(String userId, String saveFileName) {
-        Optional<User> updateUser = userRepository.findByUserId(userId);
-        updateUser.get().setUserPic(saveFileName);
-        return saveFileName;
+    public void uploadProfile(String userId, String saveFileName) {
+        User user = userRepository.findByUserId(userId).get();
+        user.setUserPic(saveFileName);
+        userRepository.save(user);
     }
 }

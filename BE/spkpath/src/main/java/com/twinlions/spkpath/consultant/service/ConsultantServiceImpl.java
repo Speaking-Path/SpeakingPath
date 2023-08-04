@@ -96,6 +96,7 @@ public class ConsultantServiceImpl implements ConsultantService {
         consultantDto.setCsltTeam(consultant.getCsltTeam());
         consultantDto.setCsltExp(consultant.getCsltExp());
         consultantDto.setCsltTagFromList(consultant.getCsltTags());
+        consultantDto.setUserPic(consultant.getUserPic());
         consultantDto.setCsltBoundaryFromList(consultant.getCsltBoundaries());
         return consultantDto;
     }
