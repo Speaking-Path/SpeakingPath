@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -131,11 +132,10 @@ public class UserController {
     @PostMapping(value = "/profile")
     @Operation(summary = "프로필 사진 업로드", description = "내 프로필 사진을 업로드한다.")
     public ResponseEntity<?> uploadProfile(
-            @RequestParam("userId") String userId, @RequestParam("image")MultipartFile file){
-        log.debug("UserController:: upload profile {}", userId);
+            @RequestParam("userId") String userId, @RequestParam("file")MultipartFile file){
         if(!file.isEmpty()) {
-            String saveFolder = profilePath;
-            log.debug("저장 폴더 : {}", saveFolder);
+            LocalDate now = LocalDate.now();
+            String saveFolder = profilePath + "/" + userId + "/" + now;
             File folder = new File(saveFolder);
             if (!folder.exists())
                 folder.mkdirs();
@@ -145,12 +145,11 @@ public class UserController {
             if (!originalFileName.isEmpty()) {
                 String saveFileName = UUID.randomUUID().toString()
                         + originalFileName.substring(originalFileName.lastIndexOf('.'));
-                log.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", file.getOriginalFilename(), saveFileName);
-
                 try {
                     file.transferTo(new File(folder, saveFileName));
-                    String result = userService.uploadProfile(userId, saveFileName);
-                    return new ResponseEntity<String>(result, HttpStatus.CREATED);
+                    userService.uploadProfile(userId, userId + "/" + now + "/" + saveFileName);
+                    log.info("UserController:: upload profile {} at {}", userId, saveFolder);
+                    return new ResponseEntity<String>(userId + "/" + now + "/"+ saveFileName, HttpStatus.CREATED);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
