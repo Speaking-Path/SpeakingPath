@@ -6,7 +6,7 @@
 
 .result {
   text-align: left;
-  border-bottom: 3px solid black;
+  border-bottom: 0.188rem solid black;
   width: 30%;
   /* padding-bottom: 2%; */
   margin-bottom: 4%;

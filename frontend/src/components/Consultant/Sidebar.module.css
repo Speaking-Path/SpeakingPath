@@ -1,10 +1,10 @@
 .searchinput {
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 .detail {
-  margin-bottom: 16px;
-  margin-top: 10px;
+  margin-bottom: 1rem;
+  margin-top: 0.625rem;
 }
 
 .searchicon {
@@ -12,33 +12,33 @@
 }
 
 .search {
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
 }
 
 .reset {
-  border: 1px solid rgba(165, 193, 247);
+  border: 0.063rem solid rgba(165, 193, 247);
   background-color: transparent;
   margin-left: 20%;
-  padding: 0px;
+  padding: 0;
   margin-right: 10%;
 }
 
 .detailP {
-  margin-bottom: 5px;
-  margin-left: 25px;
-  font-size: 20px;
+  margin-bottom: 0.313rem;
+  margin-left: 1.563rem;
+  font-size: 1.250rem;
   font-weight: 500;
   align-items: center;
   text-align: left;
-  padding: 0px;
+  padding: 0;
 }
 
 .searchinput {
   width: 80%;
-  height: 35px;
+  height: 2.188rem;
   border: none;
-  border-bottom: 1px solid #d9d9d9;
+  border-bottom: 0.063rem solid #d9d9d9;
   outline: none;
 }
 
@@ -54,7 +54,7 @@
 
 .searchicon {
   position: absolute;
-  right: 35px;
+  right: 2.188rem;
   transform: translateY(20%);
 }
 
@@ -63,11 +63,11 @@
 }
 
 .subtitle {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 15px;
+  margin-bottom: 0.938rem;
   color: #4A5056;
-  border-bottom: 2px solid black;
+  border-bottom: 0.125rem solid black;
   width: 60%;
 }
 
@@ -81,11 +81,11 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   position: relative;
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
   cursor: pointer;
   outline: none !important;
-  border: 1px solid rgba(165, 193, 247);
+  border: 0.063rem solid rgba(165, 193, 247);
   vertical-align: middle;
   margin-right: 3%;
 }
@@ -104,7 +104,7 @@
   color: white;
 }
 .selectBox input[type="checkbox"]:checked::before {
-  border-radius: 4px;
+  border-radius: 0.250rem;
   transform: scale(1) translate(-50%, -50%)
 }
 
@@ -120,7 +120,7 @@
   background-color: #4285F4;
   color: white;
   font-weight: 600;
-  border-radius: 5px;
+  border-radius: 0.313rem;
   margin-bottom: 10%;
-  font-size: 16px;
+  font-size: 1rem;
 }
