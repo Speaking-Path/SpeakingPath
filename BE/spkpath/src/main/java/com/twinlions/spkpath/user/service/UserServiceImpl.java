@@ -18,6 +18,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -41,8 +42,8 @@ public class UserServiceImpl implements UserService{
      * @param userDto 회원가입할 사용자 정보 입력받음
      * @return userId
      */
+    @Transactional
     @Override
-//    @Transactional
     public String join(UserDto userDto) {
         Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
@@ -76,6 +77,7 @@ public class UserServiceImpl implements UserService{
      * @param consultantDto 회원가입할 상담사 정보 입력받음
      * @return 성공 number
      */
+    @Transactional
     @Override
     public int csltJoin(ConsultantDto consultantDto) {
         //TODO: 두번 실행하지 않고 한번만 실행하는 방법으로 수정해보기
@@ -165,8 +167,9 @@ public class UserServiceImpl implements UserService{
     /**
      * 수정할 userDto를 받아 pwd, info, phone 정보를 변경한다.
      * @param userDto // 수정할 정보를 담은  userDto를 받는다
-     * @return
+     * @return User
      */
+    @Transactional
     @Override
     public User update(UserDto userDto) {
         Optional<User> updateUser = userRepository.findByUserId(userDto.getUserId());
@@ -205,6 +208,7 @@ public class UserServiceImpl implements UserService{
         return Optional.of(consultantDto);
     }
 
+    @Transactional
     @Override
     public void uploadProfile(String userId, String saveFileName) {
         User user = userRepository.findByUserId(userId).get();
