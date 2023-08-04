@@ -91,6 +91,9 @@ function UserInformation() {
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/profile/" + userInfo.userPic} alt="" /> :
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
             }
+            <div className={styles.uploadProfileImage}>
+              <UploadprofileImage></UploadprofileImage>
+            </div>
             <div className={styles.userBox}>
               <p className={styles.userInfo}><b>{userInfo && userInfo.userName}</b><span>님</span></p>
               {
@@ -115,9 +118,6 @@ function UserInformation() {
                   null
                 )
               }
-              <UploadprofileImage>
-              
-              </UploadprofileImage>
             </div>
           </div>
           <div className={`${styles.outletBox} col-9`}>
