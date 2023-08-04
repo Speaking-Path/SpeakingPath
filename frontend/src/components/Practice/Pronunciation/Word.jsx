@@ -1,6 +1,5 @@
 import { useState } from "react";
-import Preview from './Preview';
-
+import Entry from "./Entry";
 
 function Word() {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -12,9 +11,9 @@ function Word() {
   return(
     <div>
       
-      <h3>단어 발음</h3>
-
-      <h3>훈련 방법 설명</h3>
+      <div>  
+        <Entry type={"단어"} />
+      </div>
 
       <div>
         <button type="button" className="btn btn-outline-primary ms-1" onClick={handleButtonClick}>시작하기</button>

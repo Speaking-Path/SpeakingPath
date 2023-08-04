@@ -7,6 +7,7 @@ import { changeCorrect } from "../../../store/pron";
 import { changeWrong } from "../../../store/pron";
 import RetryPron from '../RetryPron';
 import WrongConfetti from '../WrongConfetti';
+import Entry from "./Entry";
 
 
 function Syllable() {
@@ -16,13 +17,16 @@ function Syllable() {
 
   return(
     <div>
-      <h3>음절 발음</h3>
       <button onClick={() => dispatch(changeCorrect(true))}>맞음</button>
       <button onClick={() => dispatch(changeWrong(true))}>틀림</button>
       {pronCorrect && <Confetti />}
       {pronCorrect && <CelebratePron />}
       {pronWrong && <WrongConfetti/>}
       {pronWrong && <RetryPron/>}
+
+      <div>  
+        <Entry type={"음절"} />
+      </div>
     </div>
   )
 }
