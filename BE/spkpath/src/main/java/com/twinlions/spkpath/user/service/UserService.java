@@ -19,5 +19,5 @@ public interface UserService {
 
     Optional<?> mypage(String userId);
 
-    String uploadProfile(String userId, String saveFileName);
+    void uploadProfile(String userId, String saveFileName);
 }

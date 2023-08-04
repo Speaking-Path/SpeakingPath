@@ -9,6 +9,7 @@ import store from './store.js'
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import ScrollToTop from "./ScrollToTop";
 
 
 const persistor = persistStore(store)
@@ -22,6 +23,7 @@ root.render(
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <HashRouter>
+            <ScrollToTop />
             <App />
           </HashRouter>
         </PersistGate>

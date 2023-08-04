@@ -32,6 +32,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/v3/api-docs","/swagger*/**").permitAll() // swagger 관련 permit all
                 .antMatchers(accountPermitList).permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("account/mypage").hasAnyAuthority()
+                .antMatchers("account/chnage").hasAnyAuthority()
                 .antMatchers("/practice/**").permitAll()
                 .antMatchers("/cslting/**").permitAll()
                 .antMatchers("/cslt/**").permitAll()

@@ -12,8 +12,8 @@ import Consultant from './pages/Consultant'
 import Reservation from './pages/Reservation'
 import CsltCalendar from './components/MyPage/ConsultantCalendar';
 import Practice from './pages/Practice';
-import PickName from './components/Practice/PickName';
-import PickPic from './components/Practice/PickPic';
+import PickName from './components/Practice/Recognition/PickName';
+import PickPic from './components/Practice/Recognition/PickPic';
 import Sentence from './components/Practice/Sentence';
 import Syllable from './components/Practice/Syllable';
 import Word from './components/Practice/Word';

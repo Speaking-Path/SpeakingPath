@@ -31,4 +31,6 @@ public class ReservationDto {
 
     // 상담 정보
     private String rsvInfo;
+
+    private String rsvCode;
 }
