@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { changeProfileInfo } from '../store/profileInfo'
 import { changeProfileClick } from '../store/profileInfo';
 import { useEffect } from 'react';
-
+import UploadprofileImage from '../components/MyPage/UploadProfileImage'
 
 
 function UserInformation() {
@@ -88,7 +88,7 @@ function UserInformation() {
         <div className='row'>
           <div className={`${styles.infoBox} col-3`}>
             {userInfo && userInfo.userPic !== null ?
-              <img className={styles.userImg} src={process.env.PUBLIC_URL + `${userInfo.userPic}`} alt="" /> :
+              <img className={styles.userImg} src={process.env.PUBLIC_URL + "/profile/" + userInfo.userPic} alt="" /> :
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
             }
             <div>
@@ -108,6 +108,9 @@ function UserInformation() {
                   null
                 )
               }
+              <UploadprofileImage>
+              
+              </UploadprofileImage>
             </div>
           </div>
           <div className={`${styles.outletBox} col-9`}>
@@ -124,6 +127,9 @@ function UserInformation() {
                 {/* <p>내용</p> */}
               </div>
             </Preview>
+            <UploadprofileImage>
+              
+            </UploadprofileImage>
           </div>
         )}
       </section>
