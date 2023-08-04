@@ -1,0 +1,70 @@
+.infoTitle {
+  text-align: left;
+  padding-left: 3%;
+}
+
+.infoTitle p {
+  font-size: 23px;
+  font-weight: 900;
+}
+
+.info {
+  text-align: left;
+}
+
+.infoMain {
+  margin-left: 6%;
+  margin-right: 6%;
+}
+
+.infoPart > div {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #d9d9d9;
+  height: 70px;
+  padding-left: 15px;
+}
+
+.check {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 7%;
+}
+
+.infoSubT {
+  width: 13%;
+}
+
+.infoPart p {
+  line-height: 0;
+  margin: 0;
+}
+
+.infoPart > div > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 75%;
+}
+
+.rewardBox {
+  border: 1px solid #d9d9d9;
+  margin-top: 2%;
+  margin-bottom: 4%;
+}
+
+.infoMain button {
+  border: 1px solid #d9d9d9;
+  background-color: transparent;
+  padding: 5px 12px;
+  margin-left: 3px;
+}
+
+
+.infoMain input {
+  outline: none;
+  border: none;
+  border-bottom: 2px solid #d9d9d9;
+  margin-right: 8px;
+}
