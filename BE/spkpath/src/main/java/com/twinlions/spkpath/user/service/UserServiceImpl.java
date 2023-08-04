@@ -171,9 +171,9 @@ public class UserServiceImpl implements UserService{
     public User update(UserDto userDto) {
         Optional<User> updateUser = userRepository.findByUserId(userDto.getUserId());
         updateUser.ifPresent(selectUser ->{
-            selectUser.setUserPwd(userDto.getUserPwd()==null?"":userDto.getUserPwd());
-            selectUser.setUserInfo(userDto.getUserInfo()==null?"":userDto.getUserInfo());
-            selectUser.setUserPhone(userDto.getUserPhone()==null?"":userDto.getUserPhone());
+            if(userDto.getUserPwd()!=null) selectUser.setUserPwd(passwordEncoder.encode(userDto.getUserPwd()));
+            if(userDto.getUserInfo()!=null) selectUser.setUserInfo(userDto.getUserInfo());
+            if(userDto.getUserPhone()!=null) selectUser.setUserPhone(userDto.getUserPhone());
             userRepository.save(selectUser);
         });
         return updateUser.get();
