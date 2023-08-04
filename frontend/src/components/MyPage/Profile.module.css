@@ -4,7 +4,7 @@
 }
 
 .infoTitle p {
-  font-size: 23px;
+  font-size: 1.438rem;
   font-weight: 900;
 }
 
@@ -20,14 +20,14 @@
 .infoPart > div {
   display: flex;
   align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #d9d9d9;
-  height: 70px;
-  padding-left: 15px;
+  padding: 0.625rem 0;
+  border-bottom: 0.063em solid #d9d9d9;
+  height: 4.375rem;
+  padding-left: 0.938rem;
 }
 
 .check {
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 700;
   margin-top: 7%;
 }
@@ -49,22 +49,22 @@
 }
 
 .rewardBox {
-  border: 1px solid #d9d9d9;
+  border: 0.063rem solid #d9d9d9;
   margin-top: 2%;
   margin-bottom: 4%;
 }
 
 .infoMain button {
-  border: 1px solid #d9d9d9;
+  border: 0.063rem solid #d9d9d9;
   background-color: transparent;
-  padding: 5px 12px;
-  margin-left: 3px;
+  padding: 0.313rem 0.750rem;
+  margin-left: 0.188rem;
 }
 
 
 .infoMain input {
   outline: none;
   border: none;
-  border-bottom: 2px solid #d9d9d9;
-  margin-right: 8px;
+  border-bottom: 0.125rem solid #d9d9d9;
+  margin-right: 0.5rem;
 }
