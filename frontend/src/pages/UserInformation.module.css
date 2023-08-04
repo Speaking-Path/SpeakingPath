@@ -145,3 +145,14 @@
 .outletBox {
   margin-top: 5%;
 }
+
+.uploadProfileImage{
+  position: relative;
+  top: -50px;
+  left: 50px;
+}
+
+.uploadProfileImage svg{
+  cursor: pointer;
+  margin: 0;
+}
