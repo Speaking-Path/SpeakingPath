@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './Profile.module.css'
 
@@ -25,6 +25,7 @@ function Profile() {
   // const [email, setEmail] = useState("")
   const [phone, setphone] = useState("")
   const [info, setInfo] = useState("")
+
 
 
   const changePwd = (newPwd) => {
