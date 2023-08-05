@@ -22,10 +22,16 @@ function Profile() {
   const [clickPhoneM, setClickPhoneM] = useState(false)
   const [clickInfoM, setClickInfoM] = useState(false)
 
+  const [password, setPassword] = useState("")
+  const [passwordConfirm, setPasswordConfirm] = useState("")
+  const [passwordMessage, setPasswordMessage] = useState("")
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
+  const [isPassword, setIsPassword] = useState(false)
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
+
   // const [email, setEmail] = useState("")
   const [phone, setphone] = useState("")
   const [info, setInfo] = useState("")
-
 
 
   const changePwd = (newPwd) => {
@@ -58,9 +64,11 @@ function Profile() {
       })
       .then((res) => {
         console.log(res.data)
+        alert("유저 정보가 업데이트 되었습니다.")
       })
       .catch((err) => {
         console.log(err)
+        alert('알 수 없는 문제로 실패하였습니다.\n관리자에게 문의하세요.')
       })
   }
 
@@ -90,26 +98,34 @@ function Profile() {
             <p className={styles.infoSubT}>아이디</p>
             <p>{userInfo.userId}</p>
           </div>
-          <div>
+          <div className={styles.infoSubPwd}>
             <p className={styles.infoSubT}>비밀번호</p>
             {
               clickPwdM ?
-                <div>
-                  <div>
+                <div className={styles.modifyPwd}>
+                  <div >
                     <label htmlFor="pwd"></label>
-                    <input type="pwd" id='pwd' placeholder='새 비밀번호를 입력하세요'
-                    onChange={(e) => { changePwd(e.target.value) }} />
+                    <input type="password" id='pwd' placeholder='새 비밀번호를 입력하세요'
+                      onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} />
+                    <p className={styles.message}> {passwordMessage} </p>
                     <label htmlFor="pwd2"></label>
-                    <input type="pwd2" id='pwd' placeholder='비밀번호 확인'
-                    onChange={(e) => { setPwd2(e.target.value) }} />
+                    <input type="password" id='pwd' placeholder='비밀번호 확인'
+                    onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} />
+                    <p className={styles.message}> {passwordConfirmMessage} </p>
                   </div>
                   <div>
-                    <button onClick={async (e) => {
-                      await setClickPwdM(false)
-                      changeUserInfo()
-                    }}>수정하기</button>
-                    <button onClick={(e) => { setClickPwdM(false) }}>취소하기</button>
-                  </div>
+                  {isPasswordConfirm && isPassword &&(
+                    <button
+                      onClick={async (e) => {
+                        await setClickPwdM(false);
+                        changeUserInfo();
+                      }}
+                    >
+                      수정하기
+                    </button>
+                  )}
+                  <button onClick={(e) => setClickPwdM(false)}>취소하기</button>
+                </div>
                 </div> :
                 <div>
                   <p>수정 클릭 시 비밀번호 수정 창이 나타납니다.</p>
