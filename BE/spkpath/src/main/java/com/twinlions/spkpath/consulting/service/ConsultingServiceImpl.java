@@ -300,7 +300,8 @@ public class ConsultingServiceImpl implements ConsultingService {
                 reservation.getRsvDate().getDayOfMonth(),
                 reservation.getRsvTime().toString(),
                 reservation.getRsvStatus().name(),
-                reservation.getRsvInfo()
+                reservation.getRsvInfo(),
+                reservation.getRsvCode()
         );
     }
 }

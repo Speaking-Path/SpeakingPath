@@ -1,11 +1,15 @@
 package com.twinlions.spkpath.user.controller;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.jwt.JwtAuthenticationFilter;
+import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
+import com.twinlions.spkpath.mail.MailDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
+import com.twinlions.spkpath.user.vo.NameAndEmailVO;
 import com.twinlions.spkpath.user.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,10 +21,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,8 +43,10 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final CustomUserDetailsService customUserDetailsService;
-     @Value("${file.path.profilePath}")
-     private String profilePath;
+    @Value("${file.path.profilePath}")
+    private String profilePath;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping(value = "/signup")
     @ApiResponses(value = {
@@ -111,9 +121,14 @@ public class UserController {
 
     @PostMapping(value = "/mypage")
     @Operation(summary = "내 프로필 조회", description = "내 프로필을 조회한다.")
-    public ResponseEntity<?> readProfile(@RequestBody UserVO userId){
-        Optional<?> user = userService.mypage(userId.getUserId());
-        return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    public ResponseEntity<?> readProfile(@RequestBody UserVO userId, ServletRequest request){
+        String token = jwtAuthenticationFilter.resolveToken((HttpServletRequest) request);
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        if(userId.getUserId().equals(authentication.getName())){
+            Optional<?> user = userService.mypage(userId.getUserId());
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -124,18 +139,22 @@ public class UserController {
      */
     @PutMapping(value = "/change")
     @Operation(summary = "내 프로필 정보 수정", description = "내 프로필의 정보를 수정할 수 있습니다.")
-    public ResponseEntity<?> changeProfile(@RequestBody UserDto userDto){
-        return new ResponseEntity<>(userService.update(userDto), HttpStatus.OK);
+    public ResponseEntity<?> changeProfile(@RequestBody UserDto userDto, ServletRequest request){
+        String token = jwtAuthenticationFilter.resolveToken((HttpServletRequest) request);
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        if(userDto.getUserId().equals(authentication.getName())){
+            return new ResponseEntity<>(userService.update(userDto), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value = "/profile")
     @Operation(summary = "프로필 사진 업로드", description = "내 프로필 사진을 업로드한다.")
     public ResponseEntity<?> uploadProfile(
-            @RequestParam("userId") String userId, @RequestParam("image")MultipartFile file){
-        log.debug("UserController:: upload profile {}", userId);
+            @RequestParam("userId") String userId, @RequestParam("file")MultipartFile file){
         if(!file.isEmpty()) {
-            String saveFolder = profilePath;
-            log.debug("저장 폴더 : {}", saveFolder);
+            LocalDate now = LocalDate.now();
+            String saveFolder = profilePath + "/" + userId + "/" + now;
             File folder = new File(saveFolder);
             if (!folder.exists())
                 folder.mkdirs();
@@ -145,12 +164,11 @@ public class UserController {
             if (!originalFileName.isEmpty()) {
                 String saveFileName = UUID.randomUUID().toString()
                         + originalFileName.substring(originalFileName.lastIndexOf('.'));
-                log.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", file.getOriginalFilename(), saveFileName);
-
                 try {
                     file.transferTo(new File(folder, saveFileName));
-                    String result = userService.uploadProfile(userId, saveFileName);
-                    return new ResponseEntity<String>(result, HttpStatus.CREATED);
+                    userService.uploadProfile(userId, userId + "/" + now + "/" + saveFileName);
+                    log.info("UserController:: upload profile {} at {}", userId, saveFolder);
+                    return new ResponseEntity<String>(userId + "/" + now + "/"+ saveFileName, HttpStatus.CREATED);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
@@ -159,4 +177,42 @@ public class UserController {
         }
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping(value = "/find/id")
+    @Operation(summary = "아이디 찾기", description = "이름과 이메일을 입력하면 아이디를 찾아준다.")
+    public ResponseEntity<?> findUserId(@RequestBody NameAndEmailVO nameAndEmailVO){
+        log.debug("아이디 찾기 요청 : " + nameAndEmailVO.getUserEmail());
+        return new ResponseEntity<>(
+                userService.findUserIdByUserNameAndUserEmail(nameAndEmailVO.getUserName(), nameAndEmailVO.getUserEmail()),
+                HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/find/pwd")
+    @Operation(summary = "비밀번호 찾기", description = "이름과 이메일을 입력하면 임시비밀번호를 발급해준다.")
+    public ResponseEntity<?> findUserPwd(@RequestBody NameAndEmailVO nameAndEmailVO){
+        String userId = userService.findUserIdByUserNameAndUserEmail(nameAndEmailVO.getUserName(), nameAndEmailVO.getUserEmail());
+        if(userId.equals("fail")){ // 일치하는 이름과 이메일이 없으면 fail을 return 한다
+            return new ResponseEntity<>("fail", HttpStatus.OK);
+        }
+        userService.sendEmail(userService.createEmailAndChangePwd(userId, nameAndEmailVO.getUserEmail()));
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PostMapping("/auth/sendEmail")
+    @Operation(summary = "회원가입 시 입력된 이메일로 인증번호를 전송한다.", description = "이메일 가입을 위한 이메일 인증")
+    public ResponseEntity<?> sendEmailAuthCheck(@RequestBody NameAndEmailVO nameAndEmailVO)  {
+        log.debug("sendEmailAuthCheck sending email to : {}", nameAndEmailVO.getUserEmail());
+
+        MailDto mail = userService.authUserEmail(nameAndEmailVO.getUserEmail());
+        userService.sendEmail(mail);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PostMapping("/auth/checkEmail/{number}")
+    @Operation(summary = "회원가입 시 입력된 이메일로 전송된 인증번호를 검증한다.", description = "이메일 가입을 위한 이메일 인증번호 확인")
+    public ResponseEntity<?>  emailAuthCheck(@RequestBody NameAndEmailVO nameAndEmailVO, @PathVariable("number") int number) {
+        log.debug("emailAuthCheck 해당 메일로 보낸 인증번호 확인: ", nameAndEmailVO.getUserEmail());
+        return new ResponseEntity<>(userService.checkAuthNumber(nameAndEmailVO.getUserEmail(), number), HttpStatus.OK);
+    }
+
 }

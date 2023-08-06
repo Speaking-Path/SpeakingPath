@@ -48,7 +48,7 @@ function Practice() {
             <div className="row">
               <div className={`${styles.pracList2} offset-1 col-4`} onClick={(e) => { navigate("/practice/recog/select") }}>
                 <p className={`${styles.pracTitle}`}>사물 고르기</p>
-                <img className={styles.img2} src={process.env.PUBLIC_URL + "/assets/pickname.png"} alt="" />
+                <img className={styles.img2} src={process.env.PUBLIC_URL + "/assets/pickpic.png"} alt="" />
                 <div className={styles.pracDesc2}>
                   <p>주어진 단어의</p>
                   <p>사진을 골라 보세요</p>
@@ -56,7 +56,7 @@ function Practice() {
               </div>
               <div className={`${styles.pracList2} offset-2 col-4`} onClick={(e) => { navigate("/practice/recog/select-name") }}>
                 <p className={`${styles.pracTitle}`}>사물 이름 맞히기</p>
-                <img className={styles.img2} src={process.env.PUBLIC_URL + "/assets/pickpic.png"} alt="" />
+                <img className={styles.img2} src={process.env.PUBLIC_URL + "/assets/pickname.png"} alt="" />
                 <div className={styles.pracDesc2}>
                   <p>사진을 보고</p>
                   <p>이름을 맞춰 보세요</p>

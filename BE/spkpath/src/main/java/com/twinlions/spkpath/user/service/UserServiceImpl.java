@@ -1,5 +1,6 @@
 package com.twinlions.spkpath.user.service;
 
+import com.twinlions.spkpath.config.RandomStringCreator;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.entity.*;
 import com.twinlions.spkpath.consultant.repository.*;
@@ -8,23 +9,32 @@ import com.twinlions.spkpath.consultant.repository.ConsultantRepository;
 import com.twinlions.spkpath.consultant.service.ConsultantService;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
+import com.twinlions.spkpath.mail.MailDto;
 import com.twinlions.spkpath.user.entity.Authority;
 import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.UserDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.mail.javamail.JavaMailSender;
 
+import javax.swing.text.html.Option;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor // UserRepository의 생성자를 쓰지 않기 위해
 public class UserServiceImpl implements UserService{
-
+    private Map<String, Integer> authInfo = new HashMap<>();
+    private final JavaMailSender mailSender;
     private final UserRepository userRepository;
     private final ConsultantRepository consultantRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
@@ -36,13 +46,16 @@ public class UserServiceImpl implements UserService{
     private final BoundaryRepository boundaryRepository;
     private final ConsultantService consultantService;
 
+    @Value("${spring.mail.username}")
+    private String fromAddress;
+
     /**
      * 회원가입 메서드
      * @param userDto 회원가입할 사용자 정보 입력받음
      * @return userId
      */
+    @Transactional
     @Override
-//    @Transactional
     public String join(UserDto userDto) {
         Authority authority = Authority.builder()
                 .authorityName("ROLE_USER")
@@ -76,6 +89,7 @@ public class UserServiceImpl implements UserService{
      * @param consultantDto 회원가입할 상담사 정보 입력받음
      * @return 성공 number
      */
+    @Transactional
     @Override
     public int csltJoin(ConsultantDto consultantDto) {
         //TODO: 두번 실행하지 않고 한번만 실행하는 방법으로 수정해보기
@@ -165,15 +179,16 @@ public class UserServiceImpl implements UserService{
     /**
      * 수정할 userDto를 받아 pwd, info, phone 정보를 변경한다.
      * @param userDto // 수정할 정보를 담은  userDto를 받는다
-     * @return
+     * @return User
      */
+    @Transactional
     @Override
     public User update(UserDto userDto) {
         Optional<User> updateUser = userRepository.findByUserId(userDto.getUserId());
         updateUser.ifPresent(selectUser ->{
-            selectUser.setUserPwd(userDto.getUserPwd());
-            selectUser.setUserInfo(userDto.getUserInfo());
-            selectUser.setUserPhone(userDto.getUserPhone());
+            if(userDto.getUserPwd()!=null) selectUser.setUserPwd(passwordEncoder.encode(userDto.getUserPwd()));
+            if(userDto.getUserInfo()!=null) selectUser.setUserInfo(userDto.getUserInfo());
+            if(userDto.getUserPhone()!=null) selectUser.setUserPhone(userDto.getUserPhone());
             userRepository.save(selectUser);
         });
         return updateUser.get();
@@ -205,10 +220,76 @@ public class UserServiceImpl implements UserService{
         return Optional.of(consultantDto);
     }
 
+    @Transactional
     @Override
-    public String uploadProfile(String userId, String saveFileName) {
+    public void uploadProfile(String userId, String saveFileName) {
+        User user = userRepository.findByUserId(userId).get();
+        user.setUserPic(saveFileName);
+        userRepository.save(user);
+    }
+
+    @Override
+    public String findUserIdByUserNameAndUserEmail(String userName, String userEmail) {
+        Optional<User> user = userRepository.findByUserNameAndUserEmail(userName, userEmail);
+        if(user.isPresent()) return userRepository.findByUserNameAndUserEmail(userName, userEmail).get().getUserId();
+        return "fail";
+    }
+
+    @Override
+    public MailDto createEmailAndChangePwd(String userId, String userEmail) {
+        String tempPassword = new RandomStringCreator().getTempPassword();
+        MailDto mailDto = new MailDto();
+        mailDto.setAddress(userEmail);
+        mailDto.setTitle("말하길 임시 비밀번호 안내 이메일입니다.");
+        mailDto.setMessage("안녕하세요. 말하길입니다!\n임시 비밀번호 안내 이메일입니다.\n회원님의 임시 비밀번호는 "
+                + tempPassword + " 입니다.\n로그인 후에 비밀번호를 변경해 주세요.");
+
         Optional<User> updateUser = userRepository.findByUserId(userId);
-        updateUser.get().setUserPic(saveFileName);
-        return saveFileName;
+        updateUser.ifPresent(selectUser -> {
+            selectUser.setUserPwd(passwordEncoder.encode(tempPassword));
+            userRepository.save(selectUser);
+        });
+        return mailDto;
+    }
+
+    @Override
+    public MailDto authUserEmail(String userEmail) {
+        Random random = new Random();		//랜덤 함수 선언
+        int createNum = 0;  			//1자리 난수
+        String ranNum = ""; 			//1자리 난수 형변환 변수
+        int letter    = 6;			//난수 자릿수:6
+        String resultNum = "";  		//결과 난수
+
+        for (int i=0; i<letter; i++) {
+            createNum = random.nextInt(9);		//0부터 9까지 올 수 있는 1자리 난수 생성
+            ranNum =  Integer.toString(createNum);  //1자리 난수를 String으로 형변환
+            resultNum += ranNum;			//생성된 난수(문자열)을 원하는 수(letter)만큼 더하며 나열
+        }
+        authInfo.put(userEmail, Integer.parseInt(resultNum));
+
+        MailDto mailDto = new MailDto();
+        mailDto.setAddress(userEmail);
+        mailDto.setTitle("말하길 회원가입 인증 메일입니다.");
+        mailDto.setMessage("안녕하세요. 말하길입니다.\n이메일 인증번호 안내 관련 이메일입니다.\n회원님의 인증번호는 "
+                + resultNum + " 입니다.\n회원가입 페이지에서 해당 번호를 입력해주세요! :)");
+
+        return mailDto;
+    }
+
+    @Override
+    public boolean checkAuthNumber(String userEmail, int number){
+        if(authInfo.get(userEmail) == number) return true;
+        return false;
+    }
+
+    @Override
+    public void sendEmail(MailDto mailDto) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(mailDto.getAddress());
+        message.setFrom(fromAddress);
+        message.setSubject(mailDto.getTitle());
+        message.setText(mailDto.getMessage());
+        log.info("message:" + message);
+        mailSender.send(message);
     }
 }

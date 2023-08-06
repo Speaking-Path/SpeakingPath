@@ -12,14 +12,15 @@ import Consultant from './pages/Consultant'
 import Reservation from './pages/Reservation'
 import CsltCalendar from './components/MyPage/ConsultantCalendar';
 import Practice from './pages/Practice';
-import PickName from './components/Practice/PickName';
-import PickPic from './components/Practice/PickPic';
+import PickName from './components/Practice/Recognition/PickName';
+import PickPic from './components/Practice/Recognition/PickPic';
 import Sentence from './components/Practice/Sentence';
 import Syllable from './components/Practice/Syllable';
 import Word from './components/Practice/Word';
 import Profile from './components/MyPage/Profile';
 import CheckRsv from './components/MyPage/CheckRsv';
 import PastRsv from './components/MyPage/PastRsv';
+import Footer from './components/Footer/Footer';
 
 
 
@@ -57,6 +58,8 @@ function App() {
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}
         <Route path="/consulting/meeting" element={<UntactConsult />} />
       </Routes>
+
+      <Footer/>
     </div>
   );
 }

@@ -2,6 +2,7 @@ package com.twinlions.spkpath.user.service;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.TokenDto;
+import com.twinlions.spkpath.mail.MailDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.entity.User;
 
@@ -19,5 +20,12 @@ public interface UserService {
 
     Optional<?> mypage(String userId);
 
-    String uploadProfile(String userId, String saveFileName);
+    void uploadProfile(String userId, String saveFileName);
+
+    String findUserIdByUserNameAndUserEmail(String userName, String userEmail);
+    MailDto createEmailAndChangePwd(String userId, String userEmail);
+    MailDto authUserEmail(String userEmail);
+    boolean checkAuthNumber(String userEmail, int number);
+    void sendEmail(MailDto mailDto);
+
 }

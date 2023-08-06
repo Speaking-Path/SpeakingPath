@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import { changeProfileInfo } from '../store/profileInfo'
 import { changeProfileClick } from '../store/profileInfo';
 import { useEffect } from 'react';
-
+import UploadprofileImage from '../components/MyPage/UploadProfileImage'
 
 
 function UserInformation() {
@@ -23,10 +23,10 @@ function UserInformation() {
   const tokenType = localStorage.getItem('tokenType')
   const accessToken = localStorage.getItem('accessToken')
 
-  const [isProfileClicked, setProfileClicked] = useState(false);
-  const [isReservationsClicked, setReservationsClicked] = useState(false);
-  const [isPastrsvClicked, setIsPastrsvClicked] = useState(false);
-  const [isCsltRsv, setIsCsltRsv] = useState(false)
+  // const [isProfileClicked, setProfileClicked] = useState(false);
+  // const [isReservationsClicked, setReservationsClicked] = useState(false);
+  // const [isPastrsvClicked, setIsPastrsvClicked] = useState(false);
+  // const [isCsltRsv, setIsCsltRsv] = useState(false)
 
 
   const handleProfileClick = () => {
@@ -61,7 +61,7 @@ function UserInformation() {
     setIsPreviewOpen(false);
   }
 
-  useMemo(() => {
+  useEffect(() => {
     axios.post("/account/mypage", {userId: userId},
       {
         headers: {
@@ -75,7 +75,7 @@ function UserInformation() {
       .catch((err) => {
         console.log(err); 
       });
-  }, []);
+  }, [userInfo]);
 
   
 
@@ -88,15 +88,25 @@ function UserInformation() {
         <div className='row'>
           <div className={`${styles.infoBox} col-3`}>
             {userInfo && userInfo.userPic !== null ?
-              <img className={styles.userImg} src={process.env.PUBLIC_URL + `${userInfo.userPic}`} alt="" /> :
+              <img className={styles.userImg} src={process.env.PUBLIC_URL + "/profile/" + userInfo.userPic} alt="" /> :
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
             }
-            <div>
+            <div className={styles.uploadProfileImage}>
+              <UploadprofileImage></UploadprofileImage>
+            </div>
+            <div className={styles.userBox}>
               <p className={styles.userInfo}><b>{userInfo && userInfo.userName}</b><span>님</span></p>
+              {
+                userInfo && userInfo.userGrade === "USER" ? 
+                <p className={styles.userGrade}>개인회원</p> :
+                <p className={styles.userGrade}>상담사</p>
+              }
               <p className={styles.userEandP}>{userInfo && userInfo.userEmail}</p>
               <p className={styles.userEandP}>{userInfo && userInfo.userPhone}</p>
+              {/* <p className={styles.modify}>내 정보 수정</p> */}
             </div>
             <div>
+              <p className={styles.ctgr}>카테고리</p>
               <p className={profileClicked === 0 ? styles.profileClicked : styles.profileNonClicked} onClick={handleProfileClick}><span>내 정보</span></p>
               <p className={profileClicked === 1 ? styles.profileClicked : styles.profileNonClicked} onClick={handleReservationsClick}>예정된 상담</p>
               <p className={profileClicked === 2 ? styles.profileClicked : styles.profileNonClicked} onClick={handlePastRsvClick}>지난 상담</p>
@@ -124,6 +134,9 @@ function UserInformation() {
                 {/* <p>내용</p> */}
               </div>
             </Preview>
+            <UploadprofileImage>
+              
+            </UploadprofileImage>
           </div>
         )}
       </section>

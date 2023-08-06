@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final String[] accountPermitList = new String[] {"/account/login", "/account/signup",
-            "/account/checkid", "/account/checkemail", "/account/consultantsignup"};
-
+            "/account/checkid", "/account/checkemail", "/account/consultantsignup",
+            "/account/find/**", "/account/auth/**"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,6 +32,9 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/v3/api-docs","/swagger*/**").permitAll() // swagger 관련 permit all
                 .antMatchers(accountPermitList).permitAll()
+                .antMatchers("/","/static/**","/assets/**").permitAll()
+                .antMatchers("account/mypage").hasAnyAuthority()
+                .antMatchers("account/chnage").hasAnyAuthority()
                 .antMatchers("/practice/**").permitAll()
                 .antMatchers("/cslting/**").permitAll()
                 .antMatchers("/cslt/**").permitAll()
