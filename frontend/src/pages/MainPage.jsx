@@ -4,7 +4,7 @@ import Banner from '../components/MainPage/Banner';
 import Banner2 from '../components/MainPage/Banner2';
 import FirstPart from '../components/MainPage/FirstPart';
 import ThirdPart from '../components/MainPage/ThirdPart'
-import FourthPart from '../components/MainPage/FourthPart';
+import FourthPart from '../components/MainPage/FourthPart'
 
 const Main = () => {
   return (
