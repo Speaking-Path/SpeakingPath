@@ -5,6 +5,7 @@ import Banner2 from '../components/MainPage/Banner2';
 import FirstPart from '../components/MainPage/FirstPart';
 import ThirdPart from '../components/MainPage/ThirdPart'
 import FourthPart from '../components/MainPage/FourthPart'
+import FifthPart from '../components/MainPage/FifthPart';
 
 const Main = () => {
   return (
@@ -18,6 +19,7 @@ const Main = () => {
       <ThirdPart/>
       <FourthPart/>
       <Banner/>
+      <FifthPart/>
     </div>
   );
 };
