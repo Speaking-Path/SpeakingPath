@@ -6,12 +6,13 @@ import {
   onChangePhoneNumber, onChangeExp
 } from "./SignupFunc"
 import { useNavigate } from "react-router-dom"
-import { checkEmailApi, checkIdApi, clickConsultantSignup } from "./AuthAPI"
+import { checkEmailApi, checkIdApi, clickConsultantSignup, checkEmailAuth } from "./AuthAPI"
 import styles from "./UserSignup.module.css"
 
 function ConsultantSignup() {
   const [userName, setUserName] = useState("")
   const [email, setEmail] = useState("")
+  const [emailAuth, setEmailAuth] = useState("")
   const [phoneNumber, setphoneNumber] = useState("")
   const [id, setId] = useState("")
   const [password, setPassword] = useState("")
@@ -25,6 +26,7 @@ function ConsultantSignup() {
 
 
   const [emailMessage, setEmailMessage] = useState("")
+  const [authMessage, setAuthMessage] = useState("")
   const [phoneNumberMessage, setPhoneNumberMessage] = useState("")
   const [idMessage, setIdMessage] = useState("")
   const [passwordMessage, setPasswordMessage] = useState("")
@@ -41,7 +43,7 @@ function ConsultantSignup() {
   const [isTag, setIsTag] = useState(false)
   const [isBoundry, setIsBoundry] = useState(false)
   const [isSex, setIsSex] = useState(false)
-
+  const [authorizedEmail, setAuthorizedEmail] = useState(false)
 
 
 
@@ -108,9 +110,14 @@ function ConsultantSignup() {
         <div>
           <label className={styles.label} htmlFor="email">이메일 </label>
           <input className={`${styles.checkinput}`} type="text" id="email" value={email} placeholder="이메일 계정"
-            onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} />
-          <button className={`${styles.checkbtn}`} onClick={(e) => checkEmailApi(e, email, setEmailMessage, setIsEmail)}>중복확인</button>
-          <p className={`${styles.message} ${isEmail ? styles.correct : styles.message}`}> {emailMessage} </p>
+            onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} disabled={isEmail}/>
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkEmailApi(e, email, setEmailMessage, setIsEmail)}>인증받기</button>
+          <p className={`${styles.message} ${isEmail ? styles.correct : styles.message }`}> {emailMessage} </p>
+          {isEmail && ( <>
+          <input className={`${styles.checkinput2}`} type="text" id="emailCheck" value={emailAuth} placeholder="인증번호를 입력해주세요" onChange={(e) => setEmailAuth(e.target.value)} disabled={authorizedEmail}/>
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkEmailAuth(e, email, emailAuth, setEmailMessage, setAuthorizedEmail, setAuthMessage)}>인증확인</button>
+          <p className={`${styles.message} ${authorizedEmail ? styles.correct : styles.message }`}> {authMessage} </p>
+          </>)}
         </div>
         <div>
           <label className={styles.label} htmlFor="phoneNumber">핸드폰번호 </label>

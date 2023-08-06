@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final String[] accountPermitList = new String[] {"/account/login", "/account/signup",
-            "/account/checkid", "/account/checkemail", "/account/consultantsignup"};
-
+            "/account/checkid", "/account/checkemail", "/account/consultantsignup",
+            "/account/find/**", "/account/auth/**"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
