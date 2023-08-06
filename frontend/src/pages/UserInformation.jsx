@@ -23,10 +23,10 @@ function UserInformation() {
   const tokenType = localStorage.getItem('tokenType')
   const accessToken = localStorage.getItem('accessToken')
 
-  const [isProfileClicked, setProfileClicked] = useState(false);
-  const [isReservationsClicked, setReservationsClicked] = useState(false);
-  const [isPastrsvClicked, setIsPastrsvClicked] = useState(false);
-  const [isCsltRsv, setIsCsltRsv] = useState(false)
+  // const [isProfileClicked, setProfileClicked] = useState(false);
+  // const [isReservationsClicked, setReservationsClicked] = useState(false);
+  // const [isPastrsvClicked, setIsPastrsvClicked] = useState(false);
+  // const [isCsltRsv, setIsCsltRsv] = useState(false)
 
 
   const handleProfileClick = () => {
@@ -61,7 +61,7 @@ function UserInformation() {
     setIsPreviewOpen(false);
   }
 
-  useMemo(() => {
+  useEffect(() => {
     axios.post("/account/mypage", {userId: userId},
       {
         headers: {
@@ -75,7 +75,7 @@ function UserInformation() {
       .catch((err) => {
         console.log(err); 
       });
-  }, []);
+  }, [userInfo]);
 
   
 

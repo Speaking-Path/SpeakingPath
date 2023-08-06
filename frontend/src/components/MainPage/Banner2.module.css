@@ -1,5 +1,8 @@
 .banner{
     margin: 0 18.75rem;
+    /* display: flex;
+    justify-content: center;
+    flex-direction: column; */
 }
 
 .banner_text_all{
@@ -9,7 +12,7 @@
 .banner_text1{
 
     /* background-color: blue; */
-    font-size: 30px;
+    font-size: 1.875rem;
     font-weight: bold;
 
     color: rgb(0, 0, 0);
@@ -21,7 +24,7 @@
 
 .banner_text2{
 
-    font-size: 25px;
+    font-size: 1.563rem;
     font-weight: bold;
 
     color: #BBBBBB;

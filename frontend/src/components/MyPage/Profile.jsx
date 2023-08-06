@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import styles from './Profile.module.css'
+import { useEffect } from 'react';
 
 
 function Profile() {
@@ -22,16 +23,49 @@ function Profile() {
   const [clickPhoneM, setClickPhoneM] = useState(false)
   const [clickInfoM, setClickInfoM] = useState(false)
 
+  const [password, setPassword] = useState("")
+  const [passwordConfirm, setPasswordConfirm] = useState("")
+  const [passwordMessage, setPasswordMessage] = useState("")
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
+  const [isPassword, setIsPassword] = useState(false)
+  const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
+
   // const [email, setEmail] = useState("")
   const [phone, setphone] = useState("")
   const [info, setInfo] = useState("")
 
 
-  const changePwd = (newPwd) => {
-    const newData = { ...data }
-    newData.userPwd = newPwd
-    setData(newData)
-    console.log(data.userPwd)
+  const onChangePassword = function (e, setPassword, setPasswordMessage, setIsPassword) {
+    const currentPassword = e.target.value
+    setPassword(currentPassword)
+    const passwordRegExp =
+      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
+    if (!passwordRegExp.test(currentPassword)) {
+      setPasswordMessage(
+        "숫자, 영문, 특수문자 조합으로 8자리 이상 입력해주세요."
+      )
+      setIsPassword(false)
+    } else {
+      setPasswordMessage("")
+      setIsPassword(true)
+    }
+  }
+
+  const onChangePasswordConfirm = function (e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm) {
+    const currentPasswordConfirm = e.target.value
+    setPasswordConfirm(currentPasswordConfirm)
+    if (password !== currentPasswordConfirm) {
+      setPasswordConfirmMessage("같은 비밀번호를 입력해주세요.")
+      setIsPasswordConfirm(false)
+    } else {
+      setPasswordConfirmMessage("")
+      setPasswordConfirm(currentPasswordConfirm)
+      setIsPasswordConfirm(true)
+      const newData = { ...data }
+      newData.userPwd = password
+      setData(newData)
+      console.log(data.userPwd)
+    }
   }
 
 
@@ -57,11 +91,53 @@ function Profile() {
       })
       .then((res) => {
         console.log(res.data)
+        alert("유저 정보가 업데이트 되었습니다.")
       })
       .catch((err) => {
         console.log(err)
+        alert('알 수 없는 문제로 실패하였습니다.\n관리자에게 문의하세요.')
       })
   }
+  const rewardSteps = [100, 300, 500, 700, 1500];
+
+
+  const calculateRemainingPoints = (userReward) => {
+    let remainingPoints = 0;
+    for (let i = 0; i < rewardSteps.length; i++) {
+      if (userReward < rewardSteps[i]) {
+        remainingPoints = rewardSteps[i] - userReward;
+        break;
+      }
+    }
+    return remainingPoints;
+  };
+
+  const [imageURL, setImageURL] = useState("")
+
+  const changeImageURL = () => {
+    let reward = userInfo.userReward
+
+    if (reward >= 0 && reward < 100) {
+      setImageURL("/assets/reward/walk.png")
+    } else if (reward >= 100 && reward < 300) {
+      setImageURL("/assets/reward/bicycle.png")
+
+    } else if (reward >= 300 && reward < 500) {
+      setImageURL("/assets/reward/car.png")
+
+    } else if (reward >= 500 && reward < 700) {
+      setImageURL("/assets/reward/train.png")
+
+    } else if (reward >= 700 && reward < 1500) {
+      setImageURL("/assets/reward/plane.png")
+
+    }
+  }
+
+  useEffect(() => {
+    changeImageURL();
+  }, [userInfo]);
+
 
   return (
     <div className={styles.info}>
@@ -70,12 +146,18 @@ function Profile() {
       </div>
       <div className={styles.infoMain}>
         <div className={styles.rewardBox}>
-          <p>현재 리워드</p>
-          <p>{userInfo.userReward}</p>
-        </div>
-          <div className={styles.check}>
-            <p>내 정보 확인 및 수정</p>
+          <div className={styles.rewardTitle}>
+            <p className={styles.rewardNow}>현재 리워드</p>
+            <p className={styles.rewardNum}>{userInfo.userReward}</p>
+            <p className={styles.rewardCur}>다음 단계까지 {calculateRemainingPoints(userInfo.userReward)}점 남았어요!</p>
           </div>
+          <div className={styles.rewardImg}>
+            <img src={process.env.PUBLIC_URL + imageURL} alt="" />
+          </div>
+        </div>
+        <div className={styles.check}>
+          <p>내 정보 확인 및 수정</p>
+        </div>
         <div className={styles.infoPart}>
           <div>
             <p className={styles.infoSubT}>이름</p>
@@ -89,25 +171,33 @@ function Profile() {
             <p className={styles.infoSubT}>아이디</p>
             <p>{userInfo.userId}</p>
           </div>
-          <div>
+          <div className={styles.infoSubPwd}>
             <p className={styles.infoSubT}>비밀번호</p>
             {
               clickPwdM ?
-                <div>
-                  <div>
+                <div className={styles.modifyPwd}>
+                  <div >
                     <label htmlFor="pwd"></label>
-                    <input type="pwd" id='pwd' placeholder='새 비밀번호를 입력하세요'
-                    onChange={(e) => { changePwd(e.target.value) }} />
+                    <input type="password" id='pwd' placeholder='새 비밀번호를 입력하세요'
+                      onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} />
+                    <p className={styles.message}> {passwordMessage} </p>
                     <label htmlFor="pwd2"></label>
-                    <input type="pwd2" id='pwd' placeholder='비밀번호 확인'
-                    onChange={(e) => { setPwd2(e.target.value) }} />
+                    <input type="password" id='pwd' placeholder='비밀번호 확인'
+                      onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} />
+                    <p className={styles.message}> {passwordConfirmMessage} </p>
                   </div>
                   <div>
-                    <button onClick={async (e) => {
-                      await setClickPwdM(false)
-                      changeUserInfo()
-                    }}>수정하기</button>
-                    <button onClick={(e) => { setClickPwdM(false) }}>취소하기</button>
+                    {isPasswordConfirm && isPassword && (
+                      <button
+                        onClick={async (e) => {
+                          await setClickPwdM(false);
+                          changeUserInfo();
+                        }}
+                      >
+                        수정하기
+                      </button>
+                    )}
+                    <button onClick={(e) => setClickPwdM(false)}>취소하기</button>
                   </div>
                 </div> :
                 <div>
@@ -126,7 +216,7 @@ function Profile() {
                   <div>
                     <label htmlFor="phone"></label>
                     <input type="text" id='phone' placeholder='새 전화번호를 입력하세요'
-                    onChange={(e) => { changePhone(e.target.value) }} />
+                      onChange={(e) => { changePhone(e.target.value) }} />
                   </div>
                   <div>
                     <button onClick={async (e) => {
@@ -150,10 +240,10 @@ function Profile() {
                   <div>
                     <label htmlFor="info"></label>
                     <input type='text' name="" id="info" placeholder='소개말을 입력하세요'
-                    onChange={async (e) => {
-                      await changeInfo(e.target.value)
-                      changeUserInfo()
-                      }}/>
+                      onChange={async (e) => {
+                        await changeInfo(e.target.value)
+                        changeUserInfo()
+                      }} />
                   </div>
                   <div>
                     <button onClick={(e) => { setClickInfoM(false) }}>수정하기</button>
