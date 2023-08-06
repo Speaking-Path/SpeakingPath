@@ -1,5 +1,8 @@
 .banner{
     margin: 0 18.75rem;
+    /* display: flex;
+    justify-content: center;
+    flex-direction: column; */
 }
 
 .banner_text_all{

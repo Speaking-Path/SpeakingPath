@@ -3,20 +3,21 @@ import React from 'react';
 import Banner from '../components/MainPage/Banner';
 import Banner2 from '../components/MainPage/Banner2';
 import FirstPart from '../components/MainPage/FirstPart';
-import SecondPart from '../components/MainPage/SecondPart';
-import Footer from '../components/MainPage/Footer';
+import ThirdPart from '../components/MainPage/ThirdPart'
+import FourthPart from '../components/MainPage/FourthPart';
 
 const Main = () => {
   return (
     <div>
       {/* <Header /> */}
-      <Banner/>
       {/* <Banner2/> */}
-      {/* <FirstPart/> */}
+      <FirstPart/>
       {/* <SecondPart/> */}
       <Banner2/>
       {/* <ThirdPart/> */}
-      <Footer/>
+      <ThirdPart/>
+      <FourthPart/>
+      <Banner/>
     </div>
   );
 };

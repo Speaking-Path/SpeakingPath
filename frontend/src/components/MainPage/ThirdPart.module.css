@@ -1,0 +1,58 @@
+.ThirdPartTitle {
+  text-align: left;
+  margin-left: 15rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.ThirdPartImg {
+  width: 17rem;
+  height: 11rem;
+}
+
+.ThirdPartBox1 {
+  background-color: #C8DEFF;
+  margin: 2rem 15rem;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 6rem;
+}
+
+.ThirdPartBox2 {
+  background-color: #CFFFC8;
+  margin: 2rem 15rem;
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 6rem;
+}
+
+.ThirdPartText {
+  display: flex;
+  align-items: left;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+.Text1 {
+  margin-bottom: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.Text2 {
+  margin-bottom: 0.2rem;
+  font-size: 1.4rem;
+}
+
+.Text3 {
+  border: 1px solid black;
+  border-radius: 30px;
+  width: 13rem;
+  text-align: center;
+  padding: 0.2rem;
+  font-size: 1.1rem;
+  margin-top: 0.2rem;
+}
