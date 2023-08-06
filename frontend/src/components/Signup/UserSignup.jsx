@@ -6,19 +6,21 @@ import {
   onChangePhoneNumber
 } from "./SignupFunc"
 import { NavLink, useNavigate } from 'react-router-dom'
-import { checkEmailApi, checkIdApi, clickSignup } from "./AuthAPI"
+import { checkEmailApi, checkIdApi, clickSignup, checkEmailAuth } from "./AuthAPI"
 import styles from './UserSignup.module.css'
 
 
 function UserSignup() {
   const [userName, setUserName] = useState("")
   const [email, setEmail] = useState("")
+  const [emailAuth, setEmailAuth] = useState("")
   const [phoneNumber, setphoneNumber] = useState("")
   const [id, setId] = useState("")
   const [password, setPassword] = useState("")
   const [passwordConfirm, setPasswordConfirm] = useState("")
 
   const [emailMessage, setEmailMessage] = useState("")
+  const [authMessage, setAuthMessage] = useState("")
   const [phoneNumberMessage, setPhoneNumberMessage] = useState("")
   const [idMessage, setIdMessage] = useState("")
   const [passwordMessage, setPasswordMessage] = useState("")
@@ -28,6 +30,7 @@ function UserSignup() {
   const [isEmail, setIsEmail] = useState(false)
   const [isPassword, setIsPassword] = useState(false)
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
+  const [authorizedEmail, setAuthorizedEmail] = useState(false)
 
 
   const data = {
@@ -44,16 +47,21 @@ function UserSignup() {
         <div>
           <label className={styles.label} htmlFor="id">아이디 </label>
           <input className={`${styles.checkinput}`} type="text" id="id" value={id} placeholder="아이디 입력"
-            onChange={(e) => onChangeId(e, setId, setIdMessage)} />
+            onChange={(e) => onChangeId(e, setId, setIdMessage)} disabled={isId}/>
           <button className={`${styles.checkbtn}`} onClick={(e) => checkIdApi(e, id, setIdMessage, setIsId)}>중복확인</button>
           <p className={`${styles.message} ${isId ? styles.correct : styles.message}`}> {idMessage} </p>
         </div>
         <div>
           <label className={styles.label} htmlFor="email">이메일 </label>
           <input className={`${styles.checkinput}`} type="text" id="email" value={email} placeholder="이메일 계정"
-            onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} />
-          <button className={`${styles.checkbtn}`} onClick={(e) => checkEmailApi(e, email, setEmailMessage, setIsEmail)}>중복확인</button>
+            onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} disabled={isEmail}/>
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkEmailApi(e, email, setEmailMessage, setIsEmail)}>인증받기</button>
           <p className={`${styles.message} ${isEmail ? styles.correct : styles.message }`}> {emailMessage} </p>
+          {isEmail && ( <>
+          <input className={`${styles.checkinput2}`} type="text" id="emailCheck" value={emailAuth} placeholder="인증번호를 입력해주세요" onChange={(e) => setEmailAuth(e.target.value)} disabled={authorizedEmail}/>
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkEmailAuth(e, email, emailAuth, setEmailMessage, setAuthorizedEmail, setAuthMessage)}>인증확인</button>
+          <p className={`${styles.message} ${authorizedEmail ? styles.correct : styles.message }`}> {authMessage} </p>
+          </>)}
         </div>
         <div>
           <label className={styles.label} htmlFor="phoneNumber">핸드폰번호 </label>
@@ -90,10 +98,10 @@ function UserSignup() {
           } else if (!isId) {
             e.preventDefault()
             alert("아이디를 확인해주세요.")
-          } else if (!isEmail) {
+          } else if (!isEmail || !authorizedEmail) {
             e.preventDefault()
             alert("이메일을 확인해주세요.")
-          }
+          } 
         }}>가입하기</button>
         <div className={styles.consultSignup}>
         <span>상담사로 가입하시나요?</span>

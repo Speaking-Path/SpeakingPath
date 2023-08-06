@@ -1,15 +1,7 @@
 package com.twinlions.spkpath.jwt.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-
-import java.util.Map;
-
 public interface JwtService {
-    <T> String createAccessToken(String key, T data);
-    <T> String createRefreshToken(String key, T data);
-    <T> String create(String key, T data, String subject, long expir);
-    Map<String, Object> get(String key);
-    String getUserId();
-    boolean checkToken(String jwt);
+    String createToken(String subject, long time);
+    String getSubject(String token);
+    boolean isUsable(String jwt);
 }
