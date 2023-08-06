@@ -1,24 +1,27 @@
 import React, { useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { useSelector } from 'react-redux';
+import { selectMediaConfig } from '../../store/mediaConfig';
 
-function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
+function MyCamera({ myVideoRef }) {
+  const mediaConfig=useSelector(selectMediaConfig)
 
   useEffect(() => {
     async function getMedia() {
       try {
         const constraints = {
           video: {
-            deviceId: selectedVideo ? { exact: selectedVideo } : undefined,
+            deviceId: mediaConfig.camera,
           },
           audio: {
-            deviceId: selectedAudioInput ? { exact: selectedAudioInput } : undefined,
+            deviceId: mediaConfig.microphone,
           },
         };
 
-        if (selectedVideo === 'no-camera') {
+        if (mediaConfig.camera === 'no-camera') {
           delete constraints.video;
         }
-        if (selectedAudioInput === 'no-microphone') {
+        if (mediaConfig.microphone === 'no-microphone') {
           delete constraints.audio;
         }
 
@@ -48,8 +51,9 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
           window.alert('카메라 또는 마이크 접근 권한이 거부되었습니다. 모두 access할 수 있도록 설정을 변경해주세요');
         });
     }
+    console.log(mediaConfig)
 
-  }, [selectedVideo, selectedAudioInput, myVideoRef]);
+  }, [mediaConfig.camera,mediaConfig.microphone]);
 
  
   // 렌더링 되면 video DOM object가 myVideoRef.current에 들어감
