@@ -6,7 +6,7 @@
 }
 
 .dayListBox {
-  border-left: 3px solid #d9d9d9;
+  border-left: 0.188rem solid #d9d9d9;
   text-align: left;
   margin-left: 1%;
   padding-top: 2%;
@@ -22,11 +22,11 @@
 
 .dayBox {
   width: 83%;
-  border: 1px solid #d9d9d9;
+  border: 0.063rem solid #d9d9d9;
   margin-left: 5%;
   padding: 3% 3% 3% 8%;
   margin-bottom: 5%;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   display: flex;
   justify-content: left;
   position: relative;
@@ -38,7 +38,7 @@
   top: 50%;
   left: -6.5%;
   width: 6.5%;
-  height: 1px;
+  height: 0.063rem;
   background-color: #d9d9d9; 
   transform: translateY(-50%);
 }
@@ -48,8 +48,8 @@
   position: absolute;
   top: 50%;
   left: -6.8%;
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   background-color: #c7c7c7; 
   transform: translateY(-50%);
   border-radius: 50%;
@@ -59,15 +59,15 @@
 
 .dayBoxMain {
   width: 70%;
-  border-right: 1px solid #f0f0f0;
+  border-right: 0.063rem solid #f0f0f0;
 }
 
 .result {
-  border: 2px solid #2E64FE;
+  border: 0.125rem solid #2E64FE;
   color: #2E64FE;
   display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
 }
 
 .btnBox {
@@ -75,22 +75,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left: 10%;
+  /* margin-left: 10%; */
+  width: 40%;
 }
 
 .btnBox button {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
 }
 
 .dayDesc {
   margin-bottom: 0;
-  font-size: 17px;
+  font-size: 1.063rem;
 }
 
 .dayDay {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 1.250rem;
 }
 
 .csltName {
@@ -122,7 +123,7 @@
   margin-bottom: 0;
   font-weight: 700;
   color: #848484;
-  border-bottom: 1px solid #848484;
+  border-bottom: 0.063rem solid #848484;
   width: 15%;
 }
 

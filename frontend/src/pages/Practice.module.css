@@ -12,24 +12,24 @@
 }
 
 .practice {
-  font-size: 15px;
+  font-size: 0.938rem;
 }
 
 
 .title {
   display: inline-block;
-  border-left : 3.5px solid black;
+  border-left : 0.219rem solid black;
 }
 
 .titleinfo {
-  margin-left: 4px;
-  font-size: 20px;
+  margin-left: 0.250rem;
+  font-size: 1.250rem;
   font-weight: 600;
 }
 
 .applystart {
-  margin-top: 50px;
-  margin-bottom: 50px;
+  margin-top: 3.125rem;
+  margin-bottom: 3.125rem;
   text-align: left;
 }
 
@@ -39,32 +39,32 @@
   flex-basis: 100%;
   align-items: center;
   /* color: #2E64FE; */
-  font-size: 15px;
+  font-size: 0.938rem;
   margin-bottom: 5%;
 }
 
 .line span {
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .line::before {
   content: "";
   flex-grow: 1;
-  margin: 0px 16px;
+  margin: 0 1rem;
   background: #D9D9D9;
-  height: 1px;
-  font-size: 0px;
-  line-height: 0px;
+  height: 0.063rem;
+  font-size: 0;
+  line-height: 0;
 }
 
 .line::after {
   content: "";
   flex-grow: 1;
-  margin: 0px 16px;
+  margin: 0 1rem;
   background: #D9D9D9;
-  height: 1px;
-  font-size: 0px;
-  line-height: 0px;
+  height: 0.063rem;
+  font-size: 0;
+  line-height: 0;
 }
 
 
@@ -74,47 +74,47 @@
   flex-basis: 100%;
   align-items: center;
   /* color: #2E64FE; */
-  font-size: 15px;
+  font-size: 0.938rem;
   margin-bottom: 7%;
 }
 
 .line2 span {
-  font-size: 18px;
+  font-size: 1.125rem;
 }
 
 .line2::before {
   content: "";
   flex-grow: 1;
-  margin: 0px 16px;
+  margin: 0 1rem;
   background: #D9D9D9;
-  height: 1px;
-  font-size: 0px;
-  line-height: 0px;
+  height: 0.063rem;
+  font-size: 0;
+  line-height: 0;
 }
 
 .line2::after {
   content: "";
   flex-grow: 1;
-  margin: 0px 16px;
+  margin: 0 1rem;
   background: #D9D9D9;
-  height: 1px;
-  font-size: 0px;
-  line-height: 0px;
+  height: 0.063rem;
+  font-size: 0;
+  line-height: 0;
 }
 
 
 .pracList {
-  border: 1px solid #D9D9D9;
-  border-radius: 20px;
+  border: 0.063rem solid #D9D9D9;
+  border-radius: 1.250rem;
   margin-left: 5%;
   margin-right: 5%;
-  padding: 0px;
+  padding: 0;
 }
 
 .pracTitle {
   margin-top: 20%;
   margin-bottom: 10%;
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 900;
 }
 
@@ -128,9 +128,9 @@
 }
 
 .pracList2 {
-  border: 1px solid #D9D9D9;
-  border-radius: 20px;
-  padding: 0px;
+  border: 0.063rem solid #D9D9D9;
+  border-radius: 1.250rem;
+  padding: 0;
 }
 
 .pracDesc2 {
