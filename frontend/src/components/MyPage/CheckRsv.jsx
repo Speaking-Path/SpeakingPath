@@ -150,22 +150,22 @@ function CheckRsv() {
                   <div className={styles.btnBox}>
                     {
                       userInfo.userGrade === "USER" && item.rsvStatus ==="예약대기" ?
-                      <button onClick={()=>{rsvCancel(item.id)}}>예약취소</button> :
+                      <button className={styles.redBtn} onClick={()=>{rsvCancel(item.id)}}>예약취소</button> :
                       null
                     }
                     {
                       userInfo.userGrade === "CONSULTANT" && item.rsvStatus ==="예약대기" ?
                       <div>
-                      <button onClick={()=>{rsvComplete(item.id)}}>예약승인</button>
-                      <button onClick={()=>{rsvReject(item.id)}}>예약거절</button>
+                      <button className={styles.blueBtn} onClick={()=>{rsvComplete(item.id)}}>예약승인</button>
+                      <button className={styles.redBtn} onClick={()=>{rsvReject(item.id)}}>예약거절</button>
                       </div> :
                       null
                     }
                     {
                       item.rsvStatus ==="예약확정" ?
-                      <div className={styles.btnBox}>
-                      <button>입장하기</button>
-                      <button onClick={()=>{rsvCancel(item.id)}}>예약취소</button>
+                      <div className={styles.btnBox2}>
+                      <button className={styles.blueBtn}>입장하기</button>
+                      <button className={styles.redBtn} onClick={()=>{rsvCancel(item.id)}}>예약취소</button>
                       </div> :
                       null
                     }

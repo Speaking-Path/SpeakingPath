@@ -49,7 +49,7 @@ function UploadProfileImage(){
       };
 
     return(
-        <div>
+        <div className="profileModal">
             <CameraAltIcon onClick={() => setIsModalOpen(true)} />
             {isModalOpen && (
         <div className="modal-card" onClick={handleModalBackgroundClick}>
@@ -61,7 +61,7 @@ function UploadProfileImage(){
               </div>
               <div className="modal-body row-2">
                 <div className="row justify-content-center form-group-row">
-                  <div className="col-7 ">
+                  <div className="col-6 ">
                     <input
                       type="file"
                       onChange={handleImageChange}
@@ -69,15 +69,16 @@ function UploadProfileImage(){
                       id='profile-image'
                       className="form-control my-3"
                     />
+                    <label htmlFor="profile-image">파일 선택</label>
                   </div>
-                  <div className="col-3">
+                  <div className="col-4">
                     <button
                       type="button"
                       onClick={handleImageUpload}
                       className="btn submit-btn my-3"
                       style={{ width: '100%' }}
                     >
-                      선택
+                      변경하기
                     </button>
                   </div>
                 </div>
@@ -85,7 +86,7 @@ function UploadProfileImage(){
               <div className="modal-body row-8 d-flex justify-content-center">
                 <div id="img-container">
                   {!image ? (
-                    <div className="align-self-center text-center my-5"> 프로필을 업로드 해주세요.</div>
+                    <div className="align-self-center text-center my-5"> 프로필 사진을 업로드 해주세요.</div>
                   ) : (
                     <img  className="p-5" src={image} alt="프로필 이미지" style={{ width: '100%', height: '100%' }}/>
                   )}

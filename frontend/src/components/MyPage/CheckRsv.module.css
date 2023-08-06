@@ -66,16 +66,22 @@
 
 .btnBox {
   display: flex;
-  flex-direction: column;
+  width: 50%;
+  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
-  margin-left: 6%;
+  /* margin-left: 6%; */
+  text-align: center;
 }
 
 .btnBox button {
   margin-top: 0.625rem;
   margin-bottom: 0.625rem;
   width: 5rem;
+  display: block;
+  margin: 1.2rem 0;
+  font-weight: 700;
+
 }
 
 .cancelMsg{
@@ -97,7 +103,7 @@
 }
 
 
-.btnBox button {
+.btnBox .blueBtn {
   --c: #2E64FE; /* the color */
   --s: .15em;
   
@@ -113,7 +119,28 @@
     linear-gradient(#000 0 0) 0/var(--_p,0%) padding-box no-repeat;
   transition: .5s;
 }
-.btnBox button:hover {
+.btnBox .blueBtn:hover {
+  --_p: 100%;
+  color: var(--c);
+}
+
+.btnBox .redBtn {
+  --c: #fe2e2e; /* the color */
+  --s: .15em;
+  
+  line-height:1.1em;
+  padding-bottom: calc(2.1*var(--s));
+  background: 
+    conic-gradient(from 135deg at top,var(--c) 90deg,#0000 0) 
+      left 0 bottom var(--s)/calc(2*var(--s)) var(--s) repeat-x,
+    conic-gradient(from -45deg at bottom,var(--c) 90deg,#0000 0) 
+      left var(--s) bottom 0/calc(2*var(--s)) var(--s) repeat-x;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0) 0/var(--_p,0%) padding-box no-repeat;
+  transition: .5s;
+}
+.btnBox .redBtn:hover {
   --_p: 100%;
   color: var(--c);
 }
