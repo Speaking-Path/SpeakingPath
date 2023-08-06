@@ -8,6 +8,7 @@ import ExtensionIcon from '@mui/icons-material/Extension';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import { useDispatch, useSelector } from "react-redux"
 import { changeCsltList } from "../../store/consultantList"
+import { blue } from "@mui/material/colors";
 
 
 function Sidebar() {
@@ -82,7 +83,7 @@ function Sidebar() {
     <div className={styles.search}>
       <div className={styles.iconcontainer}>
         <div className={styles.searchicon}>
-          <SearchIcon  onClick={searchConsultant}/>
+          <SearchIcon sx={{ color: blue[500] }} onClick={searchConsultant}/>
         </div>
         <div>
           <label htmlFor="csltName"></label>
@@ -101,7 +102,7 @@ function Sidebar() {
       </div>
       <div className={styles.condition}>
         <div>
-          <MapsHomeWorkIcon color="action"/>
+          <MapsHomeWorkIcon sx={{ color: blue[300] }} color="action"/>
           <p className={styles.subtitle}>경력</p>
           <div className={styles.selectBox}>
             <div>
@@ -127,7 +128,7 @@ function Sidebar() {
           </div>
         </div>
         <div>
-          <EmojiPeopleIcon color="action"/>
+          <EmojiPeopleIcon sx={{ color: blue[300] }} color="action"/>
           <p className={styles.subtitle}>성별</p>
           <div className={styles.selectBox}>
             <div>
@@ -143,7 +144,7 @@ function Sidebar() {
           </div>
         </div>
         <div>
-          <MedicalServicesIcon color="action"/>
+          <MedicalServicesIcon sx={{ color: blue[300] }} color="action"/>
           <p className={styles.subtitle}>치료 가능 영역</p>
           <div className={styles.selectBox}>
             {
@@ -163,7 +164,7 @@ function Sidebar() {
           </div>
         </div>
         <div>
-          <ExtensionIcon color="action"/>
+          <ExtensionIcon sx={{ color: blue[300] }} color="action"/>
           <p className={styles.subtitle}>성향</p>
           <div className={styles.selectBox}>
             {

@@ -30,7 +30,7 @@ function ConsultantCard({ consultant }) {
 
   useEffect(() => {
     if (consultant.userPic) {
-      setImgsrc(consultant.userPic)
+      setImgsrc("/profile/" + consultant.userPic)
     }
   }, [])
 
@@ -53,13 +53,13 @@ function ConsultantCard({ consultant }) {
           </div>
           <div className={styles.boundary}>
             <div >
-              <p className={styles.boundaryTitle}>치료 가능 영역</p>
+              <p className={styles.boundaryTitle}><b>치료 가능 영역</b></p>
             </div>
             <div>
               {
                 consultant.csltBoundary.map((boundary, index) => {
                   return (
-                    <span key={index}># {boundary} </span>
+                    <span key={index}>#{boundary} </span>
                   )
                 })
               }
@@ -67,13 +67,13 @@ function ConsultantCard({ consultant }) {
           </div>
           <div className={styles.tag}>
             <div>
-              <p className={styles.tagTitle}>성향</p>
+              <p className={styles.tagTitle}><b>성향</b></p>
             </div>
             <div>
               {
                 consultant.csltTag.map((tag, index) => {
                   return (
-                    <span key={index}># {tag} </span>
+                    <span key={index}>#{tag} </span>
                   )
                 })
               }
