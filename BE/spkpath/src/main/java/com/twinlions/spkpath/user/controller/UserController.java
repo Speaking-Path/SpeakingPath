@@ -4,10 +4,12 @@ import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.JwtAuthenticationFilter;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
+import com.twinlions.spkpath.mail.MailDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
+import com.twinlions.spkpath.user.vo.NameAndEmailVO;
 import com.twinlions.spkpath.user.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -175,4 +177,42 @@ public class UserController {
         }
         return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
     }
+
+    @PostMapping(value = "/find/id")
+    @Operation(summary = "아이디 찾기", description = "이름과 이메일을 입력하면 아이디를 찾아준다.")
+    public ResponseEntity<?> findUserId(@RequestBody NameAndEmailVO nameAndEmailVO){
+        log.debug("아이디 찾기 요청 : " + nameAndEmailVO.getUserEmail());
+        return new ResponseEntity<>(
+                userService.findUserIdByUserNameAndUserEmail(nameAndEmailVO.getUserName(), nameAndEmailVO.getUserEmail()),
+                HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/find/pwd")
+    @Operation(summary = "비밀번호 찾기", description = "이름과 이메일을 입력하면 임시비밀번호를 발급해준다.")
+    public ResponseEntity<?> findUserPwd(@RequestBody NameAndEmailVO nameAndEmailVO){
+        String userId = userService.findUserIdByUserNameAndUserEmail(nameAndEmailVO.getUserName(), nameAndEmailVO.getUserEmail());
+        if(userId.equals("fail")){ // 일치하는 이름과 이메일이 없으면 fail을 return 한다
+            return new ResponseEntity<>("fail", HttpStatus.OK);
+        }
+        userService.sendEmail(userService.createEmailAndChangePwd(userId, nameAndEmailVO.getUserEmail()));
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PostMapping("/auth/sendEmail")
+    @Operation(summary = "회원가입 시 입력된 이메일로 인증번호를 전송한다.", description = "이메일 가입을 위한 이메일 인증")
+    public ResponseEntity<?> sendEmailAuthCheck(@RequestBody NameAndEmailVO nameAndEmailVO)  {
+        log.debug("sendEmailAuthCheck sending email to : {}", nameAndEmailVO.getUserEmail());
+
+        MailDto mail = userService.authUserEmail(nameAndEmailVO.getUserEmail());
+        userService.sendEmail(mail);
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+
+    @PostMapping("/auth/checkEmail/{number}")
+    @Operation(summary = "회원가입 시 입력된 이메일로 전송된 인증번호를 검증한다.", description = "이메일 가입을 위한 이메일 인증번호 확인")
+    public ResponseEntity<?>  emailAuthCheck(@RequestBody NameAndEmailVO nameAndEmailVO, @PathVariable("number") int number) {
+        log.debug("emailAuthCheck 해당 메일로 보낸 인증번호 확인: ", nameAndEmailVO.getUserEmail());
+        return new ResponseEntity<>(userService.checkAuthNumber(nameAndEmailVO.getUserEmail(), number), HttpStatus.OK);
+    }
+
 }
