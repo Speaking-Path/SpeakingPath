@@ -1,6 +1,8 @@
 package com.twinlions.spkpath.user.controller;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
+import com.twinlions.spkpath.jwt.JwtAuthenticationFilter;
+import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
@@ -17,9 +19,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -36,8 +41,10 @@ public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
     private final CustomUserDetailsService customUserDetailsService;
-     @Value("${file.path.profilePath}")
-     private String profilePath;
+    @Value("${file.path.profilePath}")
+    private String profilePath;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping(value = "/signup")
     @ApiResponses(value = {
@@ -112,9 +119,14 @@ public class UserController {
 
     @PostMapping(value = "/mypage")
     @Operation(summary = "내 프로필 조회", description = "내 프로필을 조회한다.")
-    public ResponseEntity<?> readProfile(@RequestBody UserVO userId){
-        Optional<?> user = userService.mypage(userId.getUserId());
-        return new ResponseEntity<>(user.get(), HttpStatus.OK);
+    public ResponseEntity<?> readProfile(@RequestBody UserVO userId, ServletRequest request){
+        String token = jwtAuthenticationFilter.resolveToken((HttpServletRequest) request);
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        if(userId.getUserId().equals(authentication.getName())){
+            Optional<?> user = userService.mypage(userId.getUserId());
+            return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
     }
 
     /**
@@ -125,8 +137,13 @@ public class UserController {
      */
     @PutMapping(value = "/change")
     @Operation(summary = "내 프로필 정보 수정", description = "내 프로필의 정보를 수정할 수 있습니다.")
-    public ResponseEntity<?> changeProfile(@RequestBody UserDto userDto){
-        return new ResponseEntity<>(userService.update(userDto), HttpStatus.OK);
+    public ResponseEntity<?> changeProfile(@RequestBody UserDto userDto, ServletRequest request){
+        String token = jwtAuthenticationFilter.resolveToken((HttpServletRequest) request);
+        Authentication authentication = jwtTokenProvider.getAuthentication(token);
+        if(userDto.getUserId().equals(authentication.getName())){
+            return new ResponseEntity<>(userService.update(userDto), HttpStatus.OK);
+        }
+        return new ResponseEntity<>("UNAUTHORIZED", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping(value = "/profile")
