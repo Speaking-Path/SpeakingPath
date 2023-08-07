@@ -1,5 +1,6 @@
 package com.twinlions.spkpath.practice.service;
 
+import com.twinlions.spkpath.practice.QuestionDto;
 import com.twinlions.spkpath.practice.entity.single.ObjectEntity;
 import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
@@ -26,5 +27,8 @@ public interface PracticeService {
     List<StudyWordVO> showMyWord(String userId);
     List<StudySentenceVO> showMySentence(String userId);
     List<StudyObjectVO> showMyObject(String userId);
+
+
+    QuestionDto makeObjectQuestions(String userId, int quesitonSize, int vocaSize);
 
 }

@@ -5,6 +5,7 @@ import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,7 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
-    private final String[] accountPermitList = new String[] {"/account/login", "/account/signup",
+    private final StringRedisTemplate stringRedisTemplate;
+    private final String[] accountPermitList = new String[] {"/account/login", "/account/signup", "/account/logout",
             "/account/checkid", "/account/checkemail", "/account/consultantsignup",
             "/account/find/**", "/account/auth/**"};
 
@@ -41,7 +43,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated() // 이 밖의 모든 요청에 대해 인증을 필요로 한다는 설정
 
                 .and() // filter 설정하여
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, stringRedisTemplate), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

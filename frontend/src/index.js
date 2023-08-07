@@ -12,7 +12,7 @@ import { persistStore } from "redux-persist";
 import ScrollToTop from "./ScrollToTop";
 
 
-const persistor = persistStore(store)
+export const persistor = persistStore(store)
 const queryClient = new QueryClient()
 
 
