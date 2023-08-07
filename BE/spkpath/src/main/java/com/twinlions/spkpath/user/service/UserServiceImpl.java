@@ -278,7 +278,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean checkAuthNumber(String userEmail, int number){
-        if(authInfo.get(userEmail) == number) return true;
+        if(authInfo.get(userEmail) == number) {
+            authInfo.remove(userEmail);
+            return true;
+        }
         return false;
     }
 
