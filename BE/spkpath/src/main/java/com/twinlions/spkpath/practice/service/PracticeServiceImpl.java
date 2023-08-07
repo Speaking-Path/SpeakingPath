@@ -172,7 +172,7 @@ public class PracticeServiceImpl implements PracticeService{
         int wrongChoice = 3 * questionSize;
 
         // 전체 답안
-        List<Integer> answerList = new ArrayList<>();
+        List<ObjectEntity> answerList = new ArrayList<>();
 
         // 사용자의 답안 저장 여부
         List<Boolean> savedList = new ArrayList<>();
@@ -191,7 +191,7 @@ public class PracticeServiceImpl implements PracticeService{
         int idx = 0, num = 0;
         for (int i = 0; i < questionSize; i++) {
             int item = nList.get(idx++);
-            answerList.add(item);
+            answerList.add(practiceObjectRepository.findByObjId(item).get());
             if (studyObjectRepository
                     .findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
                             practiceObjectRepository.findByObjId(item).get())
@@ -205,7 +205,7 @@ public class PracticeServiceImpl implements PracticeService{
         }
 
         // 문제 리스트 생성
-        List<List<Integer>> questionList = new ArrayList<>();
+        List<List<ObjectEntity>> questionList = new ArrayList<>();
         for (int i = 0; i < questionSize; i++) {
             questionList.add(new ArrayList<>());
             questionList.get(i).add(answerList.get(i));
@@ -215,13 +215,13 @@ public class PracticeServiceImpl implements PracticeService{
         Collections.shuffle(nList);
         nQueue.addAll(nList);
         while (wrongChoice > 0) {
-            while ((num = nQueue.poll()) == answerList.get(idx) || nQueue.size() == 0) {
+            while ((num = nQueue.poll()) == answerList.get(idx).getObjId() || nQueue.size() == 0) {
                 if (nQueue.size() == 0) {
                     Collections.shuffle(nList);
                     nQueue.addAll(nList);
                 }
             }
-            questionList.get(idx).add(num);
+            questionList.get(idx).add(practiceObjectRepository.findByObjId(num).get());
             wrongChoice--;
             if (wrongChoice % 3 == 0) {
                 Collections.shuffle(questionList.get(idx++));
