@@ -11,7 +11,9 @@ import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.mail.MailDto;
 import com.twinlions.spkpath.user.entity.Authority;
+import com.twinlions.spkpath.user.entity.SnsUser;
 import com.twinlions.spkpath.user.entity.User;
+import com.twinlions.spkpath.user.repository.SnsUserRepository;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.UserDto;
 import io.jsonwebtoken.Jwts;
@@ -49,6 +51,7 @@ public class UserServiceImpl implements UserService{
     private final ConsultantBoundaryRepository consultantBoundaryRepository;
     private final BoundaryRepository boundaryRepository;
     private final ConsultantService consultantService;
+    private final SnsUserRepository snsUserRepository;
 
     @Value("${spring.mail.username}")
     private String fromAddress;
@@ -327,5 +330,29 @@ public class UserServiceImpl implements UserService{
         message.setText(mailDto.getMessage());
         log.info("message:" + message);
         mailSender.send(message);
+    }
+
+    @Override
+    public User getSnsUser(String snsId){
+        Optional<SnsUser> findSnsUer = snsUserRepository.findById(snsId);
+        if (!findSnsUer.isPresent()) {
+            return null;
+        }
+        SnsUser snsUser = findSnsUer.get();
+        return snsUser.getUser();
+    }
+
+    @Override
+    public String snsSignUp(String memberId, String id) {
+        Optional<User> findMember = userRepository.findByUserId(memberId);
+        if (!findMember.isPresent()) {
+            return null;
+        }
+        User member = findMember.get();
+        SnsUser saved = snsUserRepository.save(SnsUser.builder()
+                .id(id)
+                .user(member)
+                .build());
+        return saved.getId();
     }
 }

@@ -1,11 +1,17 @@
 package com.twinlions.spkpath.user.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.twinlions.spkpath.config.RandomStringCreator;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.JwtAuthenticationFilter;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.mail.MailDto;
+import com.twinlions.spkpath.user.LoginUser;
+import com.twinlions.spkpath.user.MemberAddDto;
 import com.twinlions.spkpath.user.UserDto;
+import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
@@ -19,18 +25,23 @@ import lombok.RequiredArgsConstructor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDate;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -237,6 +248,158 @@ public class UserController {
     public ResponseEntity<?>  emailAuthCheck(@RequestBody NameAndEmailVO nameAndEmailVO, @PathVariable("number") int number) {
         log.debug("emailAuthCheck 해당 메일로 보낸 인증번호 확인: ", nameAndEmailVO.getUserEmail());
         return new ResponseEntity<>(userService.checkAuthNumber(nameAndEmailVO.getUserEmail(), number), HttpStatus.OK);
+    }
+
+    private String getUserInfo(String access_token) {
+        String header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+        try {
+            String apiURL = "https://openapi.naver.com/v1/nid/me";
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", header);
+            int responseCode = con.getResponseCode();
+            log.debug("[네아로] 유저정보 요청 응답코드 = {}", responseCode);
+            BufferedReader br;
+            if (responseCode == 200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } else {  // 에러 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+            String inputLine;
+            StringBuffer res = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+                res.append(inputLine);
+            }
+            br.close();
+            log.debug("[네아로] 유저정보 요청 res = {}", res);
+            return res.toString();
+        } catch (Exception e) {
+            System.err.println(e);
+            return "Err";
+        }
+    }
+
+    @Value("${NAVER_CLIENT_SECRET}")
+    private String NAVER_CLIENT_SECRET;
+
+    @GetMapping("/naverLogin")
+    @Operation(summary = "네이버로 로그인 하기")
+    public ResponseEntity<?> naverLogin(
+            @RequestParam(value = "code") String code,
+            @RequestParam(value = "state") String state) {
+        Map<String, Object> result = new HashMap<>();
+        log.debug("[네아로] state = {}", state);
+
+//        String clientId = "TjbFSfFWxEGU5lsUKvzz";//애플리케이션 클라이언트 아이디값";
+        String clientId = "X8Tw2dUhPWaeWgtE9jML";//애플리케이션 클라이언트 아이디값";
+
+        String apiURL;
+        apiURL = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&";
+        apiURL += "client_id=" + clientId;
+        apiURL += "&client_secret=" + NAVER_CLIENT_SECRET;
+        apiURL += "&code=" + code;
+        apiURL += "&state=" + state;
+        String access_token = "";
+        String refresh_token = "";
+        log.debug("[네아로] apiURL = {}", apiURL);
+        try {
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            int responseCode = con.getResponseCode();
+            BufferedReader br;
+
+            log.debug("[네아로] 응답 = {}", responseCode);
+
+            if (responseCode == 200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                log.debug("[네아로] 이거 왜 = {}", con.getInputStream());
+            } else {  // 에러 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+            String inputLine;
+            StringBuffer res = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+                res.append(inputLine);
+            }
+            br.close();
+            if (responseCode == 200) { // 성공적으로 토큰을 가져온다면
+                String id;
+                String tmp;
+                JsonParser parser = new JsonParser();
+
+                log.debug("[네아로] res = {}", res);
+
+                JsonElement accessElement = parser.parse(res.toString());
+                access_token = accessElement.getAsJsonObject().get("access_token").getAsString();
+                log.debug("[네아로] access_token = {}", access_token);
+
+                tmp = getUserInfo(access_token);
+                JsonElement userInfoElement = parser.parse(tmp);
+                id = userInfoElement.getAsJsonObject().get("response").getAsJsonObject().get("id").getAsString();
+
+                User snsUser = userService.getSnsUser(id);
+                if (snsUser == null) {
+                    String loginId = new RandomStringCreator().getRandomString(12);
+                    log.debug("[네아로] loginId = {}", loginId);
+                    String loginPw = loginId;
+                    String username = userInfoElement.getAsJsonObject().get("response").getAsJsonObject().get("name").getAsString();
+                    log.debug("[네아로] username = {}", username);
+                    String email = userInfoElement.getAsJsonObject().get("response").getAsJsonObject().get("email").getAsString();
+                    log.debug("[네아로] email = {}", email);
+                    String nickName = userInfoElement.getAsJsonObject().get("response").getAsJsonObject().get("nickname").getAsString();
+                    log.debug("[네아로] nickName = {}", nickName);
+
+                    StringTokenizer st = new StringTokenizer(userInfoElement.getAsJsonObject().get("response").getAsJsonObject().get("mobile").getAsString(), "-");
+                    String phone = st.nextToken() + st.nextToken() + st.nextToken();
+                    log.debug("[네아로] phone = {}", phone);
+
+                    st = new StringTokenizer(userInfoElement.getAsJsonObject().get("response").getAsJsonObject().get("birthday").getAsString(), "-");
+                    String birth = st.nextToken() + st.nextToken();
+                    log.debug("[네아로] birth = {}", birth);
+                    String birthyear = userInfoElement.getAsJsonObject().get("response").getAsJsonObject().get("birthyear").getAsString();
+                    log.debug("[네아로] birthyear = {}", birthyear);
+                    String gender = userInfoElement.getAsJsonObject().get("response").getAsJsonObject().get("gender").getAsString();
+                    log.debug("[네아로] gender = {}", gender);
+
+                    UserDto userDto = new UserDto();
+                    userDto.setUserId(loginId);
+                    userDto.setUserPwd(loginPw);
+                    userDto.setUserEmail(email);
+                    userDto.setUserGrade("USER");
+                    userDto.setUserName(username);
+                    userDto.setUserPhone(phone);
+                    userDto.setUserSex(gender);
+
+                    userService.join(userDto);
+
+                    String snsUserId = userService.snsSignUp(userService.findUserIdByUserNameAndUserEmail(username, email), id);
+                    snsUser = userService.getSnsUser(snsUserId);
+                }
+
+                User loginUser = null;
+                try {
+                    if(jwtTokenProvider.validateToken(userService.login(snsUser.getUserId(), snsUser.getUserPwd()).getAccessToken())){
+                        log.info("[네아로] 로그인 성공");
+                        loginUser = userRepository.findByUserId(snsUser.getUserId()).get();
+                    } else{
+                        log.error("[네아로] 로그인 실패 ");
+                        return new ResponseEntity<>("아이디 혹은 비밀번호를 확인해주세요.", HttpStatus.BAD_REQUEST);
+                    }
+                } catch (Exception e) {
+                    log.error("[네아로] 로그인 실패 : {}", e);
+                    return new ResponseEntity<>("아이디 혹은 비밀번호를 확인해주세요.", HttpStatus.BAD_REQUEST);
+                }
+                TokenDto tokenDto = userService.login(snsUser.getUserId(), snsUser.getUserPwd());
+                log.debug("[네아로] 로그인 accessToken 정보 : {}", tokenDto.getAccessToken());
+                log.debug("[네아로] 로그인 refreshToken 정보 : {}", tokenDto.getRefreshToken());
+                return new ResponseEntity<>(tokenDto, null);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return new ResponseEntity<>("아이디 혹은 비밀번호를 확인해주세요.", HttpStatus.BAD_REQUEST);
     }
 
 }

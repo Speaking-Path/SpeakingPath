@@ -28,4 +28,6 @@ public interface UserService {
     boolean checkAuthNumber(String userEmail, int number);
     void sendEmail(MailDto mailDto);
 
+    User getSnsUser(String snsId);
+    public String snsSignUp(String memberId, String id);
 }
