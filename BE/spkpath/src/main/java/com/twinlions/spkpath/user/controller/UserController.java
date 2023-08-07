@@ -97,6 +97,30 @@ public class UserController {
         return new ResponseEntity<>(tokenDto, HttpStatus.OK);
     }
 
+    @PostMapping(value = "/logout")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "400", description = "bad request operation"),
+            @ApiResponse(responseCode = "500", description = "SQL Exception")
+    })
+    @Operation(summary = "로그아웃", description = "로그아웃을 한다. 토큰을 삭제한다.")
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String tokenWithPrefix){
+        log.info("logout 요청");
+        try{
+            String token = tokenWithPrefix.substring(7);
+            TokenDto tokenDto = new TokenDto();
+            tokenDto.setAccessToken(token);
+            tokenDto.setGrantType("Bearer");
+            System.out.println(token);
+            userService.logout(tokenDto);
+            log.info("logout 성공");
+            return new ResponseEntity<>("success", HttpStatus.OK);
+        }catch (Exception e){
+            log.info("logout 실패");
+            return new ResponseEntity<>("fail", HttpStatus.OK);
+        }
+    }
+
     @GetMapping(value = "/checkid")
     @Operation(summary = "아이디 중복 체크", description = "아이디가 존재하는 아이디인지 확인한다. \n 확인하고자 하는 아이디를 입력한다.")
     public ResponseEntity<String> checkId(@RequestParam String userId){

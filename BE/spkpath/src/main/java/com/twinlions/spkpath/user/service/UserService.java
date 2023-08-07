@@ -17,7 +17,7 @@ public interface UserService {
     User update(UserDto userDto);
 
     TokenDto login(String userId, String pwd);
-
+    void logout(TokenDto tokenDto);
     Optional<?> mypage(String userId);
 
     void uploadProfile(String userId, String saveFileName);
