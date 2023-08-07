@@ -1,7 +1,7 @@
 package com.twinlions.spkpath.consultant.controller;
 
 import com.twinlions.spkpath.consultant.ConsultantDto;
-import com.twinlions.spkpath.consultant.entity.Consultant;
+import com.twinlions.spkpath.consultant.ConsultantSearchDto;
 import com.twinlions.spkpath.consultant.service.ConsultantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,15 +24,15 @@ public class ConsultantController {
 
     @GetMapping
     @Operation(summary = "상담사 전체 조회", description = "모든 상담사 회원 정보를 조회한다.")
-    public ResponseEntity<List<Consultant>> listCslt() {
-        List<Consultant> csltList = consultantService.listCslt();
+    public ResponseEntity<List<ConsultantDto>> listCslt() {
+        List<ConsultantDto> csltList = consultantService.getCslts();
         return new ResponseEntity<>(csltList, HttpStatus.OK);
     }
 
     @PostMapping
     @Operation(summary = "상담사 상세 조회", description = "상세 조건에 맞는 회원 정보를 조회한다.")
-    public ResponseEntity<List<Consultant>> listCsltsByCondtion(@RequestBody ConsultantDto consultantDto) {
-        List<Consultant> csltList = consultantService.listCsltByCond(consultantDto);
+    public ResponseEntity<List<ConsultantDto>> listCsltsByCond(@RequestBody ConsultantSearchDto consultantDto) {
+        List<ConsultantDto> csltList = consultantService.getCsltsByCond(consultantDto);
         return new ResponseEntity<>(csltList, HttpStatus.OK);
     }
 }

@@ -47,17 +47,39 @@ function MyCameraOption({ selectedVideo, setSelectedVideo, selectedAudioInput, s
   // myVideoRef.current에 카메라와 마이크 정보가 담겨있는데,
   // 내가 설정한 오디오 출력 장치(selectedAudioOutput)에 이 정보를 담는 것
   function attachSinkId(element, sinkId) {
-    if (typeof element.sinkId !== 'undefined') {
-      if (sinkId === 'no-speaker') {
-        // element.setSinkId(null) 
-        try{
-          element.muted = true  // 음소거 설정
-          console.log('Success, audio output device detached.');
-        }catch(error){
-          console.error('Error detaching audio output device:', error);
-        }
-      } else {
-          element.setSinkId(sinkId)
+    // if (typeof element.sinkId !== 'undefined') {
+    //   if (sinkId === 'no-speaker') {
+    //     // element.setSinkId(null) 
+    //     try{
+    //       element.muted = true  // 음소거 설정
+    //       console.log('Success, audio output device detached.');
+    //     }catch(error){
+    //       console.error('Error detaching audio output device:', error);
+    //     }
+    //   } else {
+    //       element.setSinkId(sinkId)
+    //         .then(() => {
+    //           element.muted = false
+    //           console.log(`Success, audio output device attached: ${sinkId}`);
+    //         })
+    //         .catch(error => {
+    //           let errorMessage = error;
+    //           if (error.name === 'SecurityError') {
+    //             errorMessage = `You need to use HTTPS for selecting audio output device: ${error}`;
+    //           }
+    //           console.error(errorMessage);
+    //           // Jump back to the first output device in the list as it's the default.
+    //           setSelectedAudioOutput(audioOutputDevices.length > 0 ? audioOutputDevices[0].value : '');
+    //         });
+    //       }
+    //   } else {
+    //     console.warn('Browser does not support output device selection.');
+    //   }
+
+    //  attachSinkId 함수에서 'no-speaker' 옵션 없애고 다시 작성.
+    // 녹화된 영상에서는 소리가 나와서 추가적인 코드를 작성해야 하고, 스피커가 필요한 서비스이기 때문에 생략 
+      if (typeof element.sinkId == 'undefined') {
+        element.setSinkId(sinkId)
             .then(() => {
               element.muted = false
               console.log(`Success, audio output device attached: ${sinkId}`);
@@ -71,11 +93,11 @@ function MyCameraOption({ selectedVideo, setSelectedVideo, selectedAudioInput, s
               // Jump back to the first output device in the list as it's the default.
               setSelectedAudioOutput(audioOutputDevices.length > 0 ? audioOutputDevices[0].value : '');
             });
-          }
-      } else {
+          } else {
         console.warn('Browser does not support output device selection.');
-      }
+    }
   }
+
 
     // 마이크, 카메라 모두 off가 불가능하기 때문에, 이미 다른 하나의 값이 off일 경우 값변경을 하지 않고 안내메세지 출력하도록 함
     // 마이크 값이 바뀌었을 때 호출
@@ -145,7 +167,7 @@ function MyCameraOption({ selectedVideo, setSelectedVideo, selectedAudioInput, s
         }}
         >
           <option value="">장치를 선택하세요</option>
-          <option value="no-speaker">사용안함</option> 
+          {/* <option value="no-speaker">사용안함</option>  */}
           {audioOutputDevices.map(device => (
             <option key={device.value} value={device.value}>
               {device.text}

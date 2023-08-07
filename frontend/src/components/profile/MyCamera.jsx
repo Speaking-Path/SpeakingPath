@@ -28,6 +28,8 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
         // myVideoRef에 mediaStream값 넣어주기(변경되는 값)
         if (myVideoRef.current) {
           myVideoRef.current.srcObject = mediaStream;
+          // 에코 방지
+          myVideoRef.current.muted = true;
         }
       } catch (e) {
         window.alert(e);
@@ -47,11 +49,16 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
         });
     }
 
-  }, [selectedVideo, selectedAudioInput]);
+  }, [selectedVideo, selectedAudioInput, myVideoRef]);
 
+ 
   // 렌더링 되면 video DOM object가 myVideoRef.current에 들어감
   // return <video ref={myVideoRef} autoPlay style={{ width: '600px', height: '350px' }}/>; 
-  return <video ref={myVideoRef} autoPlay style={{height:'50vh', width:'60vw'}}/>;  
+  return (
+    <div>
+      <video ref={myVideoRef} autoPlay style={{height:'50vh', width:'60vw'}}/>;  
+    </div>
+  );
 }
 
 export default MyCamera;
