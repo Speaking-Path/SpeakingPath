@@ -1,0 +1,17 @@
+.picMainBox {
+
+}
+
+.img {
+  width: 25rem;
+  height: 15rem;
+}
+
+.imgBox {
+  display: flex;
+  justify-content: center;
+}
+
+.pickBox {
+  display: flex;
+}
