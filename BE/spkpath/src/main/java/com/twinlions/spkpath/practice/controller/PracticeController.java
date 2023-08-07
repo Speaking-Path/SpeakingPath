@@ -68,7 +68,7 @@ public class PracticeController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "/pron/object/save")
+    @PostMapping(value = "/recog/object/save")
     @Operation(summary = "사물 저장", description = "추가로 학습할 사물을 저장한다.")
     public ResponseEntity<?> saveObject(@RequestBody StudyObjectVO studyObjectVO){
         practiceService.saveObject(studyObjectVO.getUserId(), studyObjectVO.getObjId());
@@ -93,7 +93,7 @@ public class PracticeController {
         return new ResponseEntity<>(practiceService.showMySentence(userVO.getUserId()), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "/pron/object/show")
+    @PostMapping(value = "/recog/object/show")
     @Operation(summary = "저장한 사물 보여주기")
     public ResponseEntity<?> showMyObject(@RequestBody UserVO userVO){
         return new ResponseEntity<>(practiceService.showMyObject(userVO.getUserId()), HttpStatus.ACCEPTED);
@@ -117,9 +117,15 @@ public class PracticeController {
         return new ResponseEntity<>(practiceService.makeSentenceQuestions(userId, 10), HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "/recog/qlist")
+    @PostMapping(value = "/recog/object/qlist")
     @Operation(summary = "사물 문제 생성하기")
     public ResponseEntity<?> makeObjectQuestions(String userId) {
         return new ResponseEntity<>(practiceService.makeObjectQuestions(userId, 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/recog/object/issaved")
+    @Operation(summary = "사물 저장 여부 조회하기")
+    public ResponseEntity<?> isSavedObject(String userId, int objId) {
+        return new ResponseEntity<>(practiceService.isSavedObject(userId, objId), HttpStatus.ACCEPTED);
     }
 }
