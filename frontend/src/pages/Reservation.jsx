@@ -1,10 +1,19 @@
+import React, { useEffect } from "react";
 import ReservationInfo from "../components/Reservation/ReservationInfo"
 import styles from './Reservation.module.css'
 import Calendar from './../components/Reservation/Calendar';
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router-dom";
 
 function Reservation() {
   const csltid = useParams()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    const userInfo = localStorage.getItem("accessToken");
+    if (!userInfo) {
+      navigate("/account/login"); // userInfo가 없으면 로그인 페이지로 이동
+    } 
+  }, [navigate]);
 
   return (
     <div className={`${styles.infoAndCalendar}`}>
