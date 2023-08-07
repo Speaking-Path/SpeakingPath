@@ -3,6 +3,8 @@ import styles from './Preview.module.css';
 import MyCamera from './MyCamera';
 import MyCameraOption from './MyCameraOption';
 
+import './ButtonStyles.scss'; 
+
 const Preview = ({ isOpen, onClose, children, size }) => {
   // 하위 컴포넌트 MyCameraOption, MyCamera에서 모두 사용되는 것들을 상위 컴포넌트에서 정의함
 
@@ -73,27 +75,60 @@ const Preview = ({ isOpen, onClose, children, size }) => {
     setRecording(true)
     console.log('MediaRecorder started', mediaRecorderRef.current);
   }
+  
   function handleDataAvailable(event) {
     console.log('handleDataAvailable', event);
     if (event.data && event.data.size > 0) {
       recordedBlobsRef.current.push(event.data);
     }
   }
+
+  // function handleRecordButtonClick() {
+  //   if (recording === false) {
+  //     startRecording();
+  //   } else {
+  //     stopRecording();
+  //     recordButtonRef.current.textContent = '녹화 시작';
+  //     playButtonRef.current.disabled = false;
+  //     //downloadButton.disabled = false;
+  //     //codecPreferences.disabled = false;
+  //   }
+  // }
+  //-----------------토글 버튼----------------------------------//
   function handleRecordButtonClick() {
     if (recording === false) {
       startRecording();
+      setRecording(true);
+      toggleButtonClass(recordButtonRef.current);
     } else {
       stopRecording();
-      recordButtonRef.current.textContent = '녹화 시작';
+      setRecording(false);
       playButtonRef.current.disabled = false;
-      //downloadButton.disabled = false;
-      //codecPreferences.disabled = false;
+      toggleButtonClass(recordButtonRef.current);
     }
   }
+
+  function toggleButtonClass(button) {
+    if (button.classList.contains('playing')) {
+      button.classList.remove('paused', 'playing');
+      button.classList.add('paused');
+    } else {
+      if (button.classList.contains('paused')) {
+        button.classList.add('playing');
+      }
+    }
+    if (!button.classList.contains('paused')) {
+      button.classList.add('paused');
+    }
+  }
+  // -------------------------------------------------- //
+
+  
   function stopRecording(){
     mediaRecorderRef.current.stop();
     setRecording(false)
   }
+
   function handlePlayButtonClick(){
     console.log("play button clicked")
     const mimeType = getSupportedMimeTypes()[0].value;
@@ -120,6 +155,56 @@ const Preview = ({ isOpen, onClose, children, size }) => {
       {/* <div className={`${styles.previewContent} ${styles.scrollableContent} ${size === 'large' ? styles.large : ''}`}> */}
       <div className={`${styles.previewContent} ${size === 'large' ? styles.large : ''}`}>
         {children}
+
+        {/* <div>
+          <button id="record" onClick={handleRecordButtonClick} ref={recordButtonRef} >
+            {recording ? '녹화 중지' : '녹화 시작'}
+          </button>
+          <button id="play" onClick={handlePlayButtonClick} ref={playButtonRef} >
+            재생
+          </button>
+        </div> */}
+
+        <div className="button-container">
+          {/* 녹화/중지 버튼 */}
+          <button
+            id="record"
+            // className="start-pause-button"
+            // className={`start-pause-button ${recording ? 'paused' : ''}`}
+            className={`start-pause-button ${recording ? 'playing' : ''} ${recording === false ? 'paused' : ''}`}
+            onClick={handleRecordButtonClick}
+            ref={recordButtonRef}
+          >
+            {/* <i>녹</i>
+            <i>화</i>
+            <i>&nbsp;</i>
+            <i>{recording ? '중지' : '시작'}</i> */}
+            {recording ? (
+              <>
+                <i>중</i>
+                <i>지</i>
+              </>
+            ) : (
+              <>
+                <i>시</i>
+                <i>작</i>
+              </>
+            )}
+          </button>
+          
+          {/* 재생 버튼 */}
+          <button
+            id="play"
+            onClick={handlePlayButtonClick}
+            ref={playButtonRef}
+          >
+            <i>재</i>
+            <i>생</i>
+            <i>&nbsp;</i>
+          </button>
+        </div>
+
+
         <MyCamera
           selectedVideo={selectedVideo}
           selectedAudioInput={selectedAudioInput}
@@ -133,14 +218,7 @@ const Preview = ({ isOpen, onClose, children, size }) => {
           setSelectedAudioInput={setSelectedAudioInput} // 함수 넘겨주기
           myVideoRef={myVideoRef}
         />
-        <div>
-          <button id="record" onClick={handleRecordButtonClick} ref={recordButtonRef} >
-            {recording ? '녹화 중지' : '녹화 시작'}
-          </button>
-          <button id="play" onClick={handlePlayButtonClick} ref={playButtonRef} >
-            재생
-          </button>
-        </div>
+
         <div>
           {/* <button onClick={() => { onClose(); stopCamera(); }}>닫기</button> */}
           {/* <button type="button" className="btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" onClick={() => { onClose(); stopCamera(); }}>닫기</button> */}

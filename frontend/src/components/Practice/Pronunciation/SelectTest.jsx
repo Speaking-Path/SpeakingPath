@@ -1,69 +1,57 @@
-import React, { useState } from 'react';
-import './SelectTest.module.css'; // Make sure to import your CSS file
+import React, { useState, useEffect } from 'react';
+import styles from './SelectTest.module.css'; // 모듈화된 CSS 파일을 import하여 적용
 
-function SelectTest() {
-  const [selectedPlatform, setSelectedPlatform] = useState('Select a platform');
-  const [showOptions, setShowOptions] = useState(false);
-
-  const platformOptions = [
-    { value: 'codepen', label: 'CodePen', icon: 'fab fa-codepen' },
-    { value: 'dribbble', label: 'Dribbble', icon: 'fab fa-dribbble' },
-    { value: 'behance', label: 'Behance', icon: 'fab fa-behance' },
-    { value: 'hackerrank', label: 'HackerRank', icon: 'fab fa-hackerrank' },
-    { value: 'stackoverflow', label: 'StackOverflow', icon: 'fab fa-stack-overflow' },
-    { value: 'freecodecamp', label: 'FreeCodeCamp', icon: 'fab fa-free-code-camp' },
+const SelectTest = () => {
+  const [selectedOption, setSelectedOption] = useState('');
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
+  const options = [
+    { value: '', label: '값을 선택해주세요' },
+    { value: 'html', label: 'HTML' },
+    { value: 'css', label: 'CSS' },
+    { value: 'sass', label: 'SASS' },
+    { value: 'javascript', label: 'Javascript' },
+    { value: 'jquery', label: 'jQuery' },
   ];
 
-  const handlePlatformSelect = (value) => {
-    setSelectedPlatform(value);
-    setShowOptions(false);
+  useEffect(() => {
+    const initialOption = options[0];
+    setSelectedOption(initialOption.value);
+  }, []);
+
+
+  const handleSelectClick = () => {
+    setIsSelectOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleOptionClick = (newValue) => {
+    setSelectedOption(newValue);
+    setIsSelectOpen(false);
   };
 
   return (
-    <div id="app-cover">
-      <div
-        id="select-button"
-        className="brd"
-        onClick={() => setShowOptions(!showOptions)}
-      >
-        <div id="selected-value">
-          <span>{selectedPlatform}</span>
-        </div>
-        <div id="chevrons">
-          <i className="fas fa-chevron-up"></i>
-          <i className="fas fa-chevron-down"></i>
-        </div>
+    <div className={styles['select-container']}>
+      <div className={`${styles.selection}`} onClick={handleSelectClick}>
+        <p>
+          <span>{options.find((option) => option.value === selectedOption)?.label}</span>
+        </p>
+        <span className={`${styles['arrow-icon']} ${isSelectOpen ? styles['arrow-up'] : ''}`}></span>
       </div>
-      {showOptions && (
-        <div id="options">
-          {platformOptions.map((option) => (
+      {isSelectOpen && (
+        <div>
+          {options.map((option) => (
             <div
+              className={`${styles['option-container']} ${styles['option-appear']}`}
               key={option.value}
-              className="option"
-              onClick={() => handlePlatformSelect(option.label)}
+              onClick={() => handleOptionClick(option.value)}
             >
-              <input
-                className="s-c top"
-                type="radio"
-                name="platform"
-                value={option.value}
-              />
-              <input
-                className="s-c bottom"
-                type="radio"
-                name="platform"
-                value={option.value}
-              />
-              <i className={option.icon}></i>
-              <span className="label">{option.label}</span>
-              <span className="opt-val">{option.label}</span>
+              <p>{option.label}</p>
             </div>
           ))}
-          <div id="option-bg"></div>
         </div>
       )}
     </div>
+
   );
-}
+};
 
 export default SelectTest;
