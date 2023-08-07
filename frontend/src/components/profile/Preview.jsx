@@ -117,6 +117,7 @@ const Preview = ({ isOpen, onClose, children, size }) => {
 
   return (
     <div className={styles.preview}>
+      {/* <div className={`${styles.previewContent} ${styles.scrollableContent} ${size === 'large' ? styles.large : ''}`}> */}
       <div className={`${styles.previewContent} ${size === 'large' ? styles.large : ''}`}>
         {children}
         <MyCamera
@@ -141,8 +142,14 @@ const Preview = ({ isOpen, onClose, children, size }) => {
           </button>
         </div>
         <div>
-          {/* <button onClick={onClose}>닫기</button> */}
-          <button onClick={() => { onClose(); stopCamera(); }}>닫기</button>
+          {/* <button onClick={() => { onClose(); stopCamera(); }}>닫기</button> */}
+          {/* <button type="button" className="btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" onClick={() => { onClose(); stopCamera(); }}>닫기</button> */}
+          <button
+            className="btn btn-primary fw-bolder m-2"
+            onClick={() => { onClose(); stopCamera(); }}
+            style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}
+          >닫기</button>
+
         </div>
       </div>
     </div>

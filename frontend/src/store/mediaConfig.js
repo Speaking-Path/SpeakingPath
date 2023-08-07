@@ -1,3 +1,5 @@
+// 카메라 장치 정보 저장 (카메라, 마이크, 스피커)
+
 import { createSlice } from "@reduxjs/toolkit";
 
 const mediaConfigSlice = createSlice({

@@ -19,8 +19,7 @@ function UserInformation() {
         <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999 }}>
             <Preview isOpen={isPreviewOpen} onClose={handleClosePreview} size="large">
                 <div>
-                <h2 className='mb-0'>화면 미리보기</h2>
-                {/* <p>내용</p> */}
+                <h2 className='mb-0 title'>화면 미리보기</h2>
                 </div>
             </Preview>
         </div>
