@@ -1,0 +1,20 @@
+/* ErrorPage.module.css */
+
+.errorContainer {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .errorImage {
+    max-width: 40%; /* 이미지를 컨테이너에 맞게 조정 */
+    height: auto;
+  }
+  
+  /* NavLink 스타일 추가 */
+.errorNavLink {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 36px; /* 폰트 크기 조정 */
+    color: sssssskyblue; /* 링크 색상 지정 */
+    text-decoration: none;
+  }
