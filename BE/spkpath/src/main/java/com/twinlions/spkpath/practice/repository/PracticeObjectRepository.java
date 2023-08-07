@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface PracticeObjectRepository extends Repository<ObjectEntity, String> {
     List<ObjectEntity> findAll();
     Optional<ObjectEntity> findByObjId(int objId);
+    int count();
 }
