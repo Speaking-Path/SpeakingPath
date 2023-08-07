@@ -4,13 +4,14 @@ import ReplayIcon from '@mui/icons-material/Replay';
 
 
 
-function RetryRecog() {
+function RetryRecog({ handleWrongVisible }) {
   return (
-    <div className={styles.celebrateBox}>
+    <div className={styles.RetryBox}>
       <p className={styles.celebrateText}>다시 골라보세요</p>
       <div className={styles.wordBox}>
         <img src={process.env.PUBLIC_URL + "/assets/retry.png"} alt="" />
-        <ReplayIcon sx={{ color: blue[600], fontSize: 40 }}/>
+        <ReplayIcon onClick={() => { handleWrongVisible() }}
+          sx={{ color: blue[600], fontSize: 40 }} />
       </div>
     </div>
   )
