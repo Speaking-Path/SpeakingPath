@@ -4,6 +4,7 @@ import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
 import com.twinlions.spkpath.practice.entity.single.WordEntity;
 import com.twinlions.spkpath.practice.service.PracticeService;
+import com.twinlions.spkpath.practice.vo.StudyObjectVO;
 import com.twinlions.spkpath.practice.vo.StudySentenceVO;
 import com.twinlions.spkpath.practice.vo.StudySyllableVO;
 import com.twinlions.spkpath.practice.vo.StudyWordVO;
@@ -67,6 +68,13 @@ public class PracticeController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    @PostMapping(value = "/pron/object/save")
+    @Operation(summary = "사물 저장", description = "추가로 학습할 사물을 저장한다.")
+    public ResponseEntity<?> saveObject(@RequestBody StudyObjectVO studyObjectVO){
+        practiceService.saveObject(studyObjectVO.getUserId(), studyObjectVO.getObjId());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
     @PostMapping(value = "/pron/syllable/show")
     @Operation(summary = "저장한 음절 보여주기")
     public ResponseEntity<?> showMySyllable(@RequestBody UserVO userVO){
@@ -83,5 +91,17 @@ public class PracticeController {
     @Operation(summary = "저장한 문장 보여주기")
     public ResponseEntity<?> showMySentence(@RequestBody UserVO userVO){
         return new ResponseEntity<>(practiceService.showMySentence(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/object/show")
+    @Operation(summary = "저장한 사물 보여주기")
+    public ResponseEntity<?> showMyObject(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMyObject(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/recog/qlist")
+    @Operation(summary = "문제 생성하기")
+    public ResponseEntity<?> makeObjectQuestions(String userId) {
+        return new ResponseEntity<>(practiceService.makeObjectQuestions(userId, 20, 20), HttpStatus.ACCEPTED);
     }
 }

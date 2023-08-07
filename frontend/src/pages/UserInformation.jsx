@@ -18,8 +18,8 @@ function UserInformation() {
   const userInfo = useSelector((state)=>{return state.profileInfo})
   const dispatch = useDispatch()
   const profileClicked = useSelector((state)=>{return state.profileClick})
-
-
+  const [isLoaded, setIsLoaded] = useState(false)
+  
   const tokenType = localStorage.getItem('tokenType')
   const accessToken = localStorage.getItem('accessToken')
 
@@ -52,7 +52,6 @@ function UserInformation() {
 
   const navigate = useNavigate()
 
-
   const handleButtonClick = () => {
     setIsPreviewOpen(true);
   }
@@ -74,10 +73,13 @@ function UserInformation() {
       })
       .catch((err) => {
         console.log(err); 
+        navigate('/error', { message: "잘못된 접근입니다." } ); // 에러 발생 시 ErrorPage로 리다이렉트
+      }).finally(() => {
+        setIsLoaded(true); // API 호출이 완료됐음을 표시
       });
   }, [userInfo]);
 
-  
+  if(!isLoaded) return null;
 
   return (
     <div>

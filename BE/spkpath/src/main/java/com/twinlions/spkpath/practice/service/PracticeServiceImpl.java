@@ -1,5 +1,6 @@
 package com.twinlions.spkpath.practice.service;
 
+import com.twinlions.spkpath.practice.QuestionDto;
 import com.twinlions.spkpath.practice.config.StudyConverter;
 import com.twinlions.spkpath.practice.entity.composite.StudyObject;
 import com.twinlions.spkpath.practice.entity.composite.StudySentence;
@@ -19,8 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -159,6 +159,75 @@ public class PracticeServiceImpl implements PracticeService{
 
     @Override
     public List<StudyObjectVO> showMyObject(String userId) {
-        return null;
+        List<StudyObject> list = studyObjectRepository
+                .findByUserId(userRepository.findByUserId(userId).get()).get();
+        return list.stream()
+                .map(studyConverter::objectToObjectVO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public QuestionDto makeObjectQuestions(String userId, int questionSize, int vocaSize) {
+        // 잘못된 선택지의 수
+        int wrongChoice = 3 * questionSize;
+
+        // 전체 답안
+        List<ObjectEntity> answerList = new ArrayList<>();
+
+        // 사용자의 답안 저장 여부
+        List<Boolean> savedList = new ArrayList<>();
+
+        // 랜덤 난수 생성 리스트
+        List<Integer> nList = new ArrayList<>();
+        Queue<Integer> nQueue = new ArrayDeque<>();
+
+        for (int i = 1; i <= vocaSize; i++) {
+            nList.add(i);
+        }
+
+        // 랜덤 순서로 수 배열
+        // 답안 리스트 완성 -- size = questionSize
+        Collections.shuffle(nList);
+        int idx = 0, num = 0;
+        for (int i = 0; i < questionSize; i++) {
+            int item = nList.get(idx++);
+            answerList.add(practiceObjectRepository.findByObjId(item).get());
+            if (studyObjectRepository
+                    .findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
+                            practiceObjectRepository.findByObjId(item).get())
+                    .isPresent()) {
+                savedList.add(true);
+            } else savedList.add(false);
+            if (idx == vocaSize) {
+                Collections.shuffle(nList);
+                idx = 0;
+            }
+        }
+
+        // 문제 리스트 생성
+        List<List<ObjectEntity>> questionList = new ArrayList<>();
+        for (int i = 0; i < questionSize; i++) {
+            questionList.add(new ArrayList<>());
+            questionList.get(i).add(answerList.get(i));
+        }
+
+        idx = 0;
+        Collections.shuffle(nList);
+        nQueue.addAll(nList);
+        while (wrongChoice > 0) {
+            while ((num = nQueue.poll()) == answerList.get(idx).getObjId() || nQueue.size() == 0) {
+                if (nQueue.size() == 0) {
+                    Collections.shuffle(nList);
+                    nQueue.addAll(nList);
+                }
+            }
+            questionList.get(idx).add(practiceObjectRepository.findByObjId(num).get());
+            wrongChoice--;
+            if (wrongChoice % 3 == 0) {
+                Collections.shuffle(questionList.get(idx++));
+            }
+        }
+
+        return new QuestionDto(questionList, answerList, savedList);
     }
 }
