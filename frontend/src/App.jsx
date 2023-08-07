@@ -21,6 +21,8 @@ import Profile from './components/MyPage/Profile';
 import CheckRsv from './components/MyPage/CheckRsv';
 import PastRsv from './components/MyPage/PastRsv';
 import Footer from './components/Footer/Footer';
+import FindId from './pages/FindUserId';
+import FindPwd from './pages/FindUserPwd';
 
 
 
@@ -35,6 +37,8 @@ function App() {
         <Route path="/account/signup" element={<UserSignup />} />
         <Route path="/account/consultantsignup" element={<ConsultantSignup />} />
         <Route path="/account/login" element={<Login />} />
+        <Route path="/account/findid" element={<FindId />} />
+        <Route path="/account/findpwd" element={<FindPwd />} />
 
         <Route path="/account/mypage" element={<UserInformation />}>
           <Route path="" element={<Profile />} />
