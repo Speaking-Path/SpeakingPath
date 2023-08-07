@@ -177,7 +177,6 @@ public class PracticeServiceImpl implements PracticeService{
      * 학습 시작 시 문제를 생성하는 메서드
      * @param userId // 누른 사용자를 입력받는다
      * @param questionSize // 생성할 문제 수를 입력받는다
-     * @param vocaSize // 전체 단어 수를 입력받는다
      */
     @Override
     public SyllableQuestionDto makeSyllableQuestions(String userId, int questionSize) {
@@ -294,6 +293,13 @@ public class PracticeServiceImpl implements PracticeService{
         }
 
         return new ObjectQuestionDto(questionList, answerList, savedList);
+    }
+
+    public boolean isSavedObject(String userId, int objId) {
+        if (studyObjectRepository.findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
+                practiceObjectRepository.findByObjId(objId).get()).isPresent()) {
+            return true;
+        } else return false;
     }
 
     /**

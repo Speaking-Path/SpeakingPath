@@ -35,5 +35,5 @@ public interface PracticeService {
     WordQuestionDto makeWordQuestions(String userId, int questionSize);
     SentenceQuestionDto makeSentenceQuestions(String userId, int questionSize);
     ObjectQuestionDto makeObjectQuestions(String userId, int questionSize);
-
+    boolean isSavedObject(String userId, int objId);
 }
