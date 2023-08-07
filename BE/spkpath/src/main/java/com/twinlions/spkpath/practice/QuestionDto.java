@@ -10,4 +10,5 @@ import java.util.List;
 public class QuestionDto {
     List<List<Integer>> questionList;
     List<Integer> answerList;
+    List<Boolean> savedList;
 }

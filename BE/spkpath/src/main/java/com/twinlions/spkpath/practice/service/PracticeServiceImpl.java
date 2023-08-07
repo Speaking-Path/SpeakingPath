@@ -159,16 +159,23 @@ public class PracticeServiceImpl implements PracticeService{
 
     @Override
     public List<StudyObjectVO> showMyObject(String userId) {
-        return null;
+        List<StudyObject> list = studyObjectRepository
+                .findByUserId(userRepository.findByUserId(userId).get()).get();
+        return list.stream()
+                .map(studyConverter::objectToObjectVO)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public QuestionDto makeQuestions(int questionSize, int vocaSize) {
+    public QuestionDto makeObjectQuestions(String userId, int questionSize, int vocaSize) {
         // 잘못된 선택지의 수
         int wrongChoice = 3 * questionSize;
 
         // 전체 답안
         List<Integer> answerList = new ArrayList<>();
+
+        // 사용자의 답안 저장 여부
+        List<Boolean> savedList = new ArrayList<>();
 
         // 랜덤 난수 생성 리스트
         List<Integer> nList = new ArrayList<>();
@@ -183,7 +190,14 @@ public class PracticeServiceImpl implements PracticeService{
         Collections.shuffle(nList);
         int idx = 0, num = 0;
         for (int i = 0; i < questionSize; i++) {
-            answerList.add(nList.get(idx++));
+            int item = nList.get(idx++);
+            answerList.add(item);
+            if (studyObjectRepository
+                    .findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
+                            practiceObjectRepository.findByObjId(item).get())
+                    .isPresent()) {
+                savedList.add(true);
+            } else savedList.add(false);
             if (idx == vocaSize) {
                 Collections.shuffle(nList);
                 idx = 0;
@@ -214,6 +228,6 @@ public class PracticeServiceImpl implements PracticeService{
             }
         }
 
-        return new QuestionDto(questionList, answerList);
+        return new QuestionDto(questionList, answerList, savedList);
     }
 }

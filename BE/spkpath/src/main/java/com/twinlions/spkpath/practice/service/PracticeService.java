@@ -28,6 +28,7 @@ public interface PracticeService {
     List<StudySentenceVO> showMySentence(String userId);
     List<StudyObjectVO> showMyObject(String userId);
 
-    QuestionDto makeQuestions(int quesitonSize, int vocaSize);
+
+    QuestionDto makeObjectQuestions(String userId, int quesitonSize, int vocaSize);
 
 }
