@@ -99,9 +99,27 @@ public class PracticeController {
         return new ResponseEntity<>(practiceService.showMyObject(userVO.getUserId()), HttpStatus.ACCEPTED);
     }
 
+    @PostMapping(value = "/pron/syllable/qlist")
+    @Operation(summary = "음절 발음 훈련 생성하기")
+    public ResponseEntity<?> makeSyllableQuestions(String userId) {
+        return new ResponseEntity<>(practiceService.makeSyllableQuestions(userId, 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/word/qlist")
+    @Operation(summary = "단어 발음 훈련 생성하기")
+    public ResponseEntity<?> makeWordQuestions(String userId) {
+        return new ResponseEntity<>(practiceService.makeWordQuestions(userId, 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/sentence/qlist")
+    @Operation(summary = "문장 발음 훈련 생성하기")
+    public ResponseEntity<?> makeSentenceQuestions(String userId) {
+        return new ResponseEntity<>(practiceService.makeSentenceQuestions(userId, 10), HttpStatus.ACCEPTED);
+    }
+
     @PostMapping(value = "/recog/qlist")
-    @Operation(summary = "문제 생성하기")
+    @Operation(summary = "사물 문제 생성하기")
     public ResponseEntity<?> makeObjectQuestions(String userId) {
-        return new ResponseEntity<>(practiceService.makeObjectQuestions(userId, 20, 20), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(practiceService.makeObjectQuestions(userId, 10), HttpStatus.ACCEPTED);
     }
 }
