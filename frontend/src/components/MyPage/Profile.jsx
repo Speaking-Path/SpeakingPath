@@ -90,11 +90,10 @@ function Profile() {
         }
       })
       .then((res) => {
-        console.log(res.data)
         alert("유저 정보가 업데이트 되었습니다.")
+        window.location.reload();
       })
       .catch((err) => {
-        console.log(err)
         alert('알 수 없는 문제로 실패하였습니다.\n관리자에게 문의하세요.')
       })
   }
@@ -241,20 +240,19 @@ function Profile() {
                 <div>
                   <div>
                     <label htmlFor="info"></label>
-                    <input type='text' name="" id="info" placeholder='소개말을 입력하세요'
+                    <input type='text' name="info" id="info" placeholder='소개말을 입력하세요'
                       onChange={async (e) => {
                         await changeInfo(e.target.value)
-                        changeUserInfo()
                       }} />
                   </div>
                   <div>
-                    <button onClick={(e) => { setClickInfoM(false) }}>수정하기</button>
+                    <button onClick={(e) => { changeUserInfo() }}>수정하기</button>
                     <button onClick={(e) => { setClickInfoM(false) }}>취소하기</button>
                   </div>
                 </div> :
                 <div>
                   <p>{userInfo.userInfo}</p>
-                  <button onClick={(e) => { setClickInfoM(true) }}>수정</button>
+                  <button onClick={(e) => {setClickInfoM(true) }}>수정</button>
                 </div>
             }
           </div>
