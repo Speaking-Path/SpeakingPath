@@ -42,7 +42,7 @@ function Profile() {
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
     if (!passwordRegExp.test(currentPassword)) {
       setPasswordMessage(
-        "숫자, 영문, 특수문자 조합으로 8자리 이상 입력해주세요."
+        "숫자, 영문, 특수문자 조합 8자리 이상 입력"
       )
       setIsPassword(false)
     } else {
@@ -179,12 +179,14 @@ function Profile() {
                   <div >
                     <label htmlFor="pwd"></label>
                     <input type="password" id='pwd' placeholder='새 비밀번호를 입력하세요'
-                      onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} />
-                    <p className={styles.message}> {passwordMessage} </p>
+                      onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} disabled={isPasswordConfirm}/>
+                    
                     <label htmlFor="pwd2"></label>
                     <input type="password" id='pwd' placeholder='비밀번호 확인'
-                      onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} />
-                    <p className={styles.message}> {passwordConfirmMessage} </p>
+                      onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} disabled={isPasswordConfirm}/>
+                    <p></p>
+                    <span className={styles.message}> {passwordMessage} </span>
+                    <span className={styles.message}> {passwordConfirmMessage} </span>
                   </div>
                   <div>
                     {isPasswordConfirm && isPassword && (
@@ -197,7 +199,7 @@ function Profile() {
                         수정하기
                       </button>
                     )}
-                    <button onClick={(e) => setClickPwdM(false)}>취소하기</button>
+                    <button onClick={(e) => {setClickPwdM(false); setPasswordConfirm(false); setIsPassword(false); setIsPasswordConfirm(false)}}>취소하기</button>
                   </div>
                 </div> :
                 <div>
