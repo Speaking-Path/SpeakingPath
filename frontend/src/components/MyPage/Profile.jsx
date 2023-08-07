@@ -42,7 +42,7 @@ function Profile() {
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/
     if (!passwordRegExp.test(currentPassword)) {
       setPasswordMessage(
-        "숫자, 영문, 특수문자 조합으로 8자리 이상 입력해주세요."
+        "숫자, 영문, 특수문자 조합 8자리 이상 입력"
       )
       setIsPassword(false)
     } else {
@@ -90,11 +90,10 @@ function Profile() {
         }
       })
       .then((res) => {
-        console.log(res.data)
         alert("유저 정보가 업데이트 되었습니다.")
+        window.location.reload();
       })
       .catch((err) => {
-        console.log(err)
         alert('알 수 없는 문제로 실패하였습니다.\n관리자에게 문의하세요.')
       })
   }
@@ -179,12 +178,14 @@ function Profile() {
                   <div >
                     <label htmlFor="pwd"></label>
                     <input type="password" id='pwd' placeholder='새 비밀번호를 입력하세요'
-                      onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} />
-                    <p className={styles.message}> {passwordMessage} </p>
+                      onChange={(e) => onChangePassword(e, setPassword, setPasswordMessage, setIsPassword)} disabled={isPasswordConfirm}/>
+                    
                     <label htmlFor="pwd2"></label>
                     <input type="password" id='pwd' placeholder='비밀번호 확인'
-                      onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} />
-                    <p className={styles.message}> {passwordConfirmMessage} </p>
+                      onChange={(e) => onChangePasswordConfirm(e, password, setPasswordConfirm, setPasswordConfirmMessage, setIsPasswordConfirm)} disabled={isPasswordConfirm}/>
+                    <p></p>
+                    <span className={styles.message}> {passwordMessage} </span>
+                    <span className={styles.message}> {passwordConfirmMessage} </span>
                   </div>
                   <div>
                     {isPasswordConfirm && isPassword && (
@@ -197,7 +198,7 @@ function Profile() {
                         수정하기
                       </button>
                     )}
-                    <button onClick={(e) => setClickPwdM(false)}>취소하기</button>
+                    <button onClick={(e) => {setClickPwdM(false); setPasswordConfirm(false); setIsPassword(false); setIsPasswordConfirm(false)}}>취소하기</button>
                   </div>
                 </div> :
                 <div>
@@ -239,20 +240,19 @@ function Profile() {
                 <div>
                   <div>
                     <label htmlFor="info"></label>
-                    <input type='text' name="" id="info" placeholder='소개말을 입력하세요'
+                    <input type='text' name="info" id="info" placeholder='소개말을 입력하세요'
                       onChange={async (e) => {
                         await changeInfo(e.target.value)
-                        changeUserInfo()
                       }} />
                   </div>
                   <div>
-                    <button onClick={(e) => { setClickInfoM(false) }}>수정하기</button>
+                    <button onClick={(e) => { changeUserInfo() }}>수정하기</button>
                     <button onClick={(e) => { setClickInfoM(false) }}>취소하기</button>
                   </div>
                 </div> :
                 <div>
                   <p>{userInfo.userInfo}</p>
-                  <button onClick={(e) => { setClickInfoM(true) }}>수정</button>
+                  <button onClick={(e) => {setClickInfoM(true) }}>수정</button>
                 </div>
             }
           </div>

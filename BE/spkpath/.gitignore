@@ -10,11 +10,10 @@ build/*
 application.properties
 
 ## Gradle 관련 문제
-build.gradle
 gradle/
 gradlew
 gradlew.bat
-*.gradle
+settings.gradle
 
 # Gradle
 .idea/**/gradle.xml

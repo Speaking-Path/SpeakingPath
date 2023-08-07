@@ -21,7 +21,9 @@ import Profile from './components/MyPage/Profile';
 import CheckRsv from './components/MyPage/CheckRsv';
 import PastRsv from './components/MyPage/PastRsv';
 import Footer from './components/Footer/Footer';
-
+import FindId from './pages/FindUserId';
+import FindPwd from './pages/FindUserPwd';
+import ErrorPage from './pages/ErrorPage';
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
         <Route path="/account/signup" element={<UserSignup />} />
         <Route path="/account/consultantsignup" element={<ConsultantSignup />} />
         <Route path="/account/login" element={<Login />} />
+        <Route path="/account/findid" element={<FindId />} />
+        <Route path="/account/findpwd" element={<FindPwd />} />
 
         <Route path="/account/mypage" element={<UserInformation />}>
           <Route path="" element={<Profile />} />
@@ -57,6 +61,8 @@ function App() {
 
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}
         <Route path="/consulting/meeting" element={<UntactConsult />} />
+
+        <Route path="/error" element={<ErrorPage />} /> {/* element prop 사용 */}
       </Routes>
 
       <Footer/>
