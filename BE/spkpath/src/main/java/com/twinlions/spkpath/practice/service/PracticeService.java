@@ -1,6 +1,9 @@
 package com.twinlions.spkpath.practice.service;
 
-import com.twinlions.spkpath.practice.QuestionDto;
+import com.twinlions.spkpath.practice.ObjectQuestionDto;
+import com.twinlions.spkpath.practice.SentenceQuestionDto;
+import com.twinlions.spkpath.practice.SyllableQuestionDto;
+import com.twinlions.spkpath.practice.WordQuestionDto;
 import com.twinlions.spkpath.practice.entity.single.ObjectEntity;
 import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
@@ -14,7 +17,7 @@ import java.util.List;
 
 public interface PracticeService {
     List<WordEntity> listAllWord();
-    List<ObjectEntity> listAllObject();
+//    List<ObjectEntity> listAllObject();
     List<SentenceEntity> listAllSentence();
     List<SyllableEntity> listAllSyllable();
 
@@ -28,7 +31,9 @@ public interface PracticeService {
     List<StudySentenceVO> showMySentence(String userId);
     List<StudyObjectVO> showMyObject(String userId);
 
-
-    QuestionDto makeObjectQuestions(String userId, int quesitonSize, int vocaSize);
-
+    SyllableQuestionDto makeSyllableQuestions(String userId, int questionSize);
+    WordQuestionDto makeWordQuestions(String userId, int questionSize);
+    SentenceQuestionDto makeSentenceQuestions(String userId, int questionSize);
+    ObjectQuestionDto makeObjectQuestions(String userId, int questionSize);
+    boolean isSavedObject(String userId, int objId);
 }

@@ -1,6 +1,6 @@
 package com.twinlions.spkpath.practice;
 
-import com.twinlions.spkpath.practice.entity.single.ObjectEntity;
+import com.twinlions.spkpath.practice.entity.single.WordEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,8 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class QuestionDto {
-    List<List<ObjectEntity>> questionList;
-    List<ObjectEntity> answerList;
+public class WordQuestionDto {
+    List<WordEntity> questionList;
     List<Boolean> savedList;
 }
