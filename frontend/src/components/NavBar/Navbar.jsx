@@ -88,7 +88,6 @@ function NavBar() {
             }
           </Nav>
         </Container>
-        <hr />
       </Navbar>
       <div className={`${styles.drdn} container`}>
       </div>

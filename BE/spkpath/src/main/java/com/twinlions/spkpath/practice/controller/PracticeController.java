@@ -4,6 +4,7 @@ import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
 import com.twinlions.spkpath.practice.entity.single.WordEntity;
 import com.twinlions.spkpath.practice.service.PracticeService;
+import com.twinlions.spkpath.practice.vo.StudyObjectVO;
 import com.twinlions.spkpath.practice.vo.StudySentenceVO;
 import com.twinlions.spkpath.practice.vo.StudySyllableVO;
 import com.twinlions.spkpath.practice.vo.StudyWordVO;
@@ -67,6 +68,13 @@ public class PracticeController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
+    @PostMapping(value = "/recog/object/save")
+    @Operation(summary = "사물 저장", description = "추가로 학습할 사물을 저장한다.")
+    public ResponseEntity<?> saveObject(@RequestBody StudyObjectVO studyObjectVO){
+        practiceService.saveObject(studyObjectVO.getUserId(), studyObjectVO.getObjId());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
     @PostMapping(value = "/pron/syllable/show")
     @Operation(summary = "저장한 음절 보여주기")
     public ResponseEntity<?> showMySyllable(@RequestBody UserVO userVO){
@@ -85,9 +93,39 @@ public class PracticeController {
         return new ResponseEntity<>(practiceService.showMySentence(userVO.getUserId()), HttpStatus.ACCEPTED);
     }
 
-    @GetMapping(value = "/recog/qlist")
-    @Operation(summary = "문제 생성하기")
-    public ResponseEntity<?> makeQuestions() {
-        return new ResponseEntity<>(practiceService.makeQuestions(20, 20), HttpStatus.ACCEPTED);
+    @PostMapping(value = "/recog/object/show")
+    @Operation(summary = "저장한 사물 보여주기")
+    public ResponseEntity<?> showMyObject(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMyObject(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/syllable/qlist")
+    @Operation(summary = "음절 발음 훈련 생성하기")
+    public ResponseEntity<?> makeSyllableQuestions(String userId) {
+        return new ResponseEntity<>(practiceService.makeSyllableQuestions(userId, 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/word/qlist")
+    @Operation(summary = "단어 발음 훈련 생성하기")
+    public ResponseEntity<?> makeWordQuestions(String userId) {
+        return new ResponseEntity<>(practiceService.makeWordQuestions(userId, 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/sentence/qlist")
+    @Operation(summary = "문장 발음 훈련 생성하기")
+    public ResponseEntity<?> makeSentenceQuestions(String userId) {
+        return new ResponseEntity<>(practiceService.makeSentenceQuestions(userId, 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/recog/object/qlist")
+    @Operation(summary = "사물 문제 생성하기")
+    public ResponseEntity<?> makeObjectQuestions(String userId) {
+        return new ResponseEntity<>(practiceService.makeObjectQuestions(userId, 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/recog/object/issaved")
+    @Operation(summary = "사물 저장 여부 조회하기")
+    public ResponseEntity<?> isSavedObject(String userId, int objId) {
+        return new ResponseEntity<>(practiceService.isSavedObject(userId, objId), HttpStatus.ACCEPTED);
     }
 }

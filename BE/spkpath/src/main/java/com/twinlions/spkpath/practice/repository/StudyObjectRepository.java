@@ -6,11 +6,14 @@ import com.twinlions.spkpath.user.entity.User;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface StudyObjectRepository extends Repository<StudyObject, String> {
     StudyObject save(StudyObject studyObject);
     Optional<StudyObject> findByUserIdAndObjId(User userId, ObjectEntity objId);
+
+    Optional<List<StudyObject>> findByUserId(User userId);
 
     @Modifying
     void deleteByUserIdAndObjId(User userId, ObjectEntity objId);

@@ -58,7 +58,7 @@
 
 /* 내부 버튼 스타일 설정 */
 .rdp-button {
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
 }
 
 
@@ -141,7 +141,7 @@
   white-space: nowrap;
   color: currentColor;
   border: 0;
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
   font-family: inherit;
   font-size: 1.3rem;
   font-weight: bold;
@@ -261,7 +261,7 @@
 }
 
 .rdp-weeknumber {
-  font-size: 15px;
+  font-size: 0.938rem;
 }
 
 /* day : 날짜 나타내는 요소 스타일링 */
@@ -276,7 +276,7 @@
   max-width: var(--rdp-cell-width);
   height: var(--rdp-cell-height);
   margin: 0;
-  border: 2px solid transparent;
+  border: 0.125rem solid transparent;
   /* border-radius: 100%; */
   font-size: 1rem;
 }

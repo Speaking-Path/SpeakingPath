@@ -1,6 +1,9 @@
 package com.twinlions.spkpath.practice.service;
 
-import com.twinlions.spkpath.practice.QuestionDto;
+import com.twinlions.spkpath.practice.ObjectQuestionDto;
+import com.twinlions.spkpath.practice.SentenceQuestionDto;
+import com.twinlions.spkpath.practice.SyllableQuestionDto;
+import com.twinlions.spkpath.practice.WordQuestionDto;
 import com.twinlions.spkpath.practice.config.StudyConverter;
 import com.twinlions.spkpath.practice.entity.composite.StudyObject;
 import com.twinlions.spkpath.practice.entity.composite.StudySentence;
@@ -48,12 +51,12 @@ public class PracticeServiceImpl implements PracticeService{
         return list;
     }
 
-    @Override
-    public List<ObjectEntity> listAllObject() {
-        List<ObjectEntity> list = practiceObjectRepository.findAll();
-        Collections.shuffle(list);
-        return list;
-    }
+//    @Override
+//    public List<ObjectEntity> listAllObject() {
+//        List<ObjectEntity> list = practiceObjectRepository.findAll();
+//        Collections.shuffle(list);
+//        return list;
+//    }
 
     @Override
     public List<SentenceEntity> listAllSentence() {
@@ -72,7 +75,7 @@ public class PracticeServiceImpl implements PracticeService{
     /**
      * 학습 중 즐겨찾기를 눌렀을 경우 실행되는 메서드
      * @param userId // 누른 사용자를 입력받는다
-     * @param slbId // 누른 번호를 입력받는다
+     * @param slbId // 누른 음절의 아이디를 입력받는다
      */
     @Transactional
     @Override
@@ -130,6 +133,10 @@ public class PracticeServiceImpl implements PracticeService{
         }
     }
 
+    /**
+     * 마이페이지에서 사용자가 저장한 음절 목록을 조회하는 메서드
+     * @param userId // 누른 사용자를 입력받는다
+     */
     @Override
     public List<StudySyllableVO> showMySyllable(String userId) {
         List<StudySyllable> list = studySyllableRepository
@@ -159,39 +166,110 @@ public class PracticeServiceImpl implements PracticeService{
 
     @Override
     public List<StudyObjectVO> showMyObject(String userId) {
-        return null;
+        List<StudyObject> list = studyObjectRepository
+                .findByUserId(userRepository.findByUserId(userId).get()).get();
+        return list.stream()
+                .map(studyConverter::objectToObjectVO)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * 학습 시작 시 문제를 생성하는 메서드
+     * @param userId // 누른 사용자를 입력받는다
+     * @param questionSize // 생성할 문제 수를 입력받는다
+     */
+    @Override
+    public SyllableQuestionDto makeSyllableQuestions(String userId, int questionSize) {
+        List<SyllableEntity> questionList = new ArrayList<>();
+        List<Boolean> savedList = new ArrayList<>();
+        List<Integer> nList = GenerateRandomNum(questionSize, practiceSyllableRepository.count());
+
+        for (int i = 0; i < questionSize; i++) {
+            int item = nList.get(i);
+            questionList.add(practiceSyllableRepository.findBySlbId(item).get());
+            if (studySyllableRepository
+                    .findByUserIdAndSlbId(userRepository.findByUserId(userId).get(),
+                            practiceSyllableRepository.findBySlbId(item).get()).isPresent()) {
+                savedList.add(true);
+            } else savedList.add(false);
+        }
+
+        return new SyllableQuestionDto(questionList, savedList);
     }
 
     @Override
-    public QuestionDto makeQuestions(int questionSize, int vocaSize) {
+    public WordQuestionDto makeWordQuestions(String userId, int questionSize) {
+        List<WordEntity> questionList = new ArrayList<>();
+        List<Boolean> savedList = new ArrayList<>();
+        List<Integer> nList = GenerateRandomNum(questionSize, practiceWordRepository.count());
+
+        for (int i = 0; i < questionSize; i++) {
+            int item = nList.get(i);
+            questionList.add(practiceWordRepository.findByWordId(item).get());
+            if (studyWordRepository
+                    .findByUserIdAndWordId(userRepository.findByUserId(userId).get(),
+                            practiceWordRepository.findByWordId(item).get()).isPresent()) {
+                savedList.add(true);
+            } else savedList.add(false);
+        }
+
+        return new WordQuestionDto(questionList, savedList);
+    }
+
+    @Override
+    public SentenceQuestionDto makeSentenceQuestions(String userId, int questionSize) {
+        List<SentenceEntity> questionList = new ArrayList<>();
+        List<Boolean> savedList = new ArrayList<>();
+        List<Integer> nList = GenerateRandomNum(questionSize, practiceSentenceRepository.count());
+
+        for (int i = 0; i < questionSize; i++) {
+            int item = nList.get(i);
+            questionList.add(practiceSentenceRepository.findByStcId(item).get());
+            if (studySentenceRepository
+                    .findByUserIdAndStcId(userRepository.findByUserId(userId).get(),
+                            practiceSentenceRepository.findByStcId(item).get()).isPresent()) {
+                savedList.add(true);
+            } else savedList.add(false);
+        }
+
+        return new SentenceQuestionDto(questionList, savedList);
+    }
+
+    @Override
+    public ObjectQuestionDto makeObjectQuestions(String userId, int questionSize) {
         // 잘못된 선택지의 수
         int wrongChoice = 3 * questionSize;
 
         // 전체 답안
-        List<Integer> answerList = new ArrayList<>();
+        List<ObjectEntity> answerList = new ArrayList<>();
 
+        // 사용자의 답안 저장 여부
+        List<Boolean> savedList = new ArrayList<>();
+
+        int objectSize = practiceObjectRepository.count();
+        System.out.println(objectSize);
         // 랜덤 난수 생성 리스트
-        List<Integer> nList = new ArrayList<>();
-        Queue<Integer> nQueue = new ArrayDeque<>();
+        List<Integer> nList = GenerateRandomNum(questionSize, objectSize);
 
-        for (int i = 1; i <= vocaSize; i++) {
-            nList.add(i);
-        }
-
-        // 랜덤 순서로 수 배열
         // 답안 리스트 완성 -- size = questionSize
-        Collections.shuffle(nList);
-        int idx = 0, num = 0;
+        int idx = 0, num;
         for (int i = 0; i < questionSize; i++) {
-            answerList.add(nList.get(idx++));
-            if (idx == vocaSize) {
+            int item = nList.get(idx++);
+            answerList.add(practiceObjectRepository.findByObjId(item).get());
+            if (studyObjectRepository
+                    .findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
+                            practiceObjectRepository.findByObjId(item).get())
+                    .isPresent()) {
+                savedList.add(true);
+            } else savedList.add(false);
+            if (idx == objectSize) {
                 Collections.shuffle(nList);
                 idx = 0;
             }
         }
 
         // 문제 리스트 생성
-        List<List<Integer>> questionList = new ArrayList<>();
+        List<List<ObjectEntity>> questionList = new ArrayList<>();
         for (int i = 0; i < questionSize; i++) {
             questionList.add(new ArrayList<>());
             questionList.get(i).add(answerList.get(i));
@@ -199,21 +277,43 @@ public class PracticeServiceImpl implements PracticeService{
 
         idx = 0;
         Collections.shuffle(nList);
-        nQueue.addAll(nList);
+        Queue<Integer> nQueue = new ArrayDeque<>(nList);
         while (wrongChoice > 0) {
-            while ((num = nQueue.poll()) == answerList.get(idx) || nQueue.size() == 0) {
+            while ((num = nQueue.poll()) == answerList.get(idx).getObjId() || nQueue.size() == 0) {
                 if (nQueue.size() == 0) {
                     Collections.shuffle(nList);
                     nQueue.addAll(nList);
                 }
             }
-            questionList.get(idx).add(num);
+            questionList.get(idx).add(practiceObjectRepository.findByObjId(num).get());
             wrongChoice--;
             if (wrongChoice % 3 == 0) {
                 Collections.shuffle(questionList.get(idx++));
             }
         }
 
-        return new QuestionDto(questionList, answerList);
+        return new ObjectQuestionDto(questionList, answerList, savedList);
+    }
+
+    public boolean isSavedObject(String userId, int objId) {
+        if (studyObjectRepository.findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
+                practiceObjectRepository.findByObjId(objId).get()).isPresent()) {
+            return true;
+        } else return false;
+    }
+
+    /**
+     * 랜덤 난수를 생성하는 메서드
+     * @param size // 만들 난수의 수를 입력받는다
+     * @param candidateSize // 난수의 범위를 입력받는다(1 <= N <= candidateSize)
+     */
+    private List<Integer> GenerateRandomNum(int size, int candidateSize) {
+        List<Integer> nList = new ArrayList<>();
+
+        for (int i = 1; i <= candidateSize; i++) {
+            nList.add(i);
+        }
+        Collections.shuffle(nList);
+        return nList.subList(0, size);
     }
 }

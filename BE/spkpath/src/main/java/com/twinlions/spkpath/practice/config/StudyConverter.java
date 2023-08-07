@@ -1,8 +1,10 @@
 package com.twinlions.spkpath.practice.config;
 
+import com.twinlions.spkpath.practice.entity.composite.StudyObject;
 import com.twinlions.spkpath.practice.entity.composite.StudySentence;
 import com.twinlions.spkpath.practice.entity.composite.StudySyllable;
 import com.twinlions.spkpath.practice.entity.composite.StudyWord;
+import com.twinlions.spkpath.practice.vo.StudyObjectVO;
 import com.twinlions.spkpath.practice.vo.StudySentenceVO;
 import com.twinlions.spkpath.practice.vo.StudySyllableVO;
 import com.twinlions.spkpath.practice.vo.StudyWordVO;
@@ -28,5 +30,12 @@ public class StudyConverter {
         studySentenceVO.setUserId(source.getUserId().getUserId());
         studySentenceVO.setStcId(source.getStcId().getStcId());
         return studySentenceVO;
+    }
+
+    public StudyObjectVO objectToObjectVO(StudyObject source) {
+        StudyObjectVO studyObjectVO = new StudyObjectVO();
+        studyObjectVO.setUserId(source.getUserId().getUserId());
+        studyObjectVO.setObjId(source.getObjId().getObjId());
+        return studyObjectVO;
     }
 }

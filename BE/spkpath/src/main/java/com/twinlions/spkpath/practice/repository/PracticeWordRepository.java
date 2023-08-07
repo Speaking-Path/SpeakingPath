@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface PracticeWordRepository extends Repository<WordEntity, String> {
     List<WordEntity> findAll();
     Optional<WordEntity> findByWordId(int wordId);
+    int count();
 }

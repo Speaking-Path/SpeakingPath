@@ -92,6 +92,18 @@ export const checkEmailApi = function (e, email, setEmailMessage, setIsEmail) {
     if (res.data === "success") {
       setEmailMessage("사용 가능한 이메일입니다.")
       setIsEmail(true)
+      
+      const userInfo={
+        "userEmail" : email
+      }
+      axios.post(`/account/auth/sendEmail`, userInfo).then((res)=>{
+        console.log(res)
+        if(res.data === "success"){
+          setEmailMessage("이메일 인증번호를 확인해주세요.")    
+        }
+      })
+      
+      
     } else {
       setEmailMessage("이미 존재하는 이메일입니다.")
       setIsEmail(false)
@@ -119,3 +131,23 @@ export const checkIdApi = function (e, id, setIdMessage, setIsId) {
     console.log(err)
   })
 }
+
+export const checkEmailAuth = function (e, email, emailAuth, setEmailMessage, setAuthorizedEmail, setAuthMessage) {
+  e.preventDefault();
+  axios
+    .post(`/account/auth/checkEmail/${emailAuth}`, { "userEmail": email })
+    .then((res) => {
+      console.log(res);
+      if (res.data) {
+        setAuthMessage("인증에 성공하였습니다.");
+        setEmailMessage(""); // Correct way to update setEmailMessage state
+        setAuthorizedEmail(true);
+      } else {
+        setAuthMessage("인증번호를 다시 확인해주세요");
+        setAuthorizedEmail(false);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};

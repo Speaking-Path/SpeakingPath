@@ -6,7 +6,7 @@
 }
 
 .dayListBox {
-  border-left: 3px solid #d9d9d9;
+  border-left: 0.188rem solid #d9d9d9;
   text-align: left;
   margin-left: 1%;
   padding-top: 2%;
@@ -22,11 +22,11 @@
 
 .dayBox {
   width: 83%;
-  border: 1px solid #d9d9d9;
+  border: 0.063rem solid #d9d9d9;
   margin-left: 5%;
   padding: 3% 3% 3% 8%;
   margin-bottom: 5%;
-  border-radius: 10px;
+  border-radius: 0.625rem;
   display: flex;
   justify-content: left;
   position: relative;
@@ -38,7 +38,7 @@
   top: 50%;
   left: -6.5%;
   width: 6.5%;
-  height: 1px;
+  height: 0.063em;
   background-color: #d9d9d9; 
   transform: translateY(-50%);
 }
@@ -48,8 +48,8 @@
   position: absolute;
   top: 50%;
   left: -6.8%;
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   background-color: #c7c7c7; 
   transform: translateY(-50%);
   border-radius: 50%;
@@ -59,23 +59,29 @@
 
 .dayBoxMain {
   width: 70%;
-  border-right: 1px solid #f0f0f0;
+  border-right: 0.063rem solid #f0f0f0;
 }
 
 
 
 .btnBox {
   display: flex;
-  flex-direction: column;
+  width: 50%;
+  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
-  margin-left: 6%;
+  /* margin-left: 6%; */
+  text-align: center;
 }
 
 .btnBox button {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  width: 80px;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+  width: 5rem;
+  display: block;
+  margin: 1.2rem 0;
+  font-weight: 700;
+
 }
 
 .cancelMsg{
@@ -84,12 +90,12 @@
 
 .dayDesc {
   margin-bottom: 0;
-  font-size: 17px;
+  font-size: 1.063rem;
 }
 
 .dayDay {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 1.250rem;
 }
 
 .csltName {
@@ -97,7 +103,7 @@
 }
 
 
-.btnBox button {
+.btnBox .blueBtn {
   --c: #2E64FE; /* the color */
   --s: .15em;
   
@@ -113,7 +119,28 @@
     linear-gradient(#000 0 0) 0/var(--_p,0%) padding-box no-repeat;
   transition: .5s;
 }
-.btnBox button:hover {
+.btnBox .blueBtn:hover {
+  --_p: 100%;
+  color: var(--c);
+}
+
+.btnBox .redBtn {
+  --c: #fe2e2e; /* the color */
+  --s: .15em;
+  
+  line-height:1.1em;
+  padding-bottom: calc(2.1*var(--s));
+  background: 
+    conic-gradient(from 135deg at top,var(--c) 90deg,#0000 0) 
+      left 0 bottom var(--s)/calc(2*var(--s)) var(--s) repeat-x,
+    conic-gradient(from -45deg at bottom,var(--c) 90deg,#0000 0) 
+      left var(--s) bottom 0/calc(2*var(--s)) var(--s) repeat-x;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0) 0/var(--_p,0%) padding-box no-repeat;
+  transition: .5s;
+}
+.btnBox .redBtn:hover {
   --_p: 100%;
   color: var(--c);
 }
@@ -122,7 +149,7 @@
   margin-bottom: 0;
   font-weight: 700;
   color: #848484;
-  border-bottom: 1px solid #848484;
+  border-bottom: 0.063rem solid #848484;
   width: 19%;
 }
 
@@ -131,37 +158,37 @@
 }
 
 .waiting {
-  border: 2px solid #46f5a0;
+  border: 0.125rem solid #46f5a0;
   color: #46f5a0;
   display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  padding: 0 2px;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
+  padding: 0 0.125rem;
 }
 
 .complete {
-  border: 2px solid #2E64FE;
+  border: 0.125rem solid #2E64FE;
   color: #2E64FE;
   display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  padding: 0 2px;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
+  padding: 0 0.125rem;
 }
 
 .cancel {
-  border: 2px solid #a9a9a9;
+  border: 0.125rem solid #a9a9a9;
   color: #a9a9a9;
   display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  padding: 0 2px;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
+  padding: 0 0.125rem;
 }
 
 .reject {
-  border: 2px solid #fe2e2e;
+  border: 0.125rem solid #fe2e2e;
   color: #fe2e2e;
   display: inline-block;
-  border-radius: 5px;
-  margin-bottom: 3px;
-  padding: 0 2px;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
+  padding: 0 0.125rem;
 }
