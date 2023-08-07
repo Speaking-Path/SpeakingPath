@@ -1,0 +1,33 @@
+.startBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 99vw;
+  height: 100vh;
+}
+
+.imgBox {
+  width: 110%;
+}
+
+.startBox img {
+  width: 75%;
+}
+
+.textBox {
+  width: 80%;
+  text-align: center;
+}
+
+.TitleText1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+}
+
+.TitleText2 {
+  font-size: 1.5rem;
+  line-height: 0.7;
+  margin-bottom: 2.5rem;
+}
+
