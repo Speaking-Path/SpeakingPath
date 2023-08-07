@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @AllArgsConstructor
-public class QuestionDto {
+public class ObjectQuestionDto {
     List<List<ObjectEntity>> questionList;
     List<ObjectEntity> answerList;
     List<Boolean> savedList;
