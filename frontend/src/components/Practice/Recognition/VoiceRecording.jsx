@@ -1,6 +1,13 @@
 import React, { useState, useCallback } from "react";
+import MicIcon from '@mui/icons-material/Mic';
+import MicOffIcon from '@mui/icons-material/MicOff';
+import styles from "./VoiceRecording.module.css"
+import GraphicEqSharpIcon from '@mui/icons-material/GraphicEqSharp';
+import { grey } from "@mui/material/colors";
 
-const VoiceRecoding = () => {
+
+
+const VoiceRecording = () => {
   const [stream, setStream] = useState();
   const [media, setMedia] = useState();
   const [onRec, setOnRec] = useState(true);
@@ -76,17 +83,31 @@ const VoiceRecoding = () => {
     }
     // File 생성자를 사용해 파일로 변환
     const sound = new File([audioUrl], "soundBlob", { lastModified: new Date().getTime(), type: "audio" });
-    console.log(sound); // File 정보 출력
+    // console.log(sound); // File 정보 출력
   }, [audioUrl]);
 
-  
+
 
   return (
     <>
-      <button onClick={onRec ? onRecAudio : offRecAudio}>녹음</button>
-      <button onClick={onSubmitAudioFile}>결과 확인</button>
+      <div className={styles.recordingBox}>
+        {
+          onRec ?
+            <div className={styles.recstartIcon}>
+              <MicIcon sx={{ fontSize: 50, color: grey[100] }}
+                onClick={() => { onRecAudio() }} />
+              <p>녹음하기</p>
+            </div> :
+            <div className={styles.recstopIcon} >
+              <GraphicEqSharpIcon sx={{ fontSize: 50, color: grey[100] }}
+                onClick={() => { offRecAudio() }} />
+              <p>녹음 멈추기</p>
+            </div>
+        }
+      </div>
+      <button onClick={onSubmitAudioFile}>정답 확인하기</button>
     </>
   );
 };
 
-export default VoiceRecoding;
+export default VoiceRecording;
