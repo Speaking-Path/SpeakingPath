@@ -151,35 +151,3 @@ export const checkEmailAuth = function (e, email, emailAuth, setEmailMessage, se
       console.log(err);
     });
 };
-
-const APISERVER = 'http://data.kca.kr/api/v1/cq/certificate/check'
-
-export const checkLicenseApi = async (e, name, license, setTrueLicense, setLicenseMessage) => {
-  if(name === "") {
-    alert('이름을 입력해주세요!')
-  }else{
-    e.preventDefault();
-    try {
-      const res = await axios.get(`${APISERVER}`, {
-        params: {
-          "apiKey": process.env.REACT_APP_LICENSE_API_KEY,
-          "name": name,
-          "no": license
-        },
-        withCredentials: true // Add this line
-      });
-      console.log(res.data)
-      if(res.data.result){
-        console.log(res.data)
-        if(res.data.certificatename === "언어치료사"){
-          setTrueLicense(true)
-        }else{
-          setLicenseMessage('현재 말하길에서 상담사 자격으로 인정되는 자격증이 아닙니다.\n관리자에게 문의하세요.')
-        }
-      }
-    } catch (error) {
-      setLicenseMessage('자격증 인증 도중 에러 발생! 다시 시도해주세요')
-    }
-  }
-  
-};
