@@ -118,15 +118,20 @@ import MicIcon from '@mui/icons-material/Mic';
 import styles from "./VoiceRecording.module.css"
 import GraphicEqSharpIcon from '@mui/icons-material/GraphicEqSharp';
 import { grey } from "@mui/material/colors";
+import { useNavigate } from 'react-router-dom';
+
 
 import { getAudioStream, exportBuffer } from './audio';
+import axios from 'axios';
+import { Route } from 'react-router-dom';
+
 
 const VoiceRecording = () => {
   const [stream, setStream] = useState(null);
   const [recording, setRecording] = useState(false);
   const [recorder, setRecorder] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null);
-  
+  const navigate = useNavigate()
 
   useEffect(() => {
     async function initializeAudioStream() {
@@ -164,7 +169,29 @@ const VoiceRecording = () => {
   };
 
   const sendAudioToServer = async () => {
-    console.log(audioBlob)
+    const sttServer = axios.create({baseURL: "http://localhost:5001"})
+    try {
+      // Convert Blob to Base64 string
+      const reader = new FileReader();
+      reader.readAsDataURL(audioBlob);
+      
+      reader.onload = async () => {
+        const base64Audio = reader.result.split(',')[1]; // Extract base64 data
+        
+        // Send Base64 audio to the server
+        const sttServer = axios.create({ baseURL: "http://localhost:5001" });
+        const response = await sttServer.post('/stt/result', {
+          file: base64Audio,
+          // format: 'pcm'
+        });
+        
+        console.log(response.data.result); // 여기에 음성인식 결과가 출력됩니다!!
+      };
+    }catch{
+      navigate('/error', { message: "잘못된 접근입니다." } ); // 에러 발생 시 ErrorPage로 리다이렉트
+    }
+    // console.log(audioBlob)
+    
   };
 
   if (!stream) {
