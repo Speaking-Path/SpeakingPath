@@ -65,10 +65,10 @@ function App() {
         <Route path="/error" element={<ErrorPage />} /> {/* element prop 사용 */}
       </Routes>
 
+    </div>
       <div className="Footer">
         <Footer />
       </div>
-    </div>
     </div>
   );
 }

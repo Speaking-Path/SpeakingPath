@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux"
 import PickNameStart from './PickNameStart';
 import PickNameMain from './PickNameMain';
 import { changeRecogNameNum } from "../../../store/recog";
+import Loading from "./Loading";
 
 
 
@@ -89,6 +90,7 @@ function PickName() {
           <PickNameMain qlist={qlist} goForward={goForward} goBack={goBack}/>
         )
       }
+      <Loading/>
     </div>
   )
 }
