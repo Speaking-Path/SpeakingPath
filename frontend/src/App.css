@@ -100,9 +100,21 @@
   font-family: 'Pretendard-Regular';
 }
 
+.AppWrapper {
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 60px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+
+
+.Footer {
+  position: relative;
+  transform: translatY(-100%);
 }
 
 @media (prefers-reduced-motion: no-preference) {

@@ -30,6 +30,7 @@ function App() {
 
   return (
     <div className="App">
+      <div className='AppWrapper'>
       <NavBar />
       {/* 루트 추가 여기에 */}
       <Routes>
@@ -40,32 +41,34 @@ function App() {
         <Route path="/account/findid" element={<FindId />} />
         <Route path="/account/findpwd" element={<FindPwd />} />
 
-        <Route path="/account/mypage" element={<UserInformation />}>
-          <Route path="" element={<Profile />} />
-          <Route path="checkrsv" element={<CheckRsv />} />
-          <Route path="pastrsv" element={<PastRsv/>}/>
-          <Route path="consultrsv" element={<CsltCalendar />} />
-        </Route>
+
+          <Route path="/account/mypage" element={<UserInformation />}>
+            <Route path="" element={<Profile />} />
+            <Route path="checkrsv" element={<CheckRsv />} />
+            <Route path="pastrsv" element={<PastRsv />} />
+            <Route path="consultrsv" element={<CsltCalendar />} />
+          </Route>
 
 
-        <Route path="/practice" element={<Practice />} />
-        <Route path="/practice/pron/syllable" element={<Syllable />} />
-        <Route path="/practice/pron/word" element={<Word />} />
-        <Route path="/practice/pron/sentence" element={<Sentence />} />
-        <Route path="/practice/recog/select" element={<PickName />} />
-        <Route path="/practice/recog/select-name" element={<PickPic />} />
+          <Route path="/practice" element={<Practice />} />
+          <Route path="/practice/pron/syllable" element={<Syllable />} />
+          <Route path="/practice/pron/word" element={<Word />} />
+          <Route path="/practice/pron/sentence" element={<Sentence />} />
+          <Route path="/practice/recog/select" element={<PickPic />} />
+          <Route path="/practice/recog/select-name" element={<PickName />} />
 
-        <Route path="/consulting" element={<Consultant />} />
-        <Route path="/consulting/reservation" element={<Reservation />} />
-
+          <Route path="/consulting" element={<Consultant />} />
+          <Route path="/consulting/reservation" element={<Reservation />} />
 
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}
         <Route path="/consulting/meeting" element={<UntactConsult />} />
-
         <Route path="/error" element={<ErrorPage />} /> {/* element prop 사용 */}
       </Routes>
 
-      <Footer/>
+      <div className="Footer">
+        <Footer />
+      </div>
+    </div>
     </div>
   );
 }

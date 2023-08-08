@@ -109,6 +109,7 @@
   margin-left: 5%;
   margin-right: 5%;
   padding: 0;
+  cursor: pointer;
 }
 
 .pracTitle {
@@ -131,6 +132,7 @@
   border: 0.063rem solid #D9D9D9;
   border-radius: 1.250rem;
   padding: 0;
+  cursor: pointer;
 }
 
 .pracDesc2 {
