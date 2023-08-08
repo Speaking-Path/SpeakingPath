@@ -26,7 +26,7 @@ export const clickSignup = async function (e, data) {
     "userPhone" : data.phoneNumber,
     "userId" : data.id,
     "userPwd" : data.password,
-    "userGrade" : "user",
+    "userGrade" : "USER",
   }
   try {
     const response = await AuthApi.post(`account/signup`, userInfo)
