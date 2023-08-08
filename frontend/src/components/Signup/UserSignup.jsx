@@ -87,7 +87,7 @@ function UserSignup() {
           <p className={styles.message}> {passwordConfirmMessage} </p>
         </div>
         <button className={styles.signupBtn} onClick={async (e) => {
-          if (isPassword && isPasswordConfirm && isId && isEmail) {
+          if (isPassword && isPasswordConfirm && isId && isEmail && authorizedEmail) {
             const signup = await clickSignup(e, data)
             if (signup.data === "success") {
               navigate('/account/login')
