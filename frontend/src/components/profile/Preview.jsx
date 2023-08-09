@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './Preview.module.css';
 import MyCamera from './MyCamera';
 import MyCameraOption from './MyCameraOption';
-
 import './ButtonStyles.scss'; 
+import { useSelector } from 'react-redux';
+import { selectMediaConfig } from '../../store/mediaConfig';
 
 const Preview = ({ isOpen, onClose, children, size }) => {
   // 하위 컴포넌트 MyCameraOption, MyCamera에서 모두 사용되는 것들을 상위 컴포넌트에서 정의함
@@ -20,9 +21,12 @@ const Preview = ({ isOpen, onClose, children, size }) => {
   const playButtonRef = useRef(null);
   const mediaRecorderRef = useRef(null);
   const recordedBlobsRef = useRef([]);
+
+  const mediaConfig = useSelector(selectMediaConfig);
   
   useEffect(()=>{
     playButtonRef.current.disabled=true;
+    playButtonRef.current.style.display = 'none'; // 처음 화면 실행 시 재생 버튼 숨김
   },[])
 
   // Open상태가 아니면 null값 반환
@@ -30,7 +34,7 @@ const Preview = ({ isOpen, onClose, children, size }) => {
 
   // 닫기 버튼을 누르면 카메라 중지
   function stopCamera() {
-    const stream = myVideoRef.current.srcObject;
+    const stream = myVideoRef.current?.srcObject;
     if (stream) {
       console.log("stopCamera")
       stream.getTracks().forEach((track) => track.stop());
@@ -97,16 +101,26 @@ const Preview = ({ isOpen, onClose, children, size }) => {
   //-----------------토글 버튼----------------------------------//
   function handleRecordButtonClick() {
     if (recording === false) {
+      const selectedVideo = mediaConfig.camera; // Redux 상태에서 선택된 카메라 정보 가져오기
+
+      if (!selectedVideo || selectedVideo === 'no-camera') {
+        alert("녹화할 카메라 장치를 선택해주세요 📸");
+        return;
+      }
+  
       startRecording();
       setRecording(true);
       toggleButtonClass(recordButtonRef.current);
+      playButtonRef.current.style.display = 'none'; // 녹화 중일 때 재생 버튼 숨김
     } else {
       stopRecording();
       setRecording(false);
       playButtonRef.current.disabled = false;
       toggleButtonClass(recordButtonRef.current);
+      playButtonRef.current.style.display = 'block'; // 녹화 중지 후 재생 버튼 표시
     }
   }
+
 
   function toggleButtonClass(button) {
     if (button.classList.contains('playing')) {
@@ -165,7 +179,7 @@ const Preview = ({ isOpen, onClose, children, size }) => {
           </button>
         </div> */}
 
-        <div className="button-container">
+        <div className="button-container" style={{ display: 'flex' }}>
           {/* 녹화/중지 버튼 */}
           <button
             id="record"
@@ -181,13 +195,13 @@ const Preview = ({ isOpen, onClose, children, size }) => {
             <i>{recording ? '중지' : '시작'}</i> */}
             {recording ? (
               <>
-                <i>중</i>
-                <i>지</i>
+                <i>중지</i>
+                <i>.</i>
               </>
             ) : (
               <>
-                <i>시</i>
-                <i>작</i>
+                <i>녹화</i>
+                <i>.</i>
               </>
             )}
           </button>
@@ -197,10 +211,11 @@ const Preview = ({ isOpen, onClose, children, size }) => {
             id="play"
             onClick={handlePlayButtonClick}
             ref={playButtonRef}
+            className="btn btn-primary fw-bolder"
+            // style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}
+            style={{ background: '#6D58FF', color: 'white', borderRadius: '20px', marginLeft: '10px' }}
           >
-            <i>재</i>
-            <i>생</i>
-            <i>&nbsp;</i>
+            <i class="bi bi-play-fill"></i>
           </button>
         </div>
 
@@ -225,7 +240,8 @@ const Preview = ({ isOpen, onClose, children, size }) => {
           <button
             className="btn btn-primary fw-bolder m-2"
             onClick={() => { onClose(); stopCamera(); }}
-            style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}
+            // style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}
+            style={{ background: '#6D58FF', color: 'white' }}
           >닫기</button>
 
         </div>

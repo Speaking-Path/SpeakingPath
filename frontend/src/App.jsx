@@ -17,7 +17,7 @@ import PickPic from './components/Practice/PickPic';
 import Sentence from './components/Practice/Pronunciation/Sentence';
 import Syllable from './components/Practice/Pronunciation/Syllable';
 import Word from './components/Practice/Pronunciation/Word';
-import { useEffect } from 'react';
+import PronStart from './components/Practice/Pronunciation/PronStart';
 
 
 
@@ -38,8 +38,10 @@ function App() {
         <Route path="/practice/pron/syllable" element={<Syllable/>}/>
         <Route path="/practice/pron/word" element={<Word/>}/>
         <Route path="/practice/pron/sentence" element={<Sentence/>}/>
+        <Route path="/practice/pron/start" element={<PronStart/>}/>
         <Route path="/practice/recog/select" element={<PickName/>}/>
         <Route path="/practice/recog/select-name" element={<PickPic/>}/>
+
 
         <Route path="/consulting" element={<Consultant/>}/>
         <Route path="/consulting/reservation" element={<Reservation/>}/>

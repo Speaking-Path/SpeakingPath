@@ -60,7 +60,7 @@ function MyCamera({ myVideoRef }) {
   // return <video ref={myVideoRef} autoPlay style={{ width: '600px', height: '350px' }}/>; 
   return (
     <div>
-      <video ref={myVideoRef} autoPlay style={{height:'50vh', width:'60vw'}}/>;  
+      <video ref={myVideoRef} autoPlay style={{height:'50vh', width:'60vw'}}/>
     </div>
   );
 }

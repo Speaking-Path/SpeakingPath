@@ -3,6 +3,7 @@ import React from 'react';
 import './Entry.module.css'; 
 // import Preview from './Preview';
 import Preview from '../../profile/Preview';
+import { Link } from 'react-router-dom';
 
 function Entry(props) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -53,13 +54,9 @@ function Entry(props) {
                 <div className="d-grid gap-3 d-sm-flex justify-content-center mb-3">
                   
                 <div class="btn-container">
-                  <a
-                    className="btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2"
-                    href="연습화면링크넣기"
-                    style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}
-                  >
+                  <Link to="/practice/pron/start" className="btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}>
                     시작하기
-                  </a>
+                  </Link>
 
                   <button type="button" className="btn btn-outline-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" onClick={handleButtonClick}>내화면보기</button>
 

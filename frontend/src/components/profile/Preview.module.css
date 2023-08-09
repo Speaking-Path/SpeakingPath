@@ -49,3 +49,8 @@
   white-space: nowrap;
   margin: 5px;
 }
+
+.play {
+  width: 100px;
+  height: 42px;
+}

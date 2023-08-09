@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { setCamera, setMicrophone, setSpeaker, selectMediaConfig } from '../../store/mediaConfig';
 import { useSelector, useDispatch } from 'react-redux';
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 
 function MyCameraOption() {
   // 장치 정보들을 담는 변수
@@ -10,6 +12,10 @@ function MyCameraOption() {
 
   const mediaConfig=useSelector(selectMediaConfig)
   const dispatch=useDispatch()
+
+  const selectedMicrophone = mediaConfig.microphone;
+  const selectedSpeaker = mediaConfig.speaker;
+  const selectedCamera = mediaConfig.camera;
 
   useEffect(() => {
     // 오디오, 비디오 장치 정보 불러오기
@@ -139,63 +145,66 @@ function MyCameraOption() {
 
 
   return (
-    <div>
+    <div className='devices-select' style={{ display: 'flex', justifyContent:'center' }}>
+
       {/* 마이크 선택 */}
-      <div className="select" style={{ marginBottom: '10px'}}>
-        <label htmlFor="audioInput">마이크: </label>
-        <select
-          id="audioInput"
-          value={mediaConfig.microphone}
-          onChange={(e) => {dispatch(setMicrophone(e.target.value))}}
-        //   onChange={(e) => {
-        //     setSelectedAudioInput(e.target.value)
-        // }}
-        >
-          <option value="">장치를 선택하세요</option>
-          <option value="no-microphone">사용안함</option>
-          {audioInputDevices.map(device => (
-            <option key={device.value} value={device.value}>
-              {device.text}
-            </option>
-          ))}
-        </select>
-      </div>
+        <div className="select" style={{ marginBottom: '10px', padding: '3px' }}>
+          <label htmlFor="audioInput"> <i class="bi bi-mic-fill"></i> </label>
+          <DropdownButton
+            id="audioInput"
+            title="마이크 선택"
+            variant='secondary'
+            onSelect={(value) => { dispatch(setMicrophone(value)); }}
+          >
+            {audioInputDevices.map(device => (
+              <Dropdown.Item 
+                key={device.value} 
+                eventKey={device.value}
+                className={selectedMicrophone === device.value ? 'selected-option' : ''}
+                >
+                {device.text}
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
+        </div>
 
-      {/* 스피커 선택 */}
-      <div className="select" style={{ marginBottom: '10px'}}>
-        <label htmlFor="audioOutput">스피커: </label>
-        <select
-          id="audioOutput"
-          value={mediaConfig.speaker}
-          onChange={(e) => {dispatch(setSpeaker(e.target.value))}}
-        >
-          <option value="">장치를 선택하세요</option>
-          {/* <option value="no-speaker">사용안함</option>  */}
-          {audioOutputDevices.map(device => (
-            <option key={device.value} value={device.value}>
-              {device.text}
-            </option>
-          ))}
-        </select>
-      </div>
 
-      {/* 카메라 선택 */}
-      <div className="select" style={{ marginBottom: '10px'}}>
-        <label htmlFor="videoSource">카메라: </label>
-        <select
-          id="videoSource"
-          value={mediaConfig.camera}
-          onChange={(e)=>{dispatch(setCamera(e.target.value))}}
-        >
-          <option value="">장치를 선택하세요</option>
-          <option value="no-camera">사용안함</option> 
-          {videoDevices.map(device => (
-            <option key={device.value} value={device.value}>
-              {device.text}
-            </option>
-          ))}
-        </select> 
-      </div>
+        {/* 스피커 선택 */}
+        <div className="select" style={{ marginBottom: '10px', padding: '3px' }}>
+          <label htmlFor="audioOutput"> <i class="bi bi-megaphone-fill"></i> </label>
+          <DropdownButton
+            className={selectedSpeaker ? 'selected-option' : ''}
+            id="audioOutput"
+            title="스피커 선택"
+            variant='secondary'
+            onSelect={(value) => { dispatch(setSpeaker(value)); }}
+          >
+            {audioOutputDevices.map(device => (
+              <Dropdown.Item key={device.value} eventKey={device.value}>
+                {device.text}
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
+        </div>
+
+
+        {/* 카메라 선택 */}
+        <div className="select" style={{ marginBottom: '10px', padding: '3px' }}>
+          <label htmlFor="videoSource"> <i class="bi bi-camera-fill"></i> </label>
+          <DropdownButton
+            id="videoSource"
+            title="카메라 선택"
+            variant='secondary'
+            onSelect={(value) => { dispatch(setCamera(value)); }}
+          >
+            <Dropdown.Item eventKey="no-camera">사용안함</Dropdown.Item>
+            {videoDevices.map(device => (
+              <Dropdown.Item key={device.value} eventKey={device.value} className={selectedCamera === device.value ? 'selected-option' : ''}>
+                {device.text}
+              </Dropdown.Item>
+            ))}
+          </DropdownButton>
+        </div>
 
     </div>
   );
