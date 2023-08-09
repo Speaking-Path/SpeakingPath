@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react"
 import PickPicStart from "./PickPicStart"
 import axios from "axios"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import PickPicMain from "./PickPicMain"
+import { changeRecogNum } from "../../../store/recog"
+
 
 
 function PickPic() {
   const [startPicIsVisible, setStartPicIsVisible] = useState(true)
   const userId = useSelector((state)=>{return state.loginId})
+  const dispatch = useDispatch()
 
   const [picList, setPicList] = useState({})
 
@@ -15,13 +18,15 @@ function PickPic() {
     setStartPicIsVisible(false)
   }
 
-  const [num, setNum] = useState(0)
+  // const [num, setNum] = useState(0)
+  const num = useSelector((state)=>{return state.recogNum})
   const [qlist, setQlist] = useState({})
 
 
   const getPic = async function() {
+    dispatch(changeRecogNum(0))
     try {
-      const response = await axios.post("practice/recog/qlist", null, { params:{"userId" : userId} });
+      const response = await axios.post("practice/recog/object/qlist", null, { params:{"userId" : userId} });
       const responseData = response.data;
       setPicList(responseData);
   
@@ -40,7 +45,7 @@ function PickPic() {
 
   const goForward = function() {
     if (num !== 9) {
-      setNum(num + 1);
+      dispatch(changeRecogNum(num + 1))
       const newQlist = {
         answerList: picList.answerList[num + 1],
         questionList: picList.questionList[num + 1],
@@ -52,7 +57,7 @@ function PickPic() {
 
   const goBack = function() {
     if (num !== 0) {
-      setNum(num - 1);
+      dispatch(changeRecogNum(num - 1))
       const newQlist = {
         answerList: picList.answerList[num - 1],
         questionList: picList.questionList[num - 1],
@@ -73,6 +78,11 @@ function PickPic() {
     }
   }, [num, picList]);
 
+  const retry = function() {
+    dispatch(changeRecogNum(0))
+    setStartPicIsVisible(true)
+  }
+
 
   return(
     <div>
@@ -80,7 +90,7 @@ function PickPic() {
         startPicIsVisible ? (
           <PickPicStart onPicStartButtonClick={handlePicStartButtonClick} onGetPic={getPic}/>
         ) : (
-          <PickPicMain qlist={qlist} num={num} goForward={goForward} goBack={goBack}/>
+          <PickPicMain qlist={qlist} goForward={goForward} goBack={goBack} retry={retry}/>
         )
       }
     </div>
