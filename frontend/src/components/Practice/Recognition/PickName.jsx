@@ -27,7 +27,7 @@ function PickName() {
   const getPic = async function() {
     dispatch(changeRecogNameNum(0))
     try {
-      const response = await axios.post("practice/recog/object/qlist", null, { params:{"userId" : userId} });
+      const response = await axios.post("practice/recog/object/qlist", {"userId" : userId});
       const responseData = response.data;
       setPicList(responseData);
   
