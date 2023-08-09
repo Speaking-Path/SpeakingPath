@@ -90,7 +90,7 @@ function PickName() {
           <PickNameMain qlist={qlist} goForward={goForward} goBack={goBack}/>
         )
       }
-      <Loading/>
+      {/* <Loading/> */}
     </div>
   )
 }
