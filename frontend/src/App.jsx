@@ -24,6 +24,7 @@ import Footer from './components/Footer/Footer';
 import FindId from './pages/FindUserId';
 import FindPwd from './pages/FindUserPwd';
 import ErrorPage from './pages/ErrorPage';
+import SavedItems from './components/MyPage/SavedItems';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route path="checkrsv" element={<CheckRsv />} />
             <Route path="pastrsv" element={<PastRsv />} />
             <Route path="consultrsv" element={<CsltCalendar />} />
+            <Route path="items" element={<SavedItems/>} />
           </Route>
 
 
@@ -65,10 +67,10 @@ function App() {
         <Route path="/error" element={<ErrorPage />} /> {/* element prop 사용 */}
       </Routes>
 
+    </div>
       <div className="Footer">
         <Footer />
       </div>
-    </div>
     </div>
   );
 }

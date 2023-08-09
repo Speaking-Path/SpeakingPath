@@ -11,6 +11,7 @@ import { csltList } from './store/consultantList'
 import { csltTimes } from './store/consultantTimes'
 import { pronWrong, pronCorrect } from './store/pron'
 import { profileInfo, profileClick } from './store/profileInfo'
+import { recogList, recogNum, recogNameNum } from './store/recog'
 
 
 
@@ -28,6 +29,9 @@ const reducers = combineReducers({
   pronCorrect : pronCorrect.reducer,
   profileInfo : profileInfo.reducer,
   profileClick : profileClick.reducer,
+  recogList : recogList.reducer,
+  recogNum : recogNum.reducer,
+  recogNameNum : recogNameNum.reducer,
 })
 
 

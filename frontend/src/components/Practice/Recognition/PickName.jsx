@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import PickNameStart from './PickNameStart';
 import PickNameMain from './PickNameMain';
+import { changeRecogNameNum } from "../../../store/recog";
+import Loading from "./Loading";
+
 
 
 function PickName() {
   const [startPicIsVisible, setStartPicIsVisible] = useState(true)
   const userId = useSelector((state)=>{return state.loginId})
+  const dispatch = useDispatch()
 
   const [picList, setPicList] = useState({})
 
@@ -15,13 +19,15 @@ function PickName() {
     setStartPicIsVisible(false)
   }
 
-  const [num, setNum] = useState(0)
+  // const [num, setNum] = useState(0)
+  const num = useSelector((state)=>{return state.recogNameNum})
   const [qlist, setQlist] = useState({})
 
 
   const getPic = async function() {
+    dispatch(changeRecogNameNum(0))
     try {
-      const response = await axios.post("practice/recog/qlist", null, { params:{"userId" : userId} });
+      const response = await axios.post("practice/recog/object/qlist", null, { params:{"userId" : userId} });
       const responseData = response.data;
       setPicList(responseData);
   
@@ -38,11 +44,12 @@ function PickName() {
     }
   }
 
+
   const goForward = function() {
     if (num !== 9) {
-      setNum(num + 1);
+      dispatch(changeRecogNameNum(num + 1));
       const newQlist = {
-        answerList: picList.answerList[num + 1], // num + 1로 변경
+        answerList: picList.answerList[num + 1],
         questionList: picList.questionList[num + 1],
         savedList: picList.savedList[num + 1]
       };
@@ -52,9 +59,9 @@ function PickName() {
 
   const goBack = function() {
     if (num !== 0) {
-      setNum(num - 1);
+      dispatch(changeRecogNameNum(num - 1));
       const newQlist = {
-        answerList: picList.answerList[num - 1], // num - 1로 변경
+        answerList: picList.answerList[num - 1],
         questionList: picList.questionList[num - 1],
         savedList: picList.savedList[num - 1]
       };
@@ -73,7 +80,6 @@ function PickName() {
     }
   }, [num, picList]);
 
-  console.log(num)
 
   return(
     <div>
@@ -81,9 +87,10 @@ function PickName() {
         startPicIsVisible ? (
           <PickNameStart onPicStartButtonClick={handlePicStartButtonClick} onGetPic={getPic}/>
         ) : (
-          <PickNameMain qlist={qlist} num={num} goForward={goForward} goBack={goBack}/>
+          <PickNameMain qlist={qlist} goForward={goForward} goBack={goBack}/>
         )
       }
+      {/* <Loading/> */}
     </div>
   )
 }

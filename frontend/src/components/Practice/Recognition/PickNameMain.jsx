@@ -4,13 +4,17 @@ import { useState } from "react";
 // import styles from './PickPicMain.module.css';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-import CelebrateRecog from "./CelebrateRecog";
 import styles from './PickNameMain.module.css'
-import { blue } from "@mui/material/colors";
+import { blue } from "@mui/material/colors"; 
+import { useSelector } from "react-redux";
+import CelebrateRecogName from "./CelebrateRecogName";
+import VoiceRecording from './VoiceRecording';
 
-function PickPicMain({ qlist, num, goForward, goBack }) {
+
+function PickNameMain({ qlist, goForward, goBack }) {
   const [isCorVisible, setIsCorVisible] = useState(false);
   const [isWrongVisible, setIsWrongVisible] = useState(false);
+  const num = useSelector((state)=>{return state.recogNameNum})
 
   const answer = qlist.answerList || {};
   const questions = qlist.questionList || [];
@@ -23,6 +27,8 @@ function PickPicMain({ qlist, num, goForward, goBack }) {
     }
   };
 
+  console.log(num)
+
   const handleCorVisible = function () {
     setIsCorVisible(false)
   }
@@ -34,18 +40,17 @@ function PickPicMain({ qlist, num, goForward, goBack }) {
 
   return (
     <div className={styles.picMainBox}>
-      {answer.objName && <p className={styles.question}>Q. 사진과 어울리는 단어를 골라주세요.</p>}
+      {answer.objName && <p className={styles.question}>Q. 사진과 어울리는 보기를 말해보세요.</p>}
       <div>
-        {
-          num !== 0 && <ArrowBackIosNewIcon sx={{ color: blue[700], fontSize: 40 }}
-          onClick={()=>{goBack()}}/>
-        }
+        <ArrowBackIosNewIcon className={num === 0 ? styles.hiddenComponent : null}
+        sx={{ color: blue[700], fontSize: 40 }} onClick={()=>{goBack()}}/>
         {answer.objId && <img src={process.env.PUBLIC_URL + "/assets/PickPic/" + answer.objId + ".jpg"}
           className={styles.imgBox} alt="" />}
-        {
-          num !== 9 && <ArrowForwardIosIcon sx={{ color: blue[700], fontSize: 40 }}
-          onClick={()=>{goForward()}}/>
-        }
+        <ArrowForwardIosIcon className={num === 9 ? styles.hiddenComponent : null}
+        sx={{ color: blue[700], fontSize: 40 }} onClick={()=>{goForward()}}/>
+      </div>
+      <div>
+        <VoiceRecording/>
       </div>
       <div className={`${styles.mapBox} container`}>
         <div className="row">
@@ -62,7 +67,7 @@ function PickPicMain({ qlist, num, goForward, goBack }) {
       </div>
       <div>
         {isCorVisible && <Confetti />}
-        {isCorVisible && <CelebrateRecog
+        {isCorVisible && <CelebrateRecogName
           handleCorVisible={handleCorVisible} objId={answer.objId}
           objName={answer.objName} savedList={qlist.savedList}/>}
         {isWrongVisible && <RetryRecog handleWrongVisible={handleWrongVisible} />}
@@ -71,4 +76,4 @@ function PickPicMain({ qlist, num, goForward, goBack }) {
   );
 }
 
-export default PickPicMain;
+export default PickNameMain;

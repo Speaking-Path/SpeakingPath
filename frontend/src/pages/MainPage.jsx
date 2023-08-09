@@ -6,6 +6,9 @@ import FirstPart from '../components/MainPage/FirstPart';
 import ThirdPart from '../components/MainPage/ThirdPart'
 import FourthPart from '../components/MainPage/FourthPart'
 import FifthPart from '../components/MainPage/FifthPart';
+import Banner3 from '../components/MainPage/Banner3';
+import Banner5 from '../components/MainPage/Banner5';
+
 
 const Main = () => {
   return (
@@ -13,13 +16,15 @@ const Main = () => {
       {/* <Header /> */}
       {/* <Banner2/> */}
       <FirstPart/>
+      {/* <Banner3/> */}
       {/* <SecondPart/> */}
       <Banner2/>
       {/* <ThirdPart/> */}
       <ThirdPart/>
       <FourthPart/>
-      <Banner/>
+      {/* <Banner/> */}
       <FifthPart/>
+      <Banner5/>
     </div>
   );
 };
