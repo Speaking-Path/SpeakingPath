@@ -1,0 +1,11 @@
+Flask
+Redis
+librosa
+matplotlib
+scikit-image
+ffmpy
+Levenshtein
+torchvision
+torchaudio
+tensorflow
+flask-cors
