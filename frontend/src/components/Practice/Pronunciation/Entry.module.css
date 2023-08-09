@@ -1,0 +1,29 @@
+.content-container {
+  margin-right: 10px; 
+}
+
+.profile {
+  margin-left: 10px; 
+}
+
+.btn-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.btn {
+  white-space: nowrap;
+  margin: 5px;
+}
+
+.text-gradient {
+  background: linear-gradient(45deg, #007bff, #6610f2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+
+
+
