@@ -247,7 +247,6 @@ public class PracticeServiceImpl implements PracticeService{
         List<Boolean> savedList = new ArrayList<>();
 
         int objectSize = practiceObjectRepository.count();
-        System.out.println(objectSize);
         // 랜덤 난수 생성 리스트
         List<Integer> nList = GenerateRandomNum(questionSize, objectSize);
 
@@ -276,10 +275,15 @@ public class PracticeServiceImpl implements PracticeService{
         }
 
         idx = 0;
+        nList = GenerateRandomNum(objectSize, objectSize);
         Collections.shuffle(nList);
         Queue<Integer> nQueue = new ArrayDeque<>(nList);
         while (wrongChoice > 0) {
-            while ((num = nQueue.poll()) == answerList.get(idx).getObjId() || nQueue.size() == 0) {
+            if (nQueue.size() == 0) {
+                Collections.shuffle(nList);
+                nQueue.addAll(nList);
+            }
+            while ((num = nQueue.poll()) == answerList.get(idx).getObjId()) {
                 if (nQueue.size() == 0) {
                     Collections.shuffle(nList);
                     nQueue.addAll(nList);
@@ -296,10 +300,8 @@ public class PracticeServiceImpl implements PracticeService{
     }
 
     public boolean isSavedObject(String userId, int objId) {
-        if (studyObjectRepository.findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
-                practiceObjectRepository.findByObjId(objId).get()).isPresent()) {
-            return true;
-        } else return false;
+        return studyObjectRepository.findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
+                practiceObjectRepository.findByObjId(objId).get()).isPresent();
     }
 
     /**
