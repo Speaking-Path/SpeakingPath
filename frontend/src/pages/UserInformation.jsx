@@ -49,6 +49,11 @@ function UserInformation() {
     navigate("/account/mypage/consultrsv");
   };
 
+  const handleSavedItems = () => {
+    dispatch(changeProfileClick(4))
+    navigate("/account/mypage/items");
+  };
+
 
   const navigate = useNavigate()
 
@@ -90,7 +95,7 @@ function UserInformation() {
         <div className='row'>
           <div className={`${styles.infoBox} col-3`}>
             {userInfo && userInfo.userPic !== null ?
-              <img className={styles.userImg} src={process.env.PUBLIC_URL + "/profile/" + userInfo.userPic} alt="" /> :
+              <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/profile/" + userInfo.userPic} alt="" /> :
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
             }
             <div className={styles.uploadProfileImage}>
@@ -112,6 +117,7 @@ function UserInformation() {
               <p className={profileClicked === 0 ? styles.profileClicked : styles.profileNonClicked} onClick={handleProfileClick}><span>내 정보</span></p>
               <p className={profileClicked === 1 ? styles.profileClicked : styles.profileNonClicked} onClick={handleReservationsClick}>예정된 상담</p>
               <p className={profileClicked === 2 ? styles.profileClicked : styles.profileNonClicked} onClick={handlePastRsvClick}>지난 상담</p>
+              <p className={profileClicked === 4 ? styles.profileClicked : styles.profileNonClicked} onClick={handleSavedItems}><span>훈련 즐겨찾기</span></p>
               <p className={isPreviewOpen ? styles.profileClicked : styles.profileNonClicked} onClick={handleButtonClick}>내 화면 보기</p>
               {
                 userInfo && userInfo.userGrade === "CONSULTANT" ? (

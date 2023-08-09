@@ -4,10 +4,7 @@ import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
 import com.twinlions.spkpath.practice.entity.single.WordEntity;
 import com.twinlions.spkpath.practice.service.PracticeService;
-import com.twinlions.spkpath.practice.vo.StudyObjectVO;
-import com.twinlions.spkpath.practice.vo.StudySentenceVO;
-import com.twinlions.spkpath.practice.vo.StudySyllableVO;
-import com.twinlions.spkpath.practice.vo.StudyWordVO;
+import com.twinlions.spkpath.practice.vo.*;
 import com.twinlions.spkpath.user.vo.UserVO;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
@@ -101,31 +98,31 @@ public class PracticeController {
 
     @PostMapping(value = "/pron/syllable/qlist")
     @Operation(summary = "음절 발음 훈련 생성하기")
-    public ResponseEntity<?> makeSyllableQuestions(String userId) {
-        return new ResponseEntity<>(practiceService.makeSyllableQuestions(userId, 10), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> makeSyllableQuestions(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.makeSyllableQuestions(userVO.getUserId(), 10), HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/pron/word/qlist")
     @Operation(summary = "단어 발음 훈련 생성하기")
-    public ResponseEntity<?> makeWordQuestions(String userId) {
-        return new ResponseEntity<>(practiceService.makeWordQuestions(userId, 10), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> makeWordQuestions(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.makeWordQuestions(userVO.getUserId(), 10), HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/pron/sentence/qlist")
     @Operation(summary = "문장 발음 훈련 생성하기")
-    public ResponseEntity<?> makeSentenceQuestions(String userId) {
-        return new ResponseEntity<>(practiceService.makeSentenceQuestions(userId, 10), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> makeSentenceQuestions(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.makeSentenceQuestions(userVO.getUserId(), 10), HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/recog/object/qlist")
     @Operation(summary = "사물 문제 생성하기")
-    public ResponseEntity<?> makeObjectQuestions(String userId) {
-        return new ResponseEntity<>(practiceService.makeObjectQuestions(userId, 10), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> makeObjectQuestions(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.makeObjectQuestions(userVO.getUserId(), 10), HttpStatus.ACCEPTED);
     }
 
     @PostMapping(value = "/recog/object/issaved")
     @Operation(summary = "사물 저장 여부 조회하기")
-    public ResponseEntity<?> isSavedObject(String userId, int objId) {
-        return new ResponseEntity<>(practiceService.isSavedObject(userId, objId), HttpStatus.ACCEPTED);
+    public ResponseEntity<?> isSavedObject(@RequestBody ObjectVO objectVO) {
+        return new ResponseEntity<>(practiceService.isSavedObject(objectVO.getUserId(), objectVO.getObjId()), HttpStatus.ACCEPTED);
     }
 }

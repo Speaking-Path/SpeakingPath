@@ -103,7 +103,7 @@
 .AppWrapper {
   min-height: 100vh;
   position: relative;
-  padding-bottom: 60px;
+  /* padding-bottom: 60px; */
 }
 
 .App-logo {
@@ -115,6 +115,7 @@
 .Footer {
   position: relative;
   transform: translatY(-100%);
+  z-index:-1;
 }
 
 @media (prefers-reduced-motion: no-preference) {

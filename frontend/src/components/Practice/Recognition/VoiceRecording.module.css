@@ -1,0 +1,26 @@
+.recordingBox {
+  margin-top: 0.5rem;
+}
+
+.recstartIcon svg {
+  /* border: 1px solid black; */
+  border-radius: 50%;
+  padding: 0.4rem;
+  background-color: rgb(34, 100, 254, 0.5);
+}
+
+.recstartIcon p {
+  font-weight: 700;
+  color: #2e64FE;
+}
+
+.recstopIcon svg {
+  background-color: rgb(43, 171, 54);
+  border-radius: 50%;
+  padding: 0.4rem;
+}
+
+.recstopIcon p {
+  font-weight: 700;
+  color: rgb(43, 171, 54);
+}
