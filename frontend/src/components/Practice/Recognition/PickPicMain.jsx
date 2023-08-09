@@ -25,13 +25,11 @@ function PickPicMain({ qlist, goForward, goBack, retry }) {
   const checkAns = function (objId) {
     if (objId === answer.objId) {
       setIsCorVisible(true);
-      axios.post("practice/recog/object/issaved", null,
-        {
-          params: {
+      axios.post("practice/recog/object/issaved",
+         {
             "userId": userId,
             "objId": objId
-          }
-        })
+          })
         .then((res) => {
           console.log(res.data)
           setIsSaved(res.data)
