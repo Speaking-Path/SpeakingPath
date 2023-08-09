@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speech Recognition in Python</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container-sm">
+     <h1>Speech Disorder speech recognition</h1>
+      <form action = "http://127.0.0.1:5001/stt" method = "POST"
+         enctype = "multipart/form-data">
+         <input type = "file" name = "file" accept="audio/pcm,.pcm">
+         <button type="submit", value="Button"> 음성인식 재시작 </button>
+      </form>
+    </div>
+    <br>
+    <br>
+        <div id="speechTranscriptContainer">
+            <h1>음성 인식 결과</h1>
+            <p id="speechText"> {{ filename }} <br><br>{{ transcript }} </p>
+        </div>
+</div>
+</body>
+</html>
