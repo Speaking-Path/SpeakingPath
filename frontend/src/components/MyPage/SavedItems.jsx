@@ -121,7 +121,6 @@ const SavedItems = () => {
                 animationDuration={3000}
                 disableButtonsControls
                 responsive={responsive}
-                // autoPlay
                 items={items}
                 paddingRight={40}
               />
