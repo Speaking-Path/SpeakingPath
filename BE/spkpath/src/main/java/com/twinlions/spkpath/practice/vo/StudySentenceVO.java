@@ -6,4 +6,5 @@ import lombok.Data;
 public class StudySentenceVO {
     String userId;
     int stcId;
+    String stcContent;
 }
