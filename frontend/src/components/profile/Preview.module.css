@@ -20,7 +20,6 @@
   height: auto;
   max-height: 90%;
   overflow-y: auto;
-  border-radius: 30px;
 }
 
 .previewContent.large {
@@ -28,29 +27,3 @@
   height: 80%;
 }
 
-
-.previewContent::-webkit-scrollbar {
-  width: 8px; 
-}
-
-.previewContent::-webkit-scrollbar-thumb {
-  height: 30%; 
-  background: #2E64FE; 
-  
-  border-radius: 10px;
-}
-
-.previewContent::-webkit-scrollbar-track {
-  background: rgba(33, 122, 244, .1);
-}
-
-
-.btn {
-  white-space: nowrap;
-  margin: 5px;
-}
-
-.play {
-  width: 100px;
-  height: 42px;
-}
