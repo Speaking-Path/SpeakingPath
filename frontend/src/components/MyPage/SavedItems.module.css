@@ -2,7 +2,7 @@
   width:100%;
   display:flex;
   align-items:center;
-  margin:0 auto;
+  margin-bottom: 1rem;
 }
 
 .ItemsContain {
@@ -12,7 +12,7 @@
 }
 
 .ItemsWrap {
-    position: relative; /* Required for positioning */
+  position: relative; 
   width: 100%;
   height: 180px;
   border-radius: 20px;
@@ -45,4 +45,41 @@
   right: 0; 
   bottom: 0; 
   margin: auto;
+  display: flex;
+  flex-direction: column; /* Stack the text and icon vertically */
+  justify-content: center; /* Center content vertically */
+  align-items: center;
+}
+
+.title {
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.titleText1 {
+  font-weight: 700;
+  font-size: 1.7rem;
+  margin-bottom: 0;
+}
+
+.titleText2 {
+  color: #999999;
+}
+
+.myTitle {
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+.starIconContainer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.5rem;
+}
+
+.starIcon {
+  margin-left: 5px;
+  z-index: 1;
 }
