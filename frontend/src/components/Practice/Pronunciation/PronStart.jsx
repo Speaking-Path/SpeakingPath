@@ -1,11 +1,17 @@
 import MyCamera from "../../profile/MyCamera"
+import React, { useRef } from 'react';
 
 function PronStart() {
+    const myVideoRef = useRef(null);
+
     return (
         <div>
             <h1>PronStart</h1>
-            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999 }}>
-                <MyCamera></MyCamera>
+            <div>
+                <MyCamera
+                myVideoRef={myVideoRef}
+                >
+                </MyCamera>
             </div>
         </div>
     )

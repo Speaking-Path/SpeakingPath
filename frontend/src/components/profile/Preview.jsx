@@ -10,8 +10,6 @@ const Preview = ({ isOpen, onClose, children, size }) => {
   // 하위 컴포넌트 MyCameraOption, MyCamera에서 모두 사용되는 것들을 상위 컴포넌트에서 정의함
 
   // 선택된 비디오와 마이크 정보
-  const [selectedVideo, setSelectedVideo] = useState(''); // 비디오
-  const [selectedAudioInput, setSelectedAudioInput] = useState(''); // 마이크
   const [recording, setRecording] = useState(false);
 
   // myVideoRef에는 비디오, 마이크 정보가 담겨있음, https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
@@ -68,8 +66,6 @@ const Preview = ({ isOpen, onClose, children, size }) => {
 
     console.log('Created MediaRecorder', mediaRecorderRef.current, 'with options', options);
     playButtonRef.current.disabled = true;
-    //downloadButton.disabled = true;
-    //codecPreferences.disabled = true;
     mediaRecorderRef.current.onstop = (event) => {
       console.log('Recorder stopped: ', event);
       console.log('Recorded Blobs: ', recordedBlobsRef.current);
@@ -87,23 +83,13 @@ const Preview = ({ isOpen, onClose, children, size }) => {
     }
   }
 
-  // function handleRecordButtonClick() {
-  //   if (recording === false) {
-  //     startRecording();
-  //   } else {
-  //     stopRecording();
-  //     recordButtonRef.current.textContent = '녹화 시작';
-  //     playButtonRef.current.disabled = false;
-  //     //downloadButton.disabled = false;
-  //     //codecPreferences.disabled = false;
-  //   }
-  // }
+
   //-----------------토글 버튼----------------------------------//
   function handleRecordButtonClick() {
     if (recording === false) {
       const selectedVideo = mediaConfig.camera; // Redux 상태에서 선택된 카메라 정보 가져오기
 
-      if (!selectedVideo || selectedVideo === 'no-camera') {
+      if (selectedVideo === null || selectedVideo === 'no-camera') {
         alert("녹화할 카메라 장치를 선택해주세요 📸");
         return;
       }
@@ -166,33 +152,18 @@ const Preview = ({ isOpen, onClose, children, size }) => {
 
   return (
     <div className={styles.preview}>
-      {/* <div className={`${styles.previewContent} ${styles.scrollableContent} ${size === 'large' ? styles.large : ''}`}> */}
       <div className={`${styles.previewContent} ${size === 'large' ? styles.large : ''}`}>
         {children}
-
-        {/* <div>
-          <button id="record" onClick={handleRecordButtonClick} ref={recordButtonRef} >
-            {recording ? '녹화 중지' : '녹화 시작'}
-          </button>
-          <button id="play" onClick={handlePlayButtonClick} ref={playButtonRef} >
-            재생
-          </button>
-        </div> */}
 
         <div className="button-container" style={{ display: 'flex' }}>
           {/* 녹화/중지 버튼 */}
           <button
             id="record"
-            // className="start-pause-button"
-            // className={`start-pause-button ${recording ? 'paused' : ''}`}
             className={`start-pause-button ${recording ? 'playing' : ''} ${recording === false ? 'paused' : ''}`}
             onClick={handleRecordButtonClick}
             ref={recordButtonRef}
           >
-            {/* <i>녹</i>
-            <i>화</i>
-            <i>&nbsp;</i>
-            <i>{recording ? '중지' : '시작'}</i> */}
+
             {recording ? (
               <>
                 <i>중지</i>
@@ -212,7 +183,6 @@ const Preview = ({ isOpen, onClose, children, size }) => {
             onClick={handlePlayButtonClick}
             ref={playButtonRef}
             className="btn btn-primary fw-bolder"
-            // style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}
             style={{ background: '#6D58FF', color: 'white', borderRadius: '20px', marginLeft: '10px' }}
           >
             <i class="bi bi-play-fill"></i>
@@ -221,26 +191,15 @@ const Preview = ({ isOpen, onClose, children, size }) => {
 
 
         <MyCamera
-          selectedVideo={selectedVideo}
-          selectedAudioInput={selectedAudioInput}
           myVideoRef={myVideoRef}
         />
         <MyCameraOption
-          selectedVideo={selectedVideo} // 변수 넘겨주기
-          // setSelectedVideoSource함수를 사용하지 않으면 selectedVideoSource변수를 렌더링할 수 없음
-          setSelectedVideo={setSelectedVideo} // 함수 넘겨주기
-          selectedAudioInput={selectedAudioInput} // 변수 넘겨주기
-          setSelectedAudioInput={setSelectedAudioInput} // 함수 넘겨주기
-          myVideoRef={myVideoRef}
         />
 
         <div>
-          {/* <button onClick={() => { onClose(); stopCamera(); }}>닫기</button> */}
-          {/* <button type="button" className="btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" onClick={() => { onClose(); stopCamera(); }}>닫기</button> */}
           <button
             className="btn btn-primary fw-bolder m-2"
             onClick={() => { onClose(); stopCamera(); }}
-            // style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}
             style={{ background: '#6D58FF', color: 'white' }}
           >닫기</button>
 
