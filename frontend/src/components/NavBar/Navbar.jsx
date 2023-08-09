@@ -1,5 +1,5 @@
 // 네비게이션 바
-
+import axios from "axios"
 import styles from './Navbar.module.css'
 import Container from 'react-bootstrap/Container'
 // import Nav from 'react-bootstrap/Nav'
@@ -10,16 +10,49 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { changeLoginInfo } from '../../store/UserInfo'
 import { useEffect } from 'react'
-
+import { changeProfileClick } from '../../store/profileInfo'
+import { persistor } from "../../index.js";
 
 function NavBar() {
   const loginToken = useSelector((state) => { return state.loginToken })
   const dispatch = useDispatch()
 
   const loginNow = localStorage.getItem("accessToken")
+  const tokenType = localStorage.getItem("tokenType")
   const navigate = useNavigate()
 
+  const profileClick = useSelector((state)=>{return state.profileClick})
+
+  const handleLogout = async () => {
+    // Clear login info and local storage
+    dispatch(changeLoginInfo(""));
+    localStorage.clear();
+
+    // Send logout request
+    try {
+      const response = await axios.post("/account/logout", null, {
+        headers: {
+          Authorization: `${tokenType} ${loginNow}`,
+        },
+      });
+
+      if (response.data === "success") {
+        // Reset the store and rehydrate with initial values
+        await persistor.purge();
+        await persistor.flush();
+        
+        // Reload the page
+        window.location.reload("/");
+      }
+    } catch (error) {
+      // Handle error
+    }
+  };
+
   useEffect(()=>{
+    if (!loginNow) {
+      navigate("/");
+    }
   }, [loginNow])
 
 
@@ -50,14 +83,15 @@ function NavBar() {
                 <div>
                   <NavLink className={styles.lasttab}
                     style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
-                    to="account/mypage">
+                    to="account/mypage"
+                    onClick={()=>{
+                      dispatch(changeProfileClick(0))
+                    }}>
                     프로필</NavLink>
 
-                  <NavLink className={styles.lasttab} onClick={() => {
-                    dispatch(changeLoginInfo(""))
-                    localStorage.clear()
-                  }}>
-                    로그아웃</NavLink>
+                    <NavLink className={styles.lasttab} onClick={handleLogout}>
+                      로그아웃
+                    </NavLink>
                 </div>
 
               ) :
@@ -77,7 +111,6 @@ function NavBar() {
             }
           </Nav>
         </Container>
-        <hr />
       </Navbar>
       <div className={`${styles.drdn} container`}>
       </div>

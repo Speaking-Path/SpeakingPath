@@ -4,11 +4,10 @@ import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
 import com.twinlions.spkpath.practice.entity.single.WordEntity;
 import com.twinlions.spkpath.practice.service.PracticeService;
-import com.twinlions.spkpath.practice.vo.StudySentenceVO;
-import com.twinlions.spkpath.practice.vo.StudySyllableVO;
-import com.twinlions.spkpath.practice.vo.StudyWordVO;
+import com.twinlions.spkpath.practice.vo.*;
+import com.twinlions.spkpath.user.vo.UserVO;
+import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/practice")
-@Tag(name = "연습", description = "연습 관련  API입니다.")
+@Api(value = "연습", description = "연습 관련  API입니다.")
 @CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT })
 public class PracticeController {
     private final PracticeService practiceService;
@@ -59,10 +58,71 @@ public class PracticeController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @PostMapping(value = "/pron/Sentence/save")
+    @PostMapping(value = "/pron/sentence/save")
     @Operation(summary = "문장 저장", description = "추가로 학습할 문장을 저장한다.")
     public ResponseEntity<?> saveSentence(@RequestBody StudySentenceVO studySentenceVO){
         practiceService.saveSentence(studySentenceVO.getUserId(), studySentenceVO.getStcId());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/recog/object/save")
+    @Operation(summary = "사물 저장", description = "추가로 학습할 사물을 저장한다.")
+    public ResponseEntity<?> saveObject(@RequestBody StudyObjectVO studyObjectVO){
+        practiceService.saveObject(studyObjectVO.getUserId(), studyObjectVO.getObjId());
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/syllable/show")
+    @Operation(summary = "저장한 음절 보여주기")
+    public ResponseEntity<?> showMySyllable(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMySyllable(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/word/show")
+    @Operation(summary = "저장한 단어 보여주기")
+    public ResponseEntity<?> showMyWord(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMyWord(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/sentence/show")
+    @Operation(summary = "저장한 문장 보여주기")
+    public ResponseEntity<?> showMySentence(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMySentence(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/recog/object/show")
+    @Operation(summary = "저장한 사물 보여주기")
+    public ResponseEntity<?> showMyObject(@RequestBody UserVO userVO){
+        return new ResponseEntity<>(practiceService.showMyObject(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/syllable/qlist")
+    @Operation(summary = "음절 발음 훈련 생성하기")
+    public ResponseEntity<?> makeSyllableQuestions(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.makeSyllableQuestions(userVO.getUserId(), 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/word/qlist")
+    @Operation(summary = "단어 발음 훈련 생성하기")
+    public ResponseEntity<?> makeWordQuestions(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.makeWordQuestions(userVO.getUserId(), 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/pron/sentence/qlist")
+    @Operation(summary = "문장 발음 훈련 생성하기")
+    public ResponseEntity<?> makeSentenceQuestions(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.makeSentenceQuestions(userVO.getUserId(), 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/recog/object/qlist")
+    @Operation(summary = "사물 문제 생성하기")
+    public ResponseEntity<?> makeObjectQuestions(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.makeObjectQuestions(userVO.getUserId(), 10), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/recog/object/issaved")
+    @Operation(summary = "사물 저장 여부 조회하기")
+    public ResponseEntity<?> isSavedObject(@RequestBody ObjectVO objectVO) {
+        return new ResponseEntity<>(practiceService.isSavedObject(objectVO.getUserId(), objectVO.getObjId()), HttpStatus.ACCEPTED);
     }
 }

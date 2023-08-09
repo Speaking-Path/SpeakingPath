@@ -5,10 +5,12 @@ import './Untact.css';
 import UserVideoComponent from './UserVideoComponent';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from "react-redux"
 // import { getToken, createSession, createToken } from './getToken';
 
 
-const APPLICATION_SERVER_URL = process.env.REACT_APP_OPENVIDU 
+const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
 
 const Untact = () => {
   const [mySessionId, setMySessionId] = useState(undefined);
@@ -18,12 +20,18 @@ const Untact = () => {
   const [currentVideoDevice, setCurrentVideoDevice] = useState(null);
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
+  const userId = useSelector((state) => { return state.loginId })
 
-
+  const location = useLocation();
 
   useEffect(() => {
     window.addEventListener('beforeunload', onbeforeunload);
 
+    setMyUserName(userId);
+    if(location.state.sessionId!==undefined){
+      setMySessionId(location.state.sessionId);
+      console.log("sessionId: %s",location.state.sessionId)
+    }
     return () => {
       window.removeEventListener('beforeunload', onbeforeunload);
     };
@@ -77,12 +85,43 @@ const Untact = () => {
       console.warn(exception);
     });
     
+    // getToken(mySessionId, APPLICATION_SERVER_URL)
+    //   .then((token) => {
+    //     mySession.connect(token, { clientData: myUserName })
+    //       .then(async () => {
 
+    //         let publisher = await OV.initPublisherAsync(undefined, {
+    //           audioSource: undefined,
+    //           videoSource: undefined,
+    //           publishAudio: true,
+    //           publishVideo: true,
+    //           resolution: '640x480',
+    //           frameRate: 30,
+    //           insertMode: 'APPEND',
+    //           mirror: false,
+    //         });
+    //         console.log("내 퍼블리셔", publisher)
+    //         setPublisher(publisher);
+
+
+    //         const devices = await OV.getDevices();
+    //         const videoDevices = devices.filter(device => device.kind === 'videoinput');
+    //         const currentVideoDeviceId = publisher.stream.getMediaStream().getVideoTracks()[0].getSettings().deviceId;
+    //         const currentVideoDevice = videoDevices.find(device => device.deviceId === currentVideoDeviceId);
+
+    //         setCurrentVideoDevice(currentVideoDevice)
+    //         setMainStreamManager(publisher)
+    //         setPublisher(publisher)
+    //       })
+    //       .catch((error) => {
+    //         console.log('There was an error connecting to the session:', error.code, error.message);
+    //       });
+    //   });
+    // }
     try {
       const token = await getToken(mySessionId); 
       await mySession.connect(token, { clientData: myUserName });
-      
-
+  
       let publisher = await OV.initPublisherAsync(undefined, {
         audioSource: undefined,
         videoSource: undefined,
@@ -94,7 +133,7 @@ const Untact = () => {
         mirror: false,
       });
       setPublisher(publisher);
-      mySession.publish(publisher);
+      mySession.publish(publisher)
   
       const devices = await OV.getDevices();
       const videoDevices = devices.filter(device => device.kind === 'videoinput');
@@ -133,9 +172,10 @@ const Untact = () => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', data, {
       headers: { 'Content-Type': 'application/json', },
     });
+    console.log("세션이에요", response.data)
     return response.data;
   }
-  
+
   const createToken = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
       headers: { 'Content-Type': 'application/json', },
@@ -147,7 +187,8 @@ const Untact = () => {
     <div id="box">
       {session === undefined ? (
         <div id="join">
-          <div id="join-dialog" className="jumbotron vertical-center">
+          <button onClick={joinSession}> Join </button>
+          {/* <div id="join-dialog" className="jumbotron vertical-center">
             <h1> Join a video session </h1>
             <form className="form-group" onSubmit={joinSession}>
               <p>
@@ -176,7 +217,7 @@ const Untact = () => {
                 <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
               </p>
             </form>
-          </div>
+          </div> */}
         </div>
       ) : null}
 
@@ -204,7 +245,6 @@ const Untact = () => {
               </div>
             </div>
           </div>
-          <button onClick={leaveSession}>나가기</button>
         </div>
       ) : null}
     </div>

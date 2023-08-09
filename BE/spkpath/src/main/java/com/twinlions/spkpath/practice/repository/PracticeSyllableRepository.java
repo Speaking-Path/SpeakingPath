@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PracticeSyllableRepository extends Repository<SyllableEntity, String> {
     List<SyllableEntity> findAll();
     Optional<SyllableEntity> findBySlbId(int slbId);
+    int count();
 }

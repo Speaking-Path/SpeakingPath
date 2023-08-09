@@ -6,4 +6,5 @@ import lombok.Data;
 public class StudySyllableVO {
     String userId;
     int slbId;
+    String slbContent;
 }

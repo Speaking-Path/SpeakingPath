@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface PracticeSentenceRepository extends Repository<SentenceEntity, String> {
     List<SentenceEntity> findAll();
     Optional<SentenceEntity> findByStcId(int stcId);
+    int count();
 }

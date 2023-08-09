@@ -3,23 +3,17 @@ HELP.md
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-build/classes/**
-build/generated/**
-build/reports
-build/resources
-build/test-results
-build/tmp
-build/bootJarMainClassName
+build/*
+!build/libs
 
 ## 보안문제
 application.properties
 
 ## Gradle 관련 문제
-build.gradle
 gradle/
 gradlew
 gradlew.bat
-*.gradle
+settings.gradle
 
 # Gradle
 .idea/**/gradle.xml

@@ -55,7 +55,7 @@ function RevCalendar() {
       year === selectedYear && month === selectedMonth && day === selectedDay
     )
 
-    const timesArray = filteredDays.map(({ times }) => times)
+    const timesArray = filteredDays.map(({ time }) => time)
     const availableTimes = [].concat.apply([], timesArray)
 
     return !availableTimes.includes(time)
@@ -122,6 +122,7 @@ function RevCalendar() {
       axios.post("/cslting/addrsv", reservationData)
         .then((res) => {
           alert("예약이 완료되었습니다.")
+          window.location.reload()
           setIsModalVisible(!isModalVisible)
         })
         .catch((err) => {
@@ -242,8 +243,10 @@ function RevCalendar() {
                   <p>상담 신청 사유를 입력해주세요.</p>
                   <p>(10자 이내)</p>
                   </div>
-                  <label htmlFor="rsvInfo">신청 사유</label>
-                  <input type="text" id="rsvInfo" onChange={(e) => { changeRsvInfo(e.target.value) }} />
+                  <input className={styles.reasonInput} type="text" id="rsvInfo" placeholder="신청 사유"
+                  onChange={(e) => { changeRsvInfo(e.target.value) }} />
+                  <label className={styles.reasonLabel} htmlFor="rsvInfo"></label>
+                  <span className={styles.reasonSpan}></span>
                 </div>
                 <div className={styles.btn}>
                   <div onClick={onReserv} className={styles.submit}>

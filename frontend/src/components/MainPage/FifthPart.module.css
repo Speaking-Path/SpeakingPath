@@ -1,0 +1,16 @@
+.FifthPart {
+  margin: 12rem 0;
+}
+
+.Text1 {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #2E64FE;
+}
+
+.Text2 {
+  display: inline-block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(to top, #2EFE9A 40%, transparent 40%);
+}

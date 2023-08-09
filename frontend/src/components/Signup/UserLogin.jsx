@@ -36,7 +36,7 @@ function UserLogin() {
           <input className={styles.input} type="password" id="password" value={password} placeholder="비밀번호 입력"
           onChange={(e)=>{setPassword(e.target.value)}} />
         </div>
-        <p className={styles.forgot}>로그인 정보를 잊으셨나요?</p>
+        
         <button className={styles.loginBtn} variant="contained" 
         onClick={async (e)=> {
           const loginRes = await clickLogin(e, data)
@@ -51,6 +51,12 @@ function UserLogin() {
         <span>아직 계정이 없으신가요? </span>
         <NavLink className={styles.clickjoin} to="/account/signup">
           회원가입</NavLink>
+          <div></div>
+          <span className={styles.forgot}>로그인 정보를 잊으셨나요? </span>
+          <NavLink className={styles.forgot} to="/account/findid">
+          아이디찾기</NavLink> <span> </span>
+          <NavLink className={styles.forgot} to="/account/findpwd">
+          비밀번호찾기</NavLink>
         </div>
       </form>
     </div>

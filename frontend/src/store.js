@@ -10,6 +10,8 @@ import { selectedCsltInfo } from './store/consultantInfo'
 import { csltList } from './store/consultantList'
 import { csltTimes } from './store/consultantTimes'
 import { pronWrong, pronCorrect } from './store/pron'
+import { profileInfo, profileClick } from './store/profileInfo'
+import { recogList, recogNum, recogNameNum } from './store/recog'
 import mediaConfigReducer from './store/mediaConfig'
 
 
@@ -24,6 +26,11 @@ const reducers = combineReducers({
   csltTimes : csltTimes.reducer,
   pronWrong : pronWrong.reducer,
   pronCorrect : pronCorrect.reducer,
+  profileInfo : profileInfo.reducer,
+  profileClick : profileClick.reducer,
+  recogList : recogList.reducer,
+  recogNum : recogNum.reducer,
+  recogNameNum : recogNameNum.reducer,
   mediaConfig : mediaConfigReducer,
 })
 
@@ -31,7 +38,7 @@ const reducers = combineReducers({
 const persistConfig = {
   key : "root",
   storage,
-  whitelist : ['loginToken', 'loginId', 'selectedCsltInfo','mediaConfig']
+  whitelist : ['loginToken', 'loginId', 'selectedCsltInfo', 'profileInfo', 'profileClick','mediaConfig']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

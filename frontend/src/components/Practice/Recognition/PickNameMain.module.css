@@ -1,0 +1,45 @@
+.imgBox {
+  width: 40rem;
+  height: 25rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.picMainBox {
+  margin-top: 2rem;
+}
+
+.question {
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+.mapBox {
+  width: 40rem;
+  margin-top: 2rem;
+}
+
+.map {
+  display: flex;
+}
+
+.mapP {
+  width: 80%;
+  background-color: rgb(14, 110, 255, 0.1);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.index {
+  width: 20%;
+  background-color: rgb(0, 178, 255, 0.3);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.hiddenComponent {
+  visibility: hidden;
+}
