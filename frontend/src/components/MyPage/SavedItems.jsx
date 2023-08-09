@@ -1,91 +1,139 @@
-import axios from 'axios'
+import styled from 'styled-components';
+import "react-alice-carousel/lib/alice-carousel.css";
+import AliceCarousel from 'react-alice-carousel';
 import styles from './SavedItems.module.css'
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { gsap } from 'gsap'
+import axios from 'axios';
 
 
-function SavedItems() {
-  const userId = useSelector((state)=>{ return state.loginId })
+
+const SavedItems = () => {
+
+  const userId = useSelector((state) => { return state.loginId })
   const [userRecog, setUserRecog] = useState([])
   const [userPron, setUserPron] = useState([])
+  const [userWord, setUserWord] = useState([])
+  const [userSentence, setUserSentence] = useState([])
 
-  useEffect(()=>{
-    axios.post("practice/recog/object/show", {"userId": userId})
-    .then((res) => {
-      setUserRecog(res.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
-    axios.post("practice/pron/word/show", {"userId": userId})
-    .then((res) => {
-      setUserPron(res.data)
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+
+  useEffect(() => {
+    axios.post("practice/recog/object/show", { "userId": userId })
+      .then((res) => {
+        setUserRecog(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    axios.post("practice/pron/syllable/show", { "userId": userId })
+      .then((res) => {
+        setUserPron(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    // axios.post("practice/pron/word/show", { "userId": userId })
+    //   .then((res) => {
+    //     setUserWord(res.data)
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
+    // axios.post("practice/pron/sentence/show", { "userId": userId })
+    //   .then((res) => {
+    //     setUserSentence(res.data)
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //   })
   }, [])
 
-  
-  const [clickedItem, setClickedItem] = useState(null);
-  const images = [
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8cG9ydHJhaXR8ZW58MHx8MHx8&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1554151228-14d9def656e4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60",
-    "https://images.unsplash.com/photo-1543357530-d91dab30fa97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTN8fHBvcnRyYWl0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=60"
-  ];
+  const responsive = {
+    0: {
+      items: 2,
+    },
+    512: {
+      items: 4,
+    },
+  };
 
-  const expand = (index) => {
-    setClickedItem(index);
-    const newWidth = clickedItem === index ? '15vw' : '42vw';
-    const easeValue = clickedItem === index ? 'elastic(1, .6)' : 'elastic(1, .3)';
-    
-    gsap.to('.item', {
-      width: '8vw',
-      duration: 2,
-      ease: 'elastic(1, .6)',
-      onComplete: () => {
-        gsap.to(`#item-${index}`, {
-          width: newWidth,
-          duration: 2.5,
-          ease: easeValue,
-        });
-      }
-    });
-  }
+  const items = userRecog.map((recog, index) => (
+    <div className={styles.ItemsContain} key={index}>
+      <div className={styles.ItemsWrap}>
+        <img
+          className={styles.img}
+          src={process.env.PUBLIC_URL + "/assets/PickPic/" + recog.objId + ".jpg"}
+          alt=""
+        />
+        <div className={styles.overlay}>{recog.objName}</div>
+      </div>
+    </div>
+  ))
 
-  
+
+  // const pronItems = userPron.map((pron, index) => (
+  //   <ItemsContain key={index}>
+  //     <ItemsWrap>
+  //       <img
+  //         className={styles.img}
+  //         src={process.env.PUBLIC_URL + "/assets/PickPic/" + pron.objId + ".jpg"}
+  //         alt=""
+  //       />
+  //       <p>{pron.objId}</p>
+  //     </ItemsWrap>
+  //   </ItemsContain>
+  // ))
+
+
 
 
   return (
     <div>
       <div>
         <p>훈련 즐겨찾기</p>
+        <p>즐겨찾기한 단어들을 확인하세요!</p>
       </div>
       <div>
-        <p>발음 보관함</p>
+        <div>
+          나만의 음절
+        </div>
       </div>
       <div>
-        <p>사물 보관함</p>
-        {userRecog && userRecog.map((recog, index) => (
-          <p key={index}>{recog.objId}</p>
-        ))}
+        <div>
+          나만의 단어
+        </div>
       </div>
-      <div className="group">
-      {images.map((imageUrl, index) => (
-        <div
-          key={index}
-          id={`item-${index}`}
-          className={`item ${clickedItem === index ? 'clicked' : ''}`}
-          style={{ backgroundImage: `url(${imageUrl})` }}
-          onClick={() => expand(index)}
-        />
-      ))}
-    </div>
+      <div>
+        <div>
+          나만의 문장
+        </div>
+      </div>
+      <div>
+        <div>
+          <p>나만의 사물</p>
+        </div>
+        {
+          userRecog ? (
+            <div className={styles.contain}>
+              <AliceCarousel
+                mouseTracking
+                // infinite={1000}
+                animationDuration={3000}
+                disableButtonsControls
+                responsive={responsive}
+                // autoPlay
+                items={items}
+                paddingRight={40}
+              />
+            </div>
+          ) : (
+            <div>
+              <p>즐겨찾기한 사물이 없습니다.</p>
+            </div>
+          )
+        }
+      </div>
     </div>
   )
 }
-
-export default SavedItems
+export default SavedItems;
