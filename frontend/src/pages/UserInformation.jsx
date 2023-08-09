@@ -95,7 +95,7 @@ function UserInformation() {
         <div className='row'>
           <div className={`${styles.infoBox} col-3`}>
             {userInfo && userInfo.userPic !== null ?
-              <img className={styles.userImg} src={process.env.PUBLIC_URL + "/profile/" + userInfo.userPic} alt="" /> :
+              <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/profile/" + userInfo.userPic} alt="" /> :
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
             }
             <div className={styles.uploadProfileImage}>

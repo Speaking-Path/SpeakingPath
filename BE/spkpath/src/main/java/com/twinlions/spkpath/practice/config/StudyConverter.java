@@ -36,6 +36,7 @@ public class StudyConverter {
         StudyObjectVO studyObjectVO = new StudyObjectVO();
         studyObjectVO.setUserId(source.getUserId().getUserId());
         studyObjectVO.setObjId(source.getObjId().getObjId());
+        studyObjectVO.setObjName(source.getObjId().getObjName());
         return studyObjectVO;
     }
 }

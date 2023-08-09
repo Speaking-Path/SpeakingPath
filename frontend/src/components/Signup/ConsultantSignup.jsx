@@ -223,7 +223,7 @@ function ConsultantSignup() {
 
         <button className={styles.signupBtn} onClick={async (e) => {
           e.preventDefault()
-          if (isPassword && isPasswordConfirm && isId && isEmail
+          if (isPassword && isPasswordConfirm && isId && isEmail && authorizedEmail
             && isBoundry && isExp && isTag && isTeam) {
             const signup = await clickConsultantSignup(e, data)
             if (signup === "success") {
@@ -245,6 +245,8 @@ function ConsultantSignup() {
             alert("치료가능영역을 선택해주세요")
           } else if (!isTag) {
             alert("태그를 선택해주세요")
+          } else if(!authorizedEmail){
+            alert("이메일을 인증해주세요")
           }
         }}>가입하기</button>
       </form>
