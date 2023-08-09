@@ -152,7 +152,15 @@ const Preview = ({ isOpen, onClose, children, size }) => {
 
   return (
     <div className={styles.preview}>
-      <div className={`${styles.previewContent} ${size === 'large' ? styles.large : ''}`}>
+      <div 
+        className={`${styles.previewContent} ${size === 'large' ? styles.large : ''}`}
+        // background-image={process.env.PUBLIC_URL + "/assets/preview.jpg"}
+        // style={{backgroundImage:"url('assets/preview.jpg')"}}
+        style={{
+          backgroundImage: `url(${process.env.PUBLIC_URL}/assets/preview.jpg)`,
+          backgroundSize: 'cover'
+        }}
+        >
         {children}
 
         <div className="button-container" style={{ display: 'flex' }}>
