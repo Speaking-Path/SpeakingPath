@@ -77,14 +77,14 @@ function UserSignup() {
           <label className={styles.label} htmlFor="id">아이디 </label>
           <input className={`${styles.checkinput}`} type="text" id="id" value={id} placeholder="아이디 입력"
             onChange={(e) => onChangeId(e, setId, setIdMessage)} disabled={isId}/>
-          <button className={`${styles.checkbtn}`} onClick={(e) => checkIdApi(e, id, setIdMessage, setIsId)}>중복확인</button>
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkIdApi(e, id, setIdMessage, setIsId)} disabled={!isId}>중복확인</button>
           <p className={`${styles.message} ${isId ? styles.correct : styles.message}`}> {idMessage} </p>
         </div>
         <div>
           <label className={styles.label} htmlFor="email">이메일 </label>
           <input className={`${styles.checkinput}`} type="text" id="email" value={email} placeholder="이메일 계정"
             onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} disabled={isEmail}/>
-          <button className={`${styles.checkbtn}`} onClick={(e) => {checkEmailApi(e, email, setEmailMessage, setIsEmail); handleCheckEmail();}}>인증받기</button>
+          <button className={`${styles.checkbtn}`} onClick={(e) => {checkEmailApi(e, email, setEmailMessage, setIsEmail); handleCheckEmail();}} disabled={!isEmail}>인증받기</button>
           {timerRunning && !authorizedEmail && (
             <p className={`${styles.message} ${styles.timer}`}>남은 시간: {Math.floor(remainingTime / 60)}분 {remainingTime % 60}초</p>
           )}
