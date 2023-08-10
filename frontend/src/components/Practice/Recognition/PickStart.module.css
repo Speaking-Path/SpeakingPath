@@ -53,6 +53,7 @@
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
+  margin: 0 1rem;
   }
 
 .wrap button:hover {
@@ -60,4 +61,29 @@
   box-shadow: 0px 15px 20px rgba(34, 100, 254, 0.4);
   color: #fff;
   transform: translateY(-7px);
+}
+
+.infoBox {
+  width: 99vw;
+  height: 100vh;
+  margin-top: 2rem;
+}
+
+.infoBox p {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.infoImg {
+  width: 65rem;
+  height: 40rem;
+}
+
+.infoPic1
+.infoPic2
+.infoPic3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }

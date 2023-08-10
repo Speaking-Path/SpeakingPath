@@ -79,7 +79,7 @@ function NavBar() {
 
           <Nav className={styles.part2}>
             {
-              loginNow ? (
+              loginToken ? (
                 <div>
                   <NavLink className={styles.lasttab}
                     style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}

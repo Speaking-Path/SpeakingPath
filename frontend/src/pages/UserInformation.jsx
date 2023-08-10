@@ -66,7 +66,7 @@ function UserInformation() {
   }
 
   useEffect(() => {
-    axios.post("/account/mypage", {userId: userId},
+    axios.post("/account/mypage", {"userId": userId},
       {
         headers: {
           Authorization: `${tokenType} ${accessToken}`

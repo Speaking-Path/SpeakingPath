@@ -75,7 +75,7 @@ function PastRsv() {
   const results = Object.values(groupedByYear);
 
   const reRsv = async (csltId) =>{
-    await axios.post("/account/mypage", {userId: csltId},
+    await axios.post("/cslt/showcslt", {userId: csltId},
     {
       headers: {
         Authorization: `${tokenType} ${accessToken}`

@@ -13,6 +13,7 @@ import { pronWrong, pronCorrect } from './store/pron'
 import { profileInfo, profileClick } from './store/profileInfo'
 import { recogList, recogNum, recogNameNum } from './store/recog'
 import mediaConfigReducer from './store/mediaConfig'
+import sessionStorage from 'redux-persist/es/storage/session'
 
 
 const reducers = combineReducers({
