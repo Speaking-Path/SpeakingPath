@@ -1,4 +1,4 @@
-import { login } from "./AuthAPI"
+import { login, naverLogin } from "./AuthAPI"
 
 export const onChangeEmail = function (e, setEmail, setEmailMessage) {
   const currentEmail = e.target.value
@@ -92,6 +92,30 @@ export const onChangeExp = function (e, setExp, setExpMessage, setIsExp) {
 export const clickLogin = async (e, data) => {
   e.preventDefault()
   const response = await login(data)
+  if (response===0) {
+    alert("아이디와 비밀번호를 확인해주세요")
+    return 0
+  } else {
+    localStorage.clear()
+    localStorage.setItem('tokenType', response.grantType)
+    localStorage.setItem('accessToken', response.accessToken)
+    localStorage.setItem('refreshToken', response.refreshToken)
+
+    function clearLocalStorageAfterTime() {
+      localStorage.clear();
+      console.log("localStorage cleared!");
+    }
+
+    setTimeout(clearLocalStorageAfterTime, 86400000)
+    return 1
+  }
+}
+
+export const clickNaverLogin = async (e) => {
+  e.preventDefault()
+
+  
+  const response = await naverLogin()
   if (response===0) {
     alert("아이디와 비밀번호를 확인해주세요")
     return 0
