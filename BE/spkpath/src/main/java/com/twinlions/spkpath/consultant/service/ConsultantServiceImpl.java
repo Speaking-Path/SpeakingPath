@@ -101,4 +101,15 @@ public class ConsultantServiceImpl implements ConsultantService {
         consultantDto.setCsltBoundaryFromList(consultant.getCsltBoundaries());
         return consultantDto;
     }
+
+    @Override
+    public ConsultantDto getCsltByUserId(String userId) {
+        try{
+            ConsultantDto dto = convertToDto(consultantRepository.findByUserId(userId));
+            dto.setUserPwd("encrypted");
+            return dto;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

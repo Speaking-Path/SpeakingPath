@@ -181,8 +181,7 @@ public class UserController {
     public ResponseEntity<?> uploadProfile(
             @RequestParam("userId") String userId, @RequestParam("file")MultipartFile file){
         if(!file.isEmpty()) {
-            LocalDate now = LocalDate.now();
-            String saveFolder = profilePath + "/" + userId + "/" + now;
+            String saveFolder = profilePath;
             File folder = new File(saveFolder);
             if (!folder.exists())
                 folder.mkdirs();
@@ -193,10 +192,10 @@ public class UserController {
                 String saveFileName = UUID.randomUUID().toString()
                         + originalFileName.substring(originalFileName.lastIndexOf('.'));
                 try {
-                    file.transferTo(new File(folder, saveFileName));
-                    userService.uploadProfile(userId, userId + "/" + now + "/" + saveFileName);
+                    file.transferTo(new File(folder, userId + saveFileName));
+                    userService.uploadProfile(userId, userId + saveFileName);
                     log.info("UserController:: upload profile {} at {}", userId, saveFolder);
-                    return new ResponseEntity<String>(userId + "/" + now + "/"+ saveFileName, HttpStatus.CREATED);
+                    return new ResponseEntity<String>(userId + saveFileName, HttpStatus.CREATED);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
