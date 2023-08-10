@@ -3,6 +3,7 @@ package com.twinlions.spkpath.consultant.controller;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.consultant.ConsultantSearchDto;
 import com.twinlions.spkpath.consultant.service.ConsultantService;
+import com.twinlions.spkpath.user.vo.UserVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,20 @@ public class ConsultantController {
     public ResponseEntity<List<ConsultantDto>> listCsltsByCond(@RequestBody ConsultantSearchDto consultantDto) {
         List<ConsultantDto> csltList = consultantService.getCsltsByCond(consultantDto);
         return new ResponseEntity<>(csltList, HttpStatus.OK);
+    }
+
+    @PostMapping("/showcslt")
+    @Operation(summary = "상담사 아이디 조회", description = "상담사 아이디에 해당하는 상담사 정보를 반환한다.")
+    public ResponseEntity<?> showConsultantById(@RequestBody UserVO userVO){
+        try {
+            ConsultantDto cslt = consultantService.getCsltByUserId(userVO.getUserId());
+            if(cslt != null){
+                return new ResponseEntity<>(cslt, HttpStatus.OK);
+            }else{
+                return new ResponseEntity<>("empty", HttpStatus.NO_CONTENT);
+            }
+        }catch (Exception e){
+            return new ResponseEntity<>("error", HttpStatus.BAD_GATEWAY);
+        }
     }
 }

@@ -11,6 +11,10 @@ import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.UserService;
 import com.twinlions.spkpath.user.vo.NameAndEmailVO;
 import com.twinlions.spkpath.user.vo.UserVO;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -177,8 +181,7 @@ public class UserController {
     public ResponseEntity<?> uploadProfile(
             @RequestParam("userId") String userId, @RequestParam("file")MultipartFile file){
         if(!file.isEmpty()) {
-            LocalDate now = LocalDate.now();
-            String saveFolder = profilePath + "/" + userId + "/" + now;
+            String saveFolder = profilePath;
             File folder = new File(saveFolder);
             if (!folder.exists())
                 folder.mkdirs();
@@ -189,10 +192,10 @@ public class UserController {
                 String saveFileName = UUID.randomUUID().toString()
                         + originalFileName.substring(originalFileName.lastIndexOf('.'));
                 try {
-                    file.transferTo(new File(folder, saveFileName));
-                    userService.uploadProfile(userId, userId + "/" + now + "/" + saveFileName);
+                    file.transferTo(new File(folder, userId + saveFileName));
+                    userService.uploadProfile(userId, userId + saveFileName);
                     log.info("UserController:: upload profile {} at {}", userId, saveFolder);
-                    return new ResponseEntity<String>(userId + "/" + now + "/"+ saveFileName, HttpStatus.CREATED);
+                    return new ResponseEntity<String>(userId + saveFileName, HttpStatus.CREATED);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
@@ -237,6 +240,24 @@ public class UserController {
     public ResponseEntity<?>  emailAuthCheck(@RequestBody NameAndEmailVO nameAndEmailVO, @PathVariable("number") int number) {
         log.debug("emailAuthCheck 해당 메일로 보낸 인증번호 확인: ", nameAndEmailVO.getUserEmail());
         return new ResponseEntity<>(userService.checkAuthNumber(nameAndEmailVO.getUserEmail(), number), HttpStatus.OK);
+    }
+
+    @PostMapping("/auth/checkToken")
+    @Operation(summary = "토큰 유효성 검사", description = "토큰을 입력받으면 유효한 사용자인지, 만료된 토큰인지 등 유효성 검사를 시행한다.")
+    public ResponseEntity<?>  checkToken(@RequestBody TokenDto token){
+        try {
+            return new ResponseEntity<>(jwtTokenProvider.validateToken(token.getAccessToken()), HttpStatus.ACCEPTED);
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ExpiredJwtException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (UnsupportedJwtException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
