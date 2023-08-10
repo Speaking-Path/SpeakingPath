@@ -305,11 +305,13 @@ public class PracticeServiceImpl implements PracticeService{
                 practiceObjectRepository.findByObjId(objId).get()).isPresent();
     }
 
+    @Transactional
+    @Override
     public String answerCorrect(String userId) {
         try {
             User user = userRepository.findByUserId(userId).get();
             int reward = user.getUserReward();
-            user.setUserReward(reward + 10);
+            user.updateUserReward(reward + 10);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();
@@ -317,11 +319,13 @@ public class PracticeServiceImpl implements PracticeService{
         }
     }
 
+    @Transactional
+    @Override
     public String answerWrong(String userId) {
         try {
             User user = userRepository.findByUserId(userId).get();
             int reward = user.getUserReward();
-            user.setUserReward(reward + 2);
+            user.updateUserReward(reward + 2);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();

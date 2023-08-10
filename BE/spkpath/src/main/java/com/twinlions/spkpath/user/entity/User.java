@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -19,6 +20,7 @@ import java.util.Set;
 @AllArgsConstructor // 모든컬럼생성자 생성
 @Table(name = "user_tb") // user_tb와 매칭
 @DynamicInsert // Null 인것은 자동으로 제외하고 넣어줌
+@DynamicUpdate
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
     @Id
@@ -59,6 +61,10 @@ public class User implements UserDetails {
 
     public String getUserName() {
         return userName;
+    }
+
+    public void updateUserReward(int reward) {
+        this.userReward = reward;
     }
 
     @ColumnDefault("false")
