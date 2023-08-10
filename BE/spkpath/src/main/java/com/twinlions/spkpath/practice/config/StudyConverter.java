@@ -17,18 +17,22 @@ public class StudyConverter {
         StudySyllableVO studySyllableVO = new StudySyllableVO();
         studySyllableVO.setUserId(source.getUserId().getUserId());
         studySyllableVO.setSlbId(source.getSlbId().getSlbId());
+        studySyllableVO.setSlbContent(source.getSlbId().getSlbContent());
         return studySyllableVO;
     }
     public StudyWordVO wordToWordVO(StudyWord source) {
         StudyWordVO studyWordVO = new StudyWordVO();
         studyWordVO.setUserId(source.getUserId().getUserId());
         studyWordVO.setWordId(source.getWordId().getWordId());
+        studyWordVO.setWordContent(source.getWordId().getWordContent());
+        studyWordVO.setWordPron(source.getWordId().getWordPron());
         return studyWordVO;
     }
     public StudySentenceVO sentenceToSentenceVO(StudySentence source) {
         StudySentenceVO studySentenceVO = new StudySentenceVO();
         studySentenceVO.setUserId(source.getUserId().getUserId());
         studySentenceVO.setStcId(source.getStcId().getStcId());
+        studySentenceVO.setStcContent(source.getStcId().getStcContent());
         return studySentenceVO;
     }
 

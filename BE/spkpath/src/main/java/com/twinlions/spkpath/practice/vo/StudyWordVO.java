@@ -6,4 +6,6 @@ import lombok.Data;
 public class StudyWordVO {
     String userId;
     int wordId;
+    String wordContent;
+    String wordPron;
 }
