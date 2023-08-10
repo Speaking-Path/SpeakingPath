@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux"
 // import { getToken, createSession, createToken } from './getToken';
+import './Untact.scss'
 
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
@@ -183,43 +184,42 @@ const Untact = () => {
     return response.data;
   }
 
+
+  // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+ // 배경 이미지
+  const background = {
+    //width: '100vw',
+    height: '140vh',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    //maxWidth: '50vw',
+  };
+
+  if (session === undefined) {
+    background.backgroundImage = `url(${process.env.PUBLIC_URL}/assets/conference.jpg)`;
+    background.backgroundSize = 'auto 100%';
+    // backgroundSize: '60vw 100vh',
+    // backgroundRepeat: 'no-repeat',
+    // backgroundPosition: 'center'
+  } else {
+    background.backgroundImage = `url(${process.env.PUBLIC_URL}/assets/conference2.jpg)`;
+    background.backgroundSize = 'cover';
+  }
+
+
   return (
-    <div id="box">
-      {session === undefined ? (
-        <div id="join">
-          <button onClick={joinSession}> Join </button>
-          {/* <div id="join-dialog" className="jumbotron vertical-center">
-            <h1> Join a video session </h1>
-            <form className="form-group" onSubmit={joinSession}>
-              <p>
-                <label>Participant: </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  id="userName"
-                  value={myUserName}
-                  onChange={handleChangeUserName}
-                  required
-                />
-              </p>
-              <p>
-                <label> Session: </label>
-                <input
-                  className="form-control"
-                  type="text"
-                  id="sessionId"
-                  value={mySessionId}
-                  onChange={handleChangeSessionId}
-                  required
-                />
-              </p>
-              <p className="text-center">
-                <input className="btn btn-lg btn-success" name="commit" type="submit" value="JOIN" />
-              </p>
-            </form>
-          </div> */}
-        </div>
-      ) : null}
+    <div id="box" style={background}>
+      <div>
+        {session === undefined ? (
+          <div id="join">
+            <div>
+              {/* <button className='btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-5' style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)' }}
+              onClick={joinSession}> 입장하기 </button> */}
+              <button className='comet' onClick={joinSession}> 입장하기 </button>
+            </div>
+          </div>
+        ) : null}
+      </div>
 
       {session !== undefined ? (
         <div id="session">
@@ -228,16 +228,18 @@ const Untact = () => {
               onClick={leaveSession} />
           </div>
           <div>
-            <div className='container'>
+            <div className='container video-container' 
+              // style={{margin:'50px', padding:'40px'}}
+            >
               <div className='row d-flex justify-content-center'>
                 {publisher !== undefined ? (
-                  <div className="stream-container col-md-5 col-xs-5" id="stream-container" onClick={() => handleMainVideoStream(publisher)}>
+                  <div className="stream-container col-md-6 col-xs-5" id="stream-container" onClick={() => handleMainVideoStream(publisher)}>
                     <UserVideoComponent
                       streamManager={publisher} />
                   </div>
                 ) : null}
                 {subscribers.map((sub, i) => (
-                  <div key={sub.id} className="stream-container col-md-5 col-xs-5" id="stream-container" onClick={() => handleMainVideoStream(sub)}>
+                  <div key={sub.id} className="stream-container col-md-6 col-xs-5" id="stream-container" onClick={() => handleMainVideoStream(sub)}>
                     <span>{sub.id}</span>
                     <UserVideoComponent streamManager={sub} />
                   </div>
