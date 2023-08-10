@@ -14,9 +14,9 @@ import CsltCalendar from './components/MyPage/ConsultantCalendar';
 import Practice from './pages/Practice';
 import PickName from './components/Practice/Recognition/PickName';
 import PickPic from './components/Practice/Recognition/PickPic';
-import Sentence from './components/Practice/Sentence';
-import Syllable from './components/Practice/Syllable';
-import Word from './components/Practice/Word';
+import Sentence from './components/Practice/Pronunciation/Sentence';
+import Syllable from './components/Practice/Pronunciation/Syllable';
+import Word from './components/Practice/Pronunciation/Word';
 import Profile from './components/MyPage/Profile';
 import CheckRsv from './components/MyPage/CheckRsv';
 import PastRsv from './components/MyPage/PastRsv';
@@ -25,6 +25,8 @@ import FindId from './pages/FindUserId';
 import FindPwd from './pages/FindUserPwd';
 import ErrorPage from './pages/ErrorPage';
 import SavedItems from './components/MyPage/SavedItems';
+import PronStart from './components/Practice/Pronunciation/PronStart';
+
 
 
 function App() {
@@ -42,7 +44,6 @@ function App() {
         <Route path="/account/findid" element={<FindId />} />
         <Route path="/account/findpwd" element={<FindPwd />} />
 
-
           <Route path="/account/mypage" element={<UserInformation />}>
             <Route path="" element={<Profile />} />
             <Route path="checkrsv" element={<CheckRsv />} />
@@ -51,16 +52,17 @@ function App() {
             <Route path="items" element={<SavedItems/>} />
           </Route>
 
-
           <Route path="/practice" element={<Practice />} />
           <Route path="/practice/pron/syllable" element={<Syllable />} />
           <Route path="/practice/pron/word" element={<Word />} />
           <Route path="/practice/pron/sentence" element={<Sentence />} />
+          <Route path="/practice/pron/start" element={<PronStart/>}/>
           <Route path="/practice/recog/select" element={<PickPic />} />
           <Route path="/practice/recog/select-name" element={<PickName />} />
 
           <Route path="/consulting" element={<Consultant />} />
           <Route path="/consulting/reservation" element={<Reservation />} />
+
 
         {/* 방 생성 방법 백이랑 결정해서 주소변경필요 */}
         <Route path="/consulting/meeting" element={<UntactConsult />} />
