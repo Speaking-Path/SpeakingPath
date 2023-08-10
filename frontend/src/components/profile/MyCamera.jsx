@@ -1,33 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'
+import { useSelector } from 'react-redux';
+import { selectMediaConfig } from '../../store/mediaConfig';
 
-function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
+function MyCamera({ myVideoRef }) {
+  const mediaConfig = useSelector(selectMediaConfig)
+  const stream = useRef(null)
 
   useEffect(() => {
     async function getMedia() {
       try {
         const constraints = {
           video: {
-            deviceId: selectedVideo ? { exact: selectedVideo } : undefined,
+            deviceId: mediaConfig.camera,
           },
           audio: {
-            deviceId: selectedAudioInput ? { exact: selectedAudioInput } : undefined,
+            deviceId: mediaConfig.microphone,
           },
         };
 
-        if (selectedVideo === 'no-camera') {
+        if (mediaConfig.camera === 'no-camera') {
           delete constraints.video;
         }
-        if (selectedAudioInput === 'no-microphone') {
+        if (mediaConfig.microphone === 'no-microphone') {
           delete constraints.audio;
         }
 
         // constraints정보 : https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
-        const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+        stream.current = await navigator.mediaDevices.getUserMedia(constraints);
 
         // myVideoRef에 mediaStream값 넣어주기(변경되는 값)
         if (myVideoRef.current) {
-          myVideoRef.current.srcObject = mediaStream;
+          myVideoRef.current.srcObject = stream.current;
           // 에코 방지
           myVideoRef.current.muted = true;
         }
@@ -48,15 +52,23 @@ function MyCamera({ selectedVideo, selectedAudioInput, myVideoRef }) {
           window.alert('카메라 또는 마이크 접근 권한이 거부되었습니다. 모두 access할 수 있도록 설정을 변경해주세요');
         });
     }
+    console.log(mediaConfig)
+  }, [mediaConfig.camera, mediaConfig.microphone]);
 
-  }, [selectedVideo, selectedAudioInput, myVideoRef]);
+  // stop camera
+  useEffect(() => {
+    return () => {
+      if (stream.current) {
+        stream.current.getTracks().forEach((track) => track.stop());
+      }
+    }
+  }, [])
 
- 
   // 렌더링 되면 video DOM object가 myVideoRef.current에 들어감
   // return <video ref={myVideoRef} autoPlay style={{ width: '600px', height: '350px' }}/>; 
   return (
-    <div>
-      <video ref={myVideoRef} autoPlay style={{height:'50vh', width:'60vw'}}/>;  
+    <div className='my-camera'>
+      <video ref={myVideoRef} autoPlay style={{height:'50vh', width:'60vw'}}/>
     </div>
   );
 }

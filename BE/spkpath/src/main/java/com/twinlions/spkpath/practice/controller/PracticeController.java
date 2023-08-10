@@ -125,4 +125,16 @@ public class PracticeController {
     public ResponseEntity<?> isSavedObject(@RequestBody ObjectVO objectVO) {
         return new ResponseEntity<>(practiceService.isSavedObject(objectVO.getUserId(), objectVO.getObjId()), HttpStatus.ACCEPTED);
     }
+
+    @PostMapping(value = "/correct")
+    @Operation(summary = "문제 정답")
+    public ResponseEntity<?> answerCorrect(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.answerCorrect(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping(value = "/wrong")
+    @Operation(summary = "문제 오답")
+    public ResponseEntity<?> answerWrong(@RequestBody UserVO userVO) {
+        return new ResponseEntity<>(practiceService.answerWrong(userVO.getUserId()), HttpStatus.ACCEPTED);
+    }
 }

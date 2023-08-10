@@ -8,15 +8,20 @@ const UserVideoComponent = (props) => {
   };
 
   return (
-    <div>
-      <div>
-        <p className={styles.nickname}>{getNicknameTag()}</p>
+    <div className={styles.videobox}>
+      <div className='nick-name' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className={styles.nickname}>
+          <i class="bi bi-person-bounding-box"></i> 
+          {getNicknameTag()}
+        </div>
       </div>
+
       {props.streamManager !== undefined ? (
-        <div className="streamcomponent">
+        <div className={`${styles.videoContainer} streamcomponent`}>
           <OpenViduVideoComponent streamManager={props.streamManager} />
         </div>
       ) : null}
+
     </div>
   );
 };
