@@ -5,6 +5,7 @@
 }
 
 #session-header {
+	margin-top: 20px;
 	height: 80px;
 	width: 100%;
 	/* background-color: #181818;
@@ -24,8 +25,8 @@ footer{
 
 
 #stream-container {
-	margin-left: 2%;
-	margin-right: 2%;
+	/* margin-left: 2%; */
+	/* margin-right: 2%; */
 }
 
 #iconMean {
