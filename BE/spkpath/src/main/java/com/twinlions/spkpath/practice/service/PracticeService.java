@@ -4,7 +4,6 @@ import com.twinlions.spkpath.practice.ObjectQuestionDto;
 import com.twinlions.spkpath.practice.SentenceQuestionDto;
 import com.twinlions.spkpath.practice.SyllableQuestionDto;
 import com.twinlions.spkpath.practice.WordQuestionDto;
-import com.twinlions.spkpath.practice.entity.single.ObjectEntity;
 import com.twinlions.spkpath.practice.entity.single.SentenceEntity;
 import com.twinlions.spkpath.practice.entity.single.SyllableEntity;
 import com.twinlions.spkpath.practice.entity.single.WordEntity;
@@ -36,4 +35,6 @@ public interface PracticeService {
     SentenceQuestionDto makeSentenceQuestions(String userId, int questionSize);
     ObjectQuestionDto makeObjectQuestions(String userId, int questionSize);
     boolean isSavedObject(String userId, int objId);
+    String answerCorrect(String userId);
+    String answerWrong(String userId);
 }

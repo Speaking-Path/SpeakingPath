@@ -18,6 +18,7 @@ import com.twinlions.spkpath.practice.vo.StudyObjectVO;
 import com.twinlions.spkpath.practice.vo.StudySentenceVO;
 import com.twinlions.spkpath.practice.vo.StudySyllableVO;
 import com.twinlions.spkpath.practice.vo.StudyWordVO;
+import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -302,6 +303,30 @@ public class PracticeServiceImpl implements PracticeService{
     public boolean isSavedObject(String userId, int objId) {
         return studyObjectRepository.findByUserIdAndObjId(userRepository.findByUserId(userId).get(),
                 practiceObjectRepository.findByObjId(objId).get()).isPresent();
+    }
+
+    public String answerCorrect(String userId) {
+        try {
+            User user = userRepository.findByUserId(userId).get();
+            int reward = user.getUserReward();
+            user.setUserReward(reward + 10);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+    }
+
+    public String answerWrong(String userId) {
+        try {
+            User user = userRepository.findByUserId(userId).get();
+            int reward = user.getUserReward();
+            user.setUserReward(reward + 2);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     /**
