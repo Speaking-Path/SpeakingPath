@@ -13,7 +13,7 @@ function PronStart(props) {
     useEffect(() => {
         getPronData()
         guideVideoRef.current.src=pronData.current.at(currentIndex).src
-        myVideoRef.current.style="height: 30vh; width: 30vw"
+        myVideoRef.current.style="height: 40vh; width: 40vw"
     }, [])
 
     // 데이터 받는 함수. 지금은 임시로 assets에 있는 동영상을 활용하고 나중에 BE api가 완성되면 대체
@@ -51,17 +51,17 @@ function PronStart(props) {
     return (
         <div>
             <h1>PronStart</h1>
-            <div>
-                <video ref={guideVideoRef} style={{ height: '30vh', width: '30vw'}} autoPlay loop controls>
+            <div className="container" style={{ display: 'flex', justifyContent:'center' }}>
+                {/* <video ref={guideVideoRef} style={{ height: '50vh', width: '50vw'}} autoPlay loop controls> */}
+                <video ref={guideVideoRef} style={{ height: '40vh', width: '40vw'}} autoPlay loop controls>
                     no video available
                 </video>
-                <MyCamera
-                    myVideoRef={myVideoRef}
-                >
-                </MyCamera>
+                <div>
+                    <MyCamera myVideoRef={myVideoRef} />
+                </div>
+            </div>
                 <button onClick={Prev}>Prev</button>
                 <button onClick={Next}>Next</button>
-            </div>
         </div >
     )
 }
