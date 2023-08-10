@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import axios from 'axios';
 import CloseIcon from '@mui/icons-material/Close';
+import VideoComp from './VideoComp';
 
 
 
@@ -16,6 +17,10 @@ const SavedItems = () => {
   // const [userSyllable, setUserSyllable] = useState([])
   // const [userWord, setUserWord] = useState([])
   // const [userSentence, setUserSentence] = useState([])
+
+  const [isVideo, setIsVideo] = useState(false)
+  const [videoSrc, setVideoSrc] = useState("")
+
 
   const userSyllable = [
     {
@@ -58,13 +63,7 @@ const SavedItems = () => {
       "wordId": 3,
       "wordContent": "여여",
       "wordPron": "[여여]"
-    },
-    {
-      "userId": "ssafy1",
-      "wordId": 4,
-      "wordContent": "야야",
-      "wordPron": "[야야]"
-    },
+    }
   ]
 
   const userSentence = []
@@ -111,6 +110,12 @@ const SavedItems = () => {
   };
 
 
+  const openVideo = function (type, id) {
+    setVideoSrc(type + "/" + id)
+    setIsVideo(true)
+  }
+
+
   const deleteObject = function (objId) {
     const data = {
       "objId": objId,
@@ -147,7 +152,8 @@ const SavedItems = () => {
 
 
 
-  const deleteSyllable = function (slbId) {
+  const deleteSyllable = function (slbId, event) {
+    event.stopPropagation()
     const data = {
       "slbId": slbId,
       "userId": userId
@@ -165,12 +171,12 @@ const SavedItems = () => {
 
   const syllableItems = userSyllable.map((syllable, index) => (
     <div className={styles.ItemsContain} key={index}>
-      <div className={styles.ItemsWrap}>
-        <div className={styles.overlay}>
+      <div className={styles.ItemsWrap} onClick={() => { openVideo("syllable", syllable.slbId) }}>
+        <div className={styles.overlay2}>
           <p>{syllable.slbContent}</p>
           <div className={styles.starIconContainer}>
-          <CloseIcon onClick={()=>{deleteSyllable(syllable.slbId)}} className={styles.starIcon} />
-        </div>
+            <CloseIcon onClick={(event) => { deleteSyllable(syllable.slbId, event) }} className={styles.starIcon} />
+          </div>
         </div>
       </div>
     </div>
@@ -194,13 +200,13 @@ const SavedItems = () => {
 
   const wordItems = userWord.map((word, index) => (
     <div className={styles.ItemsContain} key={index}>
-      <div className={styles.ItemsWrap}>
-        <div className={styles.overlay}>
+      <div className={styles.ItemsWrap} onClick={() => { openVideo("word", word.wordId) }}>
+        <div className={styles.overlay2}>
           <p>{word.wordContent}</p>
           <p>{word.wordPron}</p>
           <div className={styles.starIconContainer}>
-          <CloseIcon onClick={()=>{deleteWord(word.wordId)}} className={styles.starIcon} />
-        </div>
+            <CloseIcon onClick={() => { deleteWord(word.wordId) }} className={styles.starIcon} />
+          </div>
         </div>
       </div>
     </div>
@@ -225,12 +231,12 @@ const SavedItems = () => {
 
   const sentenceItems = userWord.map((sentence, index) => (
     <div className={styles.ItemsContain} key={index}>
-      <div className={styles.ItemsWrap}>
-        <div className={styles.overlay}>
+      <div className={styles.ItemsWrap} onClick={() => { openVideo("sentence", sentence.stcId) }}>
+        <div className={styles.overlay2}>
           <p>{sentence.stcContent}</p>
           <div className={styles.starIconContainer}>
-          <CloseIcon onClick={()=>{deleteSentence(sentence.stcId)}} className={styles.starIcon} />
-        </div>
+            <CloseIcon onClick={() => { deleteSentence(sentence.stcId) }} className={styles.starIcon} />
+          </div>
         </div>
       </div>
     </div>
@@ -239,6 +245,15 @@ const SavedItems = () => {
 
   return (
     <div>
+      <div>
+        {
+          videoSrc && isVideo ? (
+            <VideoComp videoSrc={videoSrc} setIsVideo={setIsVideo}/>
+          ) : (
+            null
+          )
+        }
+      </div>
       <div className={styles.title}>
         <p className={styles.titleText1}>훈련 즐겨찾기</p>
         <p className={styles.titleText2}>즐겨찾기한 단어들을 확인하세요!</p>
@@ -246,19 +261,18 @@ const SavedItems = () => {
       <div>
         <div>
           <p className={styles.myTitle}>나만의 음절</p>
+          <p className={styles.clickInfo}>클릭하면 영상을 볼 수 있어요.</p>
         </div>
-          {
+        {
           userSyllable.length > 0 ? (
             <div className={styles.contain}>
               <AliceCarousel
                 mouseTracking
-                // infinite={1000}
                 animationDuration={3000}
                 disableButtonsControls
                 responsive={responsive}
                 items={syllableItems}
                 paddingRight={40}
-              // paddingLeft={40}
               />
             </div>
           ) : (
@@ -271,6 +285,7 @@ const SavedItems = () => {
       <div>
         <div>
           <p className={styles.myTitle}>나만의 단어</p>
+          <p className={styles.clickInfo}>클릭하면 영상을 볼 수 있어요.</p>
         </div>
         {
           userWord.length > 0 ? (
@@ -296,6 +311,7 @@ const SavedItems = () => {
       <div>
         <div>
           <p className={styles.myTitle}>나만의 문장</p>
+          <p className={styles.clickInfo}>클릭하면 영상을 볼 수 있어요.</p>
         </div>
         {
           userSentence.length > 0 ? (
