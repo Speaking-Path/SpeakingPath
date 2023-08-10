@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux"
 // import { getToken, createSession, createToken } from './getToken';
+import './Untact.scss'
 
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
@@ -187,13 +188,16 @@ const Untact = () => {
   // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
  // 배경 이미지
   const background = {
-    width: '100vw',
-    height: '100vh',
+    //width: '100vw',
+    height: '140vh',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    //maxWidth: '50vw',
   };
-  
+
   if (session === undefined) {
     background.backgroundImage = `url(${process.env.PUBLIC_URL}/assets/conference.jpg)`;
-    background.backgroundSize = 'cover';
+    background.backgroundSize = 'auto 100%';
     // backgroundSize: '60vw 100vh',
     // backgroundRepeat: 'no-repeat',
     // backgroundPosition: 'center'
@@ -209,8 +213,9 @@ const Untact = () => {
         {session === undefined ? (
           <div id="join">
             <div>
-              <button className='btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-5' style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)' }}
-              onClick={joinSession}> 입장하기 </button>
+              {/* <button className='btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-5' style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)' }}
+              onClick={joinSession}> 입장하기 </button> */}
+              <button className='comet' onClick={joinSession}> 입장하기 </button>
             </div>
           </div>
         ) : null}

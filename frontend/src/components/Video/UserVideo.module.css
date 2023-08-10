@@ -7,15 +7,15 @@ video {
 .nickname {
     display: inline-block;
     margin: 10px;
-    padding: 7px;
+    padding: 8px;
     color: black;
     border: 1px solid black;
-    border-radius: 20px;
+    border-radius: 10px;
     float: left;
 }
 
 .videoContainer {
-    /* border: 2px solid black; */
+    /* border: 2px solid blue; */
     padding: 5px;
     /* background-color: white; */
 }
@@ -23,5 +23,6 @@ video {
 .videobox {
     background-color: white;
     border-radius: 20px;
-    padding: 10px
+    padding: 10px;
+    border: 3px solid skyblue;
 }
