@@ -304,13 +304,31 @@ public class UserController {
 
     private final OAuthService oAuthService;
 
+    @GetMapping("/naver-login")
+    @CrossOrigin(origins = "http://localhost:3000") // 허용할 오리진을 명시
+    @Operation(summary = "네이버로 로그인 하기")
+    public void naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String url = oAuthService.getNaverAuthorizeUrl("authorize");
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.sendRedirect(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @GetMapping("/naverlogin")
     @Operation(summary = "네이버로 로그인 하기")
-    public ResponseEntity<?> naverLogin(@RequestParam String code, @RequestParam String state){
+    public ResponseEntity<?> naverLoginResponse(@RequestParam String code, @RequestParam String state){
         try{
             UserDto userDto = oAuthService.signup(code, "naver");
-            return  new ResponseEntity<>(userDto, HttpStatus.OK);
+            TokenDto tokenDto = new TokenDto();
+            tokenDto.setAccessToken(userDto.getUserPwd().split(" ")[1]);
+            tokenDto.setRefreshToken(userDto.getUserPwd().split(" ")[2]);
+            tokenDto.setGrantType(userDto.getUserPwd().split(" ")[0]);
+            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
         } catch ( Exception e){
+            e.printStackTrace();
             return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
         }
     }

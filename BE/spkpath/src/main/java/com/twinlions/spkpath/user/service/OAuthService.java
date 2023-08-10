@@ -24,7 +24,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URLEncoder;
 import java.util.Optional;
 
 
@@ -55,16 +58,20 @@ public class OAuthService {
         CLIENT_ID  = NAVER_CLIENT_ID;
         REDIRECT_URI = NAVER_REDIRECT_URI;
 
-        String accessToken = getAccessToken(code);
+        String accessToken = getAccessToken(code).get("access_token").asText();
         // 토큰으로 카카오 API 호출 (이메일 정보 가져오기)
 
-        String email = getUserInfo(accessToken);
+        String email = getUserInfo(accessToken).get("email").asText();
+        String id = getUserInfo(accessToken).get("id").asText();
+        String sex = getUserInfo(accessToken).get("gender").asText();
+        String mobile = getUserInfo(accessToken).get("mobile").asText();
+        String name = getUserInfo(accessToken).get("name").asText();
 
         // DB정보 확인 -> 없으면 DB에 저장
-        User user = registerUserIfNeed(email);
+        User user = registerUserIfNeed(id, email, sex, mobile, name);
 
         // JWT 토큰 리턴 & 로그인 처리
-        String jwtToken = usersAuthorizationInput(user);
+        String jwtToken = "Bearer "+usersAuthorizationInput(user);
 
         // 회원여부 이메일으로 확인
         Boolean isMember = checkIsMember(user);
@@ -76,13 +83,14 @@ public class OAuthService {
         userDto.setUserName(user.getUserName());
         userDto.setUserSex(user.getUserSex());
         userDto.setUserGrade("USER");
+        userDto.setUserPwd(jwtToken);
 
         return userDto;
     }
 
-    private String getAccessToken(String code){
+    private JsonNode getAccessToken(String code){
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-type", "application/x-www-form-unlencoded;charset=utf-8");
+//        headers.add("Content-type", "application/x-www-form-unlencoded;charset=utf-8");
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", CLIENT_ID);
@@ -105,14 +113,14 @@ public class OAuthService {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(responseBody);
             System.out.println(jsonNode);
-            return jsonNode.get("access_token").asText();
+            return jsonNode;
         } catch (Exception e) {
             System.out.println("in exception");
-            return e.toString();
+            return null;
         }
     }
 
-    private String getUserInfo(String accessToken) {
+    private JsonNode getUserInfo(String accessToken) {
         // HTTP Header 생성
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + accessToken);
@@ -146,25 +154,31 @@ public class OAuthService {
             JsonNode jsonNode = objectMapper.readTree(responseBody);
 
             if(TYPE == "kakao") {
-                return jsonNode.get("kakao_account").get("email").asText();
+                return jsonNode.get("kakao_account");
             } else {
                 System.out.println(jsonNode.get("response"));
-                return jsonNode.get("response").get("email").asText();
+                return jsonNode.get("response");
             }
 
         } catch (Exception e) {
-            return e.toString();
+            e.printStackTrace();
+            return null;
         }
     }
 
     // DB정보 확인 -> 없으면 DB에 저장
-    private User registerUserIfNeed(String email) {
+    private User registerUserIfNeed(String id, String email, String sex, String mobile, String name) {
         // DB에 중복된 이메일 있는지 확인
-        Optional<Object> user = userRepository.findByUserEmail(email);
+        Optional<User> user = userRepository.findByUserId(id);
 
         if (user.isEmpty()) {
             // DB에 정보 등록
             User newUser = User.builder()
+                    .userId(id)
+                    .userPhone(mobile)
+                    .userName(name)
+                    .userSex(sex)
+                    .userGrade("USER")
                     .userEmail(email)
                     .userPwd(passwordEncoder.encode(TYPE))
                     .build();
@@ -176,7 +190,7 @@ public class OAuthService {
 
     private String usersAuthorizationInput(User user) {
 
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUserEmail());
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUserId());
         Authentication authentication = new UsernamePasswordAuthenticationToken(
                 userDetails,
                 "",
@@ -189,11 +203,22 @@ public class OAuthService {
         String refreshToken = jwtTokenProvider.generateToken(authentication, user.getUserEmail()).getRefreshToken();
 
         userRepository.save(user);
-        return accessToken;
+        return accessToken+" "+refreshToken;
     }
 
     private Boolean checkIsMember(User user) {
         return user.getUserEmail() != null;
+    }
+
+    public String getNaverAuthorizeUrl(String type) throws  Exception{
+        UriComponents uriComponents = UriComponentsBuilder
+                .fromUriString("https://nid.naver.com/oauth2.0/"+type)
+                .queryParam("response_type", "code")
+                .queryParam("client_id", NAVER_CLIENT_ID)
+                .queryParam("redirect_uri", URLEncoder.encode(NAVER_REDIRECT_URI, "UTF-8"))
+                .queryParam("state", URLEncoder.encode("1234", "UTF-8"))
+                .build();
+        return uriComponents.toString();
     }
 
 }

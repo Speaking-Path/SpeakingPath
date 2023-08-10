@@ -22,7 +22,7 @@ public class SecurityConfig {
     private final StringRedisTemplate stringRedisTemplate;
     private final String[] accountPermitList = new String[] {"/account/login", "/account/signup", "/account/logout",
             "/account/checkid", "/account/checkemail", "/account/consultantsignup",
-            "/account/find/**", "/account/auth/**", "/account/naverlogin"};
+            "/account/find/**", "/account/auth/**", "/account/naverlogin", "/account/naver-login"};
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
