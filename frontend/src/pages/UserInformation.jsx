@@ -75,6 +75,7 @@ function UserInformation() {
     )
       .then((res) => {
         dispatch(changeProfileInfo(res.data))
+        console.log(res.data)
       })
       .catch((err) => {
         console.log(err); 
@@ -82,7 +83,7 @@ function UserInformation() {
       }).finally(() => {
         setIsLoaded(true); // API 호출이 완료됐음을 표시
       });
-  }, [userInfo]);
+  }, []);
 
   if(!isLoaded) return null;
 

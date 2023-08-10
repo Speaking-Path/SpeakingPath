@@ -22,6 +22,28 @@ function PickPicMain({ qlist, goForward, goBack, retry }) {
   const answer = qlist.answerList || {};
   const questions = qlist.questionList || [];
 
+  const correctAnswer = function () {
+    axios
+      .post("/practice/correct", { userId: userId })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const wrongAnswer = function () {
+    axios
+      .post("/practice/wrong", { userId: userId })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const checkAns = function (objId) {
     if (objId === answer.objId) {
       setIsCorVisible(true);
@@ -31,14 +53,15 @@ function PickPicMain({ qlist, goForward, goBack, retry }) {
             "objId": objId
           })
         .then((res) => {
-          console.log(res.data)
           setIsSaved(res.data)
+          correctAnswer()
         })
         .catch((err) => {
           console.log(err)
         })
     } else {
       setIsWrongVisible(true);
+      wrongAnswer()
     }
   };
 

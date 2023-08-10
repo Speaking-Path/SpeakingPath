@@ -7,7 +7,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { changeRecogNum } from '../../../store/recog'
+import { changeRecogNameNum } from '../../../store/recog'
 import { useNavigate } from 'react-router-dom'
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 
@@ -38,7 +38,7 @@ function CelebrateRecogName({ handleCorVisible, objId, objName, isSaved }) {
   }
 
   const plusNum = function () {
-    dispatch(changeRecogNum(num + 1))
+    dispatch(changeRecogNameNum(num + 1))
     handleCorVisible()
   }
   console.log(num)
@@ -47,6 +47,10 @@ function CelebrateRecogName({ handleCorVisible, objId, objName, isSaved }) {
 
   return (
     <div className={styles.celebrateBox}>
+      <div className={styles.imgBox}>
+        <img className={styles.medal} src={process.env.PUBLIC_URL + "/assets/reward/medal.png"} alt="" />
+        <p>&nbsp;10점</p>
+      </div>
       <p className={styles.celebrateText}>정답입니다!</p>
       <div className={styles.celebrateMain}>
         <p className={styles.objName}>{objName}</p>

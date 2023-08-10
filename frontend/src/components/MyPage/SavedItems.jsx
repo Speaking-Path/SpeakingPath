@@ -14,59 +14,59 @@ const SavedItems = () => {
 
   const userId = useSelector((state) => { return state.loginId })
   const [userRecog, setUserRecog] = useState([])
-  // const [userSyllable, setUserSyllable] = useState([])
-  // const [userWord, setUserWord] = useState([])
-  // const [userSentence, setUserSentence] = useState([])
+  const [userSyllable, setUserSyllable] = useState([])
+  const [userWord, setUserWord] = useState([])
+  const [userSentence, setUserSentence] = useState([])
 
   const [isVideo, setIsVideo] = useState(false)
   const [videoSrc, setVideoSrc] = useState("")
 
 
-  const userSyllable = [
-    {
-      "userId": "ssafy1",
-      "slbId": 1,
-      "slbContent": "아"
-    },
-    {
-      "userId": "ssafy1",
-      "slbId": 2,
-      "slbContent": "야"
-    },
-    {
-      "userId": "ssafy1",
-      "slbId": 3,
-      "slbContent": "어"
-    },
-    {
-      "userId": "ssafy1",
-      "slbId": 4,
-      "slbContent": "여"
-    }
-  ]
+  // const userSyllable = [
+  //   {
+  //     "userId": "ssafy1",
+  //     "slbId": 1,
+  //     "slbContent": "아"
+  //   },
+  //   {
+  //     "userId": "ssafy1",
+  //     "slbId": 2,
+  //     "slbContent": "야"
+  //   },
+  //   {
+  //     "userId": "ssafy1",
+  //     "slbId": 3,
+  //     "slbContent": "어"
+  //   },
+  //   {
+  //     "userId": "ssafy1",
+  //     "slbId": 4,
+  //     "slbContent": "여"
+  //   }
+  // ]
 
-  const userWord = [
-    {
-      "userId": "ssafy1",
-      "wordId": 1,
-      "wordContent": "아아",
-      "wordPron": "[아아]"
-    },
-    {
-      "userId": "ssafy1",
-      "wordId": 2,
-      "wordContent": "어어",
-      "wordPron": "[어어]"
-    },
-    {
-      "userId": "ssafy1",
-      "wordId": 3,
-      "wordContent": "여여",
-      "wordPron": "[여여]"
-    }
-  ]
+  // const userWord = [
+  //   {
+  //     "userId": "ssafy1",
+  //     "wordId": 1,
+  //     "wordContent": "아아",
+  //     "wordPron": "[아아]"
+  //   },
+  //   {
+  //     "userId": "ssafy1",
+  //     "wordId": 2,
+  //     "wordContent": "어어",
+  //     "wordPron": "[어어]"
+  //   },
+  //   {
+  //     "userId": "ssafy1",
+  //     "wordId": 3,
+  //     "wordContent": "여여",
+  //     "wordPron": "[여여]"
+  //   }
+  // ]
 
-  const userSentence = []
+  // const userSentence = []
 
 
   useEffect(() => {
@@ -77,27 +77,27 @@ const SavedItems = () => {
       .catch((err) => {
         console.log(err)
       })
-    // axios.post("practice/pron/syllable/show", { "userId": userId })
-    //   .then((res) => {
-    //     setUserPron(res.data)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
-    // axios.post("practice/pron/word/show", { "userId": userId })
-    //   .then((res) => {
-    //     setUserWord(res.data)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
-    // axios.post("practice/pron/sentence/show", { "userId": userId })
-    //   .then((res) => {
-    //     setUserSentence(res.data)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err)
-    //   })
+    axios.post("practice/pron/syllable/show", { "userId": userId })
+      .then((res) => {
+        setUserSyllable(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    axios.post("practice/pron/word/show", { "userId": userId })
+      .then((res) => {
+        setUserWord(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    axios.post("practice/pron/sentence/show", { "userId": userId })
+      .then((res) => {
+        setUserSentence(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }, [])
 
   const responsive = {
@@ -336,7 +336,7 @@ const SavedItems = () => {
       </div>
       <div>
         <div>
-          <p className={styles.myTitle}>나만의 사물</p>
+          <p className={`${styles.myTitle} ${styles.onlyP}`}>나만의 사물</p>
         </div>
         {
           userRecog.length > 0 ? (

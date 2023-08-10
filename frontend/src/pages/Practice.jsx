@@ -94,7 +94,7 @@ function Practice() {
                 <img className={styles.img2} src={process.env.PUBLIC_URL + "/assets/pickname.png"} alt="" />
                 <div className={styles.pracDesc2}>
                   <p>사진을 보고</p>
-                  <p>이름을 맞춰 보세요</p>
+                  <p>이름을 맞혀 보세요</p>
                 </div>
               </div>
             </div>

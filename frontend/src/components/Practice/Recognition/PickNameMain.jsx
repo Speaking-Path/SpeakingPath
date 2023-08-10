@@ -9,9 +9,13 @@ import { blue } from "@mui/material/colors";
 import { useSelector } from "react-redux";
 import CelebrateRecogName from "./CelebrateRecogName";
 import VoiceRecording from './VoiceRecording';
+import axios from "axios";
+// import correctAnswer from '../CheckAnswer'
+// import wrongAnswer from '../CheckAnswer'
 
 
 function PickNameMain({ qlist, goForward, goBack }) {
+  const userId = useSelector((state) => state.loginId);
   const [isCorVisible, setIsCorVisible] = useState(false);
   const [isWrongVisible, setIsWrongVisible] = useState(false);
   const num = useSelector((state)=>{return state.recogNameNum})
@@ -19,15 +23,39 @@ function PickNameMain({ qlist, goForward, goBack }) {
   const answer = qlist.answerList || {};
   const questions = qlist.questionList || [];
 
+  const correctAnswer = function () {
+    axios
+      .post("/practice/correct", { userId: userId })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const wrongAnswer = function () {
+    axios
+      .post("/practice/wrong", { userId: userId })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
   const checkAns = function (objId) {
     if (objId === answer.objId) {
       setIsCorVisible(true);
+      correctAnswer()
     } else {
       setIsWrongVisible(true);
+      wrongAnswer()
     }
   };
 
-  console.log(num)
 
   const handleCorVisible = function () {
     setIsCorVisible(false)
