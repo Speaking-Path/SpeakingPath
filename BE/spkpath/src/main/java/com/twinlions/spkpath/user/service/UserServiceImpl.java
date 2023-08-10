@@ -31,6 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.swing.text.html.Option;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -330,29 +333,5 @@ public class UserServiceImpl implements UserService{
         message.setText(mailDto.getMessage());
         log.info("message:" + message);
         mailSender.send(message);
-    }
-
-    @Override
-    public User getSnsUser(String snsId){
-        Optional<SnsUser> findSnsUer = snsUserRepository.findById(snsId);
-        if (!findSnsUer.isPresent()) {
-            return null;
-        }
-        SnsUser snsUser = findSnsUer.get();
-        return snsUser.getUser();
-    }
-
-    @Override
-    public String snsSignUp(String memberId, String id) {
-        Optional<User> findMember = userRepository.findByUserId(memberId);
-        if (!findMember.isPresent()) {
-            return null;
-        }
-        User member = findMember.get();
-        SnsUser saved = snsUserRepository.save(SnsUser.builder()
-                .id(id)
-                .user(member)
-                .build());
-        return saved.getId();
     }
 }

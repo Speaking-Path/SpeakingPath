@@ -6,6 +6,9 @@ import com.twinlions.spkpath.mail.MailDto;
 import com.twinlions.spkpath.user.UserDto;
 import com.twinlions.spkpath.user.entity.User;
 
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Optional;
 
 public interface UserService {
@@ -27,7 +30,4 @@ public interface UserService {
     MailDto authUserEmail(String userEmail);
     boolean checkAuthNumber(String userEmail, int number);
     void sendEmail(MailDto mailDto);
-
-    User getSnsUser(String snsId);
-    public String snsSignUp(String memberId, String id);
 }
