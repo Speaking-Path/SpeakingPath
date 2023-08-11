@@ -6,7 +6,7 @@ import Aos from 'aos';
 
 const Banner = () => {
   useEffect(()=>{
-    Aos.init({duration: 1000})
+    Aos.init({duration: 500})
   })
   return (
     <section className={styles.banner}>
