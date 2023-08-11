@@ -11,10 +11,10 @@ application.properties
 application.yml
 
 ## Gradle 관련 문제
-gradle/
-gradlew
-gradlew.bat
-settings.gradle
+#gradle/
+#gradlew
+#gradlew.bat
+#settings.gradle
 
 # Gradle
 .idea/**/gradle.xml
