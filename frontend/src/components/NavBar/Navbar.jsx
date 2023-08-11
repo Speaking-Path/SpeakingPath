@@ -86,7 +86,7 @@ function NavBar() {
 
           <Nav className={styles.part2}>
             {
-              localStorage.getItem("accessToken") ? (
+              loginToken ? (
                 <div>
                   <NavLink className={styles.title}
                     style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}

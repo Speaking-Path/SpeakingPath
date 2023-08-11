@@ -75,7 +75,7 @@ function PastRsv() {
   const results = Object.values(groupedByYear);
 
   const reRsv = async (csltId) =>{
-    await axios.post("/account/mypage", {userId: csltId},
+    await axios.post("/cslt/showcslt", {userId: csltId},
     {
       headers: {
         Authorization: `${tokenType} ${accessToken}`
@@ -106,6 +106,8 @@ function PastRsv() {
      <div className={styles.titleBox}>
         <p>지난 상담</p>
       </div>
+      {
+        results.length > 0 ?
       <div className={styles.rsvListBox}>
         {results.map(({ year, data }) => (
           <div key={year} className={styles.yearBox}>
@@ -142,7 +144,9 @@ function PastRsv() {
             </div>
           </div>
         ))}
-      </div>
+      </div> :
+      <p className={styles.none}>상담 기록이 없습니다.</p>
+      }
     </div>
   )
 }

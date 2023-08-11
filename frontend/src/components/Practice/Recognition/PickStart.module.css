@@ -21,9 +21,24 @@
 }
 
 .TitleText1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 900;
+  background-clip: text; /* 텍스트에만 배경 적용 */
+  -webkit-background-clip: text; /* Safari에서도 작동하도록 */
+  color: transparent; /* 텍스트 숨기기 */
+  background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+  animation: blink 2s linear infinite; /* 반짝이는 애니메이션 추가 */
 }
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1; /* 완전히 불투명하게 */
+  }
+  50% {
+    opacity: 0.7; /* 반투명하게 */
+  }
+}
+
 
 .TitleText2 {
   font-size: 1.5rem;
@@ -53,6 +68,7 @@
   transition: all 0.3s ease 0s;
   cursor: pointer;
   outline: none;
+  margin: 0 1rem;
   }
 
 .wrap button:hover {
@@ -60,4 +76,29 @@
   box-shadow: 0px 15px 20px rgba(34, 100, 254, 0.4);
   color: #fff;
   transform: translateY(-7px);
+}
+
+.infoBox {
+  width: 99vw;
+  height: 100vh;
+  margin-top: 2rem;
+}
+
+.infoBox p {
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.infoImg {
+  width: 65rem;
+  height: 40rem;
+}
+
+.infoPic1
+.infoPic2
+.infoPic3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
 }
