@@ -80,6 +80,11 @@ function PickName() {
     }
   }, [num, picList]);
 
+  const retry = function() {
+    dispatch(changeRecogNameNum(0))
+    setStartPicIsVisible(true)
+  }
+
 
   return(
     <div>
@@ -87,7 +92,7 @@ function PickName() {
         startPicIsVisible ? (
           <PickNameStart onPicStartButtonClick={handlePicStartButtonClick} onGetPic={getPic}/>
         ) : (
-          <PickNameMain qlist={qlist} goForward={goForward} goBack={goBack}/>
+          <PickNameMain qlist={qlist} goForward={goForward} goBack={goBack} retry={retry}/>
         )
       }
       {/* <Loading/> */}

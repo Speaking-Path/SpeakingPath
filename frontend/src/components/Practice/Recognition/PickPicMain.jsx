@@ -74,6 +74,7 @@ function PickPicMain({ qlist, goForward, goBack, retry }) {
   }
 
 
+
   return (
     <div className={styles.picMainBox}>
       <div className={styles.back} onClick={()=>{retry()}}>

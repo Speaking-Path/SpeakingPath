@@ -38,7 +38,7 @@ const reducers = combineReducers({
 
 const persistConfig = {
   key : "root",
-  storage,
+  storage : sessionStorage,
   whitelist : ['loginToken', 'loginId', 'selectedCsltInfo', 'profileInfo', 'profileClick','mediaConfig']
 }
 
