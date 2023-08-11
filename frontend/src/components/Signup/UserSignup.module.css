@@ -138,6 +138,16 @@
   color: red;
 }
 
+.timer {
+  margin-top: 5px; /* 타이머와 메시지 사이의 간격을 조절할 수 있습니다 */
+  font-size: 14px;
+  color: red;
+}
+
+.correct2 {
+  margin-top: -15px;
+  color : #4285F4 
+}
 
 .correct {
   color : #4285F4

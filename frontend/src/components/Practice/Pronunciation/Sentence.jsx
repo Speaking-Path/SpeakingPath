@@ -1,11 +1,13 @@
 import Entry from "./Entry"
-import SelectTest from "./SelectTest"
+
 
 function Sentence() {
+  const speakImage = '../../assets/speak3.jpg';
+
   return(
     <div>
       <div>  
-        <Entry type={"문장"} />
+        <Entry type={"문장"} speakImage={speakImage} />
       </div>
     </div>
 

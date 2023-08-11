@@ -5,6 +5,7 @@ import './Entry.module.css';
 import Preview from '../../profile/Preview';
 import { Link } from 'react-router-dom';
 
+
 function Entry(props) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
@@ -24,13 +25,6 @@ function Entry(props) {
       {isPreviewOpen && (
       <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999 }}>
           <Preview isOpen={isPreviewOpen} onClose={handleClosePreview} size="large">
-              <div>
-                {/* <h3 
-                  className="display-6 fw-bolder"
-                  style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
-                      화면 미리보기
-                </h3> */}
-              </div>
           </Preview>
       </div>
       )}
@@ -68,7 +62,7 @@ function Entry(props) {
             <div className="col-lg-7">
               <div className="d-flex justify-content-center mt-5 mt-lg-0">
                 <div className="profile bg-gradient-primary-to-secondary">
-                  <img className="profile-img" src="../../assets/speak.jpg" style={{ width: '100%', maxWidth: '100vh' }} />
+                  <img className="profile-img" src={props.speakImage} style={{ width: '100%', maxWidth: '100vh', marginTop: '30px' }} />
                 </div>
               </div>
             </div>

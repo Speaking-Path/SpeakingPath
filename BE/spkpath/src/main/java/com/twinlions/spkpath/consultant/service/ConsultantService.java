@@ -11,4 +11,5 @@ public interface ConsultantService {
     List<ConsultantDto> getCslts();
     List<ConsultantDto> getCsltsByCond(@RequestBody ConsultantSearchDto consultantDto);
     ConsultantDto convertToDto(Consultant consultant);
+    ConsultantDto getCsltByUserId(String userId);
 }
