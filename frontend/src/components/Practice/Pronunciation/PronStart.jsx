@@ -1,5 +1,6 @@
 import MyCamera from "../../profile/MyCamera"
 import { useRef, useEffect, useState } from "react"
+import styles from './PronStart.module.css'
 
 function PronStart(props) {
     // 전문가 영상 ref
@@ -66,8 +67,11 @@ function PronStart(props) {
                     <MyCamera myVideoRef={myVideoRef} />
                 </div>
             </div>
-                <button onClick={Prev}>Prev</button>
-                <button onClick={Next}>Next</button>
+                {/* <button onClick={Prev}>Prev</button> */}
+                {/* <button onClick={Next}>Next</button> */}
+                <button className={styles['btn-12']} onClick={Prev}><span>Prev</span><span>이전</span></button>
+                <button className={styles['btn-12']} onClick={Next}><span>Next</span><span>다음</span></button>
+                {/* <button className={styles['btn-12']}><span>Click!</span><span>Read More</span></button> */}
         </div >
     )
 }
