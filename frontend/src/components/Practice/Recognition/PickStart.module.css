@@ -21,9 +21,24 @@
 }
 
 .TitleText1 {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 900;
+  background-clip: text; /* 텍스트에만 배경 적용 */
+  -webkit-background-clip: text; /* Safari에서도 작동하도록 */
+  color: transparent; /* 텍스트 숨기기 */
+  background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+  animation: blink 2s linear infinite; /* 반짝이는 애니메이션 추가 */
 }
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1; /* 완전히 불투명하게 */
+  }
+  50% {
+    opacity: 0.7; /* 반투명하게 */
+  }
+}
+
 
 .TitleText2 {
   font-size: 1.5rem;
