@@ -11,7 +11,9 @@ import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.mail.MailDto;
 import com.twinlions.spkpath.user.entity.Authority;
+import com.twinlions.spkpath.user.entity.SnsUser;
 import com.twinlions.spkpath.user.entity.User;
+import com.twinlions.spkpath.user.repository.SnsUserRepository;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.UserDto;
 import io.jsonwebtoken.Jwts;
@@ -29,6 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.swing.text.html.Option;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -37,7 +42,6 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor // UserRepository의 생성자를 쓰지 않기 위해
 public class UserServiceImpl implements UserService{
     private final RedisTemplate redisTemplate;
-    private Map<String, Integer> authInfo = new HashMap<>();
     private final JavaMailSender mailSender;
     private final UserRepository userRepository;
     private final ConsultantRepository consultantRepository;
@@ -49,6 +53,8 @@ public class UserServiceImpl implements UserService{
     private final ConsultantBoundaryRepository consultantBoundaryRepository;
     private final BoundaryRepository boundaryRepository;
     private final ConsultantService consultantService;
+    private final SnsUserRepository snsUserRepository;
+    private final RedisUtil redisUtil;
 
     @Value("${spring.mail.username}")
     private String fromAddress;
@@ -298,24 +304,25 @@ public class UserServiceImpl implements UserService{
             ranNum =  Integer.toString(createNum);  //1자리 난수를 String으로 형변환
             resultNum += ranNum;			//생성된 난수(문자열)을 원하는 수(letter)만큼 더하며 나열
         }
-        authInfo.put(userEmail, Integer.parseInt(resultNum));
 
         MailDto mailDto = new MailDto();
         mailDto.setAddress(userEmail);
         mailDto.setTitle("말하길 회원가입 인증 메일입니다.");
         mailDto.setMessage("안녕하세요. 말하길입니다.\n이메일 인증번호 안내 관련 이메일입니다.\n회원님의 인증번호는 "
                 + resultNum + " 입니다.\n회원가입 페이지에서 해당 번호를 입력해주세요! :)");
+        String result = resultNum.toString();
+        redisTemplate.opsForValue().set("Email:"+userEmail, result, 60 * 5, TimeUnit.SECONDS);
 
         return mailDto;
     }
 
     @Override
     public boolean checkAuthNumber(String userEmail, int number){
-        if(authInfo.get(userEmail) == number) {
-            authInfo.remove(userEmail);
-            return true;
+        String codeFoundByEmail = redisUtil.getData("Email:"+userEmail);
+        if(codeFoundByEmail == null) {
+            return false;
         }
-        return false;
+        return Integer.parseInt(codeFoundByEmail) == number;
     }
 
     @Override

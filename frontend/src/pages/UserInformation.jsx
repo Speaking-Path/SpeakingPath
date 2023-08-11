@@ -96,7 +96,8 @@ function UserInformation() {
         <div className='row'>
           <div className={`${styles.infoBox} col-3`}>
             {userInfo && userInfo.userPic !== null ?
-              <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/profile/" + userInfo.userPic} alt="" /> :
+              <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/profile/" + (userInfo.userPic !== null ? userInfo.userPic : 'user.png')} alt="" />
+              :
               <img className={styles.userImg} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
             }
             <div className={styles.uploadProfileImage}>
@@ -138,10 +139,6 @@ function UserInformation() {
         {isPreviewOpen && (
           <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999 }}>
             <Preview isOpen={isPreviewOpen} onClose={handleClosePreview} size="large">
-              <div>
-                <h2 className='mb-0'>화면 미리보기</h2>
-                {/* <p>내용</p> */}
-              </div>
             </Preview>
             <UploadprofileImage>
               

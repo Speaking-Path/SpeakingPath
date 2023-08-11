@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container'
 // import Nav from 'react-bootstrap/Nav'
 // import Navbar from 'react-bootstrap/Navbar'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { Nav, Navbar } from 'react-bootstrap'
+import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { changeLoginInfo } from '../../store/UserInfo'
@@ -60,8 +60,15 @@ function NavBar() {
     <div>
       <Navbar bg="white" data-bs-theme="light">
         <Container>
-          <Nav className={`${styles.part1}`}>
-            <NavLink className={styles.title} to="practice">언어재활</NavLink>
+          <Nav className={`${styles.part1} align-items-center`}>
+            <NavDropdown className={styles.hoverdropdown} title="언어재활" renderMenuOnMount={true} onClick={()=>{navigate("/practice")}}>
+              <NavDropdown.Item href="/#/practice/pron/syllable">음절 말하기</NavDropdown.Item>
+              <NavDropdown.Item href="/#/practice/pron/word">단어 말하기</NavDropdown.Item>
+              <NavDropdown.Item href="/#/practice/pron/sentence">문장 말하기</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="/#/practice/recog/select">사물 고르기</NavDropdown.Item>
+              <NavDropdown.Item href="/#/practice/recog/select-name">사물 이름 맞히기</NavDropdown.Item>
+            </NavDropdown>
             <NavLink className={styles.title} to="consulting">치료상담</NavLink>
           </Nav>
 
@@ -81,7 +88,7 @@ function NavBar() {
             {
               loginToken ? (
                 <div>
-                  <NavLink className={styles.lasttab}
+                  <NavLink className={styles.title}
                     style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
                     to="account/mypage"
                     onClick={()=>{
@@ -89,20 +96,20 @@ function NavBar() {
                     }}>
                     프로필</NavLink>
 
-                    <NavLink className={styles.lasttab} onClick={handleLogout}>
-                      로그아웃
-                    </NavLink>
+                  <NavLink className={styles.title} onClick={handleLogout}>
+                    로그아웃
+                  </NavLink>
                 </div>
 
               ) :
                 (
                   <div>
-                    <NavLink className={`${styles.lasttab} ms-auto`}
+                    <NavLink className={`${styles.title} ms-auto`}
                       style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
                       to="account/signup">
                       회원가입</NavLink>
 
-                    <NavLink className={styles.lasttab}
+                    <NavLink className={styles.title}
                       style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
                       to="account/login">
                       로그인</NavLink>

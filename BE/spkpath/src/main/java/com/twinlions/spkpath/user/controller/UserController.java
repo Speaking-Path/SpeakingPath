@@ -1,16 +1,27 @@
 package com.twinlions.spkpath.user.controller;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.twinlions.spkpath.config.RandomStringCreator;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.JwtAuthenticationFilter;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.mail.MailDto;
+import com.twinlions.spkpath.user.LoginUser;
+import com.twinlions.spkpath.user.MemberAddDto;
 import com.twinlions.spkpath.user.UserDto;
+import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
+import com.twinlions.spkpath.user.service.OAuthService;
 import com.twinlions.spkpath.user.service.UserService;
 import com.twinlions.spkpath.user.vo.NameAndEmailVO;
 import com.twinlions.spkpath.user.vo.UserVO;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,12 +36,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDate;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -177,8 +193,7 @@ public class UserController {
     public ResponseEntity<?> uploadProfile(
             @RequestParam("userId") String userId, @RequestParam("file")MultipartFile file){
         if(!file.isEmpty()) {
-            LocalDate now = LocalDate.now();
-            String saveFolder = profilePath + "/" + userId + "/" + now;
+            String saveFolder = profilePath;
             File folder = new File(saveFolder);
             if (!folder.exists())
                 folder.mkdirs();
@@ -189,10 +204,10 @@ public class UserController {
                 String saveFileName = UUID.randomUUID().toString()
                         + originalFileName.substring(originalFileName.lastIndexOf('.'));
                 try {
-                    file.transferTo(new File(folder, saveFileName));
-                    userService.uploadProfile(userId, userId + "/" + now + "/" + saveFileName);
+                    file.transferTo(new File(folder, userId + saveFileName));
+                    userService.uploadProfile(userId, userId + saveFileName);
                     log.info("UserController:: upload profile {} at {}", userId, saveFolder);
-                    return new ResponseEntity<String>(userId + "/" + now + "/"+ saveFileName, HttpStatus.CREATED);
+                    return new ResponseEntity<String>(userId + saveFileName, HttpStatus.CREATED);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
@@ -237,6 +252,85 @@ public class UserController {
     public ResponseEntity<?>  emailAuthCheck(@RequestBody NameAndEmailVO nameAndEmailVO, @PathVariable("number") int number) {
         log.debug("emailAuthCheck 해당 메일로 보낸 인증번호 확인: ", nameAndEmailVO.getUserEmail());
         return new ResponseEntity<>(userService.checkAuthNumber(nameAndEmailVO.getUserEmail(), number), HttpStatus.OK);
+    }
+
+    @PostMapping("/auth/checkToken")
+    @Operation(summary = "토큰 유효성 검사", description = "토큰을 입력받으면 유효한 사용자인지, 만료된 토큰인지 등 유효성 검사를 시행한다.")
+    public ResponseEntity<?>  checkToken(@RequestBody TokenDto token){
+        try {
+            return new ResponseEntity<>(jwtTokenProvider.validateToken(token.getAccessToken()), HttpStatus.ACCEPTED);
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (ExpiredJwtException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (UnsupportedJwtException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }catch (Exception e){
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    private String getUserInfo(String access_token) {
+        String header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+        try {
+            String apiURL = "https://openapi.naver.com/v1/nid/me";
+            URL url = new URL(apiURL);
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            con.setRequestProperty("Authorization", header);
+            int responseCode = con.getResponseCode();
+            log.debug("[네아로] 유저정보 요청 응답코드 = {}", responseCode);
+            BufferedReader br;
+            if (responseCode == 200) { // 정상 호출
+                br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            } else {  // 에러 발생
+                br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+            }
+            String inputLine;
+            StringBuffer res = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+                res.append(inputLine);
+            }
+            br.close();
+            log.debug("[네아로] 유저정보 요청 res = {}", res);
+            return res.toString();
+        } catch (Exception e) {
+            System.err.println(e);
+            return "Err";
+        }
+    }
+
+    private final OAuthService oAuthService;
+
+    @GetMapping("/naver-login")
+    @CrossOrigin(origins = "http://localhost:3000") // 허용할 오리진을 명시
+    @Operation(summary = "네이버로 로그인 하기")
+    public void naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String url = oAuthService.getNaverAuthorizeUrl("authorize");
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.sendRedirect(url);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping("/naverlogin")
+    @Operation(summary = "네이버로 로그인 하기")
+    public ResponseEntity<?> naverLoginResponse(@RequestParam String code, @RequestParam String state){
+        try{
+            UserDto userDto = oAuthService.signup(code, "naver");
+            TokenDto tokenDto = new TokenDto();
+            tokenDto.setAccessToken(userDto.getUserPwd().split(" ")[1]);
+            tokenDto.setRefreshToken(userDto.getUserPwd().split(" ")[2]);
+            tokenDto.setGrantType(userDto.getUserPwd().split(" ")[0]);
+            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+        } catch ( Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
