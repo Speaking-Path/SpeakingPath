@@ -11,7 +11,7 @@ function Entry(props) {
 
   useEffect(() => {
     // 페이지가 렌더링된 후에 실행되는 부분
-    window.scrollTo({ top: 80, behavior: 'smooth' }); // 컴포넌트 상단으로 스크롤 이동
+    window.scrollTo({ top: 100, behavior: 'smooth' }); // 컴포넌트 상단으로 스크롤 이동
   }, []);
 
   const handleButtonClick = () => {
