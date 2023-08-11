@@ -2,6 +2,7 @@
 
 
 
+import { RepeatOneSharp } from "@mui/icons-material";
 import axios from "axios";
 
 // const TOKEN_TYPE = localStorage.getItem("tokenType")
@@ -81,10 +82,15 @@ export const login = async (data) => {
   }
 };
 
-export const naverLogin = async () => {
-  
+export const naverLogin = async () => { 
   try {
-    const response = await axios.get(`account/naver-login`);
+    const url = await axios.get(`account/naver-login`);
+    const response = await axios.create({
+      baseURL: url,
+      headers: {
+          'Content-Type': 'application/json',
+            },
+    }).get()
     return response;
   } catch (error) {
     return 0;
