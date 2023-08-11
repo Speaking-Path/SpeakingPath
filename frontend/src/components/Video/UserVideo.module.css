@@ -9,9 +9,9 @@ video {
     margin: 10px;
     padding: 8px;
     color: black;
-    border: 1px solid black;
+    font-weight: bold;
+    border: 3px solid skyblue;
     border-radius: 10px;
-    float: left;
 }
 
 .videoContainer {
@@ -25,4 +25,8 @@ video {
     border-radius: 20px;
     padding: 10px;
     border: 3px solid skyblue;
+}
+
+.redNickname {
+    color: red
 }
