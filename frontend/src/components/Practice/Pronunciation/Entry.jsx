@@ -17,6 +17,13 @@ function Entry(props) {
     setIsPreviewOpen(false);
   };
 
+  function typeEng(){
+    if(props.type==="음절") return "syllable"
+    else if(props.type==="단어") return "word"
+    else if(props.type==="문장") return "sentence"
+    return ""
+  }
+
   return (
 
     <div className="entry-container min-vh-100"> 
@@ -48,7 +55,7 @@ function Entry(props) {
                 <div className="d-grid gap-3 d-sm-flex justify-content-center mb-3">
                   
                 <div class="btn-container">
-                  <Link to="/practice/pron/start" className="btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}>
+                  <Link to={"/practice/pron/start/"+typeEng()} className="btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }}>
                     시작하기
                   </Link>
 

@@ -57,6 +57,9 @@ function App() {
           <Route path="/practice/pron/word" element={<Word />} />
           <Route path="/practice/pron/sentence" element={<Sentence />} />
           <Route path="/practice/pron/start" element={<PronStart/>}/>
+          <Route path="/practice/pron/start/syllable" element={<PronStart type="syllable"/>}/>
+          <Route path="/practice/pron/start/word" element={<PronStart type="word"/>}/>
+          <Route path="/practice/pron/start/sentence" element={<PronStart type="sentence"/>}/>
           <Route path="/practice/recog/select" element={<PickPic />} />
           <Route path="/practice/recog/select-name" element={<PickName />} />
 

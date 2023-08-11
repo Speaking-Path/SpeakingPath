@@ -20,14 +20,18 @@ function PronStart(props) {
     function getPronData() {
         pronData.current = []
         let path=process.env.PUBLIC_URL + "/assets/sentence/"
+        let nfile=5
         if(props.type==="syllable"){
             path=process.env.PUBLIC_URL + "/assets/syllable/"
+            nfile=14
         }else if(props.type==="word"){
             path=process.env.PUBLIC_URL + "/assets/word/"
+            nfile=0
         }else if(props.type==="sentence"){
             path=process.env.PUBLIC_URL + "/assets/sentence/"
+            nfile=5
         }
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < nfile; i++) {
             const data = {
                 src: process.env.PUBLIC_URL + path + (i+1).toString()+".mp4",
             }
@@ -38,14 +42,16 @@ function PronStart(props) {
 
     // 다음 문제로
     function Next(){
-        guideVideoRef.current.src=pronData.current.at(currentIndex+1).src
-        setCurrentIndex(currentIndex+1)
+        const newIndex=(currentIndex+1)%pronData.current.length
+        guideVideoRef.current.src=pronData.current.at(newIndex).src
+        setCurrentIndex(newIndex)
     }
 
     // 이전 문제로
     function Prev(){
-        guideVideoRef.current.src=pronData.current.at(currentIndex-1).src
-        setCurrentIndex(currentIndex-1)
+        const newIndex=(currentIndex-1)%pronData.current.length
+        guideVideoRef.current.src=pronData.current.at(newIndex).src
+        setCurrentIndex(newIndex)
     }
 
     return (
