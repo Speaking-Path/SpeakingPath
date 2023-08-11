@@ -12,7 +12,11 @@
 
 .write {
   margin-left: 5%;
+  display: flex;
+  align-items: center;
 }
+
+
 
 .titleinfo {
   margin-left: 0.250rem;
