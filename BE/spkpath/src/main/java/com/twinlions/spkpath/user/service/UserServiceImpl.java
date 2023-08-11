@@ -11,7 +11,9 @@ import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.mail.MailDto;
 import com.twinlions.spkpath.user.entity.Authority;
+import com.twinlions.spkpath.user.entity.SnsUser;
 import com.twinlions.spkpath.user.entity.User;
+import com.twinlions.spkpath.user.repository.SnsUserRepository;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.UserDto;
 import io.jsonwebtoken.Jwts;
@@ -29,6 +31,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import javax.swing.text.html.Option;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +53,7 @@ public class UserServiceImpl implements UserService{
     private final ConsultantBoundaryRepository consultantBoundaryRepository;
     private final BoundaryRepository boundaryRepository;
     private final ConsultantService consultantService;
+    private final SnsUserRepository snsUserRepository;
     private final RedisUtil redisUtil;
 
     @Value("${spring.mail.username}")
@@ -321,9 +327,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void sendEmail(MailDto mailDto) {
-        if(redisUtil.existData(mailDto.getAddress())){
-            redisUtil.deleteData(mailDto.getAddress());
-        }
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(mailDto.getAddress());
         message.setFrom(fromAddress);

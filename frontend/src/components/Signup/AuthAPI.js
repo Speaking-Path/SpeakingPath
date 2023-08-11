@@ -81,6 +81,18 @@ export const login = async (data) => {
   }
 };
 
+export const naverLogin = async () => {
+  
+  try {
+    const response = await axios.create({
+      baseURL: "http://localhost:8080"}).get(`account/naver-login`);
+    
+    return response;
+  } catch (error) {
+    return 0;
+  }
+};
+
 
 
 export const checkEmailApi = function (e, email, setEmailMessage, setIsEmail) {

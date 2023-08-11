@@ -8,6 +8,7 @@ build/*
 
 ## 보안문제
 application.properties
+application.yml
 
 ## Gradle 관련 문제
 gradle/
