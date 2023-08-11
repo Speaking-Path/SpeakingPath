@@ -26,6 +26,7 @@ import FindPwd from './pages/FindUserPwd';
 import ErrorPage from './pages/ErrorPage';
 import SavedItems from './components/MyPage/SavedItems';
 import PronStart from './components/Practice/Pronunciation/PronStart';
+import { useEffect } from 'react';
 
 
 

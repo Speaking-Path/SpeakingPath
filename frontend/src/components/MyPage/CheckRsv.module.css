@@ -67,11 +67,12 @@
 .btnBox {
   display: flex;
   width: 50%;
-  /* flex-direction: column; */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* margin-left: 6%; */
+  margin-left: 6%;
   text-align: center;
+  line-height: 0;
 }
 
 .btnBox button {
@@ -191,4 +192,9 @@
   border-radius: 0.313rem;
   margin-bottom: 0.188rem;
   padding: 0 0.125rem;
+}
+
+.none {
+  font-size: 1.5rem;
+  font-weight: 700;
 }

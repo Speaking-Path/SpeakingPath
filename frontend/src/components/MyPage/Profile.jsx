@@ -130,6 +130,8 @@ function Profile() {
     } else if (reward >= 700 && reward < 1500) {
       setImageURL("/assets/reward/plane.png")
 
+    } else {
+      setImageURL("/assets/reward/airplane.png")
     }
   }
 
@@ -148,7 +150,13 @@ function Profile() {
           <div className={styles.rewardTitle}>
             <p className={styles.rewardNow}>현재 리워드</p>
             <p className={styles.rewardNum}>{userInfo.userReward}</p>
-            <p className={styles.rewardCur}>다음 단계까지 {calculateRemainingPoints(userInfo.userReward)}점 남았어요!</p>
+            {
+              userInfo.userReward < 1500 ? (
+                <p className={styles.rewardCur}>다음 단계까지 {calculateRemainingPoints(userInfo.userReward)}점 남았어요!</p>
+              ) : (
+                <p className={styles.rewardCur}>가장 높은 단계에 도달했어요!</p>
+              )
+            }
           </div>
           <div className={styles.rewardImg}>
             <img src={process.env.PUBLIC_URL + imageURL} alt="" />

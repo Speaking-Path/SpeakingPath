@@ -127,6 +127,8 @@ function CheckRsv() {
       <div className={styles.titleBox}>
         <p>예정된 상담</p>
       </div>
+      {
+        results.length > 0 ?
       <div className={styles.rsvListBox}>
         {results.map(({ year, data }) => (
           <div key={year} className={styles.yearBox}>
@@ -173,7 +175,7 @@ function CheckRsv() {
                     }
                     {
                       item.rsvStatus ==="예약확정" ?
-                      <div className={styles.btnBox}>
+                      <div>
                       <button className={styles.blueBtn} onClick={() => { joinMeeting(item) }}>입장하기</button>
                       <button className={styles.redBtn} onClick={()=>{rsvCancel(item.id)}}>예약취소</button>
                       </div> :
@@ -195,7 +197,10 @@ function CheckRsv() {
             </div>
           </div>
         ))}
-      </div>
+      </div> : (
+        <p className={styles.none}>예정된 예약이 없습니다.</p>
+      )
+      }
     </div>
   )
 }

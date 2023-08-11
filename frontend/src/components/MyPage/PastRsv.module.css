@@ -130,3 +130,8 @@
 .reasonInfo {
   margin-bottom: 0;
 }
+
+.none {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
