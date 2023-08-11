@@ -5,7 +5,7 @@ CREATE DATABASE IF NOT EXISTS `spkpath`;
 USE spkpath;
 
 CREATE TABLE `user_tb` (
-    `user_id`	char(20)	NOT NULL,
+    `user_id`	char(100)	NOT NULL,
     `user_pwd`	varchar(100)	NOT NULL,
     `user_name`	char(10)	NOT NULL,
     `user_email`	varchar(30)	NOT NULL	COMMENT 'UNIQUE',
