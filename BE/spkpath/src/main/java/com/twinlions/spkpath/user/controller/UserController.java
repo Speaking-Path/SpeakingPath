@@ -310,7 +310,7 @@ public class UserController {
     public void naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
         try {
             String url = oAuthService.getNaverAuthorizeUrl("authorize");
-            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+            response.setHeader("Access-Control-Allow-Origin", "https://i9c109.p.ssafy.io");
             response.sendRedirect(url);
         } catch (Exception e) {
             e.printStackTrace();
