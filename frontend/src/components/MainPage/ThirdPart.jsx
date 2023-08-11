@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 const ThirdPart = () => {
   const navigate = useNavigate()
   useEffect(()=>{
-    Aos.init({duration: 1000})
+    Aos.init({duration: 500})
   })
 
 
