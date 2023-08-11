@@ -9,12 +9,12 @@
   max-width: 37.5rem;
   margin: auto;
   width: 90%;
-  padding: 12.500rem 0px;
+  padding: 3rem 0px;
   position: relative;
 }
 
 .image-container {
-  padding-bottom: 100%;
+  padding-bottom: 90%;
   background: black;
   position: relative;
   overflow: hidden;
