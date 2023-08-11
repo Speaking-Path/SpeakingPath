@@ -2,16 +2,12 @@ import { useState } from "react";
 import Entry from "./Entry";
 
 function Word() {
-  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
-
-  const handleButtonClick = () => {
-    setIsPreviewOpen(true);
-  };
+  const speakImage = '../../assets/speak.jpg';
 
   return(
     <div>
       <div>  
-        <Entry type={"단어"} />
+        <Entry type={"단어"} speakImage={speakImage} />
       </div>
     </div>
   )

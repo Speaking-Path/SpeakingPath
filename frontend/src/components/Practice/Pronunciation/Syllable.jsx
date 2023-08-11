@@ -11,6 +11,8 @@ import Entry from "./Entry";
 
 
 function Syllable() {
+  const speakImage = '../../assets/speak2.jpg';
+
   // const pronCorrect = useSelector((state)=>{return state.pronCorrect})
   // const pronWrong = useSelector((state)=>{return state.pronWrong})
   // const dispatch = useDispatch()
@@ -25,7 +27,7 @@ function Syllable() {
       {pronWrong && <RetryPron/>} */}
 
       <div>  
-        <Entry type={"음절"} />
+        <Entry type={"음절"} speakImage={speakImage} />
       </div>
     </div>
   )
