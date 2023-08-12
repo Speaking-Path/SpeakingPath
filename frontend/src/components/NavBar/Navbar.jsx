@@ -62,12 +62,27 @@ function NavBar() {
         <Container>
           <Nav className={`${styles.part1} align-items-center`}>
             <NavDropdown className={styles.hoverdropdown} title="언어재활" renderMenuOnMount={true} onClick={() => { navigate("/practice") }}>
-              <NavDropdown.Item href="/#/practice/pron/syllable">음절 말하기</NavDropdown.Item>
-              <NavDropdown.Item href="/#/practice/pron/word">단어 말하기</NavDropdown.Item>
-              <NavDropdown.Item href="/#/practice/pron/sentence">문장 말하기</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/#/practice/recog/select">사물 고르기</NavDropdown.Item>
-              <NavDropdown.Item href="/#/practice/recog/select-name">사물 이름 맞히기</NavDropdown.Item>
+              {
+                loginToken ? (
+                  <>
+                    <NavDropdown.Item href="/#/practice/pron/syllable">음절 말하기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/practice/pron/word">단어 말하기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/practice/pron/sentence">문장 말하기</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/#/practice/recog/select">사물 고르기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/practice/recog/select-name">사물 이름 맞히기</NavDropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    <NavDropdown.Item href="/#/account/login">음절 말하기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/login">단어 말하기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/login">문장 말하기</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/#/account/login">사물 고르기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/login">사물 이름 맞히기</NavDropdown.Item>
+                  </>
+                )
+              }
             </NavDropdown>
             <NavLink className={styles.title} to="consulting">치료상담</NavLink>
           </Nav>
@@ -122,6 +137,7 @@ function NavBar() {
       <div className={`${styles.drdn} container`}>
       </div>
     </div>
+
 
   )
 }
