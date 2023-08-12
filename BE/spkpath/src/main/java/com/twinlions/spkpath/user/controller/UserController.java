@@ -298,15 +298,15 @@ public class UserController {
     @GetMapping("/naver-login")
     @CrossOrigin(origins = "http://localhost:3000") // 허용할 오리진을 명시
     @Operation(summary = "네이버로 로그인 하기")
-    public ResponseEntity<?> naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
+    public void naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
         try {
             String url = oAuthService.getNaverAuthorizeUrl("authorize");
-//            response.setHeader("Access-Control-Allow-Origin", "https://i9c109.p.ssafy.io");
-//            response.sendRedirect(url);
-            return new ResponseEntity<>(url, HttpStatus.OK);
+            response.setHeader("Access-Control-Allow-Origin", "https://i9c109.p.ssafy.io");
+            response.sendRedirect(url);
+//            return new ResponseEntity<>(url, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+//            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
         }
     }
 
