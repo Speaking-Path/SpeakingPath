@@ -310,7 +310,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/naverlogin  ")
+    @GetMapping("/naverlogin")
     @Operation(summary = "네이버로 로그인 하기")
     public void naverLoginResponse(@RequestParam String code, @RequestParam String state, HttpServletResponse response){
         try{
