@@ -16,6 +16,7 @@ import mediaConfigReducer from './store/mediaConfig'
 import sessionStorage from 'redux-persist/es/storage/session'
 
 
+
 const reducers = combineReducers({
   areas : areas.reducer,
   searchTags : searchTags.reducer,

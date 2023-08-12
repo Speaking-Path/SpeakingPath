@@ -3,10 +3,14 @@ import styles from './PickStart.module.css'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import { useNavigate } from 'react-router';
 
 
 function PickPicStart({ onPicStartButtonClick, onGetPic }) {
   const [useInfo, setUseInfo] = useState(0)
+  const navigate = useNavigate()
+
+
   useEffect(() => {
     // 페이지가 렌더링된 후에 실행되는 부분
     window.scrollTo({ top: 110, behavior: 'smooth' }); // 컴포넌트 상단으로 스크롤 이동
@@ -27,6 +31,9 @@ function PickPicStart({ onPicStartButtonClick, onGetPic }) {
         <button onClick={() => { setUseInfo(1) }}>이용방법</button>
         <button onClick={() => { onPicStartButtonClick(); onGetPic(); }}>시작하기</button>
         </div>
+        <div className={styles.out} onClick={()=>{navigate("/practice")}}>
+                <span>나가기</span>
+              </div>
       </div>
     </div> :
           <div className={styles.infoBox}>

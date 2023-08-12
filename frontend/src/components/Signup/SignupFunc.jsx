@@ -117,7 +117,7 @@ export const clickNaverLogin = async (e) => {
   
   const response = await naverLogin()
   if (response===0) {
-    alert("아이디와 비밀번호를 확인해주세요")
+    alert("네이버로 로그인 실패하였습니다.")
     return 0
   } else {
     localStorage.clear()
