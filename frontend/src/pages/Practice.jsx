@@ -1,8 +1,12 @@
+import { useSelector } from 'react-redux';
 import styles from './Practice.module.css'
 import { useNavigate } from 'react-router-dom';
 
+
+
 function Practice() {
   const navigate = useNavigate()
+  const loginToken = useSelector((state) => { return state.loginToken })
 
   return (
     <div className={styles.practice}>
@@ -19,7 +23,7 @@ function Practice() {
             <div className="row">
               <div className={`${styles.pracList} col`} onClick={(e) => { 
                 const userInfo = localStorage.getItem("accessToken");
-                if (!userInfo) {
+                if (!loginToken) {
                   navigate("/account/login"); // userInfo가 없으면 로그인 페이지로 이동
                 }else{
                   navigate("/practice/pron/syllable")
@@ -34,7 +38,7 @@ function Practice() {
               </div>
               <div className={`${styles.pracList} col`} onClick={(e) => { 
                 const userInfo = localStorage.getItem("accessToken");
-                if (!userInfo) {
+                if (!loginToken) {
                   navigate("/account/login"); // userInfo가 없으면 로그인 페이지로 이동
                 }else{
                   navigate("/practice/pron/word")
@@ -49,7 +53,7 @@ function Practice() {
               </div>
               <div className={`${styles.pracList} col`} onClick={(e) => { 
                 const userInfo = localStorage.getItem("accessToken");
-                if (!userInfo) {
+                if (!loginToken) {
                   navigate("/account/login"); // userInfo가 없으면 로그인 페이지로 이동
                 }else{
                   navigate("/practice/pron/sentence") 
@@ -69,7 +73,7 @@ function Practice() {
             <div className="row">
               <div className={`${styles.pracList2} offset-1 col-4`} onClick={(e) => { 
                 const userInfo = localStorage.getItem("accessToken");
-                if (!userInfo) {
+                if (!loginToken) {
                   navigate("/account/login"); // userInfo가 없으면 로그인 페이지로 이동
                 }else{
                   navigate("/practice/recog/select")
@@ -84,7 +88,7 @@ function Practice() {
               </div>
               <div className={`${styles.pracList2} offset-2 col-4`} onClick={(e) => { 
                 const userInfo = localStorage.getItem("accessToken");
-                if (!userInfo) {
+                if (!loginToken) {
                   navigate("/account/login"); // userInfo가 없으면 로그인 페이지로 이동
                 }else{
                   navigate("/practice/recog/select-name")

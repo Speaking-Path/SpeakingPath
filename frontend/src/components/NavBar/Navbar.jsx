@@ -21,7 +21,7 @@ function NavBar() {
   const tokenType = localStorage.getItem("tokenType")
   const navigate = useNavigate()
 
-  const profileClick = useSelector((state)=>{return state.profileClick})
+  const profileClick = useSelector((state) => { return state.profileClick })
 
   const handleLogout = async () => {
     // Clear login info and local storage
@@ -40,7 +40,7 @@ function NavBar() {
         // Reset the store and rehydrate with initial values
         await persistor.purge();
         await persistor.flush();
-        
+
         // Reload the page
         window.location.reload("/");
       }
@@ -49,7 +49,7 @@ function NavBar() {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!loginNow) {
       navigate("/");
     }
@@ -61,13 +61,28 @@ function NavBar() {
       <Navbar bg="white" data-bs-theme="light">
         <Container>
           <Nav className={`${styles.part1} align-items-center`}>
-            <NavDropdown className={styles.hoverdropdown} title="언어재활" renderMenuOnMount={true} onClick={()=>{navigate("/practice")}}>
-              <NavDropdown.Item href="/#/practice/pron/syllable">음절 말하기</NavDropdown.Item>
-              <NavDropdown.Item href="/#/practice/pron/word">단어 말하기</NavDropdown.Item>
-              <NavDropdown.Item href="/#/practice/pron/sentence">문장 말하기</NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="/#/practice/recog/select">사물 고르기</NavDropdown.Item>
-              <NavDropdown.Item href="/#/practice/recog/select-name">사물 이름 맞히기</NavDropdown.Item>
+            <NavDropdown className={styles.hoverdropdown} title="언어재활" renderMenuOnMount={true} onClick={() => { navigate("/practice") }}>
+              {
+                loginToken ? (
+                  <>
+                    <NavDropdown.Item href="/#/practice/pron/syllable">음절 말하기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/practice/pron/word">단어 말하기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/practice/pron/sentence">문장 말하기</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/#/practice/recog/select">사물 고르기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/practice/recog/select-name">사물 이름 맞히기</NavDropdown.Item>
+                  </>
+                ) : (
+                  <>
+                    <NavDropdown.Item href="/#/account/login">음절 말하기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/login">단어 말하기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/login">문장 말하기</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item href="/#/account/login">사물 고르기</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/login">사물 이름 맞히기</NavDropdown.Item>
+                  </>
+                )
+              }
             </NavDropdown>
             <NavLink className={styles.title} to="consulting">치료상담</NavLink>
           </Nav>
@@ -91,7 +106,7 @@ function NavBar() {
                   <NavLink className={styles.title}
                     style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
                     to="account/mypage"
-                    onClick={()=>{
+                    onClick={() => {
                       dispatch(changeProfileClick(0))
                     }}>
                     프로필</NavLink>
@@ -123,7 +138,7 @@ function NavBar() {
       </div>
     </div>
 
-    
+
   )
 }
 
