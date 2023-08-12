@@ -31,7 +31,34 @@ import { useEffect } from 'react';
 
 
 function App() {
-
+    // 로딩이 끝난 후에 실행되는 useEffect를 이용하여 값을 추출하고 로컬 스토리지에 저장
+    useEffect(() => {
+      // 현재 페이지 URL에서 해시 부분을 추출
+      const hash = window.location.hash.substring(1);
+  
+      // 해시를 & 문자로 분리하여 키-값 쌍 배열로 변환
+      const hashParams = hash.split("&").reduce(function (result, item) {
+        const parts = item.split("=");
+        result[parts[0]] = decodeURIComponent(parts[1]);
+        return result;
+      }, {});
+  
+      // 추출한 값 사용
+      const accessToken = hashParams.accessToken;
+      const refreshToken = hashParams.refreshToken;
+      const grantType = hashParams.grantType;
+  
+      // 추출한 값 확인
+      console.log("Access Token:", accessToken);
+      console.log("Refresh Token:", refreshToken);
+      console.log("Grant Type:", grantType);
+  
+      // 추출한 값을 로컬 스토리지에 저장
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      localStorage.setItem("grantType", grantType);
+    }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때에만 실행
+    
   return (
     <div className="App">
       <div className='AppWrapper'>
