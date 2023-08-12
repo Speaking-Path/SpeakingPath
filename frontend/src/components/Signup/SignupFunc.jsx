@@ -113,8 +113,8 @@ export const clickLogin = async (e, data) => {
 
 export const clickNaverLogin = async (e) => {
   e.preventDefault()
-  const url = `https://nid.naver.com/oauth2.0/authorize?response_type=${process.env.RESPONSE_TYPE}&client_id=${process.env.CLIENT_ID}&redirect_uri=${process.env.REDIRECT_URI}
-  &state=${process.env.STATE}`
+  const url = `https://nid.naver.com/oauth2.0/authorize?response_type=${process.env.REACT_APP_RESPONSE_TYPE}&client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}
+  &state=${process.env.REACT_APP_STATE}`
   console.log(url)
   window.location.href = url;
 
