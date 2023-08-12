@@ -1,17 +1,11 @@
 package com.twinlions.spkpath.user.controller;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.twinlions.spkpath.config.RandomStringCreator;
 import com.twinlions.spkpath.consultant.ConsultantDto;
 import com.twinlions.spkpath.jwt.JwtAuthenticationFilter;
 import com.twinlions.spkpath.jwt.JwtTokenProvider;
 import com.twinlions.spkpath.jwt.TokenDto;
 import com.twinlions.spkpath.mail.MailDto;
-import com.twinlions.spkpath.user.LoginUser;
-import com.twinlions.spkpath.user.MemberAddDto;
 import com.twinlions.spkpath.user.UserDto;
-import com.twinlions.spkpath.user.entity.User;
 import com.twinlions.spkpath.user.repository.CustomUserDetailsService;
 import com.twinlions.spkpath.user.repository.UserRepository;
 import com.twinlions.spkpath.user.service.OAuthService;
@@ -19,7 +13,6 @@ import com.twinlions.spkpath.user.service.UserService;
 import com.twinlions.spkpath.user.vo.NameAndEmailVO;
 import com.twinlions.spkpath.user.vo.UserVO;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.swagger.annotations.Api;
@@ -36,7 +29,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.security.auth.login.LoginException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +37,6 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.*;
 
 @Slf4j
@@ -307,13 +298,15 @@ public class UserController {
     @GetMapping("/naver-login")
     @CrossOrigin(origins = "http://localhost:3000") // 허용할 오리진을 명시
     @Operation(summary = "네이버로 로그인 하기")
-    public void naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<?> naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
         try {
             String url = oAuthService.getNaverAuthorizeUrl("authorize");
-            response.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
-            response.sendRedirect(url);
+//            response.setHeader("Access-Control-Allow-Origin", "https://i9c109.p.ssafy.io");
+//            response.sendRedirect(url);
+            return new ResponseEntity<>(url, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
         }
     }
 
