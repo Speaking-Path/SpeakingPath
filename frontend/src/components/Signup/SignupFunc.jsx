@@ -113,6 +113,8 @@ export const clickLogin = async (e, data) => {
 
 export const clickNaverLogin = async (e) => {
   e.preventDefault()
+  window.location.reload("https://nid.naver.com/oauth2.0/"+process.env.type+"&client_id=" + process.env.client_id + "&redirect_uri="
+  +process.env.redirect_uri + "&state=" + process.env.state)
 
   
   const response = await naverLogin()

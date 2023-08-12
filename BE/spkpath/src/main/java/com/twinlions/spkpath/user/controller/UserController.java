@@ -296,7 +296,7 @@ public class UserController {
     private final OAuthService oAuthService;
 
     @GetMapping("/naver-login")
-    @CrossOrigin(origins = "http://i9c109.p.ssafy.io") // 허용할 오리진을 명시
+    @CrossOrigin(origins = "https://i9c109.p.ssafy.io") // 허용할 오리진을 명시
     @Operation(summary = "네이버로 로그인 하기")
     public void naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
         try {
