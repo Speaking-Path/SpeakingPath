@@ -86,7 +86,7 @@ export const naverLogin = async () => {
   try {
     const url = await axios.get(`account/naver-login`);
     const response = await axios.create({
-      baseURL: url,
+      baseURL: url.data,
       headers: {
           'Content-Type': 'application/json',
             },
