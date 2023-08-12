@@ -312,17 +312,20 @@ public class UserController {
 
     @GetMapping("/naverlogin")
     @Operation(summary = "네이버로 로그인 하기")
-    public ResponseEntity<?> naverLoginResponse(@RequestParam String code, @RequestParam String state){
+    public void naverLoginResponse(@RequestParam String code, @RequestParam String state, HttpServletResponse response){
         try{
             UserDto userDto = oAuthService.signup(code, "naver");
-            TokenDto tokenDto = new TokenDto();
-            tokenDto.setAccessToken(userDto.getUserPwd().split(" ")[1]);
-            tokenDto.setRefreshToken(userDto.getUserPwd().split(" ")[2]);
-            tokenDto.setGrantType(userDto.getUserPwd().split(" ")[0]);
-            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+//            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
+            String url = new String("https://i9c109.p.ssafy.io");
+            response.setHeader("Access-Control-Allow-Origin", "https://i9c109.p.ssafy.io");
+            response.setHeader("accessToken", userDto.getUserPwd().split(" ")[1]);
+            response.setHeader("refreshToken", userDto.getUserPwd().split(" ")[2]);
+            response.setHeader("grantType", userDto.getUserPwd().split(" ")[0]);
+            response.sendRedirect(url);
+//            return new ResponseEntity<>(url, HttpStatus.OK);
         } catch ( Exception e){
             e.printStackTrace();
-            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+//            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
         }
     }
 
