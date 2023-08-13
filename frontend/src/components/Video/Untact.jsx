@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux"
 // import { getToken, createSession, createToken } from './getToken';
 import './Untact.scss'
+import Preview from '../profile/Preview';
 
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
@@ -22,6 +23,7 @@ const Untact = () => {
   const [publisher, setPublisher] = useState(undefined);
   const [subscribers, setSubscribers] = useState([]);
   const userId = useSelector((state) => { return state.loginId })
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
   const location = useLocation();
 
@@ -38,6 +40,14 @@ const Untact = () => {
       window.removeEventListener('beforeunload', onbeforeunload);
     };
   }, []);
+
+  const handleButtonClick = () => {
+    setIsPreviewOpen(true);
+  };
+
+  const handleClosePreview = () => {
+    setIsPreviewOpen(false);
+  };
 
   const onbeforeunload = (event) => {
     leaveSession();
@@ -185,9 +195,8 @@ const Untact = () => {
     return response.data;
   }
 
-
   // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
- // 배경 이미지
+  // 배경 이미지
   const background = {
     //width: '100vw',
     height: '110vh',
@@ -212,15 +221,24 @@ const Untact = () => {
     <div id="box" style={background}>
       <div>
         {session === undefined ? (
-          <div id="join">
-            <div>
+          <div id="join" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '80px'}}>
+            <div style={{ display: 'flex', gap: '10px' }}>
               {/* <button className='btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-5' style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)' }}
               onClick={joinSession}> 입장하기 </button> */}
-              <button className='comet' onClick={joinSession}> 입장하기 </button>
+              <button className="btn btn-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" style={{ background: 'linear-gradient(45deg, #007bff, #6610f2)', color: 'white' }} onClick={joinSession}> 입장하기 </button>
+              <button type="button" className="btn btn-outline-primary btn-lg px-5 py-3 fs-6 fw-bolder m-2" onClick={handleButtonClick}>화면 미리보기</button>
             </div>
           </div>
         ) : null}
       </div>
+
+    {/* 화면 미리보기 */}
+    {isPreviewOpen && (
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 9999 }}>
+          <Preview isOpen={isPreviewOpen} onClose={handleClosePreview} size="large">
+          </Preview>
+      </div>
+      )}
 
       {session !== undefined ? (
         <div id="session">
