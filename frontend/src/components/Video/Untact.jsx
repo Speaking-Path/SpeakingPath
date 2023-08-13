@@ -27,7 +27,7 @@ const Untact = () => {
 
   useEffect(() => {
     window.addEventListener('beforeunload', onbeforeunload);
-    window.scrollTo({ top: 130, behavior: 'smooth' }); 
+    window.scrollTo({ top: 150, behavior: 'smooth' }); 
 
     setMyUserName(userId);
     if(location.state.sessionId!==undefined){
