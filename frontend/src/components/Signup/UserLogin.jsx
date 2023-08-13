@@ -41,7 +41,7 @@ function UserLogin() {
         onClick={async (e)=> {
           const loginRes = await clickLogin(e, data)
           if (loginRes===1) {
-            navigate("/")
+            navigate("/loginmain")
             const ACCESS_TOKEN = localStorage.getItem("accessToken")
             dispatch(changeLoginInfo(ACCESS_TOKEN))
             dispatch(changeLoginId(id))
