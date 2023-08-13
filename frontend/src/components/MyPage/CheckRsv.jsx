@@ -122,10 +122,22 @@ function CheckRsv() {
     })
   }
 
+  const shouldShowJoinButton = function (item) {
+    const currentTime = new Date();
+    const [hour, minute] = item.time.split(":");
+    const rsvTime = new Date(item.year, item.month, item.day, hour, minute);
+  
+    const timeDifference = rsvTime - currentTime; 
+    const minutesDifference = timeDifference / (1000 * 60); 
+  
+    return minutesDifference <= 10;
+  }
+
   return (
     <div>
       <div className={styles.titleBox}>
-        <p>예정된 상담</p>
+        <p className={styles.boxTitle}>예정된 상담</p>
+        <p className={styles.csltInfo}>상담은 10분 전부터 입장 가능합니다.</p>
       </div>
       {
         results.length > 0 ?
@@ -176,7 +188,11 @@ function CheckRsv() {
                     {
                       item.rsvStatus ==="예약확정" ?
                       <div>
-                      <button className={styles.blueBtn} onClick={() => { joinMeeting(item) }}>입장하기</button>
+                        {
+                          shouldShowJoinButton(item) ?
+                          <button className={styles.blueBtn} onClick={() => { joinMeeting(item) }}>입장하기</button> :
+                          null
+                        }
                       <button className={styles.redBtn} onClick={()=>{rsvCancel(item.id)}}>예약취소</button>
                       </div> :
                       null
