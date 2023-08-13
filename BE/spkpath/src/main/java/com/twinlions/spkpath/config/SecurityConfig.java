@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .antMatchers("/v3/api-docs","/swagger*/**").permitAll() // swagger 관련 permit all
                 .antMatchers(accountPermitList).permitAll()
                 .antMatchers("/","/static/**","/assets/**").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("account/mypage").hasAnyAuthority()
                 .antMatchers("account/chnage").hasAnyAuthority()
                 .antMatchers("/practice/**").permitAll()
