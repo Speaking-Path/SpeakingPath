@@ -1,9 +1,11 @@
 import MyCamera from "../../profile/MyCamera"
 import { useRef, useEffect, useState } from "react"
-import styles from './PronStart.module.css'
-
 import { useSelector } from 'react-redux';
 import { selectMediaConfig } from '../../../store/mediaConfig.js';
+import styles from "./PronStart.module.css"
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { blue } from "@mui/material/colors";
 
 function PronStart(props) {
     // 전문가 영상 ref
@@ -66,7 +68,17 @@ function PronStart(props) {
 
     return (
         <div>
-            <h1>제시어</h1>
+
+        <div className={styles.questionSection}>
+            <div>
+                <ArrowBackIosNewIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Prev}/>
+            </div>
+            <p className={styles.question}>제시어</p>
+            <div>
+                <ArrowForwardIosIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Next}/>
+            </div>
+        </div>
+        
             <div className="container" style={{ display: 'flex', justifyContent:'center' }}>
                     <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay loop controls>
                         no video available
@@ -89,10 +101,7 @@ function PronStart(props) {
                 </div> */}
             </div>
 
-            <div className="button" style={{ margin: '40px' }}>
-                <button className={styles['btn-12']} onClick={Prev}><span>Prev</span><span>이전</span></button>
-                <button className={styles['btn-12']} onClick={Next}><span>Next</span><span>다음</span></button>
-            </div>
+ 
         </div>
     )
 }
