@@ -1,7 +1,5 @@
 .titleBox {
   text-align: left;
-  font-size: 1.8rem;
-  font-weight: 600;
   margin-bottom: 5%;
 }
 
@@ -149,7 +147,7 @@
 .reason {
   margin-bottom: 0;
   font-weight: 700;
-  color: #848484;
+  color: #2E64FE;
   border-bottom: 0.063rem solid #848484;
   width: 19%;
 }
@@ -197,4 +195,14 @@
 .none {
   font-size: 1.5rem;
   font-weight: 700;
+}
+
+.csltInfo {
+  color: #a0a0a0;
+}
+
+.boxTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0;
 }
