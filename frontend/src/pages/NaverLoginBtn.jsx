@@ -4,7 +4,7 @@ function NaverLoginBtn () {
     useEffect(() => {
         let naverLogin = new window.naver.LoginWithNaverId({
           clientId: `${process.env.REACT_APP_CLIENT_ID}`,
-          callbackUrl: `http://localhost:3000/#/account/naverlogin`,
+          callbackUrl: `http://i9c109.p.ssafy.io/#/account/naverlogin`,
           loginButton: { color: "green", type: 3, height: "50" },
         });
         naverLogin.init();
