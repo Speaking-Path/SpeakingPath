@@ -4,12 +4,12 @@ import styles from './Navbar.module.css'
 import Container from 'react-bootstrap/Container'
 // import Nav from 'react-bootstrap/Nav'
 // import Navbar from 'react-bootstrap/Navbar'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation} from 'react-router-dom'
 import { Nav, Navbar, NavDropdown } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import { changeLoginInfo } from '../../store/UserInfo'
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { changeProfileClick } from '../../store/profileInfo'
 import { persistor } from "../../index.js";
 
@@ -22,6 +22,11 @@ function NavBar() {
   const navigate = useNavigate()
 
   const profileClick = useSelector((state) => { return state.profileClick })
+  const userInfo = useSelector((state)=>{return state.profileInfo})
+  const [userGrade,setUserGrade] = useState(null)
+
+  const location = useLocation();
+  const profileDropdownRef=useRef(null);
 
   const handleLogout = async () => {
     // Clear login info and local storage
@@ -55,13 +60,28 @@ function NavBar() {
     }
   }, [loginNow])
 
+  function locationStartWith(path) {
+    if (location.pathname.startsWith(path))
+      return true;
+    return false;
+  }
+
+  useEffect(()=>{
+    if(profileDropdownRef.current){
+      profileDropdownRef.current.children[0].onclick=()=>{
+        dispatch(changeProfileClick(0));
+        navigate("/account/mypage"); 
+      }
+    }
+  },[profileDropdownRef.current])
+
 
   return (
     <div>
       <Navbar bg="white" data-bs-theme="light">
         <Container>
           <Nav className={`${styles.part1} align-items-center`}>
-            <NavDropdown className={styles.hoverdropdown} title="언어재활" renderMenuOnMount={true} onClick={() => { navigate("/practice") }}>
+            <NavDropdown className={`${styles.hoverdropdown} ${ locationStartWith("/practice") && styles.selected }`} title="언어재활" renderMenuOnMount={true} onClick={() => { navigate("/practice") }}>
               {
                 loginToken ? (
                   <>
@@ -84,7 +104,7 @@ function NavBar() {
                 )
               }
             </NavDropdown>
-            <NavLink className={styles.title} to="consulting">치료상담</NavLink>
+            <NavLink className={`${styles.title} ${locationStartWith("/consulting") && styles.selected}`} to="consulting">치료상담</NavLink>
           </Nav>
 
           <Nav>
@@ -99,22 +119,29 @@ function NavBar() {
             </Navbar.Brand>
           </Nav>
 
-          <Nav className={styles.part2}>
+          <Nav className={`${styles.part2} align-items-center`}>
             {
               loginToken ? (
-                <div>
-                  <NavLink className={styles.title}
-                    style={({ isActive }) => { return { fontWeight: isActive ? "bold" : "", color: isActive ? 'blue' : '', } }}
-                    to="account/mypage"
-                    onClick={() => {
-                      dispatch(changeProfileClick(0))
-                    }}>
-                    프로필</NavLink>
+                <>
+                  <NavDropdown ref={profileDropdownRef} className={`${styles.hoverdropdown} ${locationStartWith("/account/mypage") && styles.selected}`} title="프로필" renderMenuOnMount={true}>
+                    <NavDropdown.Item href="/#/account/mypage" onClick={() => { dispatch(changeProfileClick(0)) }}>내 정보</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/mypage/checkrsv" onClick={() => { dispatch(changeProfileClick(1)) }}>예정된 상담</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/mypage/pastrsv" onClick={() => { dispatch(changeProfileClick(2)) }}>지난 상담</NavDropdown.Item>
+                    <NavDropdown.Item href="/#/account/mypage/items" onClick={() => { dispatch(changeProfileClick(4)) }}>훈련 즐겨찾기</NavDropdown.Item>
+                    {/* <NavDropdown.Item href="/#/account/mypage">내 화면 보기</NavDropdown.Item> */}
+                    {
+                      userInfo && userInfo.userGrade === "CONSULTANT" ? (
+                        <NavDropdown.Item href="/#/account/mypage/consultrsv" onClick={() => { dispatch(changeProfileClick(3)) }}>예약 시간 지정</NavDropdown.Item>
+                      ) : (
+                        null
+                      )
+                    }
+                  </NavDropdown>
 
                   <NavLink className={styles.title} onClick={handleLogout}>
                     로그아웃
                   </NavLink>
-                </div>
+                </>
 
               ) :
                 (
