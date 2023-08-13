@@ -26,6 +26,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import springfox.documentation.spring.web.json.Json;
 
 import java.net.URLEncoder;
 import java.util.Optional;
@@ -78,6 +79,40 @@ public class OAuthService {
 
         UserDto userDto = new UserDto();
         userDto.setUserId(user.getUserEmail());
+        userDto.setUserEmail(user.getUserEmail());
+        userDto.setUserPhone(user.getUserPhone());
+        userDto.setUserName(user.getUserName());
+        userDto.setUserSex(user.getUserSex());
+        userDto.setUserGrade("USER");
+        userDto.setUserPwd(jwtToken);
+
+        return userDto;
+    }
+
+    public UserDto signin(String accessToken, String type){
+        TYPE = type;
+        CLIENT_ID  = NAVER_CLIENT_ID;
+        REDIRECT_URI = NAVER_REDIRECT_URI;
+
+        // 토큰으로 카카오 API 호출 (이메일 정보 가져오기)
+        JsonNode jsonNode = getUserInfo(accessToken);
+        String email = jsonNode.get("email").asText();
+        String id = jsonNode.get("id").asText();
+        String sex = jsonNode.get("gender").asText();
+        String mobile = jsonNode.get("mobile").asText();
+        String name = jsonNode.get("name").asText();
+
+        // DB정보 확인 -> 없으면 DB에 저장
+        User user = registerUserIfNeed(id, email, sex, mobile, name);
+
+        // JWT 토큰 리턴 & 로그인 처리
+        String jwtToken = "Bearer "+usersAuthorizationInput(user);
+
+        // 회원여부 이메일으로 확인
+        Boolean isMember = checkIsMember(user);
+
+        UserDto userDto = new UserDto();
+        userDto.setUserId(user.getUserId());
         userDto.setUserEmail(user.getUserEmail());
         userDto.setUserPhone(user.getUserPhone());
         userDto.setUserName(user.getUserName());
@@ -180,7 +215,7 @@ public class OAuthService {
                     .userSex(sex)
                     .userGrade("USER")
                     .userEmail(email)
-                    .userPwd(passwordEncoder.encode(TYPE))
+                    .userPwd(passwordEncoder.encode(id))
                     .build();
             userRepository.save(newUser);
         }
@@ -199,8 +234,8 @@ public class OAuthService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        String accessToken = jwtTokenProvider.generateToken(authentication, user.getUserEmail()).getAccessToken();
-        String refreshToken = jwtTokenProvider.generateToken(authentication, user.getUserEmail()).getRefreshToken();
+        String accessToken = jwtTokenProvider.generateToken(authentication, user.getUserId()).getAccessToken();
+        String refreshToken = jwtTokenProvider.generateToken(authentication, user.getUserId()).getRefreshToken();
 
         userRepository.save(user);
         return accessToken+" "+refreshToken;

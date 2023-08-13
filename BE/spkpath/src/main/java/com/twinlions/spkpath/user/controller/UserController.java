@@ -263,7 +263,9 @@ public class UserController {
         }
     }
 
-    private String getUserInfo(String access_token) {
+    @GetMapping("/getuserinfobytoken")
+    @Operation(summary = "네이버로 로그인 하기")
+    private ResponseEntity<?> getUserInfo(@RequestParam String access_token) {
         String header = "Bearer " + access_token; // Bearer 다음에 공백 추가
         try {
             String apiURL = "https://openapi.naver.com/v1/nid/me";
@@ -272,10 +274,17 @@ public class UserController {
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", header);
             int responseCode = con.getResponseCode();
-            log.debug("[네아로] 유저정보 요청 응답코드 = {}", responseCode);
+            System.out.println("[네아로] 유저정보 요청 응답코드 = {}"+ responseCode);
             BufferedReader br;
             if (responseCode == 200) { // 정상 호출
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                UserDto userDto = oAuthService.signin(access_token, "naver");
+                TokenDto tokenDto = new TokenDto();
+                tokenDto.setAccessToken(userDto.getUserPwd().split(" ")[1]);
+                tokenDto.setRefreshToken(userDto.getUserPwd().split(" ")[2]);
+                tokenDto.setGrantType(userDto.getUserId());
+//                userService.login(userDto.getUserId(), userDto.getUserId());
+                return new ResponseEntity<>(tokenDto, HttpStatus.OK);
             } else {  // 에러 발생
                 br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
             }
@@ -285,47 +294,31 @@ public class UserController {
                 res.append(inputLine);
             }
             br.close();
+            System.out.println(res.toString());
             log.debug("[네아로] 유저정보 요청 res = {}", res);
-            return res.toString();
+            return new ResponseEntity<>(res.toString(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.err.println(e);
-            return "Err";
+//            return "Err";
+            return new ResponseEntity<>("fail", HttpStatus.OK);
         }
     }
 
     private final OAuthService oAuthService;
 
-    @GetMapping("/naver-login")
-    @CrossOrigin(origins = "https://i9c109.p.ssafy.io") // 허용할 오리진을 명시
-    @Operation(summary = "네이버로 로그인 하기")
-    public void naverLoginRequest(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            String url = oAuthService.getNaverAuthorizeUrl("authorize");
-            response.setHeader("Access-Control-Allow-Origin", "https://i9c109.p.ssafy.io");
-            response.sendRedirect(url);
-//            return new ResponseEntity<>(url, HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
-//            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
-        }
-    }
-
     @GetMapping("/naverlogin")
     @Operation(summary = "네이버로 로그인 하기")
-    public void naverLoginResponse(@RequestParam String code, @RequestParam String state, HttpServletResponse response){
+    public ResponseEntity<?> naverLoginResponse(@RequestParam String code){
         try{
             UserDto userDto = oAuthService.signup(code, "naver");
-//            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
-            String url = new String("https://i9c109.p.ssafy.io");
-            response.setHeader("Access-Control-Allow-Origin", "https://i9c109.p.ssafy.io");
-            response.setHeader("accessToken", userDto.getUserPwd().split(" ")[1]);
-            response.setHeader("refreshToken", userDto.getUserPwd().split(" ")[2]);
-            response.setHeader("grantType", userDto.getUserPwd().split(" ")[0]);
-            response.sendRedirect(url);
-//            return new ResponseEntity<>(url, HttpStatus.OK);
+            TokenDto tokenDto = new TokenDto();
+            tokenDto.setAccessToken(userDto.getUserPwd().split(" ")[1]);
+            tokenDto.setRefreshToken(userDto.getUserPwd().split(" ")[2]);
+            tokenDto.setGrantType(userDto.getUserPwd().split(" ")[0]);
+            return new ResponseEntity<>(tokenDto, HttpStatus.OK);
         } catch ( Exception e){
             e.printStackTrace();
-//            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("fail", HttpStatus.BAD_REQUEST);
         }
     }
 

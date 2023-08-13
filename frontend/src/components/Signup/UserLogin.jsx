@@ -1,6 +1,6 @@
 // 로그인 페이지
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import styles from "./UserLogin.module.css"
 import { NavLink } from "react-router-dom"
@@ -8,7 +8,7 @@ import { clickLogin, clickNaverLogin } from "./SignupFunc"
 import { useSelector } from "react-redux/es/hooks/useSelector"
 import { useDispatch } from "react-redux"
 import { changeLoginId, changeLoginInfo } from "../../store/UserInfo"
-
+import NaverLoginBtn from "../../pages/NaverLoginBtn"
 
 function UserLogin() {
   const [id, setId] = useState("")
@@ -58,18 +58,7 @@ function UserLogin() {
           <NavLink className={styles.forgot} to="/account/findpwd">
           비밀번호찾기</NavLink>
         </div>
-        <div>
-          <button className={styles.naverLoginBtn} variant="contained" 
-          onClick={async (e)=> {
-            const loginRes = await clickNaverLogin(e)
-            if (loginRes===1) {
-              navigate("/")
-              const ACCESS_TOKEN = localStorage.getItem("accessToken")
-              dispatch(changeLoginInfo(ACCESS_TOKEN))
-              dispatch(changeLoginId(id))
-            }
-            }}>네이버로그인</button>
-        </div>
+        <NaverLoginBtn></NaverLoginBtn>
       </form>
     </div>
   )
