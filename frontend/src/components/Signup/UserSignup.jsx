@@ -86,8 +86,8 @@ function UserSignup() {
           <label className={styles.label} htmlFor="email">이메일 </label>
           <input className={`${styles.checkinput}`} type="text" id="email" value={email} placeholder="이메일 계정"
             onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage, setEmailBtn)} disabled={isEmail}/>
-          <button className={`${styles.checkbtn}`} onClick={(e) => {checkEmailApi(e, email, setEmailMessage, setIsEmail); handleCheckEmail();}} disabled={!emailBtn}>인증받기</button>
-          {timerRunning && !authorizedEmail && (
+          <button className={`${styles.checkbtn}`} onClick={(e) => {checkEmailApi(e, email, setEmailMessage, setIsEmail); handleCheckEmail();}} disabled={!emailBtn && !isEmail}>인증받기</button>
+          {timerRunning && !authorizedEmail && isEmail && (
             <p className={`${styles.message} ${styles.timer}`}>남은 시간: {Math.floor(remainingTime / 60)}분 {remainingTime % 60}초</p>
           )}
           {isTimeout && isEmail && (<>

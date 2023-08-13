@@ -8,6 +8,7 @@ export const onChangeEmail = function (e, setEmail, setEmailMessage, setEmailBtn
 
   if (!emailRegExp.test(currentEmail)) {
     setEmailMessage("이메일의 형식이 올바르지 않습니다.")
+    setEmailBtn(false)
   } else {
     setEmailMessage("")
     setEmailBtn(true)
