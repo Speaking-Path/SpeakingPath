@@ -30,3 +30,45 @@
 .back svg {
   margin-right: 0.6rem;
 }
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ테두리cssㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+@import url(https://fonts.googleapis.com/css?family=Bangers);
+@import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
+
+.box{
+  width: 60vw;
+  height:60vh;
+  background:#fff;
+  border: solid black;
+  border-color: black;
+  float:left; 
+}
+
+.box1{
+  border-width: 3px 4px 3px 5px;
+  border-radius:95% 4% 92% 5%/4% 95% 6% 95%;
+  transform: rotate(2deg);
+}
+
+.oddboxinner{
+  margin:15px;
+  transform: rotate(-2deg);
+  background:#fff;
+  /* font-family: 'Bangers', cursive; */
+  /* font-family: var(--font-bangers); */
+  font-family: 'Do+Hyeon';
+  font-size: 22px;
+  font-weight: bold;
+  text-align: left; 
+  padding-left: 15px;
+}
+
+/* .evenboxinner{
+  transform: rotate(2deg);
+  margin:15px;
+  padding:0 5px;
+  float:right;
+  background:#ddd;
+  border:1px solid #222;
+  box-shadow:3px 3px 0 #222;
+} */

@@ -92,27 +92,37 @@ function PronStart(props) {
         </div>
         
             <div className="container" style={{ display: 'flex', justifyContent:'center' }}>
-                    <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay controls>
+                    
+                <div className={`${styles.box} ${styles.box1}`}>
+                    <div className={styles.oddboxinner}> 따라하기</div>
+                    <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw', transform: 'rotate(-2deg)' }} autoPlay controls>
                         no video available
                     </video>
+                </div>
 
-                {selectedCamera === 'no-camera' ? (
-                <img
-                    src={process.env.PUBLIC_URL + "/assets/pron/no-camera.jpg"}
-                    alt="No Camera"
-                    style={{ height: '45vh' }}
-                    />
-                ) : (
-                    <div style={{height: '45vh', width: '40vw'}}>
-                        <MyCamera myVideoRef={myVideoRef}/>
-                    </div>
-                )}
+                <div className={`${styles.box} ${styles.box1}`}>
+                    <div className={styles.oddboxinner}> 내 모습</div>
+                    {selectedCamera === 'no-camera' ? (
+                        <img
+                            src={process.env.PUBLIC_URL + "/assets/pron/no-camera.jpg"}
+                            alt="No Camera"
+                            style={{ height: '45vh', transform: 'rotate(-2deg)'}}
+                            />
+                        ) : (
+                            <div style={{height: '45vh', width: '40vw', transform: 'rotate(-2deg)'}}>
+                                <MyCamera myVideoRef={myVideoRef}/>
+                            </div>
+                        )}
+                </div>
 
                 {/* <div>
                     <MyCamera myVideoRef={myVideoRef} />
                 </div> */}
             </div>
 
+            {/* <div className={`${styles.box} ${styles.box1}`}>
+                <div className={styles.oddboxinner}> 가이드</div>
+            </div> */}
  
         </div>
     )
