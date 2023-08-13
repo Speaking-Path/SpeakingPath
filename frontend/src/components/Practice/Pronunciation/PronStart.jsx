@@ -2,6 +2,9 @@ import MyCamera from "../../profile/MyCamera"
 import { useRef, useEffect, useState } from "react"
 import styles from './PronStart.module.css'
 
+import { useSelector } from 'react-redux';
+import { selectMediaConfig } from '../../../store/mediaConfig.js';
+
 function PronStart(props) {
     // 전문가 영상 ref
     const guideVideoRef = useRef(null)
@@ -11,10 +14,16 @@ function PronStart(props) {
     const pronData = useRef([])
     // 현재 문제 인덱스
     const [currentIndex, setCurrentIndex] = useState(0)
+
+    const mediaConfig = useSelector(selectMediaConfig);
+    const selectedCamera = mediaConfig.camera;
+
     useEffect(() => {
         getPronData()
         guideVideoRef.current.src=pronData.current.at(currentIndex).src
-        myVideoRef.current.style="height: 40vh; width: 40vw"
+        if (selectedCamera !== 'no-camera') {
+            myVideoRef.current.style = "height: 45vh;"
+        }
     }, [])
 
     // 데이터 받는 함수. 지금은 임시로 assets에 있는 동영상을 활용하고 나중에 BE api가 완성되면 대체
@@ -57,22 +66,34 @@ function PronStart(props) {
 
     return (
         <div>
-            <h1>PronStart</h1>
+            <h1>제시어</h1>
             <div className="container" style={{ display: 'flex', justifyContent:'center' }}>
-                {/* <video ref={guideVideoRef} style={{ height: '50vh', width: '50vw'}} autoPlay loop controls> */}
-                <video ref={guideVideoRef} style={{ height: '40vh', width: '40vw'}} autoPlay loop controls>
-                    no video available
-                </video>
-                <div>
+                    <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay loop controls>
+                        no video available
+                    </video>
+
+                {selectedCamera === 'no-camera' ? (
+                <img
+                    src={process.env.PUBLIC_URL + "/assets/pron/no-camera.jpg"}
+                    alt="No Camera"
+                    style={{ height: '45vh' }}
+                    />
+                ) : (
+                    <div style={{height: '45vh', width: '40vw'}}>
+                        <MyCamera myVideoRef={myVideoRef}/>
+                    </div>
+                )}
+
+                {/* <div>
                     <MyCamera myVideoRef={myVideoRef} />
-                </div>
+                </div> */}
             </div>
-                {/* <button onClick={Prev}>Prev</button> */}
-                {/* <button onClick={Next}>Next</button> */}
+
+            <div className="button" style={{ margin: '40px' }}>
                 <button className={styles['btn-12']} onClick={Prev}><span>Prev</span><span>이전</span></button>
                 <button className={styles['btn-12']} onClick={Next}><span>Next</span><span>다음</span></button>
-                {/* <button className={styles['btn-12']}><span>Click!</span><span>Read More</span></button> */}
-        </div >
+            </div>
+        </div>
     )
 }
 
