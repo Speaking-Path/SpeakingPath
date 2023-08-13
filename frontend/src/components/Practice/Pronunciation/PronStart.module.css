@@ -3,6 +3,10 @@
   justify-content: center;
 }
 
+.questionSection svg {
+  margin: 0 1rem;
+}
+
 .question {
   font-size: 1.7rem;
   font-weight: 700;
@@ -13,3 +17,16 @@
   justify-content: 'center';
 }
 
+.back {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-left: 15%;
+  cursor: pointer;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.back svg {
+  margin-right: 0.6rem;
+}
