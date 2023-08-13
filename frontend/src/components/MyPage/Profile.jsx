@@ -210,10 +210,10 @@ function Profile() {
                   </div>
                 </div> :
                 <div>
-                  <p>수정 클릭 시 비밀번호 수정 창이 나타납니다.</p>
+                  <p>{userInfo.userId.length <= 12 ? "수정 클릭 시 비밀번호 수정 창이 나타납니다." : "네이버 로그인 사용자는 비밀번호 변경이 불가합니다."}</p>
                   <button onClick={(e) => {
                     setClickPwdM(true)
-                  }}>수정</button>
+                  }} disabled={userInfo.userId.length > 12}>수정</button>
                 </div>
             }
           </div>

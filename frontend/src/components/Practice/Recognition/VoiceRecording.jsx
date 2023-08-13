@@ -169,7 +169,7 @@ const VoiceRecording = () => {
   };
 
   const sendAudioToServer = async () => {
-    const sttServer = axios.create({ baseURL: "http://localhost:5001" })
+    // const sttServer = axios.create({ baseURL: "http://localhost:5001" })
     try {
       // Convert Blob to Base64 string
       const reader = new FileReader();
@@ -179,13 +179,15 @@ const VoiceRecording = () => {
         const base64Audio = reader.result.split(',')[1]; // Extract base64 data
 
         // Send Base64 audio to the server
-        const sttServer = axios.create({ baseURL: "http://localhost:5001" });
+        const sttServer = axios.create({ baseURL: "https://i9c109.p.ssafy.io:5001" });
         const response = await sttServer.post('/stt/result', {
           file: base64Audio,
           // format: 'pcm'
         });
 
         console.log(response.data.result); // 여기에 음성인식 결과가 출력됩니다!!
+        console.log(response.data.predict);
+        console.log(response.data.accuracy);
       };
     } catch {
       navigate('/error', { message: "잘못된 접근입니다." }); // 에러 발생 시 ErrorPage로 리다이렉트

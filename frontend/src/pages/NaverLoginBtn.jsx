@@ -12,9 +12,9 @@ function NaverLoginBtn () {
         try {
           naverLogin.getLoginStatus((status) => {
             if (status) {
-              console.log(naverLogin.user);
+              // console.log(naverLogin.user);
             }else{
-              console.log(naverLogin)
+              // console.log(naverLogin)
             }
           });
         } catch (err) {

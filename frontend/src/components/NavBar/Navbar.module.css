@@ -50,6 +50,12 @@ Nav {
   color: blue;
 }
 
+.title.selected {
+  /* border-bottom: 2px solid #2507e6; */
+  font-weight: bold;
+  color: blue;
+}
+
 .hoverdropdown:hover :global(div.dropdown-menu) {
   display: block;
 }
@@ -65,6 +71,12 @@ Nav {
 
 .hoverdropdown:hover :global(a.dropdown-toggle) {
   border-bottom: 2px solid #2507e6;
+  font-weight: bold;
+  color: blue;
+}
+
+.hoverdropdown.selected :global(a.dropdown-toggle) {
+  /* border-bottom: 2px solid #2507e6; */
   font-weight: bold;
   color: blue;
 }

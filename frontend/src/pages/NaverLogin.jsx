@@ -13,20 +13,18 @@ const RedirectURI = () => {
     const getNaverToken = () => {
         if (!location.hash) return;
         const token = location.hash.split('=')[1].split('&')[0]; //token 출력
-        console.log(token)
         axios.get(`/account/getuserinfobytoken`,  { params:{
             "access_token": token}
         }, {
             withCredentials: true
         })
         .then((response)=> {
-            console.log(response.data)
             localStorage.clear()
             localStorage.setItem('tokenType', "Bearer ")
             localStorage.setItem('accessToken', response.data.accessToken)
             localStorage.setItem('refreshToken', response.data.refreshToken)
-            console.log("id: "+response.data.grantType)
-            navigate("/")
+            // console.log("id: "+response.data.grantType)
+            navigate("/loginmain")
             const ACCESS_TOKEN = localStorage.getItem("accessToken")
             dispatch(changeLoginInfo(ACCESS_TOKEN))
             dispatch(changeLoginId(response.data.grantType))
@@ -41,7 +39,6 @@ const RedirectURI = () => {
       // 요청 성공 코드값
       const hash = window.location.hash;
       // 해시값을 파싱하여 키-값 쌍으로 변환
-      console.log(hash)
       const hashParams = new URLSearchParams(hash.split('#')[2]);
       
       // access_token 값 추출

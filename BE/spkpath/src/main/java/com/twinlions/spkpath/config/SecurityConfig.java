@@ -35,11 +35,13 @@ public class SecurityConfig {
                 .antMatchers("/v3/api-docs","/swagger*/**").permitAll() // swagger 관련 permit all
                 .antMatchers(accountPermitList).permitAll()
                 .antMatchers("/","/static/**","/assets/**").permitAll()
+                .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("account/mypage").hasAnyAuthority()
                 .antMatchers("account/chnage").hasAnyAuthority()
                 .antMatchers("/practice/**").permitAll()
                 .antMatchers("/cslting/**").permitAll()
                 .antMatchers("/cslt/**").permitAll()
+                .antMatchers("/stt/**").permitAll()
                 .anyRequest().authenticated() // 이 밖의 모든 요청에 대해 인증을 필요로 한다는 설정
 
                 .and() // filter 설정하여
