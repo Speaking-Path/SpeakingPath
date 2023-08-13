@@ -13,7 +13,7 @@ const RedirectURI = () => {
     const getNaverToken = () => {
         if (!location.hash) return;
         const token = location.hash.split('=')[1].split('&')[0]; //token 출력
-        console.log(token)
+        // console.log(token)
         axios.get(`/account/getuserinfobytoken`,  { params:{
             "access_token": token}
         }, {
@@ -25,7 +25,7 @@ const RedirectURI = () => {
             localStorage.setItem('tokenType', "Bearer ")
             localStorage.setItem('accessToken', response.data.accessToken)
             localStorage.setItem('refreshToken', response.data.refreshToken)
-            console.log("id: "+response.data.grantType)
+            // console.log("id: "+response.data.grantType)
             navigate("/")
             const ACCESS_TOKEN = localStorage.getItem("accessToken")
             dispatch(changeLoginInfo(ACCESS_TOKEN))
