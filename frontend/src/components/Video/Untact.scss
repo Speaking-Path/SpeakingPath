@@ -7,7 +7,7 @@ $dur: 1s;
 
 // ____________ colors
 
-$blue:#2b3701; // 022649
+$blue:#011c37; // 022649
 $slime-green:#00BFFF;
 
 $dark:$blue;
@@ -103,10 +103,11 @@ $val-4: 14px;
 }
 
 .comet {
+  border-color: white;
   position: relative;
   display: block;
   margin: auto;
-  margin-top: 80px;
+  // margin-top: 80px;
   padding-right: 2rem;
   padding-left: 2rem;
   font-size: 1rem;
@@ -207,3 +208,7 @@ $val-4: 14px;
     90%  { top: 50%; left: 0; @include tail-4; @include ease(Out); }
   100% { top: 0; left: 0; @include tail; @include ease(In); } // top left
 }
+
+
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
