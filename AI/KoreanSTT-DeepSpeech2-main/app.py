@@ -46,6 +46,7 @@ def results():
         try:
             # Decode Base64 audio data
             base64_audio = request.json.get('file')
+            answer = request.json.get('answer')
             audio_data = base64.b64decode(base64_audio)
 
             # Save the audio data as a file (if needed)
@@ -55,7 +56,19 @@ def results():
             # Process the audio data using the evaluate.mains function
             predict = evaluate.mains(audio_data)
 
-            response = {"result": predict}
+            denominator = answer.length
+            numerator = 0
+
+            # 정답이랑 일치율 비교
+            for char in answer:
+                if char in predict: numerator+=1
+
+            accuracy = numerator/denominator
+            result = "fail"
+            if accuracy > 0.5:
+                result = "success"
+            response = {"predict": predict, "accuracy": numerator/denominator, "result": result}
+
             return jsonify(response)
 
         except Exception as e:
