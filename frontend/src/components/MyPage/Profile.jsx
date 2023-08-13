@@ -176,7 +176,7 @@ function Profile() {
           </div>
           <div>
             <p className={styles.infoSubT}>아이디</p>
-            <p> {userInfo.userId.length > 12 ? "네이버 로그인" : userInfo.userId} : 네이버 로그인</p>
+            <p> {userInfo.userId.length > 12 ? "네이버 로그인" : userInfo.userId}</p>
           </div>
           <div className={styles.infoSubPwd}>
             <p className={styles.infoSubT}>비밀번호</p>
