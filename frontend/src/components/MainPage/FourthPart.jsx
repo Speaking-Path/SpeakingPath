@@ -12,7 +12,7 @@ const FourthPart = () => {
     <div className={styles.forthPart}>
       <p>이용안내</p>
       <div className={styles.FourthPartBox}>
-        <div className={styles.box} data-aos="fade-up" data-aos-delay="300">
+        <div className={styles.box} data-aos="fade-up" data-aos-delay="100">
           <p className={styles.title}>단어말하기</p>
           <img className={styles.fourthPartImg} src={process.env.PUBLIC_URL + "/assets/main/FourthPart1.png"} alt="" />
           <div className={styles.boxInfo}>
@@ -20,7 +20,7 @@ const FourthPart = () => {
             <p>발음에 대한 적응력 향상</p>
           </div>
         </div>
-        <div className={styles.box} data-aos="fade-up" data-aos-delay="500">
+        <div className={styles.box} data-aos="fade-up" data-aos-delay="300">
           <p className={styles.title}>문장말하기</p>
           <img className={styles.fourthPartImg} src={process.env.PUBLIC_URL + "/assets/main/FourthPart2.png"} alt="" />
           <div className={styles.boxInfo}>
@@ -28,7 +28,7 @@ const FourthPart = () => {
             <p>화면으로 확인하며 발음 연습</p>
           </div>
         </div>
-        <div className={styles.box} data-aos="fade-up" data-aos-delay="700">
+        <div className={styles.box} data-aos="fade-up" data-aos-delay="500">
           <p className={styles.title}>사물고르기</p>
           <img className={styles.fourthPartImg} src={process.env.PUBLIC_URL + "/assets/main/FourthPart3.png"} alt="" />
           <div className={styles.boxInfo}>
@@ -36,7 +36,7 @@ const FourthPart = () => {
             <p>연습으로 인지능력 향상</p>
           </div>
         </div>
-        <div className={styles.box} data-aos="fade-up" data-aos-delay="900">
+        <div className={styles.box} data-aos="fade-up" data-aos-delay="700">
           <p className={styles.title}>사물이름맞히기</p>
           <img className={styles.fourthPartImg} src={process.env.PUBLIC_URL + "/assets/main/FourthPart4.png"} alt="" />
           <div className={styles.boxInfo}>

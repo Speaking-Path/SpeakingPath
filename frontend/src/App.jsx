@@ -27,6 +27,7 @@ import ErrorPage from './pages/ErrorPage';
 import SavedItems from './components/MyPage/SavedItems';
 import PronStart from './components/Practice/Pronunciation/PronStart';
 import { useEffect } from 'react';
+import MainPage2 from './pages/MainPage2';
 
 
 
@@ -66,6 +67,7 @@ function App() {
       {/* 루트 추가 여기에 */}
       <Routes>
         <Route exact path="/" element={<MainPage />} />
+        <Route path='/LoginMain' element={<MainPage2/>}/>
         <Route path="/account/signup" element={<UserSignup />} />
         <Route path="/account/consultantsignup" element={<ConsultantSignup />} />
         <Route path="/account/login" element={<Login />} />
