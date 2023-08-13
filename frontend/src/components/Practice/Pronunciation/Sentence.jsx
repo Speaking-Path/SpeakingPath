@@ -2,7 +2,7 @@ import Entry from "./Entry"
 
 
 function Sentence() {
-  const speakImage = '../../assets/speak3.jpg';
+  const speakImage = '../../assets/pron/speak3.jpg';
 
   return(
     <div>

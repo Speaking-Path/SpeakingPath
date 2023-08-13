@@ -2,7 +2,7 @@ import { useState } from "react";
 import Entry from "./Entry";
 
 function Word() {
-  const speakImage = '../../assets/speak.jpg';
+  const speakImage = '../../assets/pron/speak.jpg';
 
   return(
     <div>

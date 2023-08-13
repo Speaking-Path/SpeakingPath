@@ -27,6 +27,7 @@ const Untact = () => {
 
   useEffect(() => {
     window.addEventListener('beforeunload', onbeforeunload);
+    window.scrollTo({ top: 150, behavior: 'smooth' }); 
 
     setMyUserName(userId);
     if(location.state.sessionId!==undefined){
@@ -189,7 +190,7 @@ const Untact = () => {
  // 배경 이미지
   const background = {
     //width: '100vw',
-    height: '140vh',
+    height: '110vh',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     //maxWidth: '50vw',

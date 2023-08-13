@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import './Entry.module.css'; 
 // import Preview from './Preview';
@@ -8,6 +8,11 @@ import { Link } from 'react-router-dom';
 
 function Entry(props) {
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+
+  useEffect(() => {
+    // 페이지가 렌더링된 후에 실행되는 부분
+    window.scrollTo({ top: 130, behavior: 'smooth' }); // 컴포넌트 상단으로 스크롤 이동
+  }, []);
 
   const handleButtonClick = () => {
     setIsPreviewOpen(true);
@@ -36,7 +41,7 @@ function Entry(props) {
       </div>
       )}
 
-        <div className="container">
+        <div className="container" style={{ border: '4px solid skyblue', padding: '45px' }}>
 
           <div className="row gx-5 align-items-center">
 

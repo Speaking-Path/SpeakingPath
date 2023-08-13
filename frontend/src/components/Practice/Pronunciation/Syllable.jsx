@@ -11,7 +11,7 @@ import Entry from "./Entry";
 
 
 function Syllable() {
-  const speakImage = '../../assets/speak2.jpg';
+  const speakImage = '../../assets/pron/speak2.jpg';
 
   // const pronCorrect = useSelector((state)=>{return state.pronCorrect})
   // const pronWrong = useSelector((state)=>{return state.pronWrong})
