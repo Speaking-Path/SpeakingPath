@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .antMatchers("/cslting/**").permitAll()
                 .antMatchers("/cslt/**").permitAll()
                 .antMatchers("/stt/**").permitAll()
+                .antMatchers("/manifest.json").permitAll()
                 .anyRequest().authenticated() // 이 밖의 모든 요청에 대해 인증을 필요로 한다는 설정
 
                 .and() // filter 설정하여
