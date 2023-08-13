@@ -130,7 +130,8 @@ function CheckRsv() {
     const timeDifference = rsvTime - currentTime; 
     const minutesDifference = timeDifference / (1000 * 60); 
   
-    return minutesDifference <= 10;
+    // return minutesDifference <= 10;
+    return true
   }
 
   return (
