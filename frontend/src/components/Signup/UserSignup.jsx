@@ -28,7 +28,9 @@ function UserSignup() {
   const [passwordConfirmMessage, setPasswordConfirmMessage] = useState("")
 
   const [isId, setIsId] = useState(false)
+  const [idBtn, setIdBtn] = useState(false)
   const [isEmail, setIsEmail] = useState(false)
+  const [emailBtn, setEmailBtn] = useState(false)
   const [isPassword, setIsPassword] = useState(false)
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false)
   const [authorizedEmail, setAuthorizedEmail] = useState(false)
@@ -38,7 +40,7 @@ function UserSignup() {
   const [isTimeout, setIsTimeout] = useState(false)
 
   const startTimer = () => {
-    setRemainingTime(3); // 5 minutes in seconds
+    setRemainingTime(300); // 5 minutes in seconds
     setTimerRunning(true);
   }
 
@@ -76,15 +78,15 @@ function UserSignup() {
         <div>
           <label className={styles.label} htmlFor="id">아이디 </label>
           <input className={`${styles.checkinput}`} type="text" id="id" value={id} placeholder="아이디 입력"
-            onChange={(e) => onChangeId(e, setId, setIdMessage)} disabled={isId}/>
-          <button className={`${styles.checkbtn}`} onClick={(e) => checkIdApi(e, id, setIdMessage, setIsId)} >중복확인</button>
+            onChange={(e) => onChangeId(e, setId, setIdMessage, setIdBtn)} disabled={isId}/>
+          <button className={`${styles.checkbtn}`} onClick={(e) => checkIdApi(e, id, setIdMessage, setIsId)} disabled={!idBtn}>중복확인</button>
           <p className={`${styles.message} ${isId ? styles.correct : styles.message}`}> {idMessage} </p>
         </div>
         <div>
           <label className={styles.label} htmlFor="email">이메일 </label>
           <input className={`${styles.checkinput}`} type="text" id="email" value={email} placeholder="이메일 계정"
-            onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage)} disabled={isEmail}/>
-          <button className={`${styles.checkbtn}`} onClick={(e) => {checkEmailApi(e, email, setEmailMessage, setIsEmail); handleCheckEmail();}} disabled={!isEmail}>인증받기</button>
+            onChange={(e) => onChangeEmail(e, setEmail, setEmailMessage, setEmailBtn)} disabled={isEmail}/>
+          <button className={`${styles.checkbtn}`} onClick={(e) => {checkEmailApi(e, email, setEmailMessage, setIsEmail); handleCheckEmail();}} disabled={!emailBtn}>인증받기</button>
           {timerRunning && !authorizedEmail && (
             <p className={`${styles.message} ${styles.timer}`}>남은 시간: {Math.floor(remainingTime / 60)}분 {remainingTime % 60}초</p>
           )}

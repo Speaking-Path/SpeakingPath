@@ -1,6 +1,6 @@
 import { login, naverLogin } from "./AuthAPI"
 
-export const onChangeEmail = function (e, setEmail, setEmailMessage) {
+export const onChangeEmail = function (e, setEmail, setEmailMessage, setEmailBtn) {
   const currentEmail = e.target.value
   setEmail(currentEmail)
   const emailRegExp =
@@ -8,9 +8,10 @@ export const onChangeEmail = function (e, setEmail, setEmailMessage) {
 
   if (!emailRegExp.test(currentEmail)) {
     setEmailMessage("이메일의 형식이 올바르지 않습니다.")
-  } else (
+  } else {
     setEmailMessage("")
-  )
+    setEmailBtn(true)
+  }
 }
 
 export const onChangePhoneNumber = function (e, setPhoneNumber, setPhoneNumberMessage) {
@@ -34,7 +35,7 @@ export const onChangePhoneNumber = function (e, setPhoneNumber, setPhoneNumberMe
   }
 };
 
-export const onChangeId = function (e, setId, setIdMessage) {
+export const onChangeId = function (e, setId, setIdMessage, setIdBtn) {
   const currentId = e.target.value
   setId(currentId)
   const idRegExp = /^[a-zA-z0-9]{4,12}$/
@@ -43,6 +44,7 @@ export const onChangeId = function (e, setId, setIdMessage) {
     setIdMessage("4-12이내 영문 대소문자 또는 숫자만 입력해 주세요!")
   } else {
     setIdMessage("")
+    setIdBtn(true)
   }
 }
 
