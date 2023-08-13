@@ -5,6 +5,7 @@ import { selectMediaConfig } from '../../../store/mediaConfig.js';
 import styles from "./PronStart.module.css"
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import { blue } from "@mui/material/colors";
 
 function PronStart(props) {
@@ -66,8 +67,19 @@ function PronStart(props) {
         setCurrentIndex(newIndex)
     }
 
+    // 이전 페이지
+    const goBack = () => {
+        window.history.back(); 
+    }
+
     return (
         <div>
+            
+        <div className={styles.back} onClick={goBack}>
+            <ArrowCircleLeftOutlinedIcon 
+            sx={{ fontSize: 40}}/><span>처음으로</span>
+        </div>
+
 
         <div className={styles.questionSection}>
             <div>
@@ -80,7 +92,7 @@ function PronStart(props) {
         </div>
         
             <div className="container" style={{ display: 'flex', justifyContent:'center' }}>
-                    <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay loop controls>
+                    <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay controls>
                         no video available
                     </video>
 
@@ -107,4 +119,3 @@ function PronStart(props) {
 }
 
 export default PronStart
-
