@@ -40,7 +40,7 @@ function App() {
       {/* 루트 추가 여기에 */}
       <Routes>
         <Route exact path="/" element={<MainPage />} />
-        <Route path='/LoginMain' element={<MainPage2/>}/>
+        <Route path='/loginmain' element={<MainPage2/>}/>
         <Route path="/account/signup" element={<UserSignup />} />
         <Route path="/account/consultantsignup" element={<ConsultantSignup />} />
         <Route path="/account/login" element={<Login />} />
