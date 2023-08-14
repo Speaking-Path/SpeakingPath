@@ -51,10 +51,10 @@ function PickNameMain({ qlist, goForward, goBack, retry }) {
 
 
   const checkAns = function () {
-    if (voiceAnswer === null && voiceAnswer === "success") {
+    if (voiceAnswer !== null && voiceAnswer === "success") {
       setIsCorVisible(true);
       setVoiceAnswer(null)
-    } else if (voiceAnswer === null && voiceAnswer === "fail") {
+    } else if (voiceAnswer !== null && voiceAnswer === "fail") {
       setIsWrongVisible(true);
       setVoiceAnswer(null)
     }
