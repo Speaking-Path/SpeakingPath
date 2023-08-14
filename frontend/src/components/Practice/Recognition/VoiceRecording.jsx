@@ -179,7 +179,7 @@ const VoiceRecording = () => {
         const base64Audio = reader.result.split(',')[1]; // Extract base64 data
 
         // Send Base64 audio to the server
-        const sttServer = axios.create({ baseURL: "http://i9c109.p.ssafy.io:5001" });
+        const sttServer = axios.create({ baseURL: "https://i9c109.p.ssafy.io:5001" });
         const response = await sttServer.post('/stt/result', {
           file: base64Audio,
           // format: 'pcm'

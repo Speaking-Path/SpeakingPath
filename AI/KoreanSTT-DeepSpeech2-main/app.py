@@ -68,9 +68,9 @@ def results():
             accuracy = numerator/denominator
             print(accuracy)
             result = "fail"
-            if accuracy > 0.5:
+            if accuracy > 0.3:
                 result = "success"
-            response = {"predict": predict, "accuracy": numerator/denominator, "result": result}
+            response = {"predict": predict, "accuracy": accuracy, "result": result}
 
             return jsonify(response)
 
@@ -81,4 +81,4 @@ def results():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=5000)
