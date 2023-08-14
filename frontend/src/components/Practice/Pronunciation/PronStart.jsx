@@ -23,7 +23,6 @@ function PronStart(props) {
     const selectedCamera = mediaConfig.camera;
     const [recording, setRecording] = useState(false);
     const recordButtonRef = useRef(null);
-    const playButtonRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const recordedBlobsRef = useRef([]);
     const [guideVideoEnded, setGuideVideoEnded] = useState(false); // 가이드 비디오 재생이 끝났는지 여부 상태 추가
@@ -41,31 +40,18 @@ function PronStart(props) {
     //     }
     // }, [])
 
-
-    // 타이머 테스트 코드
-    // useEffect(() => {
-    //     getPronData();
-    //     if (selectedCamera !== 'no-camera') {
-    //         myVideoRef.current.style = "height: 45vh;"
-    //     }
-    //     const playDelay = 5000; // 5초
-    //     const playTimer = setTimeout(() => {
-    //         const newIndex = (currentIndex + 1) % pronData.current.length;
-    //         guideVideoRef.current.src = pronData.current[newIndex].src;
-    //         setCurrentIndex(newIndex);
-    //     }, playDelay);
-
-    //     return () => {
-    //         clearTimeout(playTimer); // 컴포넌트가 언마운트될 때 타이머 클리어
-    //     };
-    // }, [currentIndex]); // currentIndex가 변경될 때마다 실행
-
     
     useEffect(() => {
+        window.scrollTo({ top: 70, behavior: 'smooth' }); 
         getPronData();
         const newIndex = (currentIndex + 1) % pronData.current.length;
         setCurrentIndex(newIndex);
-    }, []);
+        if (guideVideoRef.current) {
+            console.log('guideVideoRef', guideVideoRef);
+            guideVideoRef.current.onended = handleGuideVideoEnded;
+        }
+    }, []); // 컴포넌트 마운트 시에만 실행
+
 
     useEffect(() => {
         if (!showTimer && !guideVideoEnded) {
@@ -82,6 +68,7 @@ function PronStart(props) {
         }
     }, [showTimer, selectedCamera, currentIndex]);
 
+
     useEffect(() => {
         if (showTimer) {
             const playDelay = 5000; // 5초
@@ -93,47 +80,33 @@ function PronStart(props) {
                 clearTimeout(playTimer);
             };
         }
-    }, [showTimer]);
+    }, [showTimer]); 
 
-
-        // 가이드 비디오 재생 끝났을 때 녹화 시작
-        useEffect(() => {
-            // 가이드 비디오 재생이 끝났을 때의 이벤트 핸들러 등록
-            guideVideoRef.current.addEventListener('ended', handleGuideVideoEnded);
-
-            return () => {
-                // 컴포넌트 언마운트 시에 이벤트 핸들러 제거
-                guideVideoRef.current.removeEventListener('ended', handleGuideVideoEnded);
-            };
-        }, []); // 컴포넌트 마운트 시에만 실행
-
-
-        // 가이드 비디오 재생이 끝났을 때 호출되는 함수
-        function handleGuideVideoEnded() {
-            setGuideVideoEnded(true); // 가이드 비디오 재생이 끝났음을 표시
-            setShowTimer(true); 
-        }
- 
-
-        useEffect(() => {
-            getPronData();
-            if (guideVideoEnded) {
-                // 가이드 비디오 재생이 끝나면 5초 뒤에 녹화 시작 함수 호출
+    useEffect(() => {
+        getPronData();
+        if (guideVideoEnded) {
+            // 가이드 비디오 재생이 끝나면 5초 뒤에 녹화 시작 함수 호출
+            if (myVideoRef.current) {
                 const timer = setTimeout(() => {
                     startRecording();
                     setRecording(true);
                 }, 5000); 
-
+                
                 return () => {
                     clearTimeout(timer);
                 };
             }
-        }, [guideVideoEnded]);
+        }
+    }, [guideVideoEnded]);
+    
 
-
-
-
-
+    function handleGuideVideoEnded() {
+        if (myVideoRef.current) {
+            setGuideVideoEnded(true); // 가이드 비디오 재생이 끝났음을 표시
+            setShowTimer(true); 
+        }
+    }
+    
     // 데이터 받는 함수. 지금은 임시로 assets에 있는 동영상을 활용하고 나중에 BE api가 완성되면 대체
     function getPronData() {
         pronData.current = []
@@ -204,7 +177,6 @@ function PronStart(props) {
         }
     
         console.log('Created MediaRecorder', mediaRecorderRef.current, 'with options', options);
-        playButtonRef.current.disabled = true;
         mediaRecorderRef.current.onstop = (event) => {
           console.log('Recorder stopped: ', event);
           console.log('Recorded Blobs: ', recordedBlobsRef.current);
@@ -224,6 +196,7 @@ function PronStart(props) {
 
       
       function handleRecordButtonClick() {
+        // 녹화중이 아닌 상태에서 버튼을 누렀을 때 
         if (recording === false) {
           const selectedVideo = mediaConfig.camera; // Redux 상태에서 선택된 카메라 정보 가져오기
     
@@ -235,13 +208,15 @@ function PronStart(props) {
           startRecording();
           setRecording(true);
           toggleButtonClass(recordButtonRef.current);
-          playButtonRef.current.style.display = 'none'; // 녹화 중일 때 재생 버튼 숨김
+
+        // 녹화중인 상태에서 버튼을 눌렀을 때
         } else {
           stopRecording();
           setRecording(false);
-          playButtonRef.current.disabled = false;
           toggleButtonClass(recordButtonRef.current);
-          playButtonRef.current.style.display = 'block'; // 녹화 중지 후 재생 버튼 표시
+          setTimeout(() => {
+            handlePlayButtonClick(); 
+            }, 2000); 
         }
       }
     
@@ -366,17 +341,6 @@ function PronStart(props) {
 
 
 
-        {/* 재생 버튼 */}
-        <button
-            id="play"
-            onClick={handlePlayButtonClick}
-            ref={playButtonRef}
-            className="btn btn-primary fw-bolder"
-            style={{ background: '#6D58FF', color: 'white', borderRadius: '20px', marginLeft: '10px' }}
-        >
-            <i class="bi bi-play-fill"></i>
-        </button>
-        
         <div style={{ display: 'flex', justifyContent: 'center', transform: 'rotate(-2deg)' }}>
             {/* 녹화 버튼 */}
             <button
