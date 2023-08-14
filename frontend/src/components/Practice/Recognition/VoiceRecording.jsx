@@ -10,16 +10,14 @@ import { useNavigate } from 'react-router-dom';
 import { getAudioStream, exportBuffer } from './audio';
 import axios from 'axios';
 import { Route } from 'react-router-dom';
-import Loading from './Loading';
 
 
-const VoiceRecording = ({answer, setVoiceAnswer}) => {
+const VoiceRecording = ({answer, setVoiceAnswer, checkAns}) => {
   const [stream, setStream] = useState(null);
   const [recording, setRecording] = useState(false);
   const [recorder, setRecorder] = useState(null);
   const [audioBlob, setAudioBlob] = useState(null);
   const navigate = useNavigate()
-  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     async function initializeAudioStream() {
@@ -57,7 +55,6 @@ const VoiceRecording = ({answer, setVoiceAnswer}) => {
   };
 
   const sendAudioToServer = async () => {
-    setIsLoading(true)
     // const sttServer = axios.create({ baseURL: "http://localhost:5001" })
     try {
       // Convert Blob to Base64 string
@@ -78,8 +75,8 @@ const VoiceRecording = ({answer, setVoiceAnswer}) => {
         console.log(response.data.result); // 여기에 음성인식 결과가 출력됩니다!!
         console.log(response.data.predict);
         console.log(response.data.accuracy);
-        setVoiceAnswer(response.data.result)
-        setIsLoading(false)
+        await setVoiceAnswer(response.data.result)
+        checkAns()
       };
     } catch {
       navigate('/error', { message: "잘못된 접근입니다." }); // 에러 발생 시 ErrorPage로 리다이렉트
@@ -111,11 +108,6 @@ const VoiceRecording = ({answer, setVoiceAnswer}) => {
       </div>
       <button className={`${styles.button} ${styles.buttonWinona} ${styles.buttonBorderThin} ${styles.buttonRoundS}`}
       onClick={sendAudioToServer} data-text="정답 확인하기"><span>정답 확인하기</span></button>
-      {
-        isLoading ? (
-          <Loading/>
-        ) : null
-      }
     </>
   );
 };
