@@ -12,7 +12,7 @@ import axios from 'axios';
 import { Route } from 'react-router-dom';
 
 
-const VoiceRecording = ({answer, setVoiceAnswer, checkAns}) => {
+const VoiceRecording = ({answer, checkAns}) => {
   const [stream, setStream] = useState(null);
   const [recording, setRecording] = useState(false);
   const [recorder, setRecorder] = useState(null);
@@ -71,11 +71,10 @@ const VoiceRecording = ({answer, setVoiceAnswer, checkAns}) => {
           answer: answer.objName,
           // format: 'pcm'
         }).then(response => {
-          console.log(response.data.result); // 여기에 음성인식 결과가 출력됩니다!!
-          console.log(response.data.predict);
-          console.log(response.data.accuracy);
-          setVoiceAnswer(response.data.result)
-          checkAns()
+          console.log(response.data.result) // 여기에 음성인식 결과가 출력됩니다!!
+          console.log(response.data.predict)
+          console.log(response.data.accuracy)
+          checkAns(response.data.result)
         });
       };
     } catch {
