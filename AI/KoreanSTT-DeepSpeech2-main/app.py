@@ -65,7 +65,7 @@ def results():
 
             accuracy = numerator/denominator
             result = "fail"
-            if accuracy > 0.59:
+            if accuracy > 0.49:
                 result = "success"
             response = {"predict": predict, "accuracy": accuracy, "result": result}
 

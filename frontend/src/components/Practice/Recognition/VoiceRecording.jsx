@@ -74,7 +74,11 @@ const VoiceRecording = ({answer, checkAns}) => {
           console.log(response.data.result) // 여기에 음성인식 결과가 출력됩니다!!
           console.log(response.data.predict)
           console.log(response.data.accuracy)
-          checkAns(response.data.result)
+          if(response.data.accuracy > 0.49){
+            checkAns("success")
+          }else{
+            checkAns("fail")
+          }
         });
       };
     } catch {
