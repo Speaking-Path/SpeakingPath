@@ -63,6 +63,11 @@
   padding-left: 15px;
 }
 
+.title {
+  display: flex;
+  /* transform: rotate(-2deg); */
+}
+
 /* .evenboxinner{
   transform: rotate(2deg);
   margin:15px;
@@ -72,3 +77,35 @@
   border:1px solid #222;
   box-shadow:3px 3px 0 #222;
 } */
+
+
+.centeredTimer {
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  /* height: 100vh; */
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.transparentContainer {
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px); 
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 투명한 배경 색상 설정 */
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
