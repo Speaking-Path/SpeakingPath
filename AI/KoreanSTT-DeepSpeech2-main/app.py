@@ -57,7 +57,7 @@ def results():
             predict = evaluate.mains(audio_data)
             print(predict)
 
-            denominator = answer.length
+            denominator = len(answer)
             print(denominator)
             numerator = 0
 
@@ -68,7 +68,7 @@ def results():
             accuracy = numerator/denominator
             print(accuracy)
             result = "fail"
-            if accuracy > 0.3:
+            if accuracy > 0.49:
                 result = "success"
             response = {"predict": predict, "accuracy": accuracy, "result": result}
 
