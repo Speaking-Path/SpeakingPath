@@ -93,7 +93,10 @@
   border: 3.5px solid black;
   border-radius: 50%;
   margin: 2rem;
+  cursor: pointer;
 }
+
+
 
 .infoImg {
   width: 60rem;

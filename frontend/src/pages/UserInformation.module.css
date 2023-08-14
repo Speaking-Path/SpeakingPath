@@ -55,6 +55,7 @@
   text-align: right;
   font-weight: 900;
   padding-right: 10%;
+  cursor: pointer;
 }
 .profileClicked:after {
   content: "";
@@ -66,6 +67,7 @@
   border-left: 1.5rem solid white;
   border-top: 1.5rem solid transparent;
   border-bottom: 1.5rem  solid transparent;
+  cursor: pointer;
 }
   
 
@@ -89,6 +91,7 @@
   text-align: right;
   padding-right: 10%;
   font-weight: 900;
+  cursor: pointer;
 }
 
 .profileNonClicked:after {
