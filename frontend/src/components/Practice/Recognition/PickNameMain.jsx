@@ -75,7 +75,7 @@ function PickNameMain({ qlist, goForward, goBack, retry }) {
           sx={{ fontSize: 40 }} /><span>처음으로</span>
       </div>
       {answer.objName && <p className={styles.question}>Q. 사진과 어울리는 보기를 말해보세요.</p>}
-      <div>
+      <div className={styles.arrowBox}>
         <ArrowBackIosNewIcon className={num === 0 ? styles.hiddenComponent : null}
           sx={{ color: blue[700], fontSize: 40 }} onClick={() => { goBack() }} />
         {answer.objId && <img src={process.env.PUBLIC_URL + "/assets/PickPic/" + answer.objId + ".jpg"}
