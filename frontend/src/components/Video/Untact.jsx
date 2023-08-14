@@ -27,6 +27,9 @@ const Untact = () => {
 
   const location = useLocation();
 
+  const tokenType = localStorage.getItem('tokenType')
+  const accessToken = localStorage.getItem('accessToken')
+
   useEffect(() => {
     window.addEventListener('beforeunload', onbeforeunload);
     window.scrollTo({ top: 150, behavior: 'smooth' }); 
@@ -36,6 +39,7 @@ const Untact = () => {
       setMySessionId(location.state.sessionId);
       console.log("sessionId: %s",location.state.sessionId)
     }
+
     return () => {
       window.removeEventListener('beforeunload', onbeforeunload);
     };
@@ -182,7 +186,10 @@ const Untact = () => {
   const createSession = async (sessionId) => {
   const data = JSON.stringify({ customSessionId: sessionId })
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', data, {
-      headers: { 'Content-Type': 'application/json', },
+      headers: { 
+        'Content-Type': 'application/json', 
+        Authorization: `${tokenType} ${accessToken}`
+      },
     });
     console.log("세션이에요", response.data)
     return response.data;
@@ -190,7 +197,10 @@ const Untact = () => {
 
   const createToken = async (sessionId) => {
     const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
-      headers: { 'Content-Type': 'application/json', },
+      headers: { 
+        'Content-Type': 'application/json', 
+        Authorization: `${tokenType} ${accessToken}`
+      },
     });
     return response.data;
   }
