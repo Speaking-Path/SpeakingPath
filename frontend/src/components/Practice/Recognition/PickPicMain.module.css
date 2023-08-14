@@ -17,6 +17,7 @@
   height: 15rem;
   margin-bottom: 1.5rem;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 .imgBox {

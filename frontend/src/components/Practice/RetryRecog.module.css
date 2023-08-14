@@ -51,6 +51,7 @@
   top: 0;
   right: 0;
   transform: translate(-70%, 70%);
+  cursor: pointer;
 }
 
 .celebrateMain {
@@ -77,6 +78,7 @@
 
 .icons {
   margin-top: 1rem;
+  cursor: pointer;
 }
 
 .icons svg {

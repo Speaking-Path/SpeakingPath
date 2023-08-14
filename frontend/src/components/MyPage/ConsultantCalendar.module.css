@@ -82,6 +82,7 @@
   margin-bottom: 2%;
   border: 0.063rem solid #A5C1F7;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .label:hover {
