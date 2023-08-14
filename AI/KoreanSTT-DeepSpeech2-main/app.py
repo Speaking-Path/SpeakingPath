@@ -55,8 +55,10 @@ def results():
 
             # Process the audio data using the evaluate.mains function
             predict = evaluate.mains(audio_data)
+            print(predict)
 
             denominator = answer.length
+            print(denominator)
             numerator = 0
 
             # 정답이랑 일치율 비교
@@ -64,6 +66,7 @@ def results():
                 if char in predict: numerator+=1
 
             accuracy = numerator/denominator
+            print(accuracy)
             result = "fail"
             if accuracy > 0.5:
                 result = "success"

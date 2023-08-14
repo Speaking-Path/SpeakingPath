@@ -169,7 +169,7 @@ const VoiceRecording = () => {
   };
 
   const sendAudioToServer = async () => {
-    const sttServer = axios.create({ baseURL: "http://localhost:5001" })
+    // const sttServer = axios.create({ baseURL: "http://localhost:5001" })
     try {
       // Convert Blob to Base64 string
       const reader = new FileReader();
@@ -180,7 +180,7 @@ const VoiceRecording = () => {
 
         // Send Base64 audio to the server
         // const sttServer = axios.create({ baseURL: "https://i9c109.p.ssafy.io" });
-        const response = await sttServer.post('/stt/result', {
+        const response = await axios.post(process.env.PUBLIC_URL+'/stt/result', {
           file: base64Audio,
           // format: 'pcm'
         });
