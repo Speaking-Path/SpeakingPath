@@ -167,6 +167,12 @@ function RevCalendar() {
 
           )}
           <p className={styles.name}>{selectedCsltInfo.userName}</p>
+          <p className={styles.desc}>성별</p>
+          {
+            selectedCsltInfo.userSex === "M" ? 
+            <p>남성</p> :
+            <p>여성</p>
+          }
           <p className={styles.desc}>소속</p>
           <p>{selectedCsltInfo.csltTeam}</p>
           <p className={styles.desc}>전문 분야</p>
