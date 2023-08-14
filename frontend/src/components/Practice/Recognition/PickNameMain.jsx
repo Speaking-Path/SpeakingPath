@@ -51,12 +51,12 @@ function PickNameMain({ qlist, goForward, goBack, retry }) {
 
 
   const checkAns = function () {
-    if (voiceAnswer === "success") {
+    if (voiceAnswer === null && voiceAnswer === "success") {
       setIsCorVisible(true);
-      // correctAnswer()
-    } else if (voiceAnswer === "fail") {
+      setVoiceAnswer(null)
+    } else if (voiceAnswer === null && voiceAnswer === "fail") {
       setIsWrongVisible(true);
-      // wrongAnswer()
+      setVoiceAnswer(null)
     }
   };
 
