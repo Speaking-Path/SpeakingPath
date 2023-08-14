@@ -47,14 +47,16 @@ function PickNameMain({ qlist, goForward, goBack, retry }) {
       });
   };
 
+  const [voiceAnswer, setVoiceAnswer] = useState(null)
 
-  const checkAns = function (objId) {
-    if (objId === answer.objId) {
+
+  const checkAns = function () {
+    if (voiceAnswer !== null && voiceAnswer === "success") {
       setIsCorVisible(true);
-      correctAnswer()
-    } else {
+      // correctAnswer()
+    } else if (voiceAnswer !== null && voiceAnswer === "fail") {
       setIsWrongVisible(true);
-      wrongAnswer()
+      // wrongAnswer()
     }
   };
 
@@ -84,7 +86,7 @@ function PickNameMain({ qlist, goForward, goBack, retry }) {
           sx={{ color: blue[700], fontSize: 40 }} onClick={() => { goForward() }} />
       </div>
       <div>
-        <VoiceRecording answer={answer}/>
+        <VoiceRecording answer={answer} setVoiceAnswer={setVoiceAnswer}/>
       </div>
       <div className={`${styles.mapBox} container`}>
         <div className="row">
