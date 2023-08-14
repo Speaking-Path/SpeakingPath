@@ -84,7 +84,7 @@ function PickNameMain({ qlist, goForward, goBack, retry }) {
           sx={{ color: blue[700], fontSize: 40 }} onClick={() => { goForward() }} />
       </div>
       <div>
-        <VoiceRecording />
+        <VoiceRecording answer={answer}/>
       </div>
       <div className={`${styles.mapBox} container`}>
         <div className="row">

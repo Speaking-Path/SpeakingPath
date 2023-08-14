@@ -126,7 +126,7 @@ import axios from 'axios';
 import { Route } from 'react-router-dom';
 
 
-const VoiceRecording = () => {
+const VoiceRecording = ({answer}) => {
   const [stream, setStream] = useState(null);
   const [recording, setRecording] = useState(false);
   const [recorder, setRecorder] = useState(null);
@@ -182,6 +182,7 @@ const VoiceRecording = () => {
         const sttServer = axios.create({ baseURL: "https://i9c109.p.ssafy.io:5001" });
         const response = await sttServer.post('/stt/result', {
           file: base64Audio,
+          answer: answer.objName,
           // format: 'pcm'
         });
 
