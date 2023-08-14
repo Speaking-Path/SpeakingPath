@@ -11,8 +11,8 @@
   color: white;
   border: none;
   width: 100%;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  /* padding-top: 10px;
+  padding-bottom: 10px; */
   border-radius: 3px;
   opacity: 0.8;
   margin-bottom: 15px;
@@ -20,5 +20,5 @@
   font-size: 15px;
 }
 .naver img{
-  height:1.4rem;
+  height:2.657rem;
 }
