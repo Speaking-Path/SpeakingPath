@@ -47,6 +47,7 @@ function UserLogin() {
             dispatch(changeLoginId(id))
           }
           }}>로그인</button>
+        <NaverLoginBtn></NaverLoginBtn>
         <div className={styles.join}>
         <span>아직 계정이 없으신가요? </span>
         <NavLink className={styles.clickjoin} to="/account/signup">
@@ -58,7 +59,6 @@ function UserLogin() {
           <NavLink className={styles.forgot} to="/account/findpwd">
           비밀번호찾기</NavLink>
         </div>
-        <NaverLoginBtn></NaverLoginBtn>
       </form>
     </div>
   )
