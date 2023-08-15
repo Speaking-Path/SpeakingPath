@@ -9,6 +9,10 @@ import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutl
 import { blue } from "@mui/material/colors";
 import './PronStart.scss'
 import './PronButton.scss'
+import RecorderJS from 'recorder-js'
+import { exportBuffer } from '../Recognition/audio' 
+import axios from 'axios'
+import { useNavigate } from "react-router-dom";
 
 
 function PronStart(props) {
@@ -28,10 +32,12 @@ function PronStart(props) {
     const mediaRecorderRef = useRef(null);
     const recordedBlobsRef = useRef([]);
     const [guideVideoEnded, setGuideVideoEnded] = useState(false); // 가이드 비디오 재생이 끝났는지 여부 상태 추가
-
-
     const [showTimer, setShowTimer] = useState(true);
 
+    const audioRecorderRef = useRef(null)
+    const audioBlobRef = useRef(null)
+
+    const navigate = useNavigate();
 
     // 원래 코드
     // useEffect(() => {
@@ -180,6 +186,15 @@ function PronStart(props) {
 
         try {
             mediaRecorderRef.current = new MediaRecorder(myVideoRef.current.srcObject, options);
+            // 음성 recorder 추가
+            const recording_stream = new MediaStream(); // stream을 recoder에 넣어줘야 함. 빈 stream을 일단 만들어줌
+            for (const track of myVideoRef.current.srcObject.getAudioTracks()) {
+                recording_stream.addTrack(track)
+            }
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const newRecorder = new RecorderJS(audioContext);
+            newRecorder.init(recording_stream);
+            audioRecorderRef.current = newRecorder;
         } catch (e) {
             console.error('Exception while creating MediaRecorder:', e);
             return;
@@ -192,6 +207,7 @@ function PronStart(props) {
         };
         mediaRecorderRef.current.ondataavailable = handleDataAvailable;
         mediaRecorderRef.current.start();
+        audioRecorderRef.current.start();
         setRecording(true)
         console.log('MediaRecorder started', mediaRecorderRef.current);
     }
@@ -244,8 +260,13 @@ function PronStart(props) {
         }
     }
 
-    function stopRecording() {
+    // function stopRecording() {
+    async function stopRecording() {
         mediaRecorderRef.current.stop();
+        const { buffer } = await audioRecorderRef.current.stop();
+        const audio = exportBuffer(buffer[0]);
+        audioBlobRef.current = audio
+
         setRecording(false)
     }
 
@@ -261,6 +282,7 @@ function PronStart(props) {
         myVideoRef.current.play();
         myVideoRef.current.muted = false; // 녹화파일 재생시엔 소리 ON
         myVideoRef.current.onended = (event) => {
+            sendAudioToServer()
             console.log("recorded video end")
             if (myVideoRef.current) {
                 myVideoRef.current.src = null;
@@ -269,6 +291,36 @@ function PronStart(props) {
             }
         }
     }
+
+
+    const sendAudioToServer = async () => {
+        // const sttServer = axios.create({ baseURL: "http://localhost:5001" })
+        try {
+          // Convert Blob to Base64 string
+          const reader = new FileReader();
+          reader.readAsDataURL(audioBlobRef.current);
+    
+          reader.onload = async () => {
+            const base64Audio = reader.result.split(',')[1]; // Extract base64 data
+    
+            // Send Base64 audio to the server
+            const sttServer = axios.create({ baseURL: "https://i9c109.p.ssafy.io:5001" });
+            await sttServer.post('/stt/result', {
+              file: base64Audio,
+            //   answer: answer.objName,
+                answer : '동전'
+              // format: 'pcm'
+            }).then(response => {
+              console.log(response.data.result) // 여기에 음성인식 결과가 출력됩니다!!
+              console.log(response.data.predict)
+              console.log(response.data.accuracy)
+            });
+          };
+        } catch {
+          navigate('/error', { message: "잘못된 접근입니다." }); // 에러 발생 시 ErrorPage로 리다이렉트
+        }
+    }
+
     // -------------------------------------------------------------------------------- //
 
 
@@ -286,6 +338,9 @@ function PronStart(props) {
                             <circle r="45"></circle>
                             <circle r="45" pathLength="1"></circle>
                         </svg>
+                    </div>
+                    <div className={styles.guideText}>
+                        {guideVideoEnded ? '이제 따라해보세요!' : '발음을 잘 들어보세요'}
                     </div>
                 </div>
             )}
@@ -318,6 +373,9 @@ function PronStart(props) {
                             <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay controls>
                                 no video available
                             </video>
+                            {/* {showTimer ? (
+                                <div className={styles.followText}>이제 따라해보세요</div>
+                            ) : null} */}
                         </div>
                     </div>
 
