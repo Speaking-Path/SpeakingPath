@@ -25,14 +25,14 @@
   cursor: pointer;
   font-size: 1.5rem;
   font-weight: 700;
+  margin-left: 10px;
 }
 
 .back svg {
   margin-right: 0.6rem;
 }
 
-/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ테두리cssㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-@import url(https://fonts.googleapis.com/css?family=Bangers);
+/* @import url(https://fonts.googleapis.com/css?family=Bangers);
 @import url('https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap');
 
 .box{
@@ -51,21 +51,33 @@
 }
 
 .oddboxinner{
-  margin:15px;
-  transform: rotate(-2deg);
+  position: relative;
+  top: -10px;
+  left: 20px;
   background:#fff;
-  /* font-family: 'Bangers', cursive; */
-  /* font-family: var(--font-bangers); */
   font-family: 'Do+Hyeon';
   font-size: 22px;
   font-weight: bold;
   text-align: left; 
-  padding-left: 15px;
-}
+} */
 
 .title {
-  display: flex;
-  /* transform: rotate(-2deg); */
+  font-weight: bold;
+  font-size: 20px;
+  position: absolute;
+  border-radius: 10px;
+  padding-top: 2px;
+  top: -17px;
+  left: 20px;
+  height: 35px;
+  width: 100px;
+  /* background-color: white; */
+  background-color: #1e88e5;
+  color: white;
+  text-align: center;
+  /* left: 40%;  */
+  left: 10%; 
+  /* color: rgb(0, 157, 255); */
 }
 
 /* .evenboxinner{
@@ -108,4 +120,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.videoBox {
+  display: flex;
+  justify-content:center;
+  width: 60vw;
+  height:60vh;
+  /* border: 3px solid black; */
+  border: 3px solid rgb(106, 176, 237);
+  /* border: 3px solid #1e88e5; */
+  border-radius: 20px;
+  padding: 10px;
+  margin: 10px;
+  position: relative;
+}
+
+.videoSection {
+  display: flex;
+  justify-content: center;
+  margin: 10px;
+}
+
+.guide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }

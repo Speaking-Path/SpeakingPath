@@ -40,31 +40,28 @@ function PronStart(props) {
     //     }
     // }, [])
 
-    
+
     useEffect(() => {
-        window.scrollTo({ top: 70, behavior: 'smooth' }); 
+        window.scrollTo({ top: 70, behavior: 'smooth' });
         getPronData();
         const newIndex = (currentIndex + 1) % pronData.current.length;
         setCurrentIndex(newIndex);
         if (guideVideoRef.current) {
-            console.log('guideVideoRef', guideVideoRef);
             guideVideoRef.current.onended = handleGuideVideoEnded;
+        }
+        if (selectedCamera !== 'no-camera') {
+            myVideoRef.current.style = "height: 45vh;";
         }
     }, []); // 컴포넌트 마운트 시에만 실행
 
 
     useEffect(() => {
         if (!showTimer && !guideVideoEnded) {
-            if (selectedCamera !== 'no-camera') {
-                myVideoRef.current.style = "height: 45vh;";
-            }
-            
             if (guideVideoRef.current) {
                 // guideVideoRef.current.src = pronData.current[newIndex].src;
-                guideVideoRef.current.src=pronData.current.at(currentIndex).src
-                
+                guideVideoRef.current.src = pronData.current.at(currentIndex).src
             }
-            guideVideoRef.current.style = "height: 45vh; width: 40vw; transform: rotate(-2deg);";
+            // guideVideoRef.current.style = "height: 45vh; width: 40vw; transform: rotate(-2deg);";
         }
     }, [showTimer, selectedCamera, currentIndex]);
 
@@ -80,7 +77,7 @@ function PronStart(props) {
                 clearTimeout(playTimer);
             };
         }
-    }, [showTimer]); 
+    }, [showTimer]);
 
     useEffect(() => {
         getPronData();
@@ -90,41 +87,51 @@ function PronStart(props) {
                 const timer = setTimeout(() => {
                     startRecording();
                     setRecording(true);
-                }, 5000); 
-                
+                }, 5000);
+
                 return () => {
                     clearTimeout(timer);
                 };
             }
         }
-    }, [guideVideoEnded]);
-    
+    }, [guideVideoEnded, currentIndex]);
+
+
+    useEffect(() => {
+        if (recording) {
+            stopRecording(); // 녹화 중이면 녹화 중지
+            setRecording(false);
+        }
+        setGuideVideoEnded(false);
+    }, [currentIndex])
+
+
 
     function handleGuideVideoEnded() {
         if (myVideoRef.current) {
             setGuideVideoEnded(true); // 가이드 비디오 재생이 끝났음을 표시
-            setShowTimer(true); 
+            setShowTimer(true);
         }
     }
-    
+
     // 데이터 받는 함수. 지금은 임시로 assets에 있는 동영상을 활용하고 나중에 BE api가 완성되면 대체
     function getPronData() {
         pronData.current = []
-        let path=process.env.PUBLIC_URL + "/assets/sentence/"
-        let nfile=5
-        if(props.type==="syllable"){
-            path=process.env.PUBLIC_URL + "/assets/syllable/"
-            nfile=14
-        }else if(props.type==="word"){
-            path=process.env.PUBLIC_URL + "/assets/word/"
-            nfile=0
-        }else if(props.type==="sentence"){
-            path=process.env.PUBLIC_URL + "/assets/sentence/"
-            nfile=5
+        let path = process.env.PUBLIC_URL + "/assets/sentence/"
+        let nfile = 5
+        if (props.type === "syllable") {
+            path = process.env.PUBLIC_URL + "/assets/syllable/"
+            nfile = 14
+        } else if (props.type === "word") {
+            path = process.env.PUBLIC_URL + "/assets/word/"
+            nfile = 0
+        } else if (props.type === "sentence") {
+            path = process.env.PUBLIC_URL + "/assets/sentence/"
+            nfile = 5
         }
         for (let i = 0; i < nfile; i++) {
             const data = {
-                src: process.env.PUBLIC_URL + path + (i+1).toString()+".mp4",
+                src: process.env.PUBLIC_URL + path + (i + 1).toString() + ".mp4",
             }
             pronData.current.push(data)
         }
@@ -132,240 +139,235 @@ function PronStart(props) {
     }
 
     // 다음 문제로
-    function Next(){
-        const newIndex=(currentIndex+1)%pronData.current.length
-        guideVideoRef.current.src=pronData.current.at(newIndex).src
+    function Next() {
+        const newIndex = (currentIndex + 1) % pronData.current.length
+        guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
     }
 
     // 이전 문제로
-    function Prev(){
-        const newIndex=(currentIndex-1)%pronData.current.length
-        guideVideoRef.current.src=pronData.current.at(newIndex).src
+    function Prev() {
+        const newIndex = (currentIndex - 1) % pronData.current.length
+        guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
     }
 
     // 이전 페이지
     const goBack = () => {
-        window.history.back(); 
+        window.history.back();
     }
 
-     //-----------------------------------------------녹화 기능----------------------------------//
-     function getSupportedMimeTypes() {
+    //-----------------------------------------------녹화 기능----------------------------------//
+    function getSupportedMimeTypes() {
         const possibleTypes = [
-          'video/webm;codecs=av1,opus',
-          'video/webm;codecs=vp9,opus',
-          'video/webm;codecs=vp8,opus',
-          'video/webm;codecs=h264,opus',
-          'video/mp4;codecs=h264,aac',
+            'video/webm;codecs=av1,opus',
+            'video/webm;codecs=vp9,opus',
+            'video/webm;codecs=vp8,opus',
+            'video/webm;codecs=h264,opus',
+            'video/mp4;codecs=h264,aac',
         ];
         return possibleTypes.filter(mimeType => {
-          return MediaRecorder.isTypeSupported(mimeType);
+            return MediaRecorder.isTypeSupported(mimeType);
         });
-      }
-    
-      function startRecording() {
-        recordedBlobsRef.current=[];
+    }
+
+    function startRecording() {
+        recordedBlobsRef.current = [];
         const mimeType = getSupportedMimeTypes()[0].value;
         const options = { mimeType };
-    
+
         try {
-          mediaRecorderRef.current = new MediaRecorder(myVideoRef.current.srcObject, options);
+            mediaRecorderRef.current = new MediaRecorder(myVideoRef.current.srcObject, options);
         } catch (e) {
-          console.error('Exception while creating MediaRecorder:', e);
-          return;
+            console.error('Exception while creating MediaRecorder:', e);
+            return;
         }
-    
+
         console.log('Created MediaRecorder', mediaRecorderRef.current, 'with options', options);
         mediaRecorderRef.current.onstop = (event) => {
-          console.log('Recorder stopped: ', event);
-          console.log('Recorded Blobs: ', recordedBlobsRef.current);
+            console.log('Recorder stopped: ', event);
+            console.log('Recorded Blobs: ', recordedBlobsRef.current);
         };
         mediaRecorderRef.current.ondataavailable = handleDataAvailable;
         mediaRecorderRef.current.start();
         setRecording(true)
         console.log('MediaRecorder started', mediaRecorderRef.current);
-      }
-      
-      function handleDataAvailable(event) {
+    }
+
+    function handleDataAvailable(event) {
         console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
-          recordedBlobsRef.current.push(event.data);
+            recordedBlobsRef.current.push(event.data);
         }
-      }
+    }
 
-      
-      function handleRecordButtonClick() {
+
+    function handleRecordButtonClick() {
         // 녹화중이 아닌 상태에서 버튼을 누렀을 때 
         if (recording === false) {
-          const selectedVideo = mediaConfig.camera; // Redux 상태에서 선택된 카메라 정보 가져오기
-    
-          if (selectedVideo === null || selectedVideo === 'no-camera') {
-            alert("녹화할 카메라 장치를 선택해주세요 📸");
-            return;
-          }
-      
-          startRecording();
-          setRecording(true);
-          toggleButtonClass(recordButtonRef.current);
+            const selectedVideo = mediaConfig.camera; // Redux 상태에서 선택된 카메라 정보 가져오기
 
-        // 녹화중인 상태에서 버튼을 눌렀을 때
+            if (selectedVideo === null || selectedVideo === 'no-camera') {
+                alert("녹화할 카메라 장치를 선택해주세요 📸");
+                return;
+            }
+
+            startRecording();
+            setRecording(true);
+            toggleButtonClass(recordButtonRef.current);
+
+            // 녹화중인 상태에서 버튼을 눌렀을 때
         } else {
-          stopRecording();
-          setRecording(false);
-          toggleButtonClass(recordButtonRef.current);
-          setTimeout(() => {
-            handlePlayButtonClick(); 
-            }, 2000); 
+            stopRecording();
+            setRecording(false);
+            toggleButtonClass(recordButtonRef.current);
+            setTimeout(() => {
+                handlePlayButtonClick();
+            }, 2000);
         }
-      }
-    
-    
-      function toggleButtonClass(button) {
+    }
+
+
+    function toggleButtonClass(button) {
         if (button.classList.contains('playing')) {
-          button.classList.remove('paused', 'playing');
-          button.classList.add('paused');
+            button.classList.remove('paused', 'playing');
+            button.classList.add('paused');
         } else {
-          if (button.classList.contains('paused')) {
-            button.classList.add('playing');
-          }
+            if (button.classList.contains('paused')) {
+                button.classList.add('playing');
+            }
         }
         if (!button.classList.contains('paused')) {
-          button.classList.add('paused');
+            button.classList.add('paused');
         }
-      }
-      
-      function stopRecording(){
+    }
+
+    function stopRecording() {
         mediaRecorderRef.current.stop();
         setRecording(false)
     }
-    
-      function handlePlayButtonClick(){
+
+    function handlePlayButtonClick() {
         console.log("play button clicked")
         const mimeType = getSupportedMimeTypes()[0].value;
-        const superBuffer = new Blob(recordedBlobsRef.current, {type: mimeType});
-        const mystream=myVideoRef.current.srcObject;
+        const superBuffer = new Blob(recordedBlobsRef.current, { type: mimeType });
+        const mystream = myVideoRef.current.srcObject;
         myVideoRef.current.src = null;
         myVideoRef.current.srcObject = null;
         myVideoRef.current.src = window.URL.createObjectURL(superBuffer);
         console.log("recorded video start")
         myVideoRef.current.play();
         myVideoRef.current.muted = false; // 녹화파일 재생시엔 소리 ON
-        myVideoRef.current.onended = (event) =>{
-          console.log("recorded video end")
-          if(myVideoRef.current){
-            myVideoRef.current.src = null;
-            myVideoRef.current.srcObject=mystream;
-            myVideoRef.current.muted = true; // 에코 방지
-          }
+        myVideoRef.current.onended = (event) => {
+            console.log("recorded video end")
+            if (myVideoRef.current) {
+                myVideoRef.current.src = null;
+                myVideoRef.current.srcObject = mystream;
+                myVideoRef.current.muted = true; // 에코 방지
+            }
         }
-      }
-  // -------------------------------------------------------------------------------- //
+    }
+    // -------------------------------------------------------------------------------- //
 
 
 
-    return (    
+    return (
         <div className={`container ${showTimer ? styles.transparentContainer : ''}`}>
             {/* {showTimer ? ( */}
-            
+
             {/* 타이머 */}
             {showTimer && (
                 // <div class="countdown">
-            <div className={`${styles.overlay}`}>
-                <div className={`${styles.centeredTimer} countdown`}>
-                    <svg viewBox="-50 -50 100 100" stroke-width="10">
-                        <circle r="45"></circle>
-                        <circle r="45" pathLength="1"></circle>
-                    </svg>
+                <div className={`${styles.overlay}`}>
+                    <div className={`${styles.centeredTimer} countdown`}>
+                        <svg viewBox="-50 -50 100 100" stroke-width="10">
+                            <circle r="45"></circle>
+                            <circle r="45" pathLength="1"></circle>
+                        </svg>
+                    </div>
                 </div>
-            </div>
             )}
 
-            
-            {/* 발음 연습 화면 */}
-             {/* ) : ( */}
-                <div>
 
-                    {/* 전체 컴포넌트 */}
-                    {/* 제시어 & 화살표 */}
-                    <div className={styles.back} onClick={goBack}>
-                        <ArrowCircleLeftOutlinedIcon 
-                        sx={{ fontSize: 40}}/><span>처음으로</span>
-                    </div>
+            <div>
+                {/* 전체 컴포넌트 */}
+                {/* 제시어 & 화살표 */}
+                <div className={styles.back} onClick={goBack}>
+                    <ArrowCircleLeftOutlinedIcon
+                        sx={{ fontSize: 40 }} /><span>처음으로</span>
+                </div>
 
-                    <div className={styles.questionSection}>
-                        <div>
-                            <ArrowBackIosNewIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Prev}/>
-                        </div>
-                        <p className={styles.question}>제시어</p>
-                        <div>
-                            <ArrowForwardIosIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Next}/>
-                        </div>
+                <div className={styles.questionSection}>
+                    <div>
+                        <ArrowBackIosNewIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Prev} />
                     </div>
-                    
+                    <p className={styles.question}>제시어</p>
+                    <div>
+                        <ArrowForwardIosIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Next} />
+                    </div>
+                </div>
+
+                <div className={`${styles.videoSection}`}>
                     {/* 따라하기 박스 */}
-                    <div className="container" style={{ display: 'flex', justifyContent:'center' }}>
-                        <div className={`${styles.box} ${styles.box1}`}>
-                            <div className={styles.oddboxinner}> 따라하기</div>
-                            <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw', transform: 'rotate(-2deg)' }} autoPlay controls>
+                    <div className={`${styles.videoBox}`}>
+                        {/* <div className='container'> */}
+                        <div className={`${styles.guide}`}>
+                            <div className={styles.title}> 따라하기</div>
+                            <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay controls>
                                 no video available
                             </video>
                         </div>
+                    </div>
 
                     {/* 내화면 박스 */}
-                        <div className={`${styles.box} ${styles.box1}`}>
+                    <div className={`${styles.videoBox}`}>
 
-                        <div className="title">
-                            <div className={styles.oddboxinner}> 내 화면</div>
-                        </div>
+                        {/* <div className='container'> */}
+                        <div className={`${styles.guide}`}>
+                            <div className={styles.title}> 내 모습</div>
+                            {/* 녹화 버튼 */}
+                            <button
+                                id="record"
+                                className={`start-pause-button ${recording ? 'playing' : ''} ${recording === false ? 'paused' : ''}`}
+                                onClick={handleRecordButtonClick}
+                                ref={recordButtonRef}
+                            >
+
+                                {recording ? (
+                                    <>
+                                        <i>마치기</i>
+                                        <i>.</i>
+                                    </>
+                                ) : (
+                                    <>
+                                        <i>시작</i>
+                                        <i>.</i>
+                                    </>
+                                )}
+                            </button>
+                            {/* </div> */}
 
                             {selectedCamera === 'no-camera' ? (
                                 <img
                                     src={process.env.PUBLIC_URL + "/assets/pron/no-camera.jpg"}
                                     alt="No Camera"
-                                    style={{ height: '45vh', transform: 'rotate(-2deg)'}}
+                                    style={{ height: '45vh' }}
                                 />
                             ) : (
-                            <div>
-                                <div style={{height: '45vh', width: '40vw', transform: 'rotate(-2deg)'}}>
-                                    <MyCamera myVideoRef={myVideoRef}/>
+                                <div>
+                                    <div style={{ height: '45vh', width: '40vw' }}>
+                                        <MyCamera myVideoRef={myVideoRef} />
+                                    </div>
                                 </div>
-                            </div>
                             )}
                         </div>
-
-
                     </div>
                 </div>
-        
 
-
-
-        <div style={{ display: 'flex', justifyContent: 'center', transform: 'rotate(-2deg)' }}>
-            {/* 녹화 버튼 */}
-            <button
-                id="record"
-                className={`start-pause-button ${recording ? 'playing' : ''} ${recording === false ? 'paused' : ''}`}
-                onClick={handleRecordButtonClick}
-                ref={recordButtonRef}
-            >
-
-                {recording ? (
-                <>
-                    <i>중지</i>
-                    <i>.</i>
-                </>
-                ) : (
-                <>
-                    <i>녹화</i>
-                    <i>.</i>
-                </>
-                )}
-            </button>
+            </div>
         </div>
 
-
-        </div>
+        // </div>
 
     )
 }
