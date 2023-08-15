@@ -13,7 +13,6 @@ function Entry(props) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    // 페이지가 렌더링된 후에 실행되는 부분
     window.scrollTo({ top: 130, behavior: 'smooth' }); // 컴포넌트 상단으로 스크롤 이동
   }, []);
 
