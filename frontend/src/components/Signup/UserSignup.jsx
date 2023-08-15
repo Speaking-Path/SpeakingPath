@@ -146,7 +146,7 @@ function UserSignup() {
         <div className={styles.consultSignup}>
         <span>상담사로 가입하시나요?</span>
         <NavLink to="/account/consultantsignup">
-          회원가입</NavLink>
+          상담사 가입</NavLink>
         </div>
       </form>
     </div>

@@ -1,12 +1,19 @@
 .banner{
     margin: 0 18.75rem;
-    /* display: flex;
-    justify-content: center;
-    flex-direction: column; */
+}
+
+.banner_wrap{
+    /* justify-content: center; */
+    /* width: auto; */
 }
 
 .banner_text_all{
     /* padding: 30rem; */
+    /* margin: auto; */
+    margin: 0 18.75rem;
+    justify-content: center;
+    text-align: center;
+    /* width: auto; */
 }
 
 .banner_text1{
@@ -20,6 +27,7 @@
     border: none;
     padding-top: 8rem;
     text-align: left;
+
 }
 
 .banner_text2{
@@ -45,4 +53,5 @@
     text-align: center !important;
     display: inline-block;
     padding-bottom: 12.5rem;
+    margin: auto;
 }
