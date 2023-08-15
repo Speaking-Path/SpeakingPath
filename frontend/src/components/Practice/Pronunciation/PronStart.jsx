@@ -8,6 +8,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 import { blue } from "@mui/material/colors";
 import './PronStart.scss'
+import './PronButton.scss'
+
 
 function PronStart(props) {
     // 전문가 영상 ref
