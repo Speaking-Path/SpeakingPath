@@ -328,7 +328,7 @@ function PronStart(props) {
                             {/* 녹화 버튼 */}
                             <button
                                 id="record"
-                                className={`start-pause-button ${recording ? 'playing' : ''} ${recording === false ? 'paused' : ''}`}
+                                className={`start-pause-button2 ${recording ? 'playing' : ''} ${recording === false ? 'paused' : ''}`}
                                 onClick={handleRecordButtonClick}
                                 ref={recordButtonRef}
                             >
