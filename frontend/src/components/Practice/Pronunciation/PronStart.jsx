@@ -287,6 +287,9 @@ function PronStart(props) {
                             <circle r="45" pathLength="1"></circle>
                         </svg>
                     </div>
+                    <div className={styles.guideText}>
+                        {guideVideoEnded ? '이제 따라해보세요!' : '발음을 잘 들어보세요'}
+                    </div>
                 </div>
             )}
 
@@ -318,6 +321,9 @@ function PronStart(props) {
                             <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay controls>
                                 no video available
                             </video>
+                            {/* {showTimer ? (
+                                <div className={styles.followText}>이제 따라해보세요</div>
+                            ) : null} */}
                         </div>
                     </div>
 
