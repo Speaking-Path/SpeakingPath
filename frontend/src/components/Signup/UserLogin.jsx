@@ -48,17 +48,20 @@ function UserLogin() {
           }
           }}>로그인</button>
         <NaverLoginBtn></NaverLoginBtn>
+        <hr className={styles.horizontalLine} />
         <div className={styles.join}>
         <span>아직 계정이 없으신가요? </span>
         <NavLink className={styles.clickjoin} to="/account/signup">
           회원가입</NavLink>
           <div></div>
+
+          <div className={styles.forgot_wrap}>
           <span className={styles.forgot}>로그인 정보를 잊으셨나요? </span>
-          <NavLink className={styles.forgot} to="/account/findid">
+          <NavLink className={`${styles.forgot} ${styles.find}`} to="/account/findid">
           아이디찾기</NavLink> <span> </span>
-          <NavLink className={styles.forgot} to="/account/findpwd">
+          <NavLink className={`${styles.forgot} ${styles.find}`} to="/account/findpwd">
           비밀번호찾기</NavLink>
-        </div>
+        </div></div>
       </form>
     </div>
   )

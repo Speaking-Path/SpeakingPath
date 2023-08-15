@@ -10,6 +10,7 @@ const Banner = () => {
   })
   return (
     <section className={styles.banner}>
+      <div className={styles.banner_wrap}>
 
       {/*웹사이트 소개글*/}
       <div className={styles.banner_text_all}>
@@ -32,7 +33,8 @@ const Banner = () => {
         alt="main_img_1 error"
       />
 
-    </section>
+
+    </div></section>
   );
 };
 
