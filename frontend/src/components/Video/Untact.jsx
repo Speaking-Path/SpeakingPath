@@ -216,13 +216,13 @@ const Untact = () => {
   };
 
   if (session === undefined) {
-    background.backgroundImage = `url(${process.env.PUBLIC_URL}/assets/conference.jpg)`;
+    background.backgroundImage = `url(${process.env.PUBLIC_URL}/assets/conference/conference.jpg)`;
     background.backgroundSize = 'auto 100%';
     // backgroundSize: '60vw 100vh',
     // backgroundRepeat: 'no-repeat',
     // backgroundPosition: 'center'
   } else {
-    background.backgroundImage = `url(${process.env.PUBLIC_URL}/assets/conference2.jpg)`;
+    background.backgroundImage = `url(${process.env.PUBLIC_URL}/assets/conference/conference2.jpg)`;
     background.backgroundSize = 'cover';
   }
 
