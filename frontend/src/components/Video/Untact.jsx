@@ -160,7 +160,7 @@ const Untact = () => {
       setMainStreamManager(publisher);
       setPublisher(publisher);
     } catch (error) {
-      console.log('There was an error connecting to the session:', error.code, error.message);
+      // console.log('There was an error connecting to the session:', error.code, error.message);
     }
   }
 
@@ -191,7 +191,6 @@ const Untact = () => {
         Authorization: `${tokenType} ${accessToken}`
       },
     });
-    console.log("세션이에요", response.data)
     return response.data;
   }
 

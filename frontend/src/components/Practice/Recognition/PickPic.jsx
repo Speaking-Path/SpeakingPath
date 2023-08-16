@@ -39,7 +39,7 @@ function PickPic() {
         setQlist(newQlist);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error)
     }
   }
 

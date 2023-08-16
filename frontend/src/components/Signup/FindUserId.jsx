@@ -15,7 +15,6 @@ function FindUserId() {
     axios
     .post(`/account/find/id`, { "userEmail": email, "userName": name })
     .then((res) => {
-      console.log(res)
       if (res.data) {
         setFoundId(res.data)
       } else {
@@ -23,7 +22,7 @@ function FindUserId() {
       }
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err)
     })
   }
 

@@ -106,7 +106,6 @@ export const clickLogin = async (e, data) => {
 
     function clearLocalStorageAfterTime() {
       localStorage.clear();
-      console.log("localStorage cleared!");
     }
 
     setTimeout(clearLocalStorageAfterTime, 86400000)
@@ -134,7 +133,6 @@ export const clickNaverLogin = async (e) => {
 
     function clearLocalStorageAfterTime() {
       localStorage.clear();
-      console.log("localStorage cleared!");
     }
 
     setTimeout(clearLocalStorageAfterTime, 86400000)
