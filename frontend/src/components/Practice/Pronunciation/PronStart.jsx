@@ -13,6 +13,9 @@ import RecorderJS from 'recorder-js'
 import { exportBuffer } from '../Recognition/audio' 
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import Confetti from "../Confetti";
+import RetryPron from "./RetryPron.jsx";
+import SuccessPron from "./SuccessPron";
 
 
 function PronStart(props) {
@@ -24,6 +27,7 @@ function PronStart(props) {
     const pronData = useRef([])
     // 현재 문제 인덱스
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [currentContent, setCurrentContent] = useState('');
 
     const mediaConfig = useSelector(selectMediaConfig);
     const selectedCamera = mediaConfig.camera;
@@ -37,95 +41,102 @@ function PronStart(props) {
     const audioRecorderRef = useRef(null)
     const audioBlobRef = useRef(null)
 
-    // const contentRef = useRef(null)
-    const [currentContent, setCurrentContent] = useState('');
-
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [isFail, setIsFail] = useState(false)
+    const userId = useSelector((state) => { return state.loginId })
+    
     const navigate = useNavigate();
 
-    // 원래 코드
-    // useEffect(() => {
-    //     getPronData()
-    //     guideVideoRef.current.src=pronData.current.at(currentIndex).src
-    //     if (selectedCamera !== 'no-camera') {
-    //         myVideoRef.current.style = "height: 45vh;"
-    //     }
-    // }, [])
-
+    const  shortType = getShortType();
+    
+    function getShortType(){
+        if(props.type==="syllable") return "slb"
+        else if(props.type==="word") return "word"
+        else if(props.type==="sentence") return "stc"
+        return ""
+    }
 
     useEffect(() => {
-        window.scrollTo({ top: 70, behavior: 'smooth' });
-        getPronData();
-        if (guideVideoRef.current) {
-            guideVideoRef.current.onended = handleGuideVideoEnded;
-        }
+        window.scrollTo({ top: 80, behavior: 'smooth' });
         if (selectedCamera !== 'no-camera') {
             myVideoRef.current.style = "height: 45vh;";
         }
+        if (guideVideoRef.current) {
+            guideVideoRef.current.onended = handleGuideVideoEnded;
+        }
+        getPronData()
+        .then(()=>{
+        if (pronData.current){    
+            setCurrentContent(pronData.current[currentIndex]["content"]);
+                if (showTimer) {
+                    const playDelay = 5000; // 5초
+                    const playTimer = setTimeout(() => {
+                        setShowTimer(false);
+                        if(guideVideoRef.current) {
+                            guideVideoRef.current.src = pronData.current[currentIndex]["src"]
+                        }
+                    }, playDelay);
+                    
+                    return () => {
+                        clearTimeout(playTimer);
+                    };
+                }
+            // }
+        }})
     }, []); // 컴포넌트 마운트 시에만 실행
 
 
     useEffect(() => {
-        if (!showTimer && !guideVideoEnded) {
-            if (guideVideoRef.current) {
-                guideVideoRef.current.src = pronData.current[currentIndex].src
-            }
-            // guideVideoRef.current.style = "height: 45vh; width: 40vw; transform: rotate(-2deg);";
-        }
-    }, [showTimer, selectedCamera, currentIndex]);
-
-
-    useEffect(() => {
+        // 타이머가 호출되면 5초 동안 재생, false로 초기화
         if (showTimer) {
             const playDelay = 5000; // 5초
             const playTimer = setTimeout(() => {
                 setShowTimer(false);
             }, playDelay);
-
+    
             return () => {
                 clearTimeout(playTimer);
             };
         }
     }, [showTimer]);
 
+
     useEffect(() => {
-        getPronData();
+        // 가이드 비디오 재생이 끝나면
         if (guideVideoEnded) {
-            // 가이드 비디오 재생이 끝나면 5초 뒤에 녹화 시작 함수 호출
+            // 타이머 호출
+            setShowTimer(true); 
+            // 5초 뒤에 녹화 시작 함수 호출
             if (myVideoRef.current) {
                 const timer = setTimeout(() => {
                     startRecording();
                     setRecording(true);
                 }, 5000);
-
+                
                 return () => {
                     clearTimeout(timer);
                 };
             }
         }
-    }, [guideVideoEnded, currentIndex]);
-
-
+    }, [guideVideoEnded]);
+    
+    
     useEffect(() => {
         if (recording) {
             stopRecording(); // 녹화 중이면 녹화 중지
-            setRecording(false);
+            setRecording(false); // 녹화 상태 false로 초기화
         }
-        setGuideVideoEnded(false);
-        // contentRef.current.innerText=pronData.current[currentIndex] && pronData.current[currentIndex]["content"]
-    }, [currentIndex])
-
-    useEffect(() => {    
+        setGuideVideoEnded(false); // 가이드 비디오 실행상태 false로 초기화
         if (pronData.current[currentIndex]) {
-            setCurrentContent(pronData.current[currentIndex]["content"]);
+            setCurrentContent(pronData.current[currentIndex]["content"]); // 제시어 업데이트
+            guideVideoRef.current.src = pronData.current[currentIndex]["src"] // 가이드 비디오 업데이트
         }
-    }, [currentIndex, pronData.current]);
+    }, [currentIndex])
 
 
     function handleGuideVideoEnded() {
-        if (myVideoRef.current) {
-            setGuideVideoEnded(true); // 가이드 비디오 재생이 끝났음을 표시
-            setShowTimer(true);
-        }
+        setGuideVideoEnded(true); // 가이드 비디오 재생이 끝났음을 표시
+        setShowTimer(true);
     }
 
     // 데이터 받는 함수. 지금은 임시로 assets에 있는 동영상을 활용하고 나중에 BE api가 완성되면 대체
@@ -133,14 +144,12 @@ function PronStart(props) {
         pronData.current = []
         let path=""
         let apiurl=""
-        let shortType=""
         // let path = process.env.PUBLIC_URL + "/assets/sentence/"
         // let nfile = 5
         // 1) 음절일때
         if (props.type === "syllable") {
             path = process.env.PUBLIC_URL + "/assets/syllable/"
             apiurl = "/practice/pron/syllable"
-            shortType = "slb"
         // 2) 단어일때
         } else if (props.type === "word") {
             path = process.env.PUBLIC_URL + "/assets/word/"
@@ -149,7 +158,6 @@ function PronStart(props) {
         } else if (props.type === "sentence") {
             path = process.env.PUBLIC_URL + "/assets/sentence/"
             apiurl = "/practice/pron/sentence"
-            shortType = "stc"
         }
         await axios.get(apiurl)
             .then((res) => {
@@ -159,34 +167,48 @@ function PronStart(props) {
                     e["src"]=process.env.PUBLIC_URL + path + (e["id"]).toString() + ".mp4"
                     return e
                 })
-                console.log(pronData.current)
+                // console.log("pronData.current : ", pronData.current)
             })
             .catch((err) => {
                 console.log(err)
             })
-
+        await axios.post(apiurl + "/show", {"userId": userId})
+            .then((res) => {
+                // console.log("res.data :", res.data);
+                const saves = res.data.map((e) => {
+                    return e[shortType+"Id"]
+                })
+                // console.log("saves : ", saves);
+                pronData.current.map((e) => {
+                    // saved 키 추가
+                    // saves 안에 id가 있는지 여부 boolean값
+                    e["saved"] = saves.includes(e["id"])
+                })
+                // console.log(pronData.current);
+            })
+            .catch((err) => {
+                    console.log(err);
+            })
+            
     }
 
     // 다음 문제로
     function Next() {
         const newIndex = (currentIndex + 1) % pronData.current.length
-        guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
-        console.log("Next",pronData.current,currentIndex)
-        setCurrentContent(pronData.current[newIndex].content);
+        // setCurrentContent(pronData.current[newIndex].content)
     }
 
     // 이전 문제로
     function Prev() {
         const newIndex = (currentIndex - 1) % pronData.current.length
-        guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
-        setCurrentContent(pronData.current[newIndex].content);
+        // setCurrentContent(pronData.current[newIndex].content)
     }
 
-    // 이전 페이지
     const goBack = () => {
-        window.history.back();
+        // window.history.back();
+        navigate("/practice")
     }
 
     //-----------------------------------------------녹화 기능----------------------------------//
@@ -224,20 +246,20 @@ function PronStart(props) {
             return;
         }
 
-        console.log('Created MediaRecorder', mediaRecorderRef.current, 'with options', options);
+        // console.log('Created MediaRecorder', mediaRecorderRef.current, 'with options', options);
         mediaRecorderRef.current.onstop = (event) => {
-            console.log('Recorder stopped: ', event);
-            console.log('Recorded Blobs: ', recordedBlobsRef.current);
+            // console.log('Recorder stopped: ', event);
+            // console.log('Recorded Blobs: ', recordedBlobsRef.current);
         };
         mediaRecorderRef.current.ondataavailable = handleDataAvailable;
         mediaRecorderRef.current.start();
         audioRecorderRef.current.start();
         setRecording(true)
-        console.log('MediaRecorder started', mediaRecorderRef.current);
+        // console.log('MediaRecorder started', mediaRecorderRef.current);
     }
 
     function handleDataAvailable(event) {
-        console.log('handleDataAvailable', event);
+        // console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
             recordedBlobsRef.current.push(event.data);
         }
@@ -295,19 +317,19 @@ function PronStart(props) {
     }
 
     function handlePlayButtonClick() {
-        console.log("play button clicked")
+        // console.log("play button clicked")
         const mimeType = getSupportedMimeTypes()[0].value;
         const superBuffer = new Blob(recordedBlobsRef.current, { type: mimeType });
         const mystream = myVideoRef.current.srcObject;
         myVideoRef.current.src = null;
         myVideoRef.current.srcObject = null;
         myVideoRef.current.src = window.URL.createObjectURL(superBuffer);
-        console.log("recorded video start")
+        // console.log("recorded video start")
         myVideoRef.current.play();
         myVideoRef.current.muted = false; // 녹화파일 재생시엔 소리 ON
         myVideoRef.current.onended = (event) => {
             sendAudioToServer()
-            console.log("recorded video end")
+            // console.log("recorded video end")
             if (myVideoRef.current) {
                 myVideoRef.current.src = null;
                 myVideoRef.current.srcObject = mystream;
@@ -332,12 +354,17 @@ function PronStart(props) {
             await sttServer.post('/stt/result', {
               file: base64Audio,
             //   answer: answer.objName,
-                answer : '동전'
+                answer : currentContent
               // format: 'pcm'
             }).then(response => {
-              console.log(response.data.result) // 여기에 음성인식 결과가 출력됩니다!!
-              console.log(response.data.predict)
-              console.log(response.data.accuracy)
+              console.log('result : ', response.data.result) 
+              console.log('predict : ', response.data.predict)
+              console.log('accuracy : ', response.data.accuracy)
+              if(response.data.accuracy > 0.49){
+                setIsSuccess(true)
+              } else{
+                setIsFail(true)
+              }
             });
           };
         } catch {
@@ -345,12 +372,21 @@ function PronStart(props) {
         }
     }
 
+    const handleSuccess = function () {
+        setIsSuccess(false)
+      }
+    
+      const handleFail = function () {
+        setIsFail(false)
+      }
+
+
     // -------------------------------------------------------------------------------- //
     
 
 
     return (
-        <div className={`container ${showTimer ? styles.transparentContainer : ''}`}>
+        <div className={`container ${showTimer ? styles.transparentContainer : ''}`} style={{marginTop : '30px', padding: '30px'}}>
             {/* {showTimer ? ( */}
 
             {/* 타이머 */}
@@ -398,7 +434,7 @@ function PronStart(props) {
                         {/* <div className='container'> */}
                         <div className={`${styles.guide}`}>
                             <div className={styles.title}> 따라하기</div>
-                            <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay controls>
+                            <video ref={guideVideoRef} style={{ height: '45vh', width: '30vw' }} autoPlay controls>
                                 no video available
                             </video>
                             {/* {showTimer ? (
@@ -443,7 +479,7 @@ function PronStart(props) {
                                 />
                             ) : (
                                 <div>
-                                    <div style={{ height: '45vh', width: '40vw' }}>
+                                    <div style={{ height: '45vh', width: '35vw' }}>
                                         <MyCamera myVideoRef={myVideoRef} />
                                     </div>
                                 </div>
@@ -453,6 +489,20 @@ function PronStart(props) {
                 </div>
 
             </div>
+
+        {/* 성공했을 때 */}
+        {isSuccess === true && <Confetti />}
+        {isSuccess === true && <SuccessPron 
+                                    handleSuccess={handleSuccess} 
+                                    currentData={pronData.current[currentIndex]}
+                                    Next={Next} 
+                                    contentType={props.type}
+                                    shortType={shortType}
+                                />}
+        
+        {/* 실패했을 때 */}
+        {isFail === true && <RetryPron handleFail={handleFail} videoSrc={pronData.current[currentIndex].src} currentContent={currentContent} />}
+
         </div>
 
         // </div>
