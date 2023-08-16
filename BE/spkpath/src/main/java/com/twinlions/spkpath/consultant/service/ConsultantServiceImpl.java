@@ -41,10 +41,10 @@ public class ConsultantServiceImpl implements ConsultantService {
     public List<ConsultantDto> getCsltsByCond(ConsultantSearchDto consultantSearchDto) {
         Specification<Consultant> spec = (root, query, criteriaBuilder) -> null;
 
-        System.out.println(consultantSearchDto);
+//        System.out.println(consultantSearchDto);
 
         if (!consultantSearchDto.getUserName().equals("")) {
-            System.out.println(consultantSearchDto.getUserName());
+//            System.out.println(consultantSearchDto.getUserName());
             spec = spec.and(ConsultantSpecification.equalsName(consultantSearchDto.getUserName()));
         }
 
@@ -64,7 +64,7 @@ public class ConsultantServiceImpl implements ConsultantService {
 
         if (consultantSearchDto.getCsltBoundary() != null) {
             for (String boundary : consultantSearchDto.getCsltBoundary()) {
-                System.out.println(boundary);
+//                System.out.println(boundary);
                 spec = spec.and(ConsultantSpecification.containsBoundary(boundary));
             }
         }

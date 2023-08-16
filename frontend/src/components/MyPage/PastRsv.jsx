@@ -28,7 +28,6 @@ function PastRsv() {
       )
         .then((res) => {
           setPastRsv(res.data)
-          console.log(res.data)
         })
         .catch((err) => {
           console.log(err);
@@ -38,7 +37,6 @@ function PastRsv() {
       )
         .then((res) => {
           setPastRsv(res.data)
-          console.log(res.data)
         })
         .catch((err) => {
           console.log(err);
@@ -90,7 +88,6 @@ function PastRsv() {
       axios.get("/sche", data)
         .then((res) => {
           dispatch(changeCsltTimes(res.data))
-          console.log(res.data)
         })
         .catch((err) => {
         })

@@ -28,7 +28,6 @@ function CheckRsv() {
       )
         .then((res) => {
           setUpcomingRsv(res.data)
-          console.log(res.data)
         })
         .catch((err) => {
           console.log(err);
@@ -38,7 +37,6 @@ function CheckRsv() {
       )
         .then((res) => {
           setUpcomingRsv(res.data)
-          console.log(res.data)
         })
         .catch((err) => {
           console.log(err);
