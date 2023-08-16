@@ -360,7 +360,7 @@ function PronStart(props) {
               console.log('result : ', response.data.result) 
               console.log('predict : ', response.data.predict)
               console.log('accuracy : ', response.data.accuracy)
-              if(response.data.accuracy < 0.49){
+              if(response.data.accuracy > 0.3){
                 setIsSuccess(true)
               } else{
                 setIsFail(true)
