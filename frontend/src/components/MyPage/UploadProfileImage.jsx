@@ -37,12 +37,10 @@ function UploadProfileImage(){
                 },
             })
             .then(response => {
-              console.log('Image uploaded successfully', response);
               setIsModalOpen(false);
               window.location.reload();
             })
             .catch(error => {
-              console.error('Error uploading image', error);
               alert('업로드 중 문제발생하였습니다. \n다시 시도해주시기 바랍니다.')
             });
         }

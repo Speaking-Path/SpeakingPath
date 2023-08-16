@@ -25,28 +25,6 @@ function PickNameMain({ qlist, goForward, goBack, retry }) {
   const answer = qlist.answerList || {};
   const questions = qlist.questionList || [];
 
-  const correctAnswer = function () {
-    axios
-      .post("/practice/correct", { userId: userId })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const wrongAnswer = function () {
-    axios
-      .post("/practice/wrong", { userId: userId })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
   const checkAns = function (voiceAnswer) {
     if (voiceAnswer === "success") {
       setIsCorVisible(true);
