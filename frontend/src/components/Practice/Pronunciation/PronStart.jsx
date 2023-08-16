@@ -74,9 +74,8 @@ function PronStart(props) {
             if (guideVideoRef.current) {
                 guideVideoRef.current.src = pronData.current[currentIndex].src
             }
-            // guideVideoRef.current.style = "height: 45vh; width: 40vw; transform: rotate(-2deg);";
         }
-    }, [showTimer, selectedCamera, currentIndex]);
+    }, [showTimer, currentIndex]);
 
 
     useEffect(() => {
@@ -127,10 +126,8 @@ function PronStart(props) {
 
 
     function handleGuideVideoEnded() {
-        if (myVideoRef.current) {
-            setGuideVideoEnded(true); // 가이드 비디오 재생이 끝났음을 표시
-            setShowTimer(true);
-        }
+        setGuideVideoEnded(true); // 가이드 비디오 재생이 끝났음을 표시
+        setShowTimer(true);
     }
 
     // 데이터 받는 함수. 지금은 임시로 assets에 있는 동영상을 활용하고 나중에 BE api가 완성되면 대체
