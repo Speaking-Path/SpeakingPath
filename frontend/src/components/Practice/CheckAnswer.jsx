@@ -8,10 +8,10 @@ function CheckAnswer() {
     axios
       .post("/practice/correct", { userId: userId })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -19,10 +19,10 @@ function CheckAnswer() {
     axios
       .post("/practice/wrong", { userId: userId })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
