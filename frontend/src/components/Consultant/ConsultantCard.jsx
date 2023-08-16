@@ -21,7 +21,6 @@ function ConsultantCard({ consultant }) {
     await axios.get("/sche", data)
       .then((res) => {
         dispatch(changeCsltTimes(res.data))
-        console.log(res.data)
       })
       .catch((err) => {
       })

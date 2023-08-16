@@ -191,7 +191,6 @@ function CsltCalendar() {
         times: revTime,
         userId: csltId
       }
-      console.log(data)
       setRange()
       setRevTime([])
       axios.post("/cslting/addsche", data)
