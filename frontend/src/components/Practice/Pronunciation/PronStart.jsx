@@ -434,7 +434,7 @@ function PronStart(props) {
                         {/* <div className='container'> */}
                         <div className={`${styles.guide}`}>
                             <div className={styles.title}> 따라하기</div>
-                            <video ref={guideVideoRef} style={{ height: '45vh', width: '40vw' }} autoPlay controls>
+                            <video ref={guideVideoRef} style={{ height: '45vh', width: '30vw' }} autoPlay controls>
                                 no video available
                             </video>
                             {/* {showTimer ? (
@@ -479,7 +479,7 @@ function PronStart(props) {
                                 />
                             ) : (
                                 <div>
-                                    <div style={{ height: '45vh', width: '40vw' }}>
+                                    <div style={{ height: '45vh', width: '35vw' }}>
                                         <MyCamera myVideoRef={myVideoRef} />
                                     </div>
                                 </div>
