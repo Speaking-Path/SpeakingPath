@@ -41,7 +41,6 @@ function CelebrateRecogName({ handleCorVisible, objId, objName, isSaved }) {
     dispatch(changeRecogNameNum(num + 1))
     handleCorVisible()
   }
-  console.log(num)
 
 
 

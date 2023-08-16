@@ -23,7 +23,6 @@ const RedirectURI = () => {
             localStorage.setItem('tokenType', "Bearer ")
             localStorage.setItem('accessToken', response.data.accessToken)
             localStorage.setItem('refreshToken', response.data.refreshToken)
-            // console.log("id: "+response.data.grantType)
             navigate("/loginmain")
             const ACCESS_TOKEN = localStorage.getItem("accessToken")
             dispatch(changeLoginInfo(ACCESS_TOKEN))
