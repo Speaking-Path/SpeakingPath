@@ -38,7 +38,7 @@ function ConsultantCard({ consultant }) {
     <div className={styles.csltCard}>
       <div className={styles.cardBox}>
         <div className={styles.profileBox}>
-          <img className={styles.profileImage}  src={process.env.PUBLIC_URL + "/assets/profile/" + (consultant.userPic !== null ? consultant.userPic : 'user.png')} alt="" />
+          <img className={styles.profileImage}  src={process.env.PUBLIC_URL + "/assets/profile/" + (consultant.userPic !== null ? consultant.userPic : 'user.png')} alt={process.env.PUBLIC_URL + "/assets/user.png"} />
         </div>
         <div className={styles.cardInfo}>
           <div className={styles.nameAndExp}>
