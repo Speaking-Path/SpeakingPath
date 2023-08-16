@@ -59,7 +59,7 @@ function ConsultantCard({ consultant }) {
                 {
                   consultant.csltBoundary.map((boundary, index) => {
                     return (
-                      <span key={index}>#{boundary} </span>
+                      <span key={index}  className={styles.invBoundary}>#{boundary}&nbsp;</span>
                     )
                   })
                 }
@@ -73,7 +73,7 @@ function ConsultantCard({ consultant }) {
                 {
                   consultant.csltTag.map((tag, index) => {
                     return (
-                      <span key={index}>#{tag} </span>
+                      <span key={index} className={styles.invTag}>#{tag}&nbsp;</span>
                     )
                   })
                 }
