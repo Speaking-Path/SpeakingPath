@@ -12,7 +12,7 @@ public class ConsultantSpecification {
     // userName 속성으로 name을 포함하는 상담사 조회
     public static Specification<Consultant> equalsName(String name) {
         return (root, query, CriteriaBuilder) -> {
-            System.out.println(root.get("userName"));
+//            System.out.println(root.get("userName"));
             return CriteriaBuilder.like(root.get("userName"), "%" + name + "%");
         };
     }

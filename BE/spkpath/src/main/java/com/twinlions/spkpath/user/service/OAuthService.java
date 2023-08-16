@@ -147,10 +147,10 @@ public class OAuthService {
         try{
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(responseBody);
-            System.out.println(jsonNode);
+//            System.out.println(jsonNode);
             return jsonNode;
         } catch (Exception e) {
-            System.out.println("in exception");
+//            System.out.println("in exception");
             return null;
         }
     }
@@ -191,7 +191,7 @@ public class OAuthService {
             if(TYPE == "kakao") {
                 return jsonNode.get("kakao_account");
             } else {
-                System.out.println(jsonNode.get("response"));
+//                System.out.println(jsonNode.get("response"));
                 return jsonNode.get("response");
             }
 

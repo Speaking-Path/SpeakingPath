@@ -118,7 +118,7 @@ public class UserController {
             TokenDto tokenDto = new TokenDto();
             tokenDto.setAccessToken(token);
             tokenDto.setGrantType("Bearer");
-            System.out.println(token);
+//            System.out.println(token);
             userService.logout(tokenDto);
             log.info("logout 성공");
             return new ResponseEntity<>("success", HttpStatus.OK);
@@ -274,7 +274,7 @@ public class UserController {
             con.setRequestMethod("GET");
             con.setRequestProperty("Authorization", header);
             int responseCode = con.getResponseCode();
-            System.out.println("[네아로] 유저정보 요청 응답코드 = {}"+ responseCode);
+//            System.out.println("[네아로] 유저정보 요청 응답코드 = {}"+ responseCode);
             BufferedReader br;
             if (responseCode == 200) { // 정상 호출
                 br = new BufferedReader(new InputStreamReader(con.getInputStream()));
@@ -294,7 +294,7 @@ public class UserController {
                 res.append(inputLine);
             }
             br.close();
-            System.out.println(res.toString());
+//            System.out.println(res.toString());
             log.debug("[네아로] 유저정보 요청 res = {}", res);
             return new ResponseEntity<>(res.toString(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
