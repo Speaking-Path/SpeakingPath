@@ -37,6 +37,8 @@ function PronStart(props) {
     const audioRecorderRef = useRef(null)
     const audioBlobRef = useRef(null)
 
+    const contentRef = useRef(null)
+
     const navigate = useNavigate();
 
     // 원래 코드
@@ -52,8 +54,8 @@ function PronStart(props) {
     useEffect(() => {
         window.scrollTo({ top: 70, behavior: 'smooth' });
         getPronData();
-        const newIndex = (currentIndex + 1) % pronData.current.length;
-        setCurrentIndex(newIndex);
+        // const newIndex = (currentIndex + 1) % pronData.current.length;
+        // setCurrentIndex(newIndex);
         if (guideVideoRef.current) {
             guideVideoRef.current.onended = handleGuideVideoEnded;
         }
@@ -111,6 +113,7 @@ function PronStart(props) {
             setRecording(false);
         }
         setGuideVideoEnded(false);
+        contentRef.current.innerText=pronData.current[currentIndex] && pronData.current[currentIndex].content
     }, [currentIndex])
 
 
@@ -123,27 +126,42 @@ function PronStart(props) {
     }
 
     // 데이터 받는 함수. 지금은 임시로 assets에 있는 동영상을 활용하고 나중에 BE api가 완성되면 대체
-    function getPronData() {
+    async function getPronData() {
         pronData.current = []
-        let path = process.env.PUBLIC_URL + "/assets/sentence/"
-        let nfile = 5
+        let path=""
+        let apiurl=""
+        let shortType=""
+        // let path = process.env.PUBLIC_URL + "/assets/sentence/"
+        // let nfile = 5
+        // 1) 음절일때
         if (props.type === "syllable") {
             path = process.env.PUBLIC_URL + "/assets/syllable/"
-            nfile = 14
+            apiurl = "/practice/pron/syllable"
+            shortType = "slb"
+        // 2) 단어일때
         } else if (props.type === "word") {
             path = process.env.PUBLIC_URL + "/assets/word/"
-            nfile = 0
+            apiurl = "/practice/pron/word"
+        // 3) 문장일때
         } else if (props.type === "sentence") {
             path = process.env.PUBLIC_URL + "/assets/sentence/"
-            nfile = 5
+            apiurl = "/practice/pron/sentence"
+            shortType = "stc"
         }
-        for (let i = 0; i < nfile; i++) {
-            const data = {
-                src: process.env.PUBLIC_URL + path + (i + 1).toString() + ".mp4",
-            }
-            pronData.current.push(data)
-        }
-        console.log(pronData.current)
+        await axios.get(apiurl)
+            .then((res) => {
+                pronData.current=res.data.map((e)=>{
+                    e["id"]=e[shortType+"Id"]
+                    e["content"]=e[shortType+"Content"]
+                    e["src"]=process.env.PUBLIC_URL + path + (e["id"]).toString() + ".mp4"
+                    return e
+                })
+                console.log(pronData.current)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
     }
 
     // 다음 문제로
@@ -151,6 +169,7 @@ function PronStart(props) {
         const newIndex = (currentIndex + 1) % pronData.current.length
         guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
+        console.log("Next",pronData.current,currentIndex)
     }
 
     // 이전 문제로
@@ -322,7 +341,7 @@ function PronStart(props) {
     }
 
     // -------------------------------------------------------------------------------- //
-
+    
 
 
     return (
@@ -358,7 +377,8 @@ function PronStart(props) {
                     <div>
                         <ArrowBackIosNewIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Prev} />
                     </div>
-                    <p className={styles.question}>제시어</p>
+                    {/* 제시어 */}
+                    <p ref={contentRef} className={styles.question}></p>
                     <div>
                         <ArrowForwardIosIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Next} />
                     </div>
