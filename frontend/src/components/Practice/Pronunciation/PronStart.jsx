@@ -386,7 +386,7 @@ function PronStart(props) {
 
 
     return (
-        <div className={`container ${showTimer ? styles.transparentContainer : ''}`}>
+        <div className={`container ${showTimer ? styles.transparentContainer : ''}`} style={{marginTop : '30px'}}>
             {/* {showTimer ? ( */}
 
             {/* 타이머 */}
