@@ -1,0 +1,123 @@
+.RetryBox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1.250rem;
+    z-index: 1;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .celebrateBox {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1.250rem;
+    z-index: 1;
+  }
+  
+  .celebrateText {
+    color: white;
+    font-size: 3.125rem;
+    font-weight: 600;
+  }
+  
+  .wordBox {
+    position: relative;
+    width: 30rem;
+    height: 21.875rem;
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 3.125rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .wordBox video {
+    margin-top: 70px;
+    width: 70%;
+    height: 50%;
+  }
+  
+  .wordBox img {
+    width: 80%;
+  }
+  
+  .wordBox svg {
+    top: 0px;
+    right: 0;
+    /* transform: translate(-70%, 70%); */
+    margin: 10px;
+    cursor: pointer;
+  }
+  
+  .celebrateMain {
+    position: relative;
+    width: 21.875rem;
+    height: 21.875rem;
+    background-color: rgb(255, 255, 255, 0.9);
+    border-radius: 3.125rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .celebrateMain img {
+    width: 80%;
+  }
+  
+  .objName {
+    font-size: 2.3rem;
+    font-weight: 600;
+    margin-bottom: 0;
+  }
+  
+  .icons {
+    /* margin-top: 1rem; */
+    cursor: pointer;
+  }
+  
+  .icons svg {
+    margin: 0 1rem;
+    margin-top: 1rem;
+  }
+  
+  .medal {
+    width: 2rem;
+    height: 2rem;
+  }
+  
+  .imgBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .imgBox > p {
+    color: rgb(226, 226, 25);
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    font-weight: 700;
+  }
+
+  .content {
+    font-weight: bold;
+    font-size: 2rem;
+    position: absolute;
+    transform: translate(-50%, 50%);
+    width: 90%;
+  }
+
+  .topLine {
+    display: flex; 
+    align-items: center;
+  }

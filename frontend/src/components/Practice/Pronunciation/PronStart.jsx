@@ -13,6 +13,9 @@ import RecorderJS from 'recorder-js'
 import { exportBuffer } from '../Recognition/audio' 
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
+import Confetti from "../Confetti";
+import RetryPron from "./RetryPron.jsx";
+import SuccessPron from "./SuccessPron";
 
 
 function PronStart(props) {
@@ -37,6 +40,9 @@ function PronStart(props) {
     const audioRecorderRef = useRef(null)
     const audioBlobRef = useRef(null)
 
+    const [isSuccess, setIsSuccess] = useState(false)
+    const [isFail, setIsFail] = useState(false)
+
     // const contentRef = useRef(null)
     const [currentContent, setCurrentContent] = useState('');
 
@@ -50,7 +56,6 @@ function PronStart(props) {
     //         myVideoRef.current.style = "height: 45vh;"
     //     }
     // }, [])
-
 
     useEffect(() => {
         window.scrollTo({ top: 70, behavior: 'smooth' });
@@ -164,7 +169,6 @@ function PronStart(props) {
             .catch((err) => {
                 console.log(err)
             })
-
     }
 
     // 다음 문제로
@@ -332,18 +336,32 @@ function PronStart(props) {
             await sttServer.post('/stt/result', {
               file: base64Audio,
             //   answer: answer.objName,
-                answer : '동전'
+                answer : currentContent
               // format: 'pcm'
             }).then(response => {
-              console.log(response.data.result) // 여기에 음성인식 결과가 출력됩니다!!
-              console.log(response.data.predict)
-              console.log(response.data.accuracy)
+              console.log('result : ', response.data.result) 
+              console.log('predict : ', response.data.predict)
+              console.log('accuracy : ', response.data.accuracy)
+              if(response.data.accuracy > 0.49){
+                setIsSuccess(true)
+              } else{
+                setIsFail(true)
+              }
             });
           };
         } catch {
           navigate('/error', { message: "잘못된 접근입니다." }); // 에러 발생 시 ErrorPage로 리다이렉트
         }
     }
+
+    const handleSuccess = function () {
+        setIsSuccess(false)
+      }
+    
+      const handleFail = function () {
+        setIsFail(false)
+      }
+
 
     // -------------------------------------------------------------------------------- //
     
@@ -453,6 +471,18 @@ function PronStart(props) {
                 </div>
 
             </div>
+
+        {/* 성공했을 때 */}
+        {/* {isSuccess === true && <Confetti />}
+        {isSuccess === true && <SuccessPron handleSuccess={handleSuccess} videoSrc={pronData.current[currentIndex].src} currentContent={currentContent} Next={Next} />} */}
+        
+        {/* 실패했을 때 */}
+        {/* {isFail === true && <RetryPron handleFail={handleFail} videoSrc={pronData.current[currentIndex].src} currentContent={currentContent} />} */}
+
+        {/* 테스트 */}
+        {isFail === true && <Confetti />}
+        {isFail === true && <SuccessPron handleSuccess={handleSuccess} videoSrc={pronData.current[currentIndex].src} currentContent={currentContent} Next={Next}/>}
+
         </div>
 
         // </div>
