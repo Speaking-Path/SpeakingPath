@@ -229,7 +229,7 @@ const SavedItems = () => {
       })
   }
 
-  const sentenceItems = userWord.map((sentence, index) => (
+  const sentenceItems = userSentence.map((sentence, index) => (
     <div className={styles.ItemsContain} key={index}>
       <div className={styles.ItemsWrap} onClick={() => { openVideo("sentence", sentence.stcId) }}>
         <div className={styles.overlay2}>

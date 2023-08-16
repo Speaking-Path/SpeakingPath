@@ -43,8 +43,18 @@ function PronStart(props) {
 
     const [isSuccess, setIsSuccess] = useState(false)
     const [isFail, setIsFail] = useState(false)
-
+    const userId = useSelector((state) => { return state.loginId })
+    
     const navigate = useNavigate();
+
+    const  shortType = getShortType();
+    
+    function getShortType(){
+        if(props.type==="syllable") return "slb"
+        else if(props.type==="word") return "word"
+        else if(props.type==="sentence") return "stc"
+        return ""
+    }
 
     useEffect(() => {
         window.scrollTo({ top: 70, behavior: 'smooth' });
@@ -112,12 +122,12 @@ function PronStart(props) {
     useEffect(() => {
         if (recording) {
             stopRecording(); // 녹화 중이면 녹화 중지
-            setRecording(false); // 녹화 상태 false로 변경
+            setRecording(false); // 녹화 상태 false로 초기화
         }
         setGuideVideoEnded(false); // 가이드 비디오 실행상태 false로 초기화
         if (pronData.current[currentIndex]) {
             setCurrentContent(pronData.current[currentIndex]["content"]); // 제시어 업데이트
-            guideVideoRef.current.src = pronData.current[currentIndex]["src"]
+            guideVideoRef.current.src = pronData.current[currentIndex]["src"] // 가이드 비디오 업데이트
         }
     }, [currentIndex])
 
@@ -132,14 +142,12 @@ function PronStart(props) {
         pronData.current = []
         let path=""
         let apiurl=""
-        let shortType=""
         // let path = process.env.PUBLIC_URL + "/assets/sentence/"
         // let nfile = 5
         // 1) 음절일때
         if (props.type === "syllable") {
             path = process.env.PUBLIC_URL + "/assets/syllable/"
             apiurl = "/practice/pron/syllable"
-            shortType = "slb"
         // 2) 단어일때
         } else if (props.type === "word") {
             path = process.env.PUBLIC_URL + "/assets/word/"
@@ -148,7 +156,6 @@ function PronStart(props) {
         } else if (props.type === "sentence") {
             path = process.env.PUBLIC_URL + "/assets/sentence/"
             apiurl = "/practice/pron/sentence"
-            shortType = "stc"
         }
         await axios.get(apiurl)
             .then((res) => {
@@ -158,11 +165,29 @@ function PronStart(props) {
                     e["src"]=process.env.PUBLIC_URL + path + (e["id"]).toString() + ".mp4"
                     return e
                 })
-                console.log(pronData.current)
+                // console.log("pronData.current : ", pronData.current)
             })
             .catch((err) => {
                 console.log(err)
             })
+        await axios.post(apiurl + "/show", {"userId": userId})
+            .then((res) => {
+                // console.log("res.data :", res.data);
+                const saves = res.data.map((e) => {
+                    return e[shortType+"Id"]
+                })
+                // console.log("saves : ", saves);
+                pronData.current.map((e) => {
+                    // saved 키 추가
+                    // saves 안에 id가 있는지 여부 boolean값
+                    e["saved"] = saves.includes(e["id"])
+                })
+                // console.log(pronData.current);
+            })
+            .catch((err) => {
+                    console.log(err);
+            })
+            
     }
 
     // 다음 문제로
@@ -219,20 +244,20 @@ function PronStart(props) {
             return;
         }
 
-        console.log('Created MediaRecorder', mediaRecorderRef.current, 'with options', options);
+        // console.log('Created MediaRecorder', mediaRecorderRef.current, 'with options', options);
         mediaRecorderRef.current.onstop = (event) => {
-            console.log('Recorder stopped: ', event);
-            console.log('Recorded Blobs: ', recordedBlobsRef.current);
+            // console.log('Recorder stopped: ', event);
+            // console.log('Recorded Blobs: ', recordedBlobsRef.current);
         };
         mediaRecorderRef.current.ondataavailable = handleDataAvailable;
         mediaRecorderRef.current.start();
         audioRecorderRef.current.start();
         setRecording(true)
-        console.log('MediaRecorder started', mediaRecorderRef.current);
+        // console.log('MediaRecorder started', mediaRecorderRef.current);
     }
 
     function handleDataAvailable(event) {
-        console.log('handleDataAvailable', event);
+        // console.log('handleDataAvailable', event);
         if (event.data && event.data.size > 0) {
             recordedBlobsRef.current.push(event.data);
         }
@@ -290,19 +315,19 @@ function PronStart(props) {
     }
 
     function handlePlayButtonClick() {
-        console.log("play button clicked")
+        // console.log("play button clicked")
         const mimeType = getSupportedMimeTypes()[0].value;
         const superBuffer = new Blob(recordedBlobsRef.current, { type: mimeType });
         const mystream = myVideoRef.current.srcObject;
         myVideoRef.current.src = null;
         myVideoRef.current.srcObject = null;
         myVideoRef.current.src = window.URL.createObjectURL(superBuffer);
-        console.log("recorded video start")
+        // console.log("recorded video start")
         myVideoRef.current.play();
         myVideoRef.current.muted = false; // 녹화파일 재생시엔 소리 ON
         myVideoRef.current.onended = (event) => {
             sendAudioToServer()
-            console.log("recorded video end")
+            // console.log("recorded video end")
             if (myVideoRef.current) {
                 myVideoRef.current.src = null;
                 myVideoRef.current.srcObject = mystream;
@@ -472,7 +497,15 @@ function PronStart(props) {
 
         {/* 테스트 */}
         {isFail === true && <Confetti />}
-        {isFail === true && <SuccessPron handleSuccess={handleSuccess} videoSrc={pronData.current[currentIndex].src} currentContent={currentContent} Next={Next}/>}
+        {isFail === true && <SuccessPron 
+            handleSuccess={handleSuccess} 
+            // videoSrc={pronData.current[currentIndex].src} 
+            // currentContent={currentContent} 
+            currentData={pronData.current[currentIndex]}
+            Next={Next} 
+            contentType={props.type}
+            shortType={shortType}
+            />}
 
         </div>
 
