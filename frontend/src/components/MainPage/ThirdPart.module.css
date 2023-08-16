@@ -57,3 +57,8 @@
   margin-top: 0.2rem;
   cursor: pointer;
 }
+
+.Text3:hover {
+  color: #0056b3;
+  font-weight:bolder
+}
