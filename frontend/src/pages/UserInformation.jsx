@@ -75,10 +75,8 @@ function UserInformation() {
     )
       .then((res) => {
         dispatch(changeProfileInfo(res.data))
-        console.log(res.data)
       })
       .catch((err) => {
-        console.log(err); 
         navigate('/error', { message: "잘못된 접근입니다." } ); // 에러 발생 시 ErrorPage로 리다이렉트
       }).finally(() => {
         setIsLoaded(true); // API 호출이 완료됐음을 표시

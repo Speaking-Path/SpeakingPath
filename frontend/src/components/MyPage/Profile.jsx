@@ -64,7 +64,6 @@ function Profile() {
       const newData = { ...data }
       newData.userPwd = password
       setData(newData)
-      console.log(data.userPwd)
     }
   }
 
