@@ -360,7 +360,7 @@ function PronStart(props) {
               console.log('result : ', response.data.result) 
               console.log('predict : ', response.data.predict)
               console.log('accuracy : ', response.data.accuracy)
-              if(response.data.accuracy > 0.49){
+              if(response.data.accuracy < 0.49){
                 setIsSuccess(true)
               } else{
                 setIsFail(true)
@@ -459,12 +459,12 @@ function PronStart(props) {
 
                                 {recording ? (
                                     <>
-                                        <i>마치기</i>
+                                        <i>녹화 종료하기</i>
                                         <i>.</i>
                                     </>
                                 ) : (
                                     <>
-                                        <i>시작</i>
+                                        <i>녹화 시작</i>
                                         <i>.</i>
                                     </>
                                 )}

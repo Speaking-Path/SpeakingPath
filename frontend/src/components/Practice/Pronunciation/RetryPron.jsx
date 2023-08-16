@@ -24,7 +24,7 @@ function RetryPron({ handleFail, videoSrc, currentContent }) {
       <div className={styles.wordBox}>
         <div className={styles.topLine}>
             <ReplayIcon onClick={() => { handleFail() }}
-            sx={{ color: blue[600], fontSize: 40 }} />
+            sx={{ color: blue[600], fontSize: 40, zIndex: '2000'  }} />
             <div className={styles.content}>{currentContent}</div>
         </div>
         <video src={videoSrc} autoPlay controls>
