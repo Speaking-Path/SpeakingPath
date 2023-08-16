@@ -13,7 +13,6 @@ export const createSession = async (sessionId) => {
   const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', data, {
     headers: { 'Content-Type': 'application/json', },
   });
-  console.log("세션이에요", response.data)
   return response.data
 }
 

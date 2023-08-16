@@ -26,7 +26,7 @@ const VoiceRecording = ({answer, checkAns}) => {
         setStream(audioStream);
       } catch (error) {
         // Handle error here.
-        console.log(error);
+        // console.log(error);
       }
     }
     initializeAudioStream();
@@ -71,9 +71,9 @@ const VoiceRecording = ({answer, checkAns}) => {
           answer: answer.objName,
           // format: 'pcm'
         }).then(response => {
-          console.log(response.data.result) // 여기에 음성인식 결과가 출력됩니다!!
-          console.log(response.data.predict)
-          console.log(response.data.accuracy)
+          // console.log(response.data.result) // 여기에 음성인식 결과가 출력됩니다!!
+          // console.log(response.data.predict)
+          // console.log(response.data.accuracy)
           if(response.data.accuracy > 0.49){
             checkAns("success")
           }else{

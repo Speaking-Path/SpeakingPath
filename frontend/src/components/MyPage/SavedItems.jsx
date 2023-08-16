@@ -75,28 +75,28 @@ const SavedItems = () => {
         setUserRecog(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     axios.post("practice/pron/syllable/show", { "userId": userId })
       .then((res) => {
         setUserSyllable(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     axios.post("practice/pron/word/show", { "userId": userId })
       .then((res) => {
         setUserWord(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     axios.post("practice/pron/sentence/show", { "userId": userId })
       .then((res) => {
         setUserSentence(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }, [])
 
@@ -127,7 +127,7 @@ const SavedItems = () => {
         setUserRecog(updatedUserRecog)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
@@ -164,7 +164,7 @@ const SavedItems = () => {
         setUserRecog(updatedUserRecog)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
@@ -193,7 +193,7 @@ const SavedItems = () => {
         setUserRecog(updatedUserRecog)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
@@ -225,7 +225,7 @@ const SavedItems = () => {
         setUserRecog(updatedUserRecog)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 

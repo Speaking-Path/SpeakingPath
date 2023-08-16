@@ -34,7 +34,6 @@ export const clickSignup = async function (e, data) {
     return response
   } catch(err) {
     alert('정보를 다시 한번 확인해주세요')
-    console.log(err)
     return err.message
   }
 }
@@ -55,14 +54,11 @@ export const clickConsultantSignup = async function (e, data) {
     "userSex" : data.sex,
     "userGrade" : "CONSULTANT",
   }
-  console.log(userInfo)
-  console.log(data)
   try {
     const response = await AuthApi.post(`account/consultantsignup`, userInfo)
     return response.data
   } catch(err) {
     alert('정보를 다시 한번 확인해주세요')
-    console.log(err)
     return err.message
   }
 }
@@ -113,7 +109,6 @@ export const checkEmailApi = function (e, email, setEmailMessage, setIsEmail) {
         "userEmail" : email
       }
       axios.post(`/account/auth/sendEmail`, userInfo).then((res)=>{
-        console.log(res)
         if(res.data === "success"){
           setEmailMessage("이메일 인증번호를 확인해주세요.")    
         }
@@ -126,7 +121,7 @@ export const checkEmailApi = function (e, email, setEmailMessage, setIsEmail) {
     }
   })
   .catch((err)=>{
-    console.log(err)
+    // console.log(err)
   })
 }
 
@@ -144,7 +139,7 @@ export const checkIdApi = function (e, id, setIdMessage, setIsId) {
     }
   })
   .catch((err)=>{
-    console.log(err)
+    // console.log(err)
   })
 }
 
@@ -153,7 +148,6 @@ export const checkEmailAuth = function (e, email, emailAuth, setEmailMessage, se
   axios
     .post(`/account/auth/checkEmail/${emailAuth}`, { "userEmail": email })
     .then((res) => {
-      console.log(res);
       if (res.data) {
         setAuthMessage("인증에 성공하였습니다.");
         setEmailMessage(""); // Correct way to update setEmailMessage state
@@ -164,6 +158,6 @@ export const checkEmailAuth = function (e, email, emailAuth, setEmailMessage, se
       }
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err);
     });
 };

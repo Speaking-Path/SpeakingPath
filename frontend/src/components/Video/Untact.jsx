@@ -37,7 +37,6 @@ const Untact = () => {
     setMyUserName(userId);
     if(location.state.sessionId!==undefined){
       setMySessionId(location.state.sessionId);
-      console.log("sessionId: %s",location.state.sessionId)
     }
 
     return () => {
@@ -116,7 +115,6 @@ const Untact = () => {
     //           insertMode: 'APPEND',
     //           mirror: false,
     //         });
-    //         console.log("내 퍼블리셔", publisher)
     //         setPublisher(publisher);
 
 
@@ -160,7 +158,6 @@ const Untact = () => {
       setMainStreamManager(publisher);
       setPublisher(publisher);
     } catch (error) {
-      // console.log('There was an error connecting to the session:', error.code, error.message);
     }
   }
 
