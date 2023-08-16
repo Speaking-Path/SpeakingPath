@@ -57,7 +57,7 @@ function PronStart(props) {
     }
 
     useEffect(() => {
-        window.scrollTo({ top: 70, behavior: 'smooth' });
+        window.scrollTo({ top: 80, behavior: 'smooth' });
         if (selectedCamera !== 'no-camera') {
             myVideoRef.current.style = "height: 45vh;";
         }
@@ -386,7 +386,7 @@ function PronStart(props) {
 
 
     return (
-        <div className={`container ${showTimer ? styles.transparentContainer : ''}`} style={{marginTop : '30px'}}>
+        <div className={`container ${showTimer ? styles.transparentContainer : ''}`} style={{marginTop : '30px', padding: '30px'}}>
             {/* {showTimer ? ( */}
 
             {/* 타이머 */}

@@ -125,8 +125,8 @@
 .videoBox {
   display: flex;
   justify-content:center;
-  width: 60vw;
-  height:60vh;
+  width: 40vw;
+  height: 55vh;
   /* border: 3px solid black; */
   border: 4px solid rgb(106, 176, 237);
   /* border: 3px solid #1e88e5; */
