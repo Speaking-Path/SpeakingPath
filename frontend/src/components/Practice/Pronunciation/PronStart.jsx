@@ -27,6 +27,7 @@ function PronStart(props) {
     const pronData = useRef([])
     // 현재 문제 인덱스
     const [currentIndex, setCurrentIndex] = useState(0)
+    const [currentContent, setCurrentContent] = useState('');
 
     const mediaConfig = useSelector(selectMediaConfig);
     const selectedCamera = mediaConfig.camera;
@@ -43,86 +44,82 @@ function PronStart(props) {
     const [isSuccess, setIsSuccess] = useState(false)
     const [isFail, setIsFail] = useState(false)
 
-    // const contentRef = useRef(null)
-    const [currentContent, setCurrentContent] = useState('');
-
     const navigate = useNavigate();
-
-    // 원래 코드
-    // useEffect(() => {
-    //     getPronData()
-    //     guideVideoRef.current.src=pronData.current.at(currentIndex).src
-    //     if (selectedCamera !== 'no-camera') {
-    //         myVideoRef.current.style = "height: 45vh;"
-    //     }
-    // }, [])
 
     useEffect(() => {
         window.scrollTo({ top: 70, behavior: 'smooth' });
-        getPronData();
-        if (guideVideoRef.current) {
-            guideVideoRef.current.onended = handleGuideVideoEnded;
-        }
         if (selectedCamera !== 'no-camera') {
             myVideoRef.current.style = "height: 45vh;";
         }
+        if (guideVideoRef.current) {
+            guideVideoRef.current.onended = handleGuideVideoEnded;
+        }
+        getPronData()
+        .then(()=>{
+        if (pronData.current){    
+            setCurrentContent(pronData.current[currentIndex]["content"]);
+                if (showTimer) {
+                    const playDelay = 5000; // 5초
+                    const playTimer = setTimeout(() => {
+                        setShowTimer(false);
+                        guideVideoRef.current.src = pronData.current[currentIndex]["src"]
+                    }, playDelay);
+                    
+                    return () => {
+                        clearTimeout(playTimer);
+                    };
+                }
+            // }
+        }})
     }, []); // 컴포넌트 마운트 시에만 실행
 
 
     useEffect(() => {
-        if (!showTimer && !guideVideoEnded) {
-            if (guideVideoRef.current) {
-                guideVideoRef.current.src = pronData.current[currentIndex].src
-            }
-        }
-    }, [showTimer, currentIndex]);
-
-
-    useEffect(() => {
+        // 타이머가 호출되면 5초 동안 재생, false로 초기화
         if (showTimer) {
             const playDelay = 5000; // 5초
             const playTimer = setTimeout(() => {
                 setShowTimer(false);
             }, playDelay);
-
+    
             return () => {
                 clearTimeout(playTimer);
             };
         }
     }, [showTimer]);
 
+
     useEffect(() => {
-        getPronData();
+        // 가이드 비디오 재생이 끝나면
         if (guideVideoEnded) {
-            // 가이드 비디오 재생이 끝나면 5초 뒤에 녹화 시작 함수 호출
+            // 타이머 호출
+            setShowTimer(true); 
+            // 5초 뒤에 녹화 시작 함수 호출
             if (myVideoRef.current) {
                 const timer = setTimeout(() => {
                     startRecording();
                     setRecording(true);
                 }, 5000);
-
+                
                 return () => {
                     clearTimeout(timer);
                 };
             }
         }
-    }, [guideVideoEnded, currentIndex]);
-
-
+    }, [guideVideoEnded]);
+    
+    
     useEffect(() => {
         if (recording) {
             stopRecording(); // 녹화 중이면 녹화 중지
-            setRecording(false);
+            setRecording(false); // 녹화 상태 false로 변경
         }
-        setGuideVideoEnded(false);
-        // contentRef.current.innerText=pronData.current[currentIndex] && pronData.current[currentIndex]["content"]
-    }, [currentIndex])
-
-    useEffect(() => {    
+        setGuideVideoEnded(false); // 가이드 비디오 실행상태 false로 초기화
         if (pronData.current[currentIndex]) {
-            setCurrentContent(pronData.current[currentIndex]["content"]);
+            setCurrentContent(pronData.current[currentIndex]["content"]); // 제시어 업데이트
+            guideVideoRef.current.src = pronData.current[currentIndex]["src"]
         }
-    }, [currentIndex, pronData.current]);
+    }, [currentIndex])
 
 
     function handleGuideVideoEnded() {
@@ -171,21 +168,18 @@ function PronStart(props) {
     // 다음 문제로
     function Next() {
         const newIndex = (currentIndex + 1) % pronData.current.length
-        guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
-        console.log("Next",pronData.current,currentIndex)
-        setCurrentContent(pronData.current[newIndex].content);
+        // setCurrentContent(pronData.current[newIndex].content)
     }
 
     // 이전 문제로
     function Prev() {
         const newIndex = (currentIndex - 1) % pronData.current.length
-        guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
-        setCurrentContent(pronData.current[newIndex].content);
+        // setCurrentContent(pronData.current[newIndex].content)
     }
 
-    // 이전 페이지
+    // 이전 페이지 (navigate("/practice/pron")로 내용 변경하기)
     const goBack = () => {
         window.history.back();
     }
