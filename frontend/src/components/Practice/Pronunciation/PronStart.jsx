@@ -37,7 +37,8 @@ function PronStart(props) {
     const audioRecorderRef = useRef(null)
     const audioBlobRef = useRef(null)
 
-    const contentRef = useRef(null)
+    // const contentRef = useRef(null)
+    const [currentContent, setCurrentContent] = useState('');
 
     const navigate = useNavigate();
 
@@ -54,8 +55,6 @@ function PronStart(props) {
     useEffect(() => {
         window.scrollTo({ top: 70, behavior: 'smooth' });
         getPronData();
-        // const newIndex = (currentIndex + 1) % pronData.current.length;
-        // setCurrentIndex(newIndex);
         if (guideVideoRef.current) {
             guideVideoRef.current.onended = handleGuideVideoEnded;
         }
@@ -68,8 +67,7 @@ function PronStart(props) {
     useEffect(() => {
         if (!showTimer && !guideVideoEnded) {
             if (guideVideoRef.current) {
-                // guideVideoRef.current.src = pronData.current[newIndex].src;
-                guideVideoRef.current.src = pronData.current.at(currentIndex).src
+                guideVideoRef.current.src = pronData.current[currentIndex].src
             }
             // guideVideoRef.current.style = "height: 45vh; width: 40vw; transform: rotate(-2deg);";
         }
@@ -113,9 +111,14 @@ function PronStart(props) {
             setRecording(false);
         }
         setGuideVideoEnded(false);
-        contentRef.current.innerText=pronData.current[currentIndex] && pronData.current[currentIndex].content
+        // contentRef.current.innerText=pronData.current[currentIndex] && pronData.current[currentIndex]["content"]
     }, [currentIndex])
 
+    useEffect(() => {    
+        if (pronData.current[currentIndex]) {
+            setCurrentContent(pronData.current[currentIndex]["content"]);
+        }
+    }, [currentIndex, pronData.current]);
 
 
     function handleGuideVideoEnded() {
@@ -170,6 +173,7 @@ function PronStart(props) {
         guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
         console.log("Next",pronData.current,currentIndex)
+        setCurrentContent(pronData.current[newIndex].content);
     }
 
     // 이전 문제로
@@ -177,6 +181,7 @@ function PronStart(props) {
         const newIndex = (currentIndex - 1) % pronData.current.length
         guideVideoRef.current.src = pronData.current.at(newIndex).src
         setCurrentIndex(newIndex)
+        setCurrentContent(pronData.current[newIndex].content);
     }
 
     // 이전 페이지
@@ -378,7 +383,10 @@ function PronStart(props) {
                         <ArrowBackIosNewIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Prev} />
                     </div>
                     {/* 제시어 */}
-                    <p ref={contentRef} className={styles.question}></p>
+                    {/* <p ref={contentRef} className={styles.question}>
+                        {pronData.current[currentIndex]["content"]}
+                    </p> */}
+                        <p className={styles.question}>{currentContent}</p>
                     <div>
                         <ArrowForwardIosIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Next} />
                     </div>
