@@ -50,32 +50,34 @@ function ConsultantCard({ consultant }) {
           <div className={styles.team}>
             <p>{consultant.csltTeam}</p>
           </div>
-          <div className={styles.boundary}>
-            <div >
-              <p className={styles.boundaryTitle}><b>치료 가능 영역</b></p>
+          <div className={styles.cardBoxBtm}>
+            <div className={styles.boundary}>
+              <div>
+                <p className={styles.boundaryTitle}><b>치료 가능 영역</b></p>
+              </div>
+              <div>
+                {
+                  consultant.csltBoundary.map((boundary, index) => {
+                    return (
+                      <span key={index}>#{boundary} </span>
+                    )
+                  })
+                }
+              </div>
             </div>
-            <div>
-              {
-                consultant.csltBoundary.map((boundary, index) => {
-                  return (
-                    <span key={index}>#{boundary} </span>
-                  )
-                })
-              }
-            </div>
-          </div>
-          <div className={styles.tag}>
-            <div>
-              <p className={styles.tagTitle}><b>성향</b></p>
-            </div>
-            <div>
-              {
-                consultant.csltTag.map((tag, index) => {
-                  return (
-                    <span key={index}>#{tag} </span>
-                  )
-                })
-              }
+            <div className={styles.tag}>
+              <div>
+                <p className={styles.tagTitle}><b>성향</b></p>
+              </div>
+              <div>
+                {
+                  consultant.csltTag.map((tag, index) => {
+                    return (
+                      <span key={index}>#{tag} </span>
+                    )
+                  })
+                }
+              </div>
             </div>
           </div>
           <div>
