@@ -72,7 +72,9 @@ function PronStart(props) {
                     const playDelay = 5000; // 5초
                     const playTimer = setTimeout(() => {
                         setShowTimer(false);
-                        guideVideoRef.current.src = pronData.current[currentIndex]["src"]
+                        if(guideVideoRef.current) {
+                            guideVideoRef.current.src = pronData.current[currentIndex]["src"]
+                        }
                     }, playDelay);
                     
                     return () => {
@@ -204,9 +206,9 @@ function PronStart(props) {
         // setCurrentContent(pronData.current[newIndex].content)
     }
 
-    // 이전 페이지 (navigate("/practice/pron")로 내용 변경하기)
     const goBack = () => {
-        window.history.back();
+        // window.history.back();
+        navigate("/practice")
     }
 
     //-----------------------------------------------녹화 기능----------------------------------//
@@ -489,23 +491,17 @@ function PronStart(props) {
             </div>
 
         {/* 성공했을 때 */}
-        {/* {isSuccess === true && <Confetti />}
-        {isSuccess === true && <SuccessPron handleSuccess={handleSuccess} videoSrc={pronData.current[currentIndex].src} currentContent={currentContent} Next={Next} />} */}
+        {isSuccess === true && <Confetti />}
+        {isSuccess === true && <SuccessPron 
+                                    handleSuccess={handleSuccess} 
+                                    currentData={pronData.current[currentIndex]}
+                                    Next={Next} 
+                                    contentType={props.type}
+                                    shortType={shortType}
+                                />}
         
         {/* 실패했을 때 */}
-        {/* {isFail === true && <RetryPron handleFail={handleFail} videoSrc={pronData.current[currentIndex].src} currentContent={currentContent} />} */}
-
-        {/* 테스트 */}
-        {isFail === true && <Confetti />}
-        {isFail === true && <SuccessPron 
-            handleSuccess={handleSuccess} 
-            // videoSrc={pronData.current[currentIndex].src} 
-            // currentContent={currentContent} 
-            currentData={pronData.current[currentIndex]}
-            Next={Next} 
-            contentType={props.type}
-            shortType={shortType}
-            />}
+        {isFail === true && <RetryPron handleFail={handleFail} videoSrc={pronData.current[currentIndex].src} currentContent={currentContent} />}
 
         </div>
 
