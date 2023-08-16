@@ -198,7 +198,7 @@ function CsltCalendar() {
           alert("상담 시간 선택이 완료되었습니다.")
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
         })
     } else {
       alert("날짜와 시간을 선택해주세요.")
@@ -211,7 +211,7 @@ function CsltCalendar() {
         setDays(res.data.dtos)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }, [])
 
