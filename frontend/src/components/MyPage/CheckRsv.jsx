@@ -30,7 +30,7 @@ function CheckRsv() {
           setUpcomingRsv(res.data)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err)
         });
     } else {
       axios.post("/cslting/upcomingrsvcslt", null, { params: { csltId: userInfo.userId } }
@@ -39,7 +39,7 @@ function CheckRsv() {
           setUpcomingRsv(res.data)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err)
         });
     }
   }, []);
@@ -81,7 +81,7 @@ function CheckRsv() {
           window.location.reload()
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err)
         });
     }
   }
@@ -94,7 +94,7 @@ function CheckRsv() {
           window.location.reload()
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err)
         });
     }
   }
@@ -107,7 +107,7 @@ function CheckRsv() {
           window.location.reload()
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err)
         });
     }
   }

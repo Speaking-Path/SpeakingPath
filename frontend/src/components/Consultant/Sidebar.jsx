@@ -48,7 +48,7 @@ function Sidebar() {
         dispatch(changeCsltList(newList))
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 

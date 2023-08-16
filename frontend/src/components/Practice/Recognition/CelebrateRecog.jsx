@@ -32,7 +32,7 @@ function CelebrateRecog({ handleCorVisible, objId, objName, isSaved }) {
         setIsStarClicked(!isStarClicked)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 

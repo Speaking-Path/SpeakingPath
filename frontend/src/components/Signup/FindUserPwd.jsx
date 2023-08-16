@@ -15,7 +15,6 @@ function FindUserPwd() {
     axios
     .post(`/account/find/pwd`, { "userEmail": email, "userName": name })
     .then((res) => {
-      console.log(res)
       if (res.data === "success") {
         setResetLinkSent(true)
       } else {
@@ -23,7 +22,7 @@ function FindUserPwd() {
       }
     })
     .catch((err) => {
-      console.log(err);
+      // console.log(err)
     })
   }
 

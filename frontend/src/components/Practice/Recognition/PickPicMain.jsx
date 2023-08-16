@@ -26,10 +26,10 @@ function PickPicMain({ qlist, goForward, goBack, retry }) {
     axios
       .post("/practice/correct", { userId: userId })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data)
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err)
       });
   };
 
@@ -37,10 +37,10 @@ function PickPicMain({ qlist, goForward, goBack, retry }) {
     axios
       .post("/practice/wrong", { userId: userId })
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data)
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err)
       });
   };
 
@@ -57,7 +57,7 @@ function PickPicMain({ qlist, goForward, goBack, retry }) {
           correctAnswer()
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
         })
     } else {
       setIsWrongVisible(true);

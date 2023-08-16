@@ -30,7 +30,7 @@ function PastRsv() {
           setPastRsv(res.data)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err)
         });
     } else {
       axios.post("/cslting/pastrsvcslt", null, { params: { csltId: userInfo.userId } }
@@ -39,7 +39,7 @@ function PastRsv() {
           setPastRsv(res.data)
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err)
         });
     }
   }, []);
@@ -94,7 +94,7 @@ function PastRsv() {
       navigate("/consulting/reservation")
     })
     .catch((err) => {
-      console.log(err); 
+      // console.log(err)
     });
   }
 
