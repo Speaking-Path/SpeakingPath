@@ -78,11 +78,10 @@ function RevCalendar() {
   useEffect(() => {
     axios.get("/cslting/sche", {params : {"userId" : selectedCsltInfo.userId}})
       .then((res) => {
-        console.log(res.data)
         setDays(res.data.dtos)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }, [])
 
@@ -117,7 +116,6 @@ function RevCalendar() {
         rsvInfo: rsvInfo,
         csltId: selectedCsltInfo.userId,
       }
-      console.log(reservationData)
       // 주소입력
       axios.post("/cslting/addrsv", reservationData)
         .then((res) => {
@@ -126,7 +124,7 @@ function RevCalendar() {
           setIsModalVisible(!isModalVisible)
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
         })
     } else {
       alert("날짜와 시간을 선택해주세요.")
