@@ -1,0 +1,14 @@
+Flask
+Redis
+librosa
+matplotlib
+scikit-image
+ffmpy
+Levenshtein
+torchvision
+torchaudio
+tensorflow
+flask-cors
+git+https://github.com/openai/whisper.git 
+ffmpeg-python
+setuptools-rust

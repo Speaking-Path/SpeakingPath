@@ -1,0 +1,208 @@
+.titleBox {
+  text-align: left;
+  margin-bottom: 5%;
+}
+
+.dayListBox {
+  border-left: 0.188rem solid #d9d9d9;
+  text-align: left;
+  margin-left: 1%;
+  padding-top: 2%;
+}
+
+.yearBox > p {
+  font-size: 1.4rem;
+}
+
+.rsvListBox p {
+  text-align: left;
+}
+
+.dayBox {
+  width: 83%;
+  border: 0.063rem solid #d9d9d9;
+  margin-left: 5%;
+  padding: 3% 3% 3% 8%;
+  margin-bottom: 5%;
+  border-radius: 0.625rem;
+  display: flex;
+  justify-content: left;
+  position: relative;
+}
+
+.dayBox::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6.5%;
+  width: 6.5%;
+  height: 0.063em;
+  background-color: #d9d9d9; 
+  transform: translateY(-50%);
+}
+
+.dayBox::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -6.8%;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: #c7c7c7; 
+  transform: translateY(-50%);
+  border-radius: 50%;
+}
+
+
+
+.dayBoxMain {
+  width: 70%;
+  border-right: 0.063rem solid #f0f0f0;
+}
+
+
+
+.btnBox {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6%;
+  text-align: center;
+  line-height: 0;
+}
+
+.btnBox button {
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+  width: 5rem;
+  display: block;
+  margin: 1.2rem 0;
+  font-weight: 700;
+
+}
+
+.cancelMsg{
+  text-align: center;
+}
+
+.dayDesc {
+  margin-bottom: 0;
+  font-size: 1.063rem;
+}
+
+.dayDay {
+  font-weight: 700;
+  font-size: 1.250rem;
+}
+
+.csltName {
+  line-height: 0;
+}
+
+
+.btnBox .blueBtn {
+  --c: #2E64FE; /* the color */
+  --s: .15em;
+  
+  line-height:1.1em;
+  padding-bottom: calc(2.1*var(--s));
+  background: 
+    conic-gradient(from 135deg at top,var(--c) 90deg,#0000 0) 
+      left 0 bottom var(--s)/calc(2*var(--s)) var(--s) repeat-x,
+    conic-gradient(from -45deg at bottom,var(--c) 90deg,#0000 0) 
+      left var(--s) bottom 0/calc(2*var(--s)) var(--s) repeat-x;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0) 0/var(--_p,0%) padding-box no-repeat;
+  transition: .5s;
+}
+.btnBox .blueBtn:hover {
+  --_p: 100%;
+  color: var(--c);
+}
+
+.btnBox .redBtn {
+  --c: #fe2e2e; /* the color */
+  --s: .15em;
+  
+  line-height:1.1em;
+  padding-bottom: calc(2.1*var(--s));
+  background: 
+    conic-gradient(from 135deg at top,var(--c) 90deg,#0000 0) 
+      left 0 bottom var(--s)/calc(2*var(--s)) var(--s) repeat-x,
+    conic-gradient(from -45deg at bottom,var(--c) 90deg,#0000 0) 
+      left var(--s) bottom 0/calc(2*var(--s)) var(--s) repeat-x;
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0) 0/var(--_p,0%) padding-box no-repeat;
+  transition: .5s;
+}
+.btnBox .redBtn:hover {
+  --_p: 100%;
+  color: var(--c);
+}
+
+.reason {
+  margin-bottom: 0;
+  font-weight: 700;
+  color: #2E64FE;
+  border-bottom: 0.063rem solid #848484;
+  width: 19%;
+}
+
+.reasonInfo {
+  margin-bottom: 0;
+}
+
+.waiting {
+  border: 0.125rem solid #46f5a0;
+  color: #46f5a0;
+  display: inline-block;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
+  padding: 0 0.125rem;
+}
+
+.complete {
+  border: 0.125rem solid #2E64FE;
+  color: #2E64FE;
+  display: inline-block;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
+  padding: 0 0.125rem;
+}
+
+.cancel {
+  border: 0.125rem solid #a9a9a9;
+  color: #a9a9a9;
+  display: inline-block;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
+  padding: 0 0.125rem;
+}
+
+.reject {
+  border: 0.125rem solid #fe2e2e;
+  color: #fe2e2e;
+  display: inline-block;
+  border-radius: 0.313rem;
+  margin-bottom: 0.188rem;
+  padding: 0 0.125rem;
+}
+
+.none {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.csltInfo {
+  color: #a0a0a0;
+}
+
+.boxTitle {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}

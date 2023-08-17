@@ -1,0 +1,146 @@
+.practiceBanner {
+  width: 99.5vw;
+  margin-bottom: 5%;
+}
+
+.img {
+  width: 100%;
+}
+
+.img2 {
+  width:110%;
+}
+
+.practice {
+  font-size: 0.938rem;
+}
+
+
+.title {
+  display: inline-block;
+  border-left : 0.219rem solid black;
+}
+
+.titleinfo {
+  margin-left: 0.250rem;
+  font-size: 1.250rem;
+  font-weight: 600;
+}
+
+.applystart {
+  margin-top: 3.125rem;
+  margin-bottom: 3.125rem;
+  text-align: left;
+}
+
+.line {
+  font-weight: 600;
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  /* color: #2E64FE; */
+  font-size: 0.938rem;
+  margin-bottom: 5%;
+}
+
+.line span {
+  font-size: 1.125rem;
+}
+
+.line::before {
+  content: "";
+  flex-grow: 1;
+  margin: 0 1rem;
+  background: #D9D9D9;
+  height: 0.063rem;
+  font-size: 0;
+  line-height: 0;
+}
+
+.line::after {
+  content: "";
+  flex-grow: 1;
+  margin: 0 1rem;
+  background: #D9D9D9;
+  height: 0.063rem;
+  font-size: 0;
+  line-height: 0;
+}
+
+
+.line2 {
+  font-weight: 600;
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  /* color: #2E64FE; */
+  font-size: 0.938rem;
+  margin-bottom: 7%;
+}
+
+.line2 span {
+  font-size: 1.125rem;
+}
+
+.line2::before {
+  content: "";
+  flex-grow: 1;
+  margin: 0 1rem;
+  background: #D9D9D9;
+  height: 0.063rem;
+  font-size: 0;
+  line-height: 0;
+}
+
+.line2::after {
+  content: "";
+  flex-grow: 1;
+  margin: 0 1rem;
+  background: #D9D9D9;
+  height: 0.063rem;
+  font-size: 0;
+  line-height: 0;
+}
+
+
+.pracList {
+  border: 0.063rem solid #D9D9D9;
+  border-radius: 1.250rem;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding: 0;
+  cursor: pointer;
+}
+
+.pracTitle {
+  margin-top: 20%;
+  margin-bottom: 10%;
+  font-size: 1.125rem;
+  font-weight: 900;
+}
+
+.pracDesc {
+  margin-bottom: 20%;
+  margin-top: 20%;
+}
+
+.pracDesc p {
+  line-height: 0.5;
+}
+
+.pracList2 {
+  border: 0.063rem solid #D9D9D9;
+  border-radius: 1.250rem;
+  padding: 0;
+  cursor: pointer;
+}
+
+.pracDesc2 {
+  padding-top: 13%;
+  margin-bottom: 20%;
+  margin-top: 20%;
+}
+
+.pracDesc2 p {
+  line-height: 0.5;
+}

@@ -1,0 +1,208 @@
+.box {
+  width: 360px;
+}
+
+.form {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.title {
+  /* font-family: 'Inter', sans-serif !important; */
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: start;
+}
+
+.label {
+  /* font-family: 'Inter', sans-serif !important; */
+  font-size: 15px;
+  font-weight: 500;
+  display: block;
+  text-align: start;
+  margin-top: 15px;
+  margin-bottom: 0px;
+}
+
+.checkinput {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  margin-top: 3px;
+  /* font-family: 'Inter', sans-serif !important; */
+  width: 72%;
+  margin-right: 2%;
+  font-size: 15px;
+}
+
+.checkinput2 {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  margin-top: 3px;
+  /* font-family: 'Inter', sans-serif !important; */
+  width: 72%;
+  margin-right: 2%;
+  font-size: 15px;
+}
+
+
+.checkinput:focus {
+  border-color: #00C4C4;
+  outline: none;
+}
+
+
+.checkbtn {
+  background-color: #4285F4;
+  border: 0;
+  color: white;
+  padding-top: 10.8px;
+  padding-bottom: 10.8px;
+  border-radius: 3px;
+  opacity: 0.8;
+  width: 26%;
+  font-size: 15px;
+}
+
+.checkbtn:hover {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.input {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  margin-top: 3px;
+  /* font-family: 'Inter', sans-serif !important; */
+  font-size: 15px;
+}
+
+
+.input:focus {
+  border-color: #4285F4;
+  outline: none;
+}
+
+.pwdCheckInput {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  /* font-family: 'Inter', sans-serif !important; */
+  font-size: 15px;
+}
+
+.pwdCheckInput:focus {
+  border-color: #4285F4;
+  outline: none;
+}
+
+.signupBtn {
+  background-color: #4285F4;
+  width: 100%;
+  border: 0;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 3px;
+  opacity: 0.8;
+  margin-bottom: 10px;
+  margin-top: 30px;
+  font-size: 15px;
+}
+
+.signupBtn:hover {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.message {
+  font-size: 14px;
+  text-align: start;
+  margin-left: 4px;
+  color: red;
+}
+
+.timer {
+  margin-top: 5px; /* 타이머와 메시지 사이의 간격을 조절할 수 있습니다 */
+  font-size: 14px;
+  color: red;
+}
+
+.correct2 {
+  margin-top: -15px;
+  color : #4285F4 
+}
+
+.correct {
+  color : #4285F4
+}
+
+.consultSignup {
+  margin-top: 5px;
+  margin-bottom: 30px;
+  font-size: 15px;
+}
+
+.consultSignup a {
+  margin-left: 5px;
+  color: #4285F4;
+  font-weight: 600;
+}
+
+.checklabel {
+  border: 1px solid #4285F4;
+  color: #2e64fe;
+  display: block;
+  padding: 5px;
+  border-radius: 20px;
+  width: 95%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+
+.checkdiv {
+  padding: 0px !important;
+}
+
+.input[type="checkbox"]:checked + label {
+  background-color: #4285F4;
+  color: white;
+}
+
+
+input.input[type="checkbox"] {
+	display: none;
+}
+
+input.input[type="radio"] {
+	display: none;
+}
+
+
+.input[type="radio"]:checked + label {
+  background-color: #4285F4;
+  color: white;
+}
+
+.input[type="radio"]:not(:checked) + label {
+  background-color: transparent;
+  color: #2e64fe;
+}

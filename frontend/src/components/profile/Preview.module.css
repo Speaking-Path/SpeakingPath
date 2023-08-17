@@ -1,0 +1,56 @@
+.preview {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.previewContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 50%;
+  height: auto;
+  max-height: 90%;
+  overflow-y: auto;
+  border-radius: 30px;
+}
+
+.previewContent.large {
+  width: 70%;
+  height: 80%;
+}
+
+
+.previewContent::-webkit-scrollbar {
+  width: 8px; 
+}
+
+.previewContent::-webkit-scrollbar-thumb {
+  height: 30%; 
+  background: #6610f2; 
+  
+  border-radius: 10px;
+}
+
+.previewContent::-webkit-scrollbar-track {
+  background: rgba(33, 122, 244, .1);
+}
+
+
+.btn {
+  white-space: nowrap;
+  margin: 5px;
+}
+
+.play {
+  width: 100px;
+  height: 42px;
+}

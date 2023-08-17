@@ -1,0 +1,42 @@
+.celebrateBox {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.250rem;
+  z-index: 1;
+}
+
+.celebrateText {
+  color: white;
+  font-size: 3.125rem;
+  font-weight: 600;
+}
+
+.wordBox {
+  width: 21.875rem;
+  height: 21.875rem;
+  background-color: rgb(255, 255, 255, 0.9);
+  border-radius: 3.125rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.wordBox div svg {
+  margin: 0 0.750rem;
+}
+
+
+.word {
+  font-size: 3.125rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.pron {
+  font-size: 1.250rem;
+  margin-bottom: 1.563rem;
+}
