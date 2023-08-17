@@ -111,7 +111,7 @@ const SavedItems = () => {
       "slbId": slbId,
       "userId": userId
     }
-    axios.post("practice/pron/styllable/save", data)
+    axios.post("practice/pron/syllable/save", data)
       .then((res) => {
         const updatedUserRecog = userSyllable.filter(item => item.slbId !== slbId);
         setUserSyllable(updatedUserRecog)
