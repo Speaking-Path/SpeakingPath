@@ -87,6 +87,7 @@
   flex-direction: column; /* Stack the text and icon vertically */
   justify-content: center; /* Center content vertically */
   align-items: center;
+  z-index: 1;
 }
 
 .overlay2 p {
