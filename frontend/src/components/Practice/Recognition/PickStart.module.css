@@ -1,0 +1,136 @@
+.startBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 99vw;
+  height: 100vh;
+}
+
+.imgBox {
+  width: 110%;
+}
+
+.startBox img {
+  width: 75%;
+}
+
+.textBox {
+  width: 80%;
+  text-align: center;
+}
+
+.TitleText1 {
+  font-size: 3rem;
+  font-weight: 900;
+  background-clip: text; /* 텍스트에만 배경 적용 */
+  -webkit-background-clip: text; /* Safari에서도 작동하도록 */
+  color: transparent; /* 텍스트 숨기기 */
+  background-image: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
+  animation: blink 2s linear infinite; /* 반짝이는 애니메이션 추가 */
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1; /* 완전히 불투명하게 */
+  }
+  50% {
+    opacity: 0.7; /* 반투명하게 */
+  }
+}
+
+
+.TitleText2 {
+  font-size: 1.5rem;
+  line-height: 0.7;
+  margin-bottom: 2.5rem;
+}
+
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wrap button {
+  width: 140px;
+  height: 45px;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #f4f4f4;
+  border: none;
+  border-radius: 45px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  margin: 0 1rem;
+  }
+
+.wrap button:hover {
+  background-color: #2E64FE;
+  box-shadow: 0px 15px 20px rgba(34, 100, 254, 0.4);
+  color: #fff;
+  transform: translateY(-7px);
+}
+
+.infoBox {
+  width: 99vw;
+  height: 100vh;
+  margin-top: 1rem;
+}
+
+.infoBox > p {
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.infoBox svg {
+  border: 3.5px solid black;
+  border-radius: 50%;
+  margin: 2rem;
+  cursor: pointer;
+}
+
+
+
+.infoImg {
+  width: 60rem;
+  height: 38rem;
+}
+
+.infoPic1
+.infoPic2
+.infoPic3 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.out {
+  margin-top: 1.5rem;
+}
+
+.out > span {
+  text-decoration: underline;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background-image: linear-gradient(transparent calc(100% - 3px), #000 3px);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 0.8s;
+  color: #000;
+  cursor: pointer;
+}
+.out > span {
+  background-image: linear-gradient(transparent 40%, #2EFE9A 60%);
+}
+.out > span:hover {
+  background-size: 100% 100%;
+  text-decoration: none;
+}

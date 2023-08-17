@@ -1,0 +1,119 @@
+
+
+/* @import '@/_variables.sass'; */
+
+html {
+  /* font-size: 62.5%; */
+}
+
+body {
+  /* margin: 2rem; */
+}
+
+/* @media (max-width: 960px) {
+  img {
+    margin-left: 0px;
+    width: 75px;
+  }
+} */
+
+Nav a {
+  text-decoration-line: none;
+  margin-right: 1.25rem;
+  color: black;
+}
+
+Nav {
+  /* border-bottom: 0.063rem solid #C7C7C7; */
+}
+
+.part1 {
+  /* width: 30%; */
+  display: inline-flex; 
+  font-size: 1.2rem;
+}
+
+.part2 {
+  /* width: 20%; */
+  font-size: 1.2rem;
+}
+
+.title {
+  display: inline-block;
+  margin-left: 0.625rem;
+  margin-right: 0.625rem;
+}
+
+.title:hover {
+  border-bottom: 2px solid #2507e6;
+  font-weight: bold;
+  color: blue;
+}
+
+.title.selected {
+  /* border-bottom: 2px solid #2507e6; */
+  font-weight: bold;
+  color: blue;
+}
+
+.hoverdropdown:hover :global(div.dropdown-menu) {
+  display: block;
+}
+
+.hoverdropdown :global(div.dropdown-menu) {
+  display: none;
+}
+
+.hoverdropdown :global(a.dropdown-toggle) {
+  padding: 0;
+  color: black;
+}
+
+.hoverdropdown:hover :global(a.dropdown-toggle) {
+  border-bottom: 2px solid #2507e6;
+  font-weight: bold;
+  color: blue;
+}
+
+.hoverdropdown.selected :global(a.dropdown-toggle) {
+  /* border-bottom: 2px solid #2507e6; */
+  font-weight: bold;
+  color: blue;
+}
+
+.logo_img {
+  margin-left: -5rem;
+  width: 9.375rem;
+}
+
+@media (max-width: 960px) {
+  .logo_img {
+    margin-left: 0px;
+    width: 4.688rem;
+  }
+}
+
+.good {
+  color: red;
+  font-size: 1rem;
+}
+
+.drdo_Menu_a{
+  /* color: red; */
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 1rem;
+  border: none;
+  /* margin: 2rem; */
+  padding-top: 3.125rem;
+}
+
+.drdo_Menu_b{
+  /* color: red; */
+  background-color: rgba(255, 255, 255, 0);
+  font-size: 1rem;
+  border: none;
+  /* margin: 2rem; */
+  margin: 5rem;
+}
+
+

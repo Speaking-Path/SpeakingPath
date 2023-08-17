@@ -1,0 +1,29 @@
+.footer {
+  margin-top: 3rem;
+  background-color: #f8f8f8;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+  padding-left: 9rem;
+  padding-right: 9rem;
+}
+
+.footer img {
+    width: 7rem;
+  }
+
+.footer p {
+  margin-bottom: 0px;
+  font-size: 0.9rem;
+}
+
+.text1 {
+  text-align: left;
+  /* margin-top: 1.5rem; */
+}
+
+.img {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  /* margin: auto 0; */
+}

@@ -1,0 +1,25 @@
+.box {
+  /* margin-top: 3.125rem; */
+  padding-top: 3.125rem;
+  padding-bottom: 3.125rem;
+  background-color: rgb(	165, 193, 247, 0.5);
+  height: 85vh;
+}
+
+
+
+.MuiStepIcon-text {
+  font-size: 1.063rem;
+}
+
+
+.title {
+  display: inline-block;
+  border-left : 0.219rem solid black; 
+}
+
+.titleinfo {
+  margin-left: 0.250rem;
+  font-size: 1.250rem;
+  font-weight: 600;
+}

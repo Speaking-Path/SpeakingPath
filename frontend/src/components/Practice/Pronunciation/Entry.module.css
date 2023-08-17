@@ -1,0 +1,52 @@
+.content-container {
+  margin-right: 10px; 
+}
+
+.profile {
+  margin-left: 10px; 
+}
+
+.btn-container {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.btn {
+  white-space: nowrap;
+  margin: 5px;
+}
+
+
+/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+
+.text-gradient {
+  background: linear-gradient(45deg, #007bff, #6610f2);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.out {
+  margin-top: 1.5rem;
+}
+
+.out > span {
+  text-decoration: underline;
+  font-size: 1.3rem;
+  font-weight: 700;
+  background-image: linear-gradient(transparent calc(100% - 3px), #000 3px);
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  transition: background-size 0.8s;
+  color: #000;
+  cursor: pointer;
+}
+.out > span {
+  background-image: linear-gradient(transparent 40%, #2EFE9A 60%);
+}
+.out > span:hover {
+  background-size: 100% 100%;
+  text-decoration: none;
+}
+

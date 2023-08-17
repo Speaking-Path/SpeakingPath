@@ -1,0 +1,38 @@
+.apply {
+  margin-top: 5.000rem;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.title {
+  display: inline-block;
+  border-left : 0.219rem solid black;
+}
+
+.csltBanner {
+  width: 99.5vw;
+}
+
+.titleinfo {
+  margin-left: 0.250rem;
+  font-size: 1.563rem;
+  font-weight: 600;
+}
+
+.applystart {
+  margin-top: 3.125rem;
+  margin-bottom: 0.625rem;
+  text-align: left;
+  margin-left: 5%;
+}
+
+.sidebarAndList {
+  font-size: 0.938rem;
+  margin-top: 2.813rem;
+}
+
+.sidebar {
+  padding-top: 0.938rem;
+  padding-bottom: 0.938rem;
+  border-right: 0.063rem solid #D9D9D9;
+}

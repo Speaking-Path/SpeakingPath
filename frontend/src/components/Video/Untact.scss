@@ -1,0 +1,214 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:900);
+
+// ____________ dimension / timing
+
+$size: 4px;
+$dur: 1s;
+
+// ____________ colors
+
+$blue:#011c37; // 022649
+$slime-green:#00BFFF;
+
+$dark:$blue;
+$dark-muted:mix(white, $blue, 10%);
+$light:#fff;
+$spot:$slime-green;
+$spot-muted:mix(white, $slime-green, 20%);
+
+
+// ____________ ease mixin
+
+@mixin ease($type) {
+  @if $type == "In" {
+    animation-timing-function: ease-in;
+  }
+  @if $type == "Out" {
+    animation-timing-function: ease-out;
+  }
+  @if $type == "InOut" {
+    animation-timing-function: ease-in-out;
+  }
+  @if $type == "none" {
+    animation-timing-function: linear;
+  }
+}
+
+
+// ____________ tail mixins
+
+$bxs-1: rgba($spot, 0.7);
+$bxs-2: rgba($spot, 0.5);
+$bxs-3: rgba($spot, 0.3);
+$bxs-4: rgba($spot, 0.25);
+
+$val-1: 4px;
+$val-2: 8px;
+$val-3: 12px;
+$val-4: 14px;
+
+
+@mixin tail {
+  box-shadow: 
+    0 0 15px 1px $spot,
+    0 0 2px $bxs-1,
+    0 0 2px $bxs-2,
+    0 0 2px $bxs-3,
+    0 0 1px $bxs-4;
+}
+
+@mixin tail-1 {
+  box-shadow: 
+    0 0 15px 1px $spot,
+    ($val-1 * -1) 0 2px $bxs-1,
+    ($val-2 * -1) 0 2px $bxs-2,
+    ($val-3 * -1) 0 2px $bxs-3,
+    ($val-4 * -1) 0 1px -1px $bxs-4;
+}
+
+@mixin tail-2 {
+  box-shadow: 
+    0 0 15px 1px $spot,
+    0 ($val-1 * -1) 2px $bxs-1,
+    0 ($val-2 * -1) 2px $bxs-2,
+    0 ($val-3 * -1) 2px $bxs-3,
+    0 ($val-4 * -1) 1px $bxs-4;
+}
+
+@mixin tail-3 {
+  box-shadow: 
+    0 0 15px 1px $spot,
+    $val-1 0 2px $bxs-1,
+    $val-2 0 2px $bxs-2,
+    $val-3 0 2px $bxs-3,
+    $val-4 0 1px $bxs-4;
+}
+
+@mixin tail-4 {
+  box-shadow: 
+    0 0 15px 1px $spot,
+    0 $val-1 2px $bxs-1,
+    0 $val-2 2px $bxs-2,
+    0 $val-3 2px $bxs-3,
+    0 $val-4 1px $bxs-4;
+}
+
+
+*, 
+*:before, 
+*:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.comet {
+  border-color: white;
+  position: relative;
+  display: block;
+  margin: auto;
+  // margin-top: 80px;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 4rem;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  color: $dark;
+  background-color: rgba($spot, 0);
+  background-image: linear-gradient( 150deg, rgba($spot, 0.2), rgba($spot, 0.1) );
+  background-size: calc(100% - 15px) calc(100% - 15px);
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  user-select: none;
+//   box-shadow: 
+//     0 0 0 1px rgba($spot, 0.1),
+//     inset 0 0 0 1px rgba($spot, 0.1);
+  box-shadow: 
+  0 0 0 1px $slime-green, // 테두리 색상 변경
+  inset 0 0 0 1px $slime-green; // 내부 테두리 색상 변경
+
+  transform: translateZ(0);
+  transition: 
+    transform 0.1s,
+    box-shadow 0.3s,
+    background-color 0.3s linear,
+    background-size 0.3s 0.3s ease-in-out,
+    line-height 0.3s 0.3s, 
+    padding-right 0.3s 0.3s,
+    padding-left 0.3s 0.3s;
+}
+
+.comet:hover {
+  padding-right: calc( 2rem - 10px );
+  padding-left: calc( 2rem - 10px );
+  background-size: calc(100%) calc(100%);
+  line-height: calc( 4rem - 15px );
+  background-color: rgba($spot, 1);
+  box-shadow: 
+    0 0 15px 1px rgba($spot, 0.4),
+    inset 0 0 0 1px rgba($spot, 1);
+  transition: 
+    transform 0.1s,
+    background-size 0.3s ease-in-out,
+    background-color 3s 0.3s linear,
+    line-height 0.3s, 
+    padding-right 0.3s,
+    padding-left 0.3s,
+    box-shadow 1s 0.6s;
+}
+
+.comet:active {
+  transform: scale( 0.9 );
+}
+
+.comet:before,
+.comet:after
+{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: $size;
+  width: $size;
+  background-color: $spot;
+  animation-name: comet;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
+  animation-timing-function: linear;
+  animation-delay: -0.3;
+  border-radius: 50%;
+  opacity: 1;
+  transform: translateX(-50%) translateY(-50%) scale(1);
+  transition: all 4s;
+}
+
+.comet:before { animation-duration: $dur*2; }
+.comet:after { animation-duration: $dur*2.5; }
+
+.comet:hover:before,
+.comet:hover:after {
+  opacity: 0;
+  filter: blur(2px);
+  transform: translateX(-50%) translateY(-50%) scale(2);
+  @include tail;
+  transition: all 0.7s;
+}
+
+@keyframes comet {
+  0%   { top: 0; left: 0; @include tail; @include ease(In); } // top left
+    15%   { top: 0; left: 50%; @include tail-1; @include ease(Out); }
+  30%  { top: 0; left: 100%; @include tail; @include ease(In); } // top right
+    40%  { top: 50%; left: 100%; @include tail-2; @include ease(Out); }
+  50%  { top: 100%; left: 100%; @include tail; @include ease(In); } // bottom right
+    65%  { top: 100%; left: 50%; @include tail-3; @include ease(Out); }
+  80%  { top: 100%; left: 0; @include tail; @include ease(In); } // bottom left
+    90%  { top: 50%; left: 0; @include tail-4; @include ease(Out); }
+  100% { top: 0; left: 0; @include tail; @include ease(In); } // top left
+}
+
+
+// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+

@@ -1,0 +1,124 @@
+.box {
+  width: 360px;
+}
+
+.form {
+  width: 100%;
+  margin-top: 30px;
+}
+
+.title {
+  /* font-family: 'Inter', sans-serif !important; */
+  font-size: 40px;
+  font-weight: 700;
+  margin-top: 30px;
+  margin-bottom: 15px;
+  text-align: start;
+}
+
+.label {
+  /* font-family: 'Inter', sans-serif !important; */
+  font-size: 15px;
+  font-weight: 500;
+  display: block;
+  text-align: start;
+  margin-top: 15px;
+}
+
+.input {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  border: 1px solid #D9D9D9;
+  border-radius: 3px;
+  margin-top: 3px;
+  /* font-family: 'Inter', sans-serif !important; */
+  font-size: 15px;
+}
+
+.input:focus {
+  border-color: #4285F4;
+  outline: none;
+}
+
+.forgot_wrap{
+  margin-top: 5px;
+}
+
+.forgot {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  font-size: 16px;
+  text-align: end;
+  color: #404040;
+  text-decoration: none;
+}
+
+.find{
+  color: #2e64fe;
+}
+
+.find:hover {
+  font-weight: bold;
+  color: #4285F4;
+  text-decoration: underline;
+}
+
+.loginBtn {
+  background-color: #4285F4;
+  width: 100%;
+  border: 0;
+  color: white;
+  /* padding-top: 10px;
+  padding-bottom: 10px; */
+  height: 42.5px;
+  border-radius: 3px;
+  opacity: 0.8;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.loginBtn:hover {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.naverLoginBtn {
+  background-color: #03c75a;
+  width: 100%;
+  border: 0;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 3px;
+  opacity: 0.8;
+  margin-bottom: 15px;
+  margin-top: 20px;
+  font-size: 15px;
+}
+
+.naverLoginBtn:hover {
+  opacity: 1;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.join {
+  color: #404040;
+  font-size: 16px;
+}
+
+.clickjoin {
+  color: #2e64fe;
+  text-decoration: none;
+}
+
+.clickjoin:hover {
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.horizontalLine {
+  margin: 2rem 0;
+}

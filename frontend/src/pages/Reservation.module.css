@@ -1,0 +1,40 @@
+.infoAndCalendar {
+  font-size: 0.938rem;
+}
+
+.title {
+  margin-top: 3.125rem;
+  margin-bottom: 0.625rem;
+  text-align: left;
+  margin-left: 5%;
+  border-left : 0.219rem solid black;
+}
+
+.write {
+  margin-left: 5%;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.titleinfo {
+  margin-left: 0.250rem;
+  font-size: 1.563rem;
+  font-weight: 600;
+}
+
+.applystart {
+  margin-top: 5%;
+  margin-bottom: 0.625rem;
+  text-align: left;
+}
+
+.sidebarAndList {
+  font-size: 0.938rem;
+  margin-top: 2.813rem;
+}
+
+.reservationBanner {
+  width: 99.5vw;
+}

@@ -1,0 +1,89 @@
+// 타이머
+$d: 20em;
+$t: 5;
+// $c: #8a9b0f #1821d4;
+// $c: hsl(224, 72%, 39%) #e8e179;
+$c: #72ff72 hsl(298, 72%, 39%) ;
+
+// $c: hsl(185, 66%, 73%) #1821d4;
+// $c: hsl(224, 72%, 39%) #e73737;
+// $c: hsl(37, 78%, 63%) #1821d4;
+
+@property --t {
+	syntax: '<number>';
+	initial-value: #{$t};
+	inherits: true
+}
+
+/* won't be needed once Chrome supports round() */
+@property --s {
+	syntax: '<integer>';
+	initial-value: 0;
+	inherits: true
+}
+
+.countdown {
+	/* when Chrome supports round(), this can be simplified */
+	/* more on this rounding trick
+	 * https://css-tricks.com/using-absolute-value-sign-rounding-and-modulo-in-css-today/ */
+     --s: calc(var(--t)/1);
+	display: grid;
+	margin: 1em auto;
+	width: $d; height: $d;
+	animation: t $t*1s linear infinite;
+	
+	&::after {
+		grid-column: 1;
+		grid-row: 1;
+		place-self: center;
+		font: #{.25*$d}/ 2 ubuntu mono, consolas, monaco, monospace;
+		counter-reset: s var(--s);
+		content: '0:' counter(s, decimal-leading-zero);
+		color: #fff;
+	}
+}
+
+@keyframes t { to { --t: 0 } }
+
+svg {
+	grid-column: 1;
+	grid-row: 1
+}
+
+[r] {
+	fill: none;
+	stroke: rgb(237, 231, 231);
+	
+	+ [r] {
+		--k: calc(var(--t)/#{$t});
+		transform: rotate(-90deg);
+		stroke-linecap: round;
+		stroke: color-mix(in hsl shorter hue, #{nth($c, 1)} calc(var(--k)*100%), #{nth($c, 2)});
+		stroke-dasharray: var(--k) 1
+	}
+}
+
+
+
+
+// 버튼
+.start-pause-button2 {
+    // // width: 100px;
+    // // height: 42px;
+    // // --play: #2a56f7;
+    // --play: #49a5df;
+	// // background: linear-gradient(to right, var(--play), #000dff); 
+    // // --play-shadow: #{rgba(#58d8ff, .24)};
+    // // --pause: #589bff;
+    // --pause: #2a56f7;
+    // // --pause-shadow: #{rgba(#ea5e42, .24)};
+    // --color: #fff;
+	// margin: 15px;
+	// // transform: rotate(-2deg);
+	// position: absolute; 
+	// // top: 0px; 
+	// bottom: 10px;
+	// left: 47%;
+	// transform: translateX(-50%); 
+	// // z-index: 3; 
+}
