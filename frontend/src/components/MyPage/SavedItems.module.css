@@ -121,6 +121,7 @@
   top: 0;
   right: 0;
   margin: 0.5rem;
+  z-index: 2;
 }
 
 .starIcon {
