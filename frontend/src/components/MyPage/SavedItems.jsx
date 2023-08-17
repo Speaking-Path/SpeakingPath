@@ -21,7 +21,7 @@ const SavedItems = () => {
   const [isVideo, setIsVideo] = useState(false)
   const [videoSrc, setVideoSrc] = useState("")
 
-
+console.log(userSyllable, userSentence)
   useEffect(() => {
     axios.post("practice/recog/object/show", { "userId": userId })
       .then((res) => {
