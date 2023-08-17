@@ -14,6 +14,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends build-essent
 RUN pip install --upgrade pip
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
+RUN apt-get install -y ffmpeg
 
 EXPOSE 80
 

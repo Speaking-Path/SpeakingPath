@@ -56,12 +56,12 @@ def myWhisper():
 
             wav_file_path = "pcmToWav.wav"
 
-            # audio_data = base64.b64decode(pcm_file_path)
+            audio_data = base64.b64decode(pcm_file_path)
             # with open("audio.wav", "wb") as audio_file:
             #     audio_file.write(audio_data)
 
             #
-            pcm_to_wav(pcm_file_path, wav_file_path)
+            pcm_to_wav(audio_data, wav_file_path)
 
             model = whisper.load_model("base")
 
