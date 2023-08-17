@@ -8,14 +8,14 @@ CREATE TABLE `user_tb` (
     `user_id`	char(100)	NOT NULL,
     `user_pwd`	varchar(100)	NOT NULL,
     `user_name`	char(10)	NOT NULL,
-    `user_email`	varchar(30)	NOT NULL	COMMENT 'UNIQUE',
+    `user_email`	varchar(30)	NOT NULL,
     `user_phone`	varchar(20)	NOT NULL,
     `user_info`	varchar(50)	NULL,
     `user_age`	int	NULL,
-    `user_sex`	char(5)	NULL	COMMENT 'M/F',
-    `user_pic`	varchar(120)	NULL	COMMENT '사진처리 어떻게 할건지',
-    `user_grade`	varchar(10)	NOT NULL	DEFAULT '일반회원'	COMMENT '환자 / 상담사 / 관리자',
-    `user_reward`	int	NOT NULL	DEFAULT 0	COMMENT 'default: 0',
+    `user_sex`	char(5)	NULL,
+    `user_pic`	varchar(120)	NULL,
+    `user_grade`	varchar(10)	NOT NULL	DEFAULT 'USER',
+    `user_reward`	int	NOT NULL	DEFAULT 0,
     `activated`	boolean	NOT NULL	DEFAULT TRUE
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE `reservation_item_tb` (
     `cslt_id`	char(20)	NOT NULL,
     `rsv_date`	date	NOT NULL,
     `rsv_time`	time	NOT NULL,
-    `rsv_status`	varchar(10)	NOT NULL	COMMENT '대기 / 거절 / 완료 / 취소',
+    `rsv_status`	varchar(10)	NOT NULL,
     `rsv_info`	varchar(80)	NULL,
     `rsv_code`	char(20)	NOT NULL
 );
@@ -37,35 +37,27 @@ CREATE TABLE `consultant_info_tb` (
 );
 
 CREATE TABLE `board_tb` (
-    `board_id`	int	NOT NULL	COMMENT 'auto_increment',
+    `board_id`	int	NOT NULL,
     `user_id2`	char(20)	NOT NULL,
     `board_title`	varchar(30)	NOT NULL,
     `board_content`	varchar(200)	NOT NULL,
-    `board_hit`	int	NULL	DEFAULT 0	COMMENT 'default : 0',
-    `board_created`	timestamp	NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT 'CURRENT_TIMESTAMP'
-);
-
-CREATE TABLE `comment_tb` (
-    `comment_id`	int	NOT NULL	COMMENT 'auto_increment',
-    `board_id`	int	NOT NULL	COMMENT 'PK',
-    `comment_content`	varchar(100)	NOT NULL,
-    `user_id`	char(20)	NOT NULL,
-    `comment_created`	timestamp	NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT 'CURRENT_TIMESTAMP'
+    `board_hit`	int	NULL	DEFAULT 0,
+    `board_created`	timestamp	NULL	DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `one_q_tb` (
-    `one_id`	int	NOT NULL	COMMENT 'auto_increment',
+    `one_id`	int	NOT NULL,
     `user_id`	char(20)	NOT NULL,
     `one_title`	varchar(100)	NOT NULL,
     `one_content`	varchar(200)	NOT NULL,
-    `one_created`	timestamp	NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT 'CURRENT_TIMESTAMP'
+    `one_created`	timestamp	NULL	DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `one_a_tb` (
-    `answer_id`	int	NOT NULL	COMMENT 'auto_increment',
-    `one_id`	int	NOT NULL	COMMENT 'auto_increment',
+    `answer_id`	int	NOT NULL,
+    `one_id`	int	NOT NULL,
     `one_answer`	varchar(200)	NOT NULL,
-    `one_created`	timestamp	NULL	DEFAULT CURRENT_TIMESTAMP	COMMENT 'CURRENT_TIMESTAMP'
+    `one_created`	timestamp	NULL	DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE `object_tb` (
@@ -155,15 +147,6 @@ ALTER TABLE `consultant_info_tb` ADD CONSTRAINT `PK_CONSULTANT_INFO_TB` PRIMARY 
     `user_id`
 );
 
-ALTER TABLE `board_tb` ADD CONSTRAINT `PK_BOARD_TB` PRIMARY KEY (
-    `board_id`
-);
-
-ALTER TABLE `comment_tb` ADD CONSTRAINT `PK_COMMENT_TB` PRIMARY KEY (
-    `comment_id`,
-    `board_id`
-);
-
 ALTER TABLE `one_q_tb` ADD CONSTRAINT `PK_ONE_Q_TB` PRIMARY KEY (
     `one_id`
 );
@@ -223,12 +206,6 @@ REFERENCES `user_tb` (
     `user_id`
 );
 
-ALTER TABLE `comment_tb` ADD CONSTRAINT `FK_board_tb_TO_comment_tb_1` FOREIGN KEY (
-    `board_id`
-)
-REFERENCES `board_tb` (
-    `board_id`
-);
 
 ALTER TABLE `one_a_tb` ADD CONSTRAINT `FK_one_q_tb_TO_one_a_tb_1` FOREIGN KEY (
     `one_id`
@@ -335,8 +312,6 @@ REFERENCES `user_tb` (
     `user_id`
 );
 
-####################
-
 insert into tag_tb
 values (1, '엄격한'), (2, '친근한'), (3, '친절한'), (4, '정적인'), (5, '발랄한'), (6, '활동적인');
 
@@ -355,11 +330,23 @@ values	(1, '안녕하세요. 반갑습니다.'),
           (4, '책상이 있습니까?'),
           (5, '책상이 큽니까, 작습니까?');
 
+insert into word_tb
+values	(1, '국물', '궁물'),
+          (2, '쉬다', '쉬:다'),
+          (3, '씻다', '씯따'),
+          (4, '책상', '책쌍'),
+          (5, '상자', '상자'),
+          (6, '날씨', '날씨'),
+          (7, '위치', '위치'),
+          (8, '친절하다', '친절하다'),
+          (9, '코끼리', '코끼리'),
+          (10, '퇴근', '퇴:근');
+
 insert into object_tb (obj_id, obj_name)
-values  (1, "가방"), (2, "개"), (3, "고양이"), (4, "김치"), (5, "꽃"),
+values  (1, "가방"), (2, "강아지"), (3, "고양이"), (4, "마이크"), (5, "고드름"),
         (6, "단추"), (7, "동전"), (8, "바나나"), (9, "바지"), (10, "버스"),
-        (11, "사과"), (12, "산"), (13, "선풍기"), (14, "시계"), (15, "신발"),
-        (16, "안경"), (17, "옷걸이"), (18, "자전거"), (19, "책"), (20, "컵");
+        (11, "사과"), (12, "지도"), (13, "선풍기"), (14, "고추장"), (15, "신발"),
+        (16, "안경"), (17, "옷걸이"), (18, "자전거"), (19, "가위"), (20, "냉장고");
 
 insert into authority(AUTHORITY_NAME)
 values ('ROLE_USER');
@@ -371,11 +358,7 @@ insert into authority(AUTHORITY_NAME)
 values ('ROLE_CONSULTANT');
 
 INSERT INTO `user_tb` VALUES
-    ('admin','{bcrypt}$2a$10$FPSljsxRYU0o7naE3wfVzOrakNeOU24ydZFuBAHTBWarcaNLgOD4m','김싸피','admin@ssafy.com','010-1111-1111',NULL,0,NULL,NULL,'ADMIN',0,1),
-    ('ssafy','{bcrypt}$2a$10$3fShhSU3ggfObeacIEb2yeN0qGTcdGmBCu3DTJ3iPgZ1h5I07WDdy','김싸피','ssafy@ssafy.com','010-1234-5678',NULL,0,NULL,NULL,'USER',0,1),
-    ('consultant','{bcrypt}$2a$10$JNRjU/Y5NiJfPjlvmGQn6.KuVyQfSy.WBAU1GkB3541zvswHn7hdi','이싸피','consultant@ssafy.com','010-2222-2222',NULL,0,'F',NULL,'CONSULTANT',0,0);
+    ('admin','{bcrypt}$2a$10$FPSljsxRYU0o7naE3wfVzOrakNeOU24ydZFuBAHTBWarcaNLgOD4m','김싸피','admin@ssafy.com','010-1111-1111',NULL,0,NULL,NULL,'ADMIN',0,1);
 
 
-INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values ('ssafy', 'ROLE_USER');
 INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values ('admin', 'ROLE_USER');
-INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values ('admin', 'ROLE_ADMIN');
