@@ -203,7 +203,7 @@ const SavedItems = () => {
       <div className={styles.ItemsWrap} onClick={() => { openVideo("word", word.wordId) }}>
         <div className={styles.overlay2}>
           <p>{word.wordContent}</p>
-          <p>{word.wordPron}</p>
+          <p>&#91;{word.wordPron}&#93;</p>
           <div className={styles.starIconContainer}>
             <CloseIcon onClick={() => { deleteWord(word.wordId) }} className={styles.starIcon} />
           </div>
