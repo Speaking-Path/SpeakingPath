@@ -182,7 +182,7 @@ const SavedItems = () => {
       "stcId": stcId,
       "userId": userId
     }
-    axios.post("practice/recog/object/save", data)
+    axios.post("practice/pron/sentence/save", data)
       .then((res) => {
         const updatedUserRecog = userSentence.filter(item => item.stcId !== stcId);
         setUserSentence(updatedUserRecog)
