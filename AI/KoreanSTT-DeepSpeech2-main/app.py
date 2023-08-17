@@ -34,14 +34,14 @@ def pcm_to_wav(pcm_file, wav_file, channels=1, sample_width=2, frame_rate=16000)
     Returns:
         None
     """
-    with open(pcm_file, 'rb') as pcm:
-        pcm_data = pcm.read()
+    # with open(pcm_file, 'rb') as pcm:
+    #     pcm_data = pcm.read()
 
     with wave.open(wav_file, 'wb') as wav:
         wav.setnchannels(channels)
         wav.setsampwidth(sample_width)
         wav.setframerate(frame_rate)
-        wav.writeframes(pcm_data)
+        wav.writeframes(pcm_file)
 
 @app.route("/stt/whisper", methods=['GET', 'POST'])
 def myWhisper():
@@ -52,13 +52,13 @@ def myWhisper():
             answer = request.json.get('answer')
             wav_file_path = "pcmToWav.wav"
             print('middle')
+            # audio_data = base64.b64decode(pcm_file_path)
+            # with open("audio.wav", "wb") as audio_file:
+            #     audio_file.write(audio_data)
 
-            with open("audio.pcm", "wb") as audio_file:
-                audio_file.write(pcm_file_path)
-
-
-            pcm_to_wav(audio_file, wav_file_path)
-            print('after pcm to wav')
+            #
+            pcm_to_wav(pcm_file_path, wav_file_path)
+            # print('after pcm to wav')
             model = whisper.load_model("base")
 
             # load audio and pad/trim it to fit 30 seconds
