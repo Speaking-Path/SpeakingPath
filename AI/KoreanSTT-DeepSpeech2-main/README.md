@@ -1,7 +1,5 @@
 # KoreanSTT-DeepSpeech2
 
----
-
 ## 1. Introduction
 
 본 프로젝트는 실시간 한국어 음성 인식기능을 제공합니다.  
@@ -18,60 +16,28 @@ Speech to Text (STT)와 관련한 모든 전처리, 모델, 학습 등은 [sooft
 **Dataset**: KsponSpeech  
 
 **Training**  
-GPU : RTX 3080ti  
-CPU : intel i9-12900k  
-Time cost : About 6.5 hours per an Epoch (Total 13 Epoch)  
+Google Colab Pro
 
 **Performance**  
-CER : 0.2536  
+CER : ***
 
 ## 3. How to use?
 
 ### Prerequisites
-Numpy: ```pip install numpy```  
-Torch: You can install from [here](https://pytorch.org/get-started/locally/) to suit your environment.    
-Torchaudio: ```pip install torchaudio```  
-Matplotlib: ```pip install matplotlib```  
-Librosa: ```conda install -c conda-forge librosa```  
-Speech_recognition: ```conda install -c conda-forge speechrecognition```  
-pyaudio: ```conda install -c conda-forge PyAudio```
+This model is run by Flask and Docker image.
 
-이곳에 기재되지 않은 라이브러리 이외에 추가적으로 라이브러리가 필요하다는 경고문이 보인다면 해당 라이브러리를 추가로 설치해주시기 바랍니다.
-
-p.s. 본 프로젝트를 위한 별도의 가상환경을 생성하신 후에 위의 라이브러리들을 설치하시길 권장드립니다.
 
 ### Inference with pretrained Model
-1. Code > Download Zip 를 통해 본 프로젝트를 다운받아주시기 바랍니다.
+1. Download model.pt (you must contact one of project members)
 
-2. [이 곳](https://drive.google.com/file/d/1gtIjISjVMBTpxBsnGwrwsWPnSuEAAcFi/view?usp=sharing)을 통해 pre-trained model을 다운 받아주세요
+2. Build Docker image
 
-3. 다운받은 model_ds2.pt 파일을 README.md 파일이 있는 경로에 넣어주세요.
+3. Run docker container
 
-4. 가상환경에서 본 프로젝트가 다운로드 된 경로로 이동해주세요.
-
-* Command
-```
-$ python ./main.py
-```
-
-* Output
-```
-소음 수치 반영하여 음성을 청취합니다. 58.945561915793384
-목소리를 들을 준비가 되었습니다. 말씀해주세요 :)
-```  
-위 문장이 보이면 마이크를 통해 말씀해주시면 됩니다.
-음성이 수집된 이후 곧바로 인식된 결과가 제공됩니다.
-```
-음성인식 결과가 제공됩니다.
-```
-
-* Jupyter notebook 사용시
-
-jupyter notebook을 통해 main.ipynb 파일을 실행하시면 입력된 음성 그래프 및 다시듣기 기능도 함께 제공됩니다.
+4. You can check by your own server
 
 ## 4. Troubleshoots and Contributing
 
-본 프로젝트와 관련한 이슈나 문의 사항이 있다면 아래를 통해 연락주시면 감사하겠습니다.
+본 프로젝트와 관련된 Issue 등 개선사항은 개발자 중 한명에게 연락주시면 답변해드립니다.
 
-Author: Taehyoung Kim @kthworks  
-Author e-mail: kthwork9934@gmail.com
+```Anyone can contribute to this repo! Welcome! ```
