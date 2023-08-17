@@ -75,28 +75,28 @@ const SavedItems = () => {
         setUserRecog(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     axios.post("practice/pron/syllable/show", { "userId": userId })
       .then((res) => {
         setUserSyllable(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     axios.post("practice/pron/word/show", { "userId": userId })
       .then((res) => {
         setUserWord(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
     axios.post("practice/pron/sentence/show", { "userId": userId })
       .then((res) => {
         setUserSentence(res.data)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }, [])
 
@@ -127,7 +127,7 @@ const SavedItems = () => {
         setUserRecog(updatedUserRecog)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
@@ -164,7 +164,7 @@ const SavedItems = () => {
         setUserRecog(updatedUserRecog)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
@@ -172,6 +172,11 @@ const SavedItems = () => {
   const syllableItems = userSyllable.map((syllable, index) => (
     <div className={styles.ItemsContain} key={index}>
       <div className={styles.ItemsWrap} onClick={() => { openVideo("syllable", syllable.slbId) }}>
+        <video
+          className={styles.video}
+          src={process.env.PUBLIC_URL + "/assets/syllable/" + syllable.slbId + ".mp4"}
+          alt=""
+        />
         <div className={styles.overlay2}>
           <p>{syllable.slbContent}</p>
           <div className={styles.starIconContainer}>
@@ -193,7 +198,7 @@ const SavedItems = () => {
         setUserRecog(updatedUserRecog)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
@@ -201,9 +206,14 @@ const SavedItems = () => {
   const wordItems = userWord.map((word, index) => (
     <div className={styles.ItemsContain} key={index}>
       <div className={styles.ItemsWrap} onClick={() => { openVideo("word", word.wordId) }}>
+        <video
+          className={styles.video}
+          src={process.env.PUBLIC_URL + "/assets/word/" + word.wordId + ".mp4"}
+          alt=""
+        />
         <div className={styles.overlay2}>
           <p>{word.wordContent}</p>
-          <p>{word.wordPron}</p>
+          <p>&#91;{word.wordPron}&#93;</p>
           <div className={styles.starIconContainer}>
             <CloseIcon onClick={() => { deleteWord(word.wordId) }} className={styles.starIcon} />
           </div>
@@ -225,13 +235,18 @@ const SavedItems = () => {
         setUserRecog(updatedUserRecog)
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 
-  const sentenceItems = userWord.map((sentence, index) => (
+  const sentenceItems = userSentence.map((sentence, index) => (
     <div className={styles.ItemsContain} key={index}>
       <div className={styles.ItemsWrap} onClick={() => { openVideo("sentence", sentence.stcId) }}>
+        <video
+          className={styles.video}
+          src={process.env.PUBLIC_URL + "/assets/sentence/" + sentence.stcId + ".mp4"}
+          alt=""
+        />
         <div className={styles.overlay2}>
           <p>{sentence.stcContent}</p>
           <div className={styles.starIconContainer}>

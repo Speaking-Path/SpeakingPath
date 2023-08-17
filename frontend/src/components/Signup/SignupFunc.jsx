@@ -106,7 +106,6 @@ export const clickLogin = async (e, data) => {
 
     function clearLocalStorageAfterTime() {
       localStorage.clear();
-      console.log("localStorage cleared!");
     }
 
     setTimeout(clearLocalStorageAfterTime, 86400000)
@@ -118,7 +117,6 @@ export const clickNaverLogin = async (e) => {
   e.preventDefault()
   const url = `https://nid.naver.com/oauth2.0/authorize?response_type=${process.env.REACT_APP_RESPONSE_TYPE}&client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}
   &state=${process.env.REACT_APP_STATE}`
-  console.log(url)
   window.location.href = url;
 
   
@@ -134,7 +132,6 @@ export const clickNaverLogin = async (e) => {
 
     function clearLocalStorageAfterTime() {
       localStorage.clear();
-      console.log("localStorage cleared!");
     }
 
     setTimeout(clearLocalStorageAfterTime, 86400000)

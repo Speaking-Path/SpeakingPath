@@ -12,8 +12,8 @@ const mediaConfigSlice = createSlice({
     reducers: {
         setCamera(state, action) {
             return {
-                ...state,
-                camera: action.payload,
+                ...state, // copy
+                camera: action.payload, // state 중 카메라만 변경
             }
         },
         setMicrophone(state, action) {

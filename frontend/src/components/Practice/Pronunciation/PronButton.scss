@@ -1,20 +1,23 @@
 .start-pause-button2 {
-    width: 100px;
-    height: 42px;
-    --play: #49a5df;
-    --pause: #2a56f7;
+    width: 150px;
+    height: 45px;
+    // --play: #49a5df;
+    --play: #153ae0;
+    --pause: #e83737;
     --color: #fff;
 	margin: 15px;
 	position: absolute; 
-	bottom: 10px;
-	transform: translateX(-50%); 
+	bottom: 0px;
+	transform: translateX(-50%);
+    z-index: 500; 
 
    
     --icon: var(--color);
     line-height: 20px;
-    font-size: 14px;
-    padding: 11px 12px 11px 36px;
-    border-radius: 22px;
+    font-size: 15px;
+    // padding: 11px 12px 11px 36px;
+    padding: 11px 20px 11px 36px;
+    border-radius: 25px;
     border: none;
     background: none;
     outline: none;

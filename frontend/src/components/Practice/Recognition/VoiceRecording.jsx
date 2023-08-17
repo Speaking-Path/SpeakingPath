@@ -26,7 +26,7 @@ const VoiceRecording = ({answer, checkAns}) => {
         setStream(audioStream);
       } catch (error) {
         // Handle error here.
-        console.log(error);
+        // console.log(error);
       }
     }
     initializeAudioStream();

@@ -13,10 +13,13 @@
   position: relative;
   bottom: 3.125rem;
   padding-top: 5rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
   z-index: 0;
   width: 100%;
-  height: 21rem;
+  height: 22.5rem;
 }
+
 
 .userName {
   font-size: 1.313rem;
@@ -45,6 +48,8 @@
 
 .boundary {
   margin-bottom: 0.625rem;
+  height: 4rem;
+  word-break: keep-all;
 }
 
 .tagTitle {
@@ -54,6 +59,16 @@
 
 .tag {
   margin-bottom: 1.25rem;
+  height: 4rem;
+  word-break: break-all;
+}
+
+.invBoundary {
+  display: inline-block;
+}
+
+.invTag {
+  display: inline-block;
 }
 
 .btn1 {

@@ -19,7 +19,7 @@ function ConsultantList() {
         }
       })
       .catch((err) => {
-        console.log(err)
+        // console.log(err)
       })
   }, [])
 

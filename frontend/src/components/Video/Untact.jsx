@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"
 // import { getToken, createSession, createToken } from './getToken';
 import './Untact.scss'
 import Preview from '../profile/Preview';
+import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
 
 
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'https://demos.openvidu.io/';
@@ -37,7 +38,6 @@ const Untact = () => {
     setMyUserName(userId);
     if(location.state.sessionId!==undefined){
       setMySessionId(location.state.sessionId);
-      console.log("sessionId: %s",location.state.sessionId)
     }
 
     return () => {
@@ -116,7 +116,6 @@ const Untact = () => {
     //           insertMode: 'APPEND',
     //           mirror: false,
     //         });
-    //         console.log("내 퍼블리셔", publisher)
     //         setPublisher(publisher);
 
 
@@ -160,7 +159,6 @@ const Untact = () => {
       setMainStreamManager(publisher);
       setPublisher(publisher);
     } catch (error) {
-      console.log('There was an error connecting to the session:', error.code, error.message);
     }
   }
 
@@ -191,7 +189,6 @@ const Untact = () => {
         Authorization: `${tokenType} ${accessToken}`
       },
     });
-    console.log("세션이에요", response.data)
     return response.data;
   }
 
@@ -253,8 +250,9 @@ const Untact = () => {
       {session !== undefined ? (
         <div id="session">
           <div id="session-header">
-            <HighlightOffIcon id="closeIcon" color="white" sx={{ fontSize: 40 }}
-              onClick={leaveSession} />
+                <div style={{display: 'flex',  justifyContent: 'left', alignItems: 'center', marginLeft: '15%', cursor: 'pointer', fontSize: '1.5rem',  fontWeight: '700',  marginLeft: '10px', padding: '30px' }} onClick={leaveSession}>
+                    <ArrowCircleLeftOutlinedIcon sx={{ fontSize: 40}} /><span style={{margin: '10px'}}>종료하기</span>
+                </div>
           </div>
           <div>
             <div className='container video-container' 

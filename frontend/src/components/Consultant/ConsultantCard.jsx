@@ -37,7 +37,11 @@ function ConsultantCard({ consultant }) {
     <div className={styles.csltCard}>
       <div className={styles.cardBox}>
         <div className={styles.profileBox}>
-          <img className={styles.profileImage}  src={process.env.PUBLIC_URL + "/assets/profile/" + (consultant.userPic !== null ? consultant.userPic : 'user.png')} alt={process.env.PUBLIC_URL + "/assets/user.png"} />
+            {consultant && consultant.userPic !== null ?
+              <img className={styles.profileImage} src={process.env.PUBLIC_URL + "/assets/profile/" + (consultant.userPic !== null ? consultant.userPic : 'user.png')} alt="" />
+              :
+              <img className={styles.profileImage} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
+            }
         </div>
         <div className={styles.cardInfo}>
           <div className={styles.nameAndExp}>
@@ -50,32 +54,34 @@ function ConsultantCard({ consultant }) {
           <div className={styles.team}>
             <p>{consultant.csltTeam}</p>
           </div>
-          <div className={styles.boundary}>
-            <div >
-              <p className={styles.boundaryTitle}><b>치료 가능 영역</b></p>
+          <div className={styles.cardBoxBtm}>
+            <div className={styles.boundary}>
+              <div>
+                <p className={styles.boundaryTitle}><b>치료 가능 영역</b></p>
+              </div>
+              <div>
+                {
+                  consultant.csltBoundary.map((boundary, index) => {
+                    return (
+                      <span key={index}  className={styles.invBoundary}>#{boundary}&nbsp;</span>
+                    )
+                  })
+                }
+              </div>
             </div>
-            <div>
-              {
-                consultant.csltBoundary.map((boundary, index) => {
-                  return (
-                    <span key={index}>#{boundary} </span>
-                  )
-                })
-              }
-            </div>
-          </div>
-          <div className={styles.tag}>
-            <div>
-              <p className={styles.tagTitle}><b>성향</b></p>
-            </div>
-            <div>
-              {
-                consultant.csltTag.map((tag, index) => {
-                  return (
-                    <span key={index}>#{tag} </span>
-                  )
-                })
-              }
+            <div className={styles.tag}>
+              <div>
+                <p className={styles.tagTitle}><b>성향</b></p>
+              </div>
+              <div>
+                {
+                  consultant.csltTag.map((tag, index) => {
+                    return (
+                      <span key={index} className={styles.invTag}>#{tag}&nbsp;</span>
+                    )
+                  })
+                }
+              </div>
             </div>
           </div>
           <div>
