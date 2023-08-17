@@ -74,7 +74,7 @@ def myWhisper():
             mel = whisper.log_mel_spectrogram(audio).to(model.device)
 
             # decode the audio
-            options = whisper.DecodingOptions(fp16=False)
+            options = whisper.DecodingOptions(language="ko", fp16=False)
             result = whisper.decode(model, mel, options)
 
             denominator = len(answer)
