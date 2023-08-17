@@ -174,8 +174,8 @@ AI
 <img src = "./img/api.png" />
 
 ### ERD
-<img src = "./img/erd.png"/>
+<img src = "./img/ERD.png"/>
 
 ### 가이드 🗞
-[프로젝트 매뉴얼(포팅매뉴얼)](./exec/말하길 프로젝트 매뉴얼.pdf)  
+[프로젝트 매뉴얼(포팅매뉴얼)](./exec/말하길%20프로젝트%20매뉴얼.pdf)  
 [DumpSQL](./exec/dump.sql)  
