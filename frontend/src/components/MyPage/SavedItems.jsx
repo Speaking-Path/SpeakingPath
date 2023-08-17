@@ -22,53 +22,6 @@ const SavedItems = () => {
   const [videoSrc, setVideoSrc] = useState("")
 
 
-  // const userSyllable = [
-  //   {
-  //     "userId": "ssafy1",
-  //     "slbId": 1,
-  //     "slbContent": "아"
-  //   },
-  //   {
-  //     "userId": "ssafy1",
-  //     "slbId": 2,
-  //     "slbContent": "야"
-  //   },
-  //   {
-  //     "userId": "ssafy1",
-  //     "slbId": 3,
-  //     "slbContent": "어"
-  //   },
-  //   {
-  //     "userId": "ssafy1",
-  //     "slbId": 4,
-  //     "slbContent": "여"
-  //   }
-  // ]
-
-  // const userWord = [
-  //   {
-  //     "userId": "ssafy1",
-  //     "wordId": 1,
-  //     "wordContent": "아아",
-  //     "wordPron": "[아아]"
-  //   },
-  //   {
-  //     "userId": "ssafy1",
-  //     "wordId": 2,
-  //     "wordContent": "어어",
-  //     "wordPron": "[어어]"
-  //   },
-  //   {
-  //     "userId": "ssafy1",
-  //     "wordId": 3,
-  //     "wordContent": "여여",
-  //     "wordPron": "[여여]"
-  //   }
-  // ]
-
-  // const userSentence = []
-
-
   useEffect(() => {
     axios.post("practice/recog/object/show", { "userId": userId })
       .then((res) => {
