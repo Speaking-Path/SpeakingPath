@@ -52,17 +52,17 @@ def myWhisper():
             answer = request.json.get('answer')
             wav_file_path = "pcmToWav.wav"
             print('middle')
-            audio_data = base64.b64decode(pcm_file_path)
-            with open("audio.pcm", "wb") as audio_file:
-                audio_file.write(audio_data)
+            # audio_data = base64.b64decode(pcm_file_path)
+            # with open("audio.pcm", "wb") as audio_file:
+            #     audio_file.write(audio_data)
 
-
-            pcm_to_wav(audio_file, wav_file_path)
-            print('after pcm to wav')
+            #
+            # pcm_to_wav(audio_file, wav_file_path)
+            # print('after pcm to wav')
             model = whisper.load_model("base")
 
             # load audio and pad/trim it to fit 30 seconds
-            audio = whisper.load_audio(wav_file_path)
+            audio = whisper.load_audio(pcm_file_path)
             print('end model')
             audio = whisper.pad_or_trim(audio)
 
