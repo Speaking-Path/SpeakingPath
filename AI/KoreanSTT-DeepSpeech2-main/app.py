@@ -15,6 +15,10 @@ import socket
 import pathlib
 import whisper
 import wave
+import librosa
+
+app = Flask(__name__)
+CORS(app)  # CORS 설정
 
 def pcm_to_wav(pcm_file, wav_file, channels=1, sample_width=2, frame_rate=16000):
     """
@@ -40,7 +44,7 @@ def pcm_to_wav(pcm_file, wav_file, channels=1, sample_width=2, frame_rate=16000)
         wav.writeframes(pcm_data)
 
 @app.route("/stt/whisper", methods=['GET', 'POST'])
-def myWhisper(pcm_file_path):
+def myWhisper():
     if request.method == 'POST':
         try:
             pcm_file_path = request.json.get('file')
@@ -48,11 +52,14 @@ def myWhisper(pcm_file_path):
             # pcm_file_path = "C:/Users/SSAFY/whisper/ID-02-25-N-KSM-02-01-M-45-JL_1.pcm"
             wav_file_path = "./output.wav"
 
-            pcm_to_wav(pcm_file_path, wav_file_path)
+            # pcm_to_wav(pcm_file_path, wav_file_path)
+            pcmFile = base64.b64decode(pcm_file_path)
+            wav_data = librosa.util.buf_to_float(pcmFile)
+
             model = whisper.load_model("base")
 
             # load audio and pad/trim it to fit 30 seconds
-            audio = whisper.load_audio(wav_file_path)
+            audio = whisper.load_audio(wav_data)
             audio = whisper.pad_or_trim(audio)
 
             # make log-Mel spectrogram and move to the same device as the model
@@ -85,8 +92,7 @@ def myWhisper(pcm_file_path):
 #         os.makedirs('./test_files/')
 # except OSError:
 #     print("Error: Failed to create the directory.")
-app = Flask(__name__)
-CORS(app)  # CORS 설정
+
 
 @app.route("/stt", methods=['GET', 'POST'])
 def uploads():
