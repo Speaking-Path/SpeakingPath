@@ -172,6 +172,11 @@ const SavedItems = () => {
   const syllableItems = userSyllable.map((syllable, index) => (
     <div className={styles.ItemsContain} key={index}>
       <div className={styles.ItemsWrap} onClick={() => { openVideo("syllable", syllable.slbId) }}>
+        <video
+          className={styles.video}
+          src={process.env.PUBLIC_URL + "/assets/syllable/" + syllable.slbId + ".mp4"}
+          alt=""
+        />
         <div className={styles.overlay2}>
           <p>{syllable.slbContent}</p>
           <div className={styles.starIconContainer}>
@@ -201,6 +206,11 @@ const SavedItems = () => {
   const wordItems = userWord.map((word, index) => (
     <div className={styles.ItemsContain} key={index}>
       <div className={styles.ItemsWrap} onClick={() => { openVideo("word", word.wordId) }}>
+        <video
+          className={styles.video}
+          src={process.env.PUBLIC_URL + "/assets/word/" + word.wordId + ".mp4"}
+          alt=""
+        />
         <div className={styles.overlay2}>
           <p>{word.wordContent}</p>
           <p>&#91;{word.wordPron}&#93;</p>
@@ -232,6 +242,11 @@ const SavedItems = () => {
   const sentenceItems = userSentence.map((sentence, index) => (
     <div className={styles.ItemsContain} key={index}>
       <div className={styles.ItemsWrap} onClick={() => { openVideo("sentence", sentence.stcId) }}>
+        <video
+          className={styles.video}
+          src={process.env.PUBLIC_URL + "/assets/sentence/" + sentence.stcId + ".mp4"}
+          alt=""
+        />
         <div className={styles.overlay2}>
           <p>{sentence.stcContent}</p>
           <div className={styles.starIconContainer}>
