@@ -338,31 +338,20 @@ function PronStart(props) {
         }
     }
 
-    const pcmConvert = require('pcm-convert');
     const sendAudioToServer = async () => {
         // const sttServer = axios.create({ baseURL: "http://localhost:5001" })
         try {
           // Convert Blob to Base64 string
           const reader = new FileReader();
-        //   reader.readAsDataURL(audioBlobRef.current);
-            reader.readAsArrayBuffer(audioBlobRef.current);
+          reader.readAsDataURL(audioBlobRef.current);
     
           reader.onload = async () => {
-            //   const base64Audio = reader.result.split(',')[1]; // Extract base64 data
-              const pcmAudioBuffer = reader.result;
-
-              const wavAudioBuffer = pcmConvert.pcmToWav(pcmAudioBuffer, {
-                  numChannels: 1,
-                  sampleRate: 16000,
-                  bitDepth: 16,
-              });
-
+              const base64Audio = reader.result.split(',')[1]; // Extract base64 data
     
             // Send Base64 audio to the server
             const sttServer = axios.create({ baseURL: "https://i9c109.p.ssafy.io:5001" });
             await sttServer.post('/stt/whisper', {
-            //   file: base64Audio,
-                file: new Uint8Array(wavAudioBuffer),
+              file: base64Audio,
             //   answer: answer.objName,
                 answer : currentContent
               // format: 'pcm'
