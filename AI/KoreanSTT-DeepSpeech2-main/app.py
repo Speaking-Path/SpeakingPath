@@ -47,19 +47,18 @@ def pcm_to_wav(pcm_file, wav_file, channels=1, sample_width=2, frame_rate=16000)
 def myWhisper():
     if request.method == 'POST':
         try:
+            print('start')
             pcm_file_path = request.json.get('file')
             answer = request.json.get('answer')
-            # pcm_file_path = "C:/Users/SSAFY/whisper/ID-02-25-N-KSM-02-01-M-45-JL_1.pcm"
-            wav_file_path = "./output.wav"
-
-            # pcm_to_wav(pcm_file_path, wav_file_path)
-            pcmFile = base64.b64decode(pcm_file_path)
-            wav_data = librosa.util.buf_to_float(pcmFile)
-
+            wav_file_path = "pcmToWav.wav"
+            print('middle')
+            pcm_to_wav(pcm_file_path, wav_file_path)
+            print('after pcm to wav')
             model = whisper.load_model("base")
 
             # load audio and pad/trim it to fit 30 seconds
-            audio = whisper.load_audio(wav_data)
+            audio = whisper.load_audio(wav_file_path)
+            print('end model')
             audio = whisper.pad_or_trim(audio)
 
             # make log-Mel spectrogram and move to the same device as the model
