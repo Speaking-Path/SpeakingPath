@@ -22,8 +22,8 @@ Web services to help people with speech impairment rehabilitation
             <sub><b>박은규</b></sub></a>
             <br /> BE & AI💻
         </td>
-        <td><a href="https://github.com/parkeg1223">
-            <img src="https://avatars.githubusercontent.com/parkeg1223"  width="100px" alt="DongHyun22"/><br />
+        <td><a href="https://github.com/OH-Yeonju">
+            <img src="https://avatars.githubusercontent.com/OH-Yeonju"  width="100px" alt="DongHyun22"/><br />
             <sub><b>오연주</b></sub></a>
             <br />FE & UI/UX 💻
         </td>
