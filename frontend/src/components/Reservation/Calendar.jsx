@@ -158,8 +158,8 @@ function RevCalendar() {
       <div className={`${styles.calendarTop} row`}>
         <div className={`${styles.calendarCsltInfo} col-3`}>
           <p className={styles.profileTitle}>선택한 치료사</p>
-          {selectedCsltInfo.userPic ? (
-            <img className={styles.profile} src={process.env.PUBLIC_URL + `${selectedCsltInfo.userPic}`} alt="" />
+          {selectedCsltInfo && selectedCsltInfo.userPic !== null ? (
+            <img className={styles.profile} src={process.env.PUBLIC_URL + `/assets/profile/${selectedCsltInfo.userPic}`} alt="" />
           ) : (
             <img className={styles.profile} src={process.env.PUBLIC_URL + "/assets/user.png"} alt="" />
 
