@@ -52,9 +52,9 @@ def myWhisper():
             answer = request.json.get('answer')
             wav_file_path = "pcmToWav.wav"
             print('middle')
-
+            audio_data = base64.b64decode(pcm_file_path)
             with open("audio.pcm", "wb") as audio_file:
-                audio_file.write(pcm_file_path)
+                audio_file.write(audio_data)
 
 
             pcm_to_wav(audio_file, wav_file_path)
