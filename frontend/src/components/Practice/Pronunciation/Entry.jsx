@@ -13,7 +13,7 @@ function Entry(props) {
   const navigate = useNavigate()
 
   useEffect(() => {
-    window.scrollTo({ top: 130, behavior: 'smooth' }); // 컴포넌트 상단으로 스크롤 이동
+    window.scrollTo({ top: 110, behavior: 'smooth' }); // 컴포넌트 상단으로 스크롤 이동
   }, []);
 
   const handleButtonClick = () => {

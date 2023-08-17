@@ -417,7 +417,7 @@ function PronStart(props) {
 
                 <div className={styles.questionSection}>
                     <div>
-                        <ArrowBackIosNewIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Prev} />
+                        <ArrowBackIosNewIcon sx={{ fontSize: 50, color: blue[600] }} onClick={Prev} />
                     </div>
                     {/* 제시어 */}
                     {/* <p ref={contentRef} className={styles.question}>
@@ -425,7 +425,7 @@ function PronStart(props) {
                     </p> */}
                         <p className={styles.question}>{currentContent}</p>
                     <div>
-                        <ArrowForwardIosIcon sx={{ fontSize: 40, color: blue[600] }} onClick={Next} />
+                        <ArrowForwardIosIcon sx={{ fontSize: 50, color: blue[600] }} onClick={Next} />
                     </div>
                 </div>
 
@@ -435,7 +435,7 @@ function PronStart(props) {
                         {/* <div className='container'> */}
                         <div className={`${styles.guide}`}>
                             <div className={styles.title}> 따라하기</div>
-                            <video ref={guideVideoRef} style={{ height: '45vh', width: '30vw' }} autoPlay controls>
+                            <video ref={guideVideoRef} style={{ height: '45vh', width: '35vw' }} autoPlay controls>
                                 no video available
                             </video>
                             {/* {showTimer ? (
