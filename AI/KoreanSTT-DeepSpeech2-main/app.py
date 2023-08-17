@@ -52,7 +52,12 @@ def myWhisper():
             answer = request.json.get('answer')
             wav_file_path = "pcmToWav.wav"
             print('middle')
-            pcm_to_wav(pcm_file_path, wav_file_path)
+
+            with open("audio.pcm", "wb") as audio_file:
+                audio_file.write(pcm_file_path)
+
+
+            pcm_to_wav(audio_file, wav_file_path)
             print('after pcm to wav')
             model = whisper.load_model("base")
 
