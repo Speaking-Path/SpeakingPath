@@ -13,6 +13,82 @@ import base64
 # import os
 import socket
 import pathlib
+import whisper
+import wave
+import librosa
+
+app = Flask(__name__)
+CORS(app)  # CORS 설정
+
+def pcm_to_wav(pcm_file, wav_file, channels=1, sample_width=2, frame_rate=16000):
+    """
+    PCM 파일을 WAV 파일로 변환하는 함수
+
+    Args:
+        pcm_file (str): 입력 PCM 파일 경로
+        wav_file (str): 출력 WAV 파일 경로
+        channels (int): 오디오 채널 수 (기본값은 1)
+        sample_width (int): 오디오 샘플 넓이(바이트) (기본값은 2)
+        frame_rate (int): 샘플링 주파수 (기본값은 44100Hz)
+
+    Returns:
+        None
+    """
+    with open(pcm_file, 'rb') as pcm:
+        pcm_data = pcm.read()
+
+    with wave.open(wav_file, 'wb') as wav:
+        wav.setnchannels(channels)
+        wav.setsampwidth(sample_width)
+        wav.setframerate(frame_rate)
+        wav.writeframes(pcm_data)
+
+@app.route("/stt/whisper", methods=['GET', 'POST'])
+def myWhisper():
+    if request.method == 'POST':
+        try:
+            print('start')
+            pcm_file_path = request.json.get('file')
+            answer = request.json.get('answer')
+            wav_file_path = "pcmToWav.wav"
+            print('middle')
+
+            with open("audio.pcm", "wb") as audio_file:
+                audio_file.write(pcm_file_path)
+
+
+            pcm_to_wav(audio_file, wav_file_path)
+            print('after pcm to wav')
+            model = whisper.load_model("base")
+
+            # load audio and pad/trim it to fit 30 seconds
+            audio = whisper.load_audio(wav_file_path)
+            print('end model')
+            audio = whisper.pad_or_trim(audio)
+
+            # make log-Mel spectrogram and move to the same device as the model
+            mel = whisper.log_mel_spectrogram(audio).to(model.device)
+
+            # decode the audio
+            options = whisper.DecodingOptions(fp16=False)
+            result = whisper.decode(model, mel, options)
+
+            denominator = len(answer)
+            numerator = 0
+
+            # 정답이랑 일치율 비교
+            for char in answer:
+                if char in result.text: numerator += 1
+
+            accuracy = numerator / denominator
+
+            # print the recognized text
+            sendingMsg = {"predict": result.text, "accuracy":accuracy}
+            return jsonify(sendingMsg)
+        except Exception as e:
+            print("Error:", str(e))
+            return jsonify({"error": "An error occurred"}), 500
+    return jsonify('Unauthorized', 401)
 
 # try:
 #
@@ -20,8 +96,7 @@ import pathlib
 #         os.makedirs('./test_files/')
 # except OSError:
 #     print("Error: Failed to create the directory.")
-app = Flask(__name__)
-CORS(app)  # CORS 설정
+
 
 @app.route("/stt", methods=['GET', 'POST'])
 def uploads():
@@ -31,18 +106,6 @@ def uploads():
 @app.route("/stt/result", methods=['GET', 'POST'])
 def results():
     if request.method == 'POST':
-        # # file = request.form.get('file')
-        # f = request.files['file']
-        # # f.save('./test_files/'+f.filename) // 파일 바로 평가하는 거 안되면 저장하고 써야해
-        #
-        # predict = evaluate.mains(f)
-        # # predict = evaluate.mains('./test_files/' + f.filename)
-        #
-        # # prediction = model.model_classification(path_+"\\testdata\\"+f.filename)
-        # # return render_template('index.html', label=label)
-        # # return render_template('test2.html', filename =f.filename, transcript=predict[0])
-        # response = {"result": predict[0]}
-        # return jsonify(response)
         try:
             # Decode Base64 audio data
             base64_audio = request.json.get('file')

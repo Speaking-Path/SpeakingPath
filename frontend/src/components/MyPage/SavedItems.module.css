@@ -39,6 +39,7 @@
   width: 100%;
   height: 100%;
   /* object-fit: cover; */
+  z-index: 0;
 }
 
 
@@ -86,6 +87,7 @@
   flex-direction: column; /* Stack the text and icon vertically */
   justify-content: center; /* Center content vertically */
   align-items: center;
+  z-index: 2;
 }
 
 .overlay2 p {
@@ -123,7 +125,7 @@
 
 .starIcon {
   margin-left: 5px;
-  z-index: 1;
+  z-index: 3;
   cursor: pointer;
 }
 

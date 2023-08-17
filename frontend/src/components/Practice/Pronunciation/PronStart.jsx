@@ -360,14 +360,13 @@ function PronStart(props) {
     
             // Send Base64 audio to the server
             const sttServer = axios.create({ baseURL: "https://i9c109.p.ssafy.io:5001" });
-            await sttServer.post('/stt/result', {
+            await sttServer.post('/stt/whisper', {
             //   file: base64Audio,
                 file: new Uint8Array(wavAudioBuffer),
             //   answer: answer.objName,
                 answer : currentContent
               // format: 'pcm'
             }).then(response => {
-              console.log('result : ', response.data.result) 
               console.log('predict : ', response.data.predict)
               console.log('accuracy : ', response.data.accuracy)
               if(response.data.accuracy > 0.3){
