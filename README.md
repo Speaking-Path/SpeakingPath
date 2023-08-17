@@ -63,7 +63,7 @@ Web services to help people with speech impairment rehabilitation
 <img src = "./img/치료상담.png"/>
 
 ### 언어재활 - 발음
-<img src = "./img/언어재활-발음.gif" style="width:50%"/>
+<img src = "./img/언어재활-발음.gif" />
 
 - 음절 / 단어 / 문장 말하기를 연습할 수 있다.
 - 아나운서가 발음하는 영상을 확인할 수 있다.
@@ -72,11 +72,11 @@ Web services to help people with speech impairment rehabilitation
 - AI Model : Powered by [OpenAI Whisper v.20230314](https://openai.com/research/whisper)
 
 ### 언어재활 - 인지
-<img src = "./img/사물고르기.gif" style="width:50%"/>
+<img src = "./img/사물고르기.gif" />
 
 - 문제가 제시되고, 해당하는 사물을 고르면 정답 유무를 알려준다.
 
-<img src = "./img/사물이름맞히기.gif" style="width:50%"/>
+<img src = "./img/사물이름맞히기.gif" />
 
 - 단어와 사진이 제시되면, 보기 중에서 선택하여 정답을 녹음한다.
 - 알맞게 발음하였는지 정답 유무를 확인할 수 있다.
@@ -85,31 +85,31 @@ Web services to help people with speech impairment rehabilitation
 
 
 ### 치료상담
-<img src = "./img/상담사상세검색.gif" style="width:50%"/>
+<img src = "./img/상담사상세검색.gif" />
 
 - 전체 상담사 목록을 확인할 수 있습니다.
 - 조건 검색으로 세부 검색을 할 수 있습니다.
 
-<img src = "./img/상담사상담신청.gif" style="width:50%"/>
+<img src = "./img/상담사상담신청.gif" />
 
 - 원하는 상담사를 선택한 후 상담사가 상담 가능한 시간에 상담 예약 신청이 가능합니다.
 - 상담사 승인 상태를 마이페이지에서 확인할 수 있습니다.
 
-<img src = "./img/상담화면.gif" style="width:50%"/>
+<img src = "./img/상담화면.gif" />
 
 - 승인된 상담은 예약 시간 10분 전 상담방에 입장할 수 있습니다.
 - 상담사와 1:1 화상상담이 가능합니다.
 
 ### 회원
-<img src = "./img/회원가입.gif" style="width:50%"/>
+<img src = "./img/회원가입.gif" />
 
 - 이메일 인증을 통해 회원가입을 할 수 있습니다.
 
-<img src = "./img/네이버로그인.gif" style="width:50%"/>
+<img src = "./img/네이버로그인.gif" />
 
 - 네이버 로그인을 통해 로그인을 할 수 있습니다.
 
-<img src = "./img/마이페이지.gif" style="width:50%"/>
+<img src = "./img/마이페이지.gif" />
 
 - 유저 정보를 업데이트 할 수 있습니다.
 - 예정된 상담 내역을 확인할 수 있습니다.
@@ -177,5 +177,5 @@ AI
 <img src = "./img/erd.png"/>
 
 ### 가이드 🗞
-[프로젝트 매뉴얼(포팅매뉴얼)](./exec/말하길%20프로젝트%20매뉴얼.pdf)  
+[프로젝트 매뉴얼(포팅매뉴얼)](./exec/말하길 프로젝트 매뉴얼.pdf)  
 [DumpSQL](./exec/dump.sql)  
