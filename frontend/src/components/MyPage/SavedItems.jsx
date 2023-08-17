@@ -113,8 +113,8 @@ const SavedItems = () => {
     }
     axios.post("practice/pron/styllable/save", data)
       .then((res) => {
-        const updatedUserRecog = userRecog.filter(item => item.slbId !== slbId);
-        setUserRecog(updatedUserRecog)
+        const updatedUserRecog = userSyllable.filter(item => item.slbId !== slbId);
+        setUserSyllable(updatedUserRecog)
       })
       .catch((err) => {
         // console.log(err)
@@ -147,8 +147,8 @@ const SavedItems = () => {
     }
     axios.post("practice/pron/word/save", data)
       .then((res) => {
-        const updatedUserRecog = userRecog.filter(item => item.wordId !== wordId);
-        setUserRecog(updatedUserRecog)
+        const updatedUserRecog = userWord.filter(item => item.wordId !== wordId);
+        setUserWord(updatedUserRecog)
       })
       .catch((err) => {
         // console.log(err)
@@ -184,8 +184,8 @@ const SavedItems = () => {
     }
     axios.post("practice/recog/object/save", data)
       .then((res) => {
-        const updatedUserRecog = userRecog.filter(item => item.stcId !== stcId);
-        setUserRecog(updatedUserRecog)
+        const updatedUserRecog = userSentence.filter(item => item.stcId !== stcId);
+        setUserSentence(updatedUserRecog)
       })
       .catch((err) => {
         // console.log(err)
