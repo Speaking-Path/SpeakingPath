@@ -69,12 +69,15 @@ Web services to help people with speech impairment rehabilitation
 - 아나운서가 발음하는 영상을 확인할 수 있다.
 - 발화하는 자신의 모습을 확인할 수 있다.
 - 맞게 발음하였는지 정답 여부를 알려주고, 즐겨찾기에 등록할 수 있다.
+- 문제를 풀며 포인트를 획득할 수 있다.
 - AI Model : Powered by [OpenAI Whisper v.20230314](https://openai.com/research/whisper)
 
 ### 언어재활 - 인지
 <img src = "./img/사물고르기.gif" />
 
 - 문제가 제시되고, 해당하는 사물을 고르면 정답 유무를 알려준다.
+- 정답 유무를 알려주고, 즐겨찾기 등록, 다시 풀기가 가능하다.
+- 문제를 풀며 점수를 획득할 수 있다.
 
 <img src = "./img/사물이름맞히기.gif" />
 
@@ -111,6 +114,7 @@ Web services to help people with speech impairment rehabilitation
 
 <img src = "./img/마이페이지.gif" />
 
+- 내 포인트 기반으로 등급을 조회할 수 있습니다.
 - 유저 정보를 업데이트 할 수 있습니다.
 - 예정된 상담 내역을 확인할 수 있습니다.
 - 예정된 상담 내역에서 화상상담에 참여할 수 있습니다.
