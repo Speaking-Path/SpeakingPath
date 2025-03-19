@@ -63,10 +63,7 @@ public class UserController {
     })
     @Operation(summary = "회원가입", description = "회원가입을 위한 정보를 입력한다.")
     public ResponseEntity<?> signup(@RequestBody UserDto userDto){
-        // TODO : logger 안찍히는 issue -> 해결해야해
-//        logger.debug("회원가입요청: {}", userDto.toString()); // 지금 로거 출력 안되는 이슈
         String result = userService.join(userDto);
-        // TODO : 회원가입 실패시 예외처리 어떻게 할지 정해야해!
         if(result != null){
             return new ResponseEntity<>(result, HttpStatus.OK);
         }else{
@@ -82,8 +79,6 @@ public class UserController {
     })
     @Operation(summary = "상담사 회원가입", description = "상담사 회원가입을 위한 정보를 입력한다.")
     public ResponseEntity<?> csltSignup(@RequestBody ConsultantDto consultantDto){
-        // TODO : logger 안찍히는 issue -> 해결해야해
-//        logger.debug("회원가입요청: {}", userDto.toString()); // 지금 로거 출력 안되는 이슈
         int result = userService.csltJoin(consultantDto);
         if(result == 1){
             return new ResponseEntity<>("success", HttpStatus.OK);
@@ -118,7 +113,6 @@ public class UserController {
             TokenDto tokenDto = new TokenDto();
             tokenDto.setAccessToken(token);
             tokenDto.setGrantType("Bearer");
-//            System.out.println(token);
             userService.logout(tokenDto);
             log.info("logout 성공");
             return new ResponseEntity<>("success", HttpStatus.OK);
