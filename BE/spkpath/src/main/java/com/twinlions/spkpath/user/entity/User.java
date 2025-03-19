@@ -51,9 +51,7 @@ public class User implements UserDetails {
     @Column(name = "user_pic")
     private String userPic;
 
-//    @ElementCollection(fetch = FetchType.EAGER)
     @Column(name = "user_grade")
-//    private List<String> userGrade = new ArrayList<>();
     private String userGrade;
 
     @Column(name = "user_reward")
@@ -80,10 +78,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return null;
-//        return this.authorities.stream()
-//                .map(SimpleGrantedAuthority::new)
-//                .collect(Collectors.toList());
         Collection<GrantedAuthority> collectors = new ArrayList<>();
         collectors.add(()->{return "ROLE_"+userGrade;}); //add에 들어올 파라미터는 GrantedAuthority밖에 없으니
         return collectors;
